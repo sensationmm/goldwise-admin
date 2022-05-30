@@ -1,13 +1,20 @@
-import React from 'react';
+import React, { useEffect } from 'react'
+import authService from './services/auth.service'
 import MainRouter from './router'
-import './App.scss';
 
 const App = () => {
+  useEffect(() => {
+    authService.getApiToken(
+      process.env.REACT_APP_API_USERNAME,
+      process.env.REACT_APP_API_PASSWORD
+    )
+  }, [])
+
   return (
-    <div className="App">
+    <div className='App'>
       <MainRouter />
     </div>
   );
 }
 
-export default App;
+export default App

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import Button from '../../components/atoms/Button'
@@ -8,12 +8,6 @@ import { loginValidationSchema } from '../../helper/validationSchemas'
 import './login.scss'
 
 const Login = () => {
-
-    // TODO: Check what is the best place to get the api token
-    useEffect(() => {
-        authService.getApiToken(process.env.REACT_APP_API_USERNAME, process.env.REACT_APP_API_PASSWORD)
-    }, [])
-
     const [eye, setEye] = useState(true)
     const [password, setPassword] = useState("password")
     const [type, setType] = useState(false)
@@ -22,7 +16,7 @@ const Login = () => {
 
     // Get functions to build form with useForm() hook
     const { register, handleSubmit, setError, formState } = useForm(formOptions)
-    const { errors } = formState
+    const { errors, isSubmitting } = formState
 
     const onSubmit = ({ email, password }) => {
         authService.login(email, password)
@@ -97,8 +91,8 @@ const Login = () => {
                             </div>
 
                             <div className='buttons'>
-                                <Button disabled={formState.isSubmitting} type='submit' label='Login' size='large' primary>
-                                    {formState.isSubmitting && <i className="fa fa-spinner fa-spin fa-3x fa-fw"></i>}
+                                <Button disabled={isSubmitting} type='submit' label='Login' size='large' primary>
+                                    {isSubmitting && <i className="fa fa-spinner fa-spin fa-3x fa-fw"></i>}
                                 </Button>
                             </div>
 
