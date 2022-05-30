@@ -1,0 +1,19 @@
+# GoldWise Admin portal
+version: 2.1
+jobs:
+  build:
+    working_directory: ~/goldwise-admin
+    docker:
+      - image: circleci/node:10.16.3
+    steps:
+      - checkout
+
+      # dev settings
+      - deploy:
+          name: Deploy to GoldWise admin dev
+          command: |
+            if [ "${CIRCLE_BRANCH}" == "develop" ]; then
+              ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" root@134.213.29.34 "cd /var/www/html/goldwise-admin-dev.miyumi.ai/goldwise-admin/ && git pull && npm install && npm run build";
+            else
+              echo -e "Not a develop branch";
+            fi
