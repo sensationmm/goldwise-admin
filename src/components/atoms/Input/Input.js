@@ -12,7 +12,7 @@ const Input = ({
     showIcon,
     onSelectEye,
     iconClassName,
-    ...props
+    formRef
 }) => {
     return (
         <div className='input-field'>
@@ -24,7 +24,7 @@ const Input = ({
                 value={value}
                 onChange={onChange}
                 name={name}
-                {...props}
+                {...formRef}
             />
             {showIcon && <i onClick={onSelectEye} className={iconClassName}></i>}
         </div>

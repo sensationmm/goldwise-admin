@@ -15,11 +15,8 @@ const getApiToken = async (username, password) => {
         username,
         password
     })
-    if (response.apiToken) {
-        // TODO: move to state
-        localStorage.setItem('apiToken', response.apiToken)
-    }
-    return response.response
+
+    return response
 }
 
 
@@ -37,37 +34,12 @@ const login = async (email, password) => {
         password
     })
 
-    if (response.adminDetails) {
-        // TODO: move to state
-        // localStorage.setItem('admin', JSON.stringify(response.adminDetails))
-        // localStorage.setItem('adminToken', JSON.stringify(response.adminToken))
-    }
     return response
-}
-
-/**
- * It removes the admin key from localStorage
- */
-const logout = () => {
-    // TODO: Call the logout API '/admin/auth/logout/'
-    // TODO: remove from state
-    // localStorage.removeItem("admin")
-}
-
-/**
- * It returns the current user from local storage
- * @returns The current user
- */
-const getCurrentUser = () => {
-    // TODO: move to state
-    return JSON.parse(localStorage.getItem("admin"))
 }
 
 const authService = {
     getApiToken,
-    login,
-    logout,
-    getCurrentUser
+    login
 }
 
 export default authService

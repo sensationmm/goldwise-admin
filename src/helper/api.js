@@ -1,19 +1,19 @@
 import axios from 'axios/index'
+import { store } from '../store'
 
 export const getHeaders = () => {
     const headers = {
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
     };
 
     return { ...headers }
 }
 
 export const getAuthHeader = () => {
-
-    const apiToken = localStorage.getItem('apiToken')
-    if (apiToken) {
+    const state = store.getState()
+    if (state) {
         return {
-            "apiToken": apiToken
+            'apiToken': state.token.apiToken
         }
     }
 

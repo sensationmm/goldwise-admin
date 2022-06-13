@@ -4,9 +4,9 @@ import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useNavigate, useLocation } from 'react-router-dom'
 import Button from '../../components/atoms/Button'
-// import Input from '../../components/atoms/Input'
+import Input from '../../components/atoms/Input'
 import authService from '../../services/auth.service'
-import { setAdmin } from '../../reducers/adminSlice.reducer'
+import { setAdmin } from '../../reducers/userSlice.reducer'
 import { loginValidationSchema } from '../../helper/validationSchemas'
 import './login.scss'
 
@@ -45,41 +45,28 @@ const Login = () => {
                         <h2>Admin Portal</h2>
                         <form onSubmit={handleSubmit(onSubmit)}>
                             <div className="form-group">
-                                {/* FIXME: Use the Input component react-hook-form 
-                                register is not working */}
-                                {/* <Input
+                                <Input
                                     type='text'
                                     label='Email Address'
                                     placeholder='Email Address'
                                     name={'email'}
                                     className={`${errors.email ? 'is-invalid' : ''}`}
-                                    {...register('email')}
-                                /> */}
-                                <div className='input-field'>
-                                    <label>Email Address</label>
-                                    <input type='text' className={`${errors.email ? 'is-invalid' : ''}`} placeholder='Email Address' name='email' {...register('email')} />
-                                </div>
+                                    formRef={{ ...register('email') }}
+                                />
                                 <div className="invalid-feedback">{errors.email?.message}</div>
                             </div>
                             <div className="form-group">
-                                {/* FIXME: Use the Input component react-hook-form 
-                                register is not working */}
-                                {/* <Input
+                                <Input
                                     label='Password'
                                     type={showPassword ? "text" : "password"}
-                                    className={`${type ? 'type_password' : ''} ${errors.password ? 'is-invalid' : ''}`}
+                                    className={`${showPassword ? 'type_password' : ''} ${errors.password ? 'is-invalid' : ''}`}
                                     placeholder='Enter Your Password'
                                     name={'password'}
                                     showIcon
                                     onSelectEye={() => setShowPassword(!showPassword)}
-                                    iconClassName={`fa ${eye ? 'fa-eye-slash' : 'fa-eye'}`}
-                                    {...register('password')}
-                                /> */}
-                                <div className='input-field'>
-                                    <label>Password</label>
-                                    <input type={showPassword ? "text" : "password"} className={`${showPassword ? 'type_password' : ''} ${errors.password ? 'is-invalid' : ''}`} placeholder='Enter Your Password' name='password' {...register('password')} />
-                                    <i onClick={() => setShowPassword(!showPassword)} className={`fa ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
-                                </div>
+                                    iconClassName={`fa ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}
+                                    formRef={{ ...register('password') }}
+                                />
                                 <div className="invalid-feedback">{errors.password?.message}</div>
                             </div>
 

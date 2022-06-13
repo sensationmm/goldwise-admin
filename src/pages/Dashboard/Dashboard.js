@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux"
 import { useNavigate } from 'react-router-dom'
-import { clearAdmin } from '../../reducers/adminSlice.reducer'
+import { clearAdmin } from '../../reducers/userSlice.reducer'
 import Button from '../../components/atoms/Button'
 import './dashboard.scss'
 

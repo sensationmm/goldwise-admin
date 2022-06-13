@@ -1,20 +1,22 @@
 
-import { combineReducers } from "redux"
-import storage from "redux-persist/lib/storage"
+import { combineReducers } from 'redux'
+import storage from 'redux-persist/lib/storage'
 
 import counterReducer from './counterSlice.reducer'
-import adminSlice from "./adminSlice.reducer"
+import userSlice from './userSlice.reducer'
+import tokenSlice from './tokenSlice.reducer'
 
 const rootPersistConfig = {
-    key: "root",
+    key: 'root',
     storage,
-    keyPrefix: "gw-",
-    whiteList: ["counter", "admin"],
+    keyPrefix: 'gw-',
+    whiteList: ['counter', 'admin', 'apiToken'],
 };
 
 const rootReducer = combineReducers({
     counter: counterReducer,
-    admin: adminSlice
-});
+    user: userSlice,
+    token: tokenSlice
+})
 
 export { rootPersistConfig, rootReducer }
