@@ -1,16 +1,18 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
+import { useDispatch } from "react-redux"
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { useNavigate, useLocation } from 'react-router-dom'
 import Button from '../../components/atoms/Button'
 // import Input from '../../components/atoms/Input'
 import authService from '../../services/auth.service'
+import { setAdmin } from '../../reducers/adminSlice.reducer'
 import { loginValidationSchema } from '../../helper/validationSchemas'
 import './login.scss'
 
 const Login = () => {
-    const [eye, setEye] = useState(true)
-    const [password, setPassword] = useState("password")
-    const [type, setType] = useState(false)
+    const dispatch = useDispatch()
+    const [showPassword, setShowPassword] = useState(false)
 
     const formOptions = { resolver: yupResolver(loginValidationSchema) }
 
@@ -18,26 +20,17 @@ const Login = () => {
     const { register, handleSubmit, setError, formState } = useForm(formOptions)
     const { errors, isSubmitting } = formState
 
-    const onSubmit = ({ email, password }) => {
-        authService.login(email, password)
-            .then(() => {
-                // TODO: Add the redirection to Dashboard
-            })
-            .catch(error => {
-                setError('apiError', { message: error.message || error })
-            });
-    }
+    const navigate = useNavigate()
+    const location = useLocation()
+    const from = location.state?.from?.pathname || "/dashboard"
 
-    const onSelectEye = () => {
-        if (password === 'password') {
-            setPassword("text")
-            setEye(false)
-            setType(true)
-        }
-        else {
-            setPassword('password')
-            setEye(true)
-            setType(false)
+    const onSubmit = async ({ email, password }) => {
+        try {
+            const response = await authService.login(email, password)
+            dispatch(setAdmin(response))
+            navigate(from, { replace: true })
+        } catch (error) {
+            setError('apiError', { message: error.message || error })
         }
     }
 
@@ -73,19 +66,19 @@ const Login = () => {
                                 register is not working */}
                                 {/* <Input
                                     label='Password'
-                                    type={password}
+                                    type={showPassword ? "text" : "password"}
                                     className={`${type ? 'type_password' : ''} ${errors.password ? 'is-invalid' : ''}`}
                                     placeholder='Enter Your Password'
                                     name={'password'}
                                     showIcon
-                                    onSelectEye={onSelectEye}
+                                    onSelectEye={() => setShowPassword(!showPassword)}
                                     iconClassName={`fa ${eye ? 'fa-eye-slash' : 'fa-eye'}`}
                                     {...register('password')}
                                 /> */}
                                 <div className='input-field'>
                                     <label>Password</label>
-                                    <input type={password} className={`${type ? 'type_password' : ''} ${errors.password ? 'is-invalid' : ''}`} placeholder='Enter Your Password' name='password' {...register('password')} />
-                                    <i onClick={onSelectEye} className={`fa ${eye ? 'fa-eye-slash' : 'fa-eye'}`}></i>
+                                    <input type={showPassword ? "text" : "password"} className={`${showPassword ? 'type_password' : ''} ${errors.password ? 'is-invalid' : ''}`} placeholder='Enter Your Password' name='password' {...register('password')} />
+                                    <i onClick={() => setShowPassword(!showPassword)} className={`fa ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}></i>
                                 </div>
                                 <div className="invalid-feedback">{errors.password?.message}</div>
                             </div>

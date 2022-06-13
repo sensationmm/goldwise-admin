@@ -1,5 +1,11 @@
-const BaseLayout = () => (
-    <div></div>
-)
+import { Outlet } from "react-router-dom"
 
-export default BaseLayout;
+const BaseLayout = () => {
+    return (
+        <main className="App">
+            <Outlet />
+        </main>
+    )
+}
+
+export default BaseLayout

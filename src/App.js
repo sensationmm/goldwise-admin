@@ -1,6 +1,12 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
+import { Routes, Route } from 'react-router-dom'
 import authService from './services/auth.service'
-import MainRouter from './router'
+import BaseLayout from './pages/BaseLayout'
+import Home from './pages/Home'
+import Login from './pages/Login'
+import Dashboard from './pages/Dashboard'
+import Missing from './pages/Missing'
+import RequireAuth from './components/RequireAuth'
 
 const App = () => {
   useEffect(() => {
@@ -11,9 +17,24 @@ const App = () => {
   }, [])
 
   return (
-    <div className='App'>
-      <MainRouter />
-    </div>
+    <Routes>
+      <Route path="/" element={<BaseLayout />}>
+        {/* Public routes */}
+        <Route path="/" element={<Login />} />
+
+        {/* Protected routes */}
+        < Route element={<RequireAuth />}>
+          <Route path="example" element={<Home />} />
+        </Route>
+
+        <Route element={<RequireAuth />}>
+          <Route path="dashboard" element={<Dashboard />} />
+        </Route>
+
+        {/* Catch all */}
+        <Route path="*" element={<Missing />} />
+      </Route>
+    </Routes >
   );
 }
 

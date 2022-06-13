@@ -16,7 +16,8 @@ const getApiToken = async (username, password) => {
         password
     })
     if (response.apiToken) {
-        localStorage.setItem('admin', JSON.stringify({ apiToken: response.apiToken }))
+        // TODO: move to state
+        localStorage.setItem('apiToken', response.apiToken)
     }
     return response.response
 }
@@ -25,18 +26,21 @@ const getApiToken = async (username, password) => {
 /**
  * It makes a post request to the server with the username and password, and if the response contains
  * adminDetails, it saves it to localStorage
- * @param username - The username of the admin
+ * @param email - The username of the admin
  * @param password - The password of the user.
  * @returns The response object is being returned.
  */
-const login = async (username, password) => {
+const login = async (email, password) => {
 
     const response = await request.postRequest('/admin/auth/login/', {
-        username,
+        email,
         password
     })
+
     if (response.adminDetails) {
-        localStorage.setItem('admin', JSON.stringify({ adminDetails: response.adminDetails }))
+        // TODO: move to state
+        // localStorage.setItem('admin', JSON.stringify(response.adminDetails))
+        // localStorage.setItem('adminToken', JSON.stringify(response.adminToken))
     }
     return response
 }
@@ -45,7 +49,9 @@ const login = async (username, password) => {
  * It removes the admin key from localStorage
  */
 const logout = () => {
-    localStorage.removeItem("admin")
+    // TODO: Call the logout API '/admin/auth/logout/'
+    // TODO: remove from state
+    // localStorage.removeItem("admin")
 }
 
 /**
@@ -53,6 +59,7 @@ const logout = () => {
  * @returns The current user
  */
 const getCurrentUser = () => {
+    // TODO: move to state
     return JSON.parse(localStorage.getItem("admin"))
 }
 

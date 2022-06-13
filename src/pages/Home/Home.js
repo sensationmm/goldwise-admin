@@ -1,5 +1,4 @@
-import React from 'react'
-import Counter from '../../components/molecules/Counter';
+import Counter from '../../components/molecules/Counter'
 
 import './home.scss'
 

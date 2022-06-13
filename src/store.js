@@ -1,12 +1,16 @@
-import { configureStore } from '@reduxjs/toolkit';
-import counterReducer from './reducers/counterSlice.reducer';
+import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
+import { persistStore, persistReducer } from "redux-persist"
+import { rootPersistConfig, rootReducer } from "./reducers/rootReducer"
 
-// TODO: Remove the counter reducer
-const reducer = {
-  counter: counterReducer
-}
+const store = configureStore({
+  reducer: persistReducer(rootPersistConfig, rootReducer),
+  middleware: getDefaultMiddleware({
+    serializableCheck: false,
+    immutableCheck: false,
+  }),
+  devTools: true // TODO: Change it to based on the ENV
+})
 
-export const store = configureStore({
-  reducer: reducer,
-  devTools: true
-});
+const persistor = persistStore(store);
+
+export { store, persistor }
