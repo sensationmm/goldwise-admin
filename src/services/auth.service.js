@@ -16,6 +16,7 @@ const getApiToken = async (username, password) => {
         password
     })
 
+    // FIXME: remove once the value is loaded from state
     if (response.apiToken) {
         localStorage.setItem('apiToken', response.apiToken)
     }
@@ -32,18 +33,32 @@ const getApiToken = async (username, password) => {
  * @returns The response object is being returned.
  */
 const login = async (email, password) => {
-
     const response = await request.postRequest('/admin/auth/login/', {
         email,
         password
     })
 
+    // FIXME: remove once the value is loaded from state
+    if (response?.adminToken) {
+        localStorage.setItem('adminToken', response.adminToken)
+    }
+
     return response
+}
+
+/**
+ * It makes a POST request to the logout endpoint
+ * @returns the result of the request.postRequest function.
+ */
+const logout = async () => {
+
+    return await request.postRequest('/admin/auth/logout/', {})
 }
 
 const authService = {
     getApiToken,
-    login
+    login,
+    logout
 }
 
 export default authService
