@@ -16,6 +16,10 @@ const getApiToken = async (username, password) => {
         password
     })
 
+    if (response.apiToken) {
+        localStorage.setItem('apiToken', response.apiToken)
+    }
+
     return response
 }
 

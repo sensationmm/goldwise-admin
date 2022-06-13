@@ -1,5 +1,6 @@
 import axios from 'axios/index'
-import { store } from '../store'
+// TODO: get the token from state instead localStorage
+// import { store } from '../store'
 
 export const getHeaders = () => {
     const headers = {
@@ -10,10 +11,10 @@ export const getHeaders = () => {
 }
 
 export const getAuthHeader = () => {
-    const state = store.getState()
-    if (state) {
+    const apiToken = localStorage.getItem('apiToken')
+    if (apiToken) {
         return {
-            'apiToken': state.token.apiToken
+            'apiToken': apiToken
         }
     }
 
