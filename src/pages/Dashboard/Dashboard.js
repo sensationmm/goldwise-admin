@@ -9,6 +9,7 @@ const Dashboard = () => {
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const logOut = async () => {
+        // eslint-disable-next-line no-unused-vars
         const response = await authService.logout()
         // TODO: Check for success before navigate
         // API response PR needs to be merged

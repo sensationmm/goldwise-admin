@@ -14,16 +14,23 @@ const App = () => {
   const dispatch = useDispatch()
 
   const getApiToken = async () => {
-    const response = await authService.getApiToken(
-      process.env.REACT_APP_API_USERNAME,
-      process.env.REACT_APP_API_PASSWORD
-    )
-    dispatch(setApiToken(response?.apiToken))
+    try {
+      const response = await authService.getApiToken(
+        process.env.REACT_APP_API_USERNAME,
+        process.env.REACT_APP_API_PASSWORD
+      )
+      dispatch(setApiToken(response?.apiToken))
+
+    } catch (e) {
+      // TODO: Add popup or toast component to handle errors
+      console.log(e)
+    }
   }
 
   useEffect(() => {
     getApiToken()
-  })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
 
   return (
@@ -34,7 +41,7 @@ const App = () => {
         <Route path='login' element={<Login />} />
 
         {/* Protected routes */}
-        < Route element={<RequireAuth />}>
+        <Route element={<RequireAuth />}>
           <Route path='example' element={<Home />} />
         </Route>
 
