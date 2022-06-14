@@ -13,6 +13,7 @@ const root = createRoot(container)
 
 root.render(
   <React.StrictMode>
+    {/* TODO: Remove the React.StrictMode on production? */}
     <Provider store={store}>
       <PersistGate persistor={persistor}>
         <BrowserRouter>
