@@ -21,9 +21,9 @@ const App = () => {
       )
       dispatch(setApiToken(response?.apiToken))
 
-    } catch (e) {
+    } catch (error) {
       // TODO: Add popup or toast component to handle errors
-      console.log(e)
+      console.log(error)
     }
   }
 
