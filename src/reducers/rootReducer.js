@@ -10,7 +10,7 @@ const rootPersistConfig = {
     key: 'root',
     storage,
     keyPrefix: 'gw-',
-    whiteList: ['counter', 'admin', 'apiToken'],
+    whiteList: ['counter', 'user', 'apiToken'],
 };
 
 const rootReducer = combineReducers({
