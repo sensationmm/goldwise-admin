@@ -1,0 +1,46 @@
+import api from './api'
+export default class Request {
+  path = null
+  method = null
+  parameters = {}
+
+  getRequest(path) {
+    this.method = 'get'
+    this.path = path
+
+    return new Promise((resolve, reject) => {
+      api.get(path).then(
+        (response) => {
+          resolve(response)
+        },
+        (error) => {
+          this.errorHandler(path, error, resolve, reject);
+        },
+      );
+    });
+  }
+
+  postRequest(path, parameters, headers) {
+    this.method = 'post'
+    this.path = path
+    this.parameters = parameters;
+
+    return new Promise((resolve, reject) => {
+      api.post(path, parameters, { headers: headers || {} }).then(
+        (response) => {
+          resolve(response.data.response)
+        },
+        (error) => {
+          this.errorHandler(path, error, resolve, reject);
+        },
+      );
+    });
+  }
+
+  errorHandler(path, error, resolve, reject) {
+    if (error.response !== undefined && error.response.status === 500) {
+      error.response.data.internalCode = 'internal_error';
+    }
+    reject(error);
+  }
+}
