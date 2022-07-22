@@ -31,7 +31,7 @@ const CustomerDetails = () => {
                         </div>
                         <div class="mx-auto pt-2 pb-8">
                             <div className="grid grid-flow-col gap-3">
-                                <div className="flex items-center border-r-[1px] pr-2 col-span-1 dark:border-r-gray-600">
+                                <div className="flex items-center border-r-[1px] pr-2 col-span-1 dark:border-r-gray-600 transition-all duration-500 ease-in-out">
                                     <div className="flex-shrink-0 mr-2 sm:mr-3"><img className="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg" width="90" height="90" alt="Tom Leach" /></div>
                                     <div className="flex-shrink-0 pl-6 mr-2 sm:mr-3">
                                         <p className="text-left text-lg font-bold text-gray-800 dark:text-gray-100">Tom Leach</p>
@@ -43,7 +43,7 @@ const CustomerDetails = () => {
                                         </div>
                                     </div>
                                 </div>
-                                <div className="group flex items-start flex-col pr-6 pl-6 border-r-[1px] col-span-1 dark:border-r-gray-600">
+                                <div className="group flex items-start flex-col pr-6 pl-6 border-r-[1px] col-span-1 dark:border-r-gray-600 transition-all duration-500 ease-in-out">
                                     <div className="flex-shrink-0 mr-2 sm:mr-3">
                                         <div className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100"><i className="fa fa-birthday-cake text-lg text-gray-800 dark:text-gray-100 pr-2"></i>01 January 2022</div>
                                     </div>
@@ -60,7 +60,7 @@ const CustomerDetails = () => {
                                         <div className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3"><i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>AB 12 34 56 C</div>
                                     </div>
                                 </div>
-                                <div className="group flex items-start flex-col pr-6 pl-6 border-r-[1px] dark:border-r-gray-600 col-span-1">
+                                <div className="group flex items-start flex-col pr-6 pl-6 border-r-[1px] dark:border-r-gray-600 col-span-1 transition-all duration-500 ease-in-out">
                                     <div className="flex-shrink-0 mr-2 sm:mr-3">
                                         <div className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100"><i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>KYC Status
                                             <span className="flex items-center justify-center pl-3">
@@ -125,7 +125,7 @@ const CustomerDetails = () => {
                             </div>
                             <div className="-mx-2 md:flex pt-8">
                                 <div className="w-full md:w-1/4 px-2">
-                                    <div className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full">
+                                    <div className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
                                         <div className="flex flex-col rounded-md relative overflow-hidden">
                                             <h2 className='p-3 font-bold'>Restrictions</h2>
 
@@ -184,7 +184,7 @@ const CustomerDetails = () => {
                                     </div>
                                 </div>
                                 <div className="w-full md:w-1/4 px-2">
-                                    <div className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full">
+                                    <div className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
                                         <div className="flex flex-col rounded-md relative overflow-hidden">
                                             <h2 className='p-3 font-bold'>Preferences</h2>
 
@@ -273,7 +273,7 @@ const CustomerDetails = () => {
                                     </div>
                                 </div>
                                 <div className="w-full md:w-1/4 px-2">
-                                    <div className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full">
+                                    <div className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
                                         <div className="flex flex-col rounded-md relative overflow-hidden">
                                             <h2 className='p-3 font-bold'>Communications</h2>
 
@@ -321,7 +321,7 @@ const CustomerDetails = () => {
                                     </div>
                                 </div>
                                 <div className="w-full md:w-1/4 px-2">
-                                    <div className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full">
+                                    <div className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
                                         <div className="flex flex-col rounded-md relative overflow-hidden">
                                             <h2 className='p-3 font-bold'>Topics</h2>
 
@@ -372,7 +372,7 @@ const CustomerDetails = () => {
                         </div>
                     </section>
                 </main>
-                <div className="relative bg-gray-100 dark:bg-gray-800 border-l-[1px] dark:border-l-gray-600">
+                <div className="relative bg-gray-100 dark:bg-gray-800 border-l-[1px] dark:border-l-gray-600 transition-all duration-500 ease-in-out">
                     <div className="flex flex-col sm:flex-row sm:justify-around">
                         <div className="w-60 h-screen">
                             <div className="mt-8 px-4">

@@ -71,7 +71,7 @@ const Customers = () => {
                                                     </th>
                                                 </tr>
                                             </thead>
-                                            <tbody className="text-sm divide-y divide-gray-100 dark:divide-gray-600 dark:text-gray-100">
+                                            <tbody className="text-sm divide-y divide-gray-200 dark:divide-gray-600 dark:text-gray-100">
                                                 <tr>
                                                     <td className="p-2 whitespace-nowrap">
                                                         <div className="flex items-center">

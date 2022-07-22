@@ -122,7 +122,7 @@ const Dashboard = () => {
 
                                 <div className="-mx-2 md:flex">
                                     <div className="w-full md:w-1/3 px-2">
-                                        <div className="rounded-md mb-4 border-solid border-2 border-gray-200 min-h-full dark:border-gray-600">
+                                        <div className="rounded-md mb-4 border-solid border-2 border-gray-200 min-h-full dark:border-gray-600 transition-all duration-500 ease-in-out">
                                             <div className="flex rounded-md relative overflow-hidden">
                                                 <div className="md:w-1/3 px-3 pt-6 pb-10 text-left relative z-10">
                                                     <h4 className="text-sm text-gray-500 leading-tight dark:text-gray-100">Total Sessions</h4>
@@ -136,14 +136,14 @@ const Dashboard = () => {
                                                     />
                                                 </div>
                                             </div>
-                                            <div className='flex justify-between border-t-[2px] h-10 dark:border-t-gray-600'>
+                                            <div className='flex justify-between border-t-[2px] h-10 dark:border-t-gray-600 transition-all duration-500 ease-in-out'>
                                                 <p className='text-left text-sm p-3 text-gray-500 dark:text-gray-100'>4 visitors</p>
                                                 <p className='text-right text-sm p-3 text-gray-500 dark:text-gray-100'>View report</p>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="w-full md:w-1/3 px-2">
-                                        <div className="rounded-md mb-4 border-solid border-2 border-gray-200 min-h-full dark:border-gray-600">
+                                        <div className="rounded-md mb-4 border-solid border-2 border-gray-200 min-h-full dark:border-gray-600 transition-all duration-500 ease-in-out">
                                             <div className="flex rounded-md relative overflow-hidden">
                                                 <div className="md:w-1/3 px-3 pt-6 pb-10 text-left relative z-10">
                                                     <h4 className="text-sm text-gray-500 leading-tight dark:text-gray-100">Total Sales</h4>
@@ -157,14 +157,14 @@ const Dashboard = () => {
                                                     />
                                                 </div>
                                             </div>
-                                            <div className='flex justify-between border-t-[2px] h-10 dark:border-t-gray-600'>
+                                            <div className='flex justify-between border-t-[2px] h-10 dark:border-t-gray-600 transition-all duration-500 ease-in-out'>
                                                 <p className='text-left text-sm p-3 text-gray-500 dark:text-gray-100'>6 total orders</p>
                                                 <p className='text-right text-sm p-3 text-gray-500 dark:text-gray-100'>View report</p>
                                             </div>
                                         </div>
                                     </div>
                                     <div className="w-full md:w-1/3 px-2">
-                                        <div className="rounded-md mb-4 border-solid border-2 border-gray-200 min-h-full dark:border-gray-600">
+                                        <div className="rounded-md mb-4 border-solid border-2 border-gray-200 min-h-full dark:border-gray-600 transition-all duration-500 ease-in-out">
                                             <div className="flex rounded-md relative overflow-hidden">
                                                 <div className="md:w-1/3 px-3 pt-6 pb-10 text-left relative z-10">
                                                     <h4 className="text-sm text-gray-500 leading-tight dark:text-gray-100">Total Users</h4>
@@ -178,7 +178,7 @@ const Dashboard = () => {
                                                     />
                                                 </div>
                                             </div>
-                                            <div className='flex justify-between border-t-[2px] h-10 dark:border-t-gray-600'>
+                                            <div className='flex justify-between border-t-[2px] h-10 dark:border-t-gray-600 transition-all duration-500 ease-in-out'>
                                                 <p className='text-left text-sm p-3 text-gray-500 dark:text-gray-100'>2 new users</p>
                                                 <p className='text-right text-sm p-3 text-gray-500 dark:text-gray-100'>View report</p>
                                             </div>
