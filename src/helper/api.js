@@ -11,7 +11,7 @@ export const getHeaders = () => {
 }
 
 export const getAuthHeader = () => {
-    // TODO: Get the value from state
+    // TODO: Get the value from global state
     const apiToken = localStorage.getItem('apiToken')
     const adminToken = localStorage.getItem('adminToken')
 

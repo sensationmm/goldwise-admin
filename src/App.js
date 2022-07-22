@@ -3,11 +3,13 @@ import { useDispatch } from 'react-redux'
 import { Routes, Route } from 'react-router-dom'
 import authService from './services/auth.service'
 import BaseLayout from './pages/BaseLayout'
-import Home from './pages/Home'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
+import Customers from './pages/Customers'
+import CustomerDetails from './pages/CustomerDetails'
+import Kyc from './pages/Kyc'
 import Missing from './pages/Missing'
-import RequireAuth from './components/RequireAuth'
+import RequireAuth from './components/organisms/RequireAuth'
 import { setApiToken } from './reducers/tokenSlice.reducer'
 
 const App = () => {
@@ -42,11 +44,23 @@ const App = () => {
 
         {/* Protected routes */}
         <Route element={<RequireAuth />}>
-          <Route path='example' element={<Home />} />
+          <Route path='dashboard' element={<Dashboard />} />
         </Route>
 
         <Route element={<RequireAuth />}>
-          <Route path='dashboard' element={<Dashboard />} />
+          <Route path='customers' element={<Customers />} />
+        </Route>
+
+        <Route element={<RequireAuth />}>
+          <Route path="customers/:customerId" element={<CustomerDetails />} />
+        </Route>
+
+        <Route element={<RequireAuth />}>
+          <Route path='kyc' element={<Kyc />} />
+        </Route>
+
+        <Route element={<RequireAuth />}>
+          <Route path='kyc/:customerId' element={<CustomerDetails />} />
         </Route>
 
         {/* Catch all */}

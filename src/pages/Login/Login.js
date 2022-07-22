@@ -8,7 +8,6 @@ import Input from '../../components/atoms/Input'
 import authService from '../../services/auth.service'
 import { setAdmin } from '../../reducers/userSlice.reducer'
 import { loginValidationSchema } from '../../helper/validationSchemas'
-import './login.scss'
 
 const Login = () => {
     const dispatch = useDispatch()

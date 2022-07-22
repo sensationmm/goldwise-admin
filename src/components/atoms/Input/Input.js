@@ -1,5 +1,4 @@
 // import PropTypes from 'prop-types'
-import './input.scss'
 
 const Input = ({
     type,
