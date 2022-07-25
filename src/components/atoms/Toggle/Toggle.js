@@ -12,7 +12,7 @@ const Toggle = () => {
                     <p>Light mode</p>
                     <FaSun
                         size="16px"
-                        className="text-gray-500 dark:text-gray-400 text-2xl cursor-pointer"
+                        className="text-gray-500 dark:text-gray-100 text-2xl cursor-pointer"
                     />
                 </span>
             ) : (
@@ -20,7 +20,7 @@ const Toggle = () => {
                     <p className='pr-2'>Dark mode</p>
                     <FaMoon
                         size="16px"
-                        className="text-gray-500 dark:text-gray-400 text-2xl cursor-pointer"
+                        className="text-gray-500 dark:text-gray-100 text-2xl cursor-pointer"
                     />
                 </span>
             )}

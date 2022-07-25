@@ -77,7 +77,7 @@ const Kyc = () => {
                                                     </th>
                                                 </tr>
                                             </thead>
-                                            <tbody className="text-sm divide-y divide-gray-200 dark:divide-gray-600 dark:text-gray-100">
+                                            <tbody className="text-sm divide-y divide-gray-200 dark:divide-gray-600 dark:text-gray-100 transition-all duration-500 ease-in-out">
                                                 <tr>
                                                     <td className="p-2 whitespace-nowrap">
                                                         <div className="flex items-center">
