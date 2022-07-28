@@ -5,7 +5,6 @@ import Toggle from '../../atoms/Toggle'
 import { clearAdmin } from '../../../reducers/userSlice.reducer'
 // import authService from '../../../services/auth.service'
 import withClickOutside from '../../../helper/withClickOutside'
-// import Logo from './logo.png'
 
 const Header = forwardRef(({ open, setOpen }, ref) => {
     const dispatch = useDispatch()
@@ -23,7 +22,7 @@ const Header = forwardRef(({ open, setOpen }, ref) => {
         }
     }
     return (
-        <div className="sticky top-0 z-50" ref={ref}>
+        <div className="sticky top-0 z-50">
             <nav className="flex bg-white dark:bg-gray-800 shadow sticky top-0 z-50 dark:shadow-gray-600 transition-all duration-500 ease-in-out">
                 <div className="w-1/5 h-16">
                     <div className="flex items-center">
@@ -55,9 +54,9 @@ const Header = forwardRef(({ open, setOpen }, ref) => {
                     </div>
                 </div>
                 <div className="w-1/5 h-16 text-right mr-4">
-                    <div className="relative inline-block text-right border-l-[1px] h-16 pt-1 dark:text-gray-100 dark:border-l-gray-600">
+                    <div className="relative inline-block text-right border-l-[1px] h-16 pt-1 dark:text-gray-100 dark:border-l-gray-600" ref={ref}>
                         <div className='flex w-full items-center justify-center'>
-                            <button onClick={() => setOpen(!open)} type="button" className="flex items-center justify-center px-4 py-2 pr-4 text-sm font-medium text-gray-700 dark:text-gray-50 hover:bg-gray-50 dark:hover:bg-gray-500 focus:outline-none transition duration-500 ease-in-out" id="options-menu">
+                            <button onClick={() => setOpen(!open)} type="button" className="flex items-center justify-center px-4 py-2 pr-4 text-sm font-medium text-gray-700 dark:text-gray-50 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none transition duration-500 ease-in-out" id="options-menu">
                                 {/* TODO: get the name from the user data */}
                                 <span className='text-sm font-medium pr-4'>Gareth Tucker</span>
                                 {/* TODO: load the SVG if there is no image for the user */}
