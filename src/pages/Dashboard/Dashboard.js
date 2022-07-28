@@ -129,7 +129,7 @@ const Dashboard = () => {
                                                     <h3 className="text-xl text-left text-gray-600 font-semibold leading-tight my-3 dark:text-gray-100">456</h3>
                                                 </div>
                                                 <div className="md:w-2/3 h-20 w-full mr-4">
-                                                    {/* TODO: Wrap the char into a Component */}
+                                                    {/* TODO: Wrap the chart into a Component */}
                                                     <Line
                                                         options={chartOptions}
                                                         data={data1}
@@ -150,7 +150,7 @@ const Dashboard = () => {
                                                     <h3 className="text-xl text-left text-gray-600 font-semibold leading-tight my-3 dark:text-gray-100">£2810.90</h3>
                                                 </div>
                                                 <div className="md:w-2/3 h-20 w-full mr-4">
-                                                    {/* TODO: Wrap the char into a Component */}
+                                                    {/* TODO: Wrap the chart into a Component */}
                                                     <Line
                                                         options={chartOptions}
                                                         data={data2}
@@ -171,7 +171,7 @@ const Dashboard = () => {
                                                     <h3 className="text-xl text-left text-gray-600 font-semibold leading-tight my-3 dark:text-gray-100">1456</h3>
                                                 </div>
                                                 <div className="md:w-2/3 h-20 w-full mr-4">
-                                                    {/* TODO: Wrap the char into a Component */}
+                                                    {/* TODO: Wrap the chart into a Component */}
                                                     <Line
                                                         options={chartOptions}
                                                         data={data3}

@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import ReactCountryFlag from 'react-country-flag'
 import { FiSettings } from 'react-icons/fi'
 import Header from '../../components/molecules/Header'
 import Sidebar from '../../components/molecules/Sidebar'
@@ -71,7 +72,7 @@ const Customers = () => {
                                                     </th>
                                                 </tr>
                                             </thead>
-                                            <tbody className="text-sm divide-y divide-gray-200 dark:divide-gray-600 dark:text-gray-100">
+                                            <tbody className="text-sm divide-y divide-gray-200 dark:divide-gray-600 dark:text-gray-100 transition-all duration-500 ease-in-out">
                                                 <tr>
                                                     <td className="p-2 whitespace-nowrap">
                                                         <div className="flex items-center">
@@ -92,7 +93,7 @@ const Customers = () => {
                                                     </td>
                                                     <td className="p-2 whitespace-nowrap">
                                                         <div className="flex items-center justify-center">
-                                                            <div className="text-left text-lg sm:mr-3">🇬🇧</div>
+                                                            <div className="text-left text-lg sm:mr-3"><ReactCountryFlag countryCode="GB" /></div>
                                                             <div className="text-left">United Kingdom</div>
                                                         </div>
                                                     </td>
@@ -149,7 +150,7 @@ const Customers = () => {
                                                     </td>
                                                     <td className="p-2 whitespace-nowrap">
                                                         <div className="flex items-center justify-center">
-                                                            <div className="text-left text-lg sm:mr-3">🇬🇧</div>
+                                                            <div className="text-left text-lg sm:mr-3"><ReactCountryFlag countryCode="GB" /></div>
                                                             <div className="text-left">United Kingdom</div>
                                                         </div>
                                                     </td>
@@ -206,7 +207,7 @@ const Customers = () => {
                                                     </td>
                                                     <td className="p-2 whitespace-nowrap">
                                                         <div className="flex items-center justify-center">
-                                                            <div className="text-left text-lg sm:mr-3">🇬🇧</div>
+                                                            <div className="text-left text-lg sm:mr-3"><ReactCountryFlag countryCode="GB" /></div>
                                                             <div className="text-left">United Kingdom</div>
                                                         </div>
                                                     </td>
@@ -263,7 +264,7 @@ const Customers = () => {
                                                     </td>
                                                     <td className="p-2 whitespace-nowrap">
                                                         <div className="flex items-center justify-center">
-                                                            <div className="text-left text-lg sm:mr-3">🇬🇧</div>
+                                                            <div className="text-left text-lg sm:mr-3"><ReactCountryFlag countryCode="GB" /></div>
                                                             <div className="text-left">United Kingdom</div>
                                                         </div>
                                                     </td>
@@ -320,7 +321,7 @@ const Customers = () => {
                                                     </td>
                                                     <td className="p-2 whitespace-nowrap">
                                                         <div className="flex items-center justify-center">
-                                                            <div className="text-left text-lg sm:mr-3">🇬🇧</div>
+                                                            <div className="text-left text-lg sm:mr-3"><ReactCountryFlag countryCode="GB" /></div>
                                                             <div className="text-left">United Kingdom</div>
                                                         </div>
                                                     </td>

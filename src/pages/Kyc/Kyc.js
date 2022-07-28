@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom'
+import ReactCountryFlag from 'react-country-flag'
 import { FiSettings } from 'react-icons/fi'
 import Header from '../../components/molecules/Header'
 import Sidebar from '../../components/molecules/Sidebar'
@@ -98,7 +99,7 @@ const Kyc = () => {
                                                     </td>
                                                     <td className="p-2 whitespace-nowrap">
                                                         <div className="flex items-center justify-center">
-                                                            <div className="text-left text-lg sm:mr-3">🇬🇧</div>
+                                                            <div className="text-left text-lg sm:mr-3"><ReactCountryFlag countryCode="GB" /></div>
                                                             <div className="text-left">United Kingdom</div>
                                                         </div>
                                                     </td>
@@ -155,7 +156,7 @@ const Kyc = () => {
                                                     </td>
                                                     <td className="p-2 whitespace-nowrap">
                                                         <div className="flex items-center justify-center">
-                                                            <div className="text-left text-lg sm:mr-3">🇬🇧</div>
+                                                            <div className="text-left text-lg sm:mr-3"><ReactCountryFlag countryCode="GB" /></div>
                                                             <div className="text-left">United Kingdom</div>
                                                         </div>
                                                     </td>
@@ -212,7 +213,7 @@ const Kyc = () => {
                                                     </td>
                                                     <td className="p-2 whitespace-nowrap">
                                                         <div className="flex items-center justify-center">
-                                                            <div className="text-left text-lg sm:mr-3">🇬🇧</div>
+                                                            <div className="text-left text-lg sm:mr-3"><ReactCountryFlag countryCode="GB" /></div>
                                                             <div className="text-left">United Kingdom</div>
                                                         </div>
                                                     </td>
