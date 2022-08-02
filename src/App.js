@@ -11,7 +11,6 @@ import Kyc from './pages/Kyc'
 import Missing from './pages/Missing'
 import RequireAuth from './components/organisms/RequireAuth'
 import { setApiToken } from './reducers/tokenSlice.reducer'
-import Modal from "./components/atoms/Modal";
 
 const App = () => {
   const dispatch = useDispatch()
@@ -37,22 +36,22 @@ const App = () => {
 
 
   return (
-      <Routes>
+    <Routes>
       <Route path='/' element={<BaseLayout />}>
         {/* Public routes */}
         <Route path='/' element={<Login />} />
         <Route path='login' element={<Login />} />
 
         {/* Protected routes */}
-        <Route>
+        <Route element={<RequireAuth />}>
           <Route path='dashboard' element={<Dashboard />} />
         </Route>
 
-        <Route>
+        <Route element={<RequireAuth />}>
           <Route path='customers' element={<Customers />} />
         </Route>
 
-        <Route>
+        <Route element={<RequireAuth />}>
           <Route path="customers/:customerId" element={<CustomerDetails />} />
         </Route>
 

@@ -3,7 +3,7 @@ import React from "react";
 const Modal = ({hidePopup, title, ...props}) => {
     return (<>
             <div className='modal-background'/>
-            <div className='test'>
+            <div className='modal-main-container'>
                 <div className='modal-container'>
                     <div className='modal-header'>
                         <p className="text-left text-xl font-extrabold text-gray-800 dark:text-gray-100">{title}</p>

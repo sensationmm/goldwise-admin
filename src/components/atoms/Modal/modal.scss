@@ -8,7 +8,8 @@
     z-index: 199;
     flex: 1;
 }
-.test {
+
+.modal-main-container {
     position: absolute;
     height: 100%;
     display: flex;
@@ -20,7 +21,6 @@
     flex-direction: column;
     background-color: #ffffff;
     border-radius: 15px;
-    //height: 400px;
     display: flex;
     align-self: center;
     justify-content: space-between;

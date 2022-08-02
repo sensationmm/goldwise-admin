@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-const TradingRestrictionsModal = ({hidePopup, saveLockAccountStatus, ...props}) => {
+const TradingRestrictionsModal = ({hidePopup, saveTradingRestrictions, ...props}) => {
     const [canDeposit, setCanDeposit] = useState(false)
     const [canBuy, setCanBuy] = useState(false)
     const [canSell, setCanSell] = useState(false)
@@ -98,7 +98,8 @@ const TradingRestrictionsModal = ({hidePopup, saveLockAccountStatus, ...props}) 
                     </button>
                 </div>
                 <div className='modal-button'>
-                    <button className='bg-[#52b2b6] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Confirm
+                    <button onClick={() => saveTradingRestrictions(canDeposit, canBuy, canSell, canConvert, canWithdraw, reason)} disabled={reason === ''}
+                            className={'bg-[#52b2b6] hover:opacity-80 text-xs text-center font-bold py-3 px-4 rounded w-full mb-2 disabled:opacity-100 disabled:bg-[#DFDFE2FF] text-white'}>Confirm
                     </button>
                 </div>
             </div>

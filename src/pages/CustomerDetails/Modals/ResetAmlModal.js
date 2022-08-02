@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-const SetAmlFailedModal = ({hidePopup, setAmlFailed, ...props}) => {
+const ResetAmlModal = ({hidePopup, resetAmlPassed, ...props}) => {
     const [reason, setReason] = useState('')
 
     return (<>
@@ -15,7 +15,6 @@ const SetAmlFailedModal = ({hidePopup, setAmlFailed, ...props}) => {
                               className="mt-2"/>
                 </div>
             </div>
-
             <div className='modal-buttons'>
                 <div className='modal-button'>
                     <button onClick={() => hidePopup()}
@@ -23,7 +22,7 @@ const SetAmlFailedModal = ({hidePopup, setAmlFailed, ...props}) => {
                     </button>
                 </div>
                 <div className='modal-button'>
-                    <button onClick={() => setAmlFailed(reason)} disabled={reason === ''}
+                    <button onClick={() => resetAmlPassed(reason)} disabled={reason === ''}
                             className={'bg-[#52b2b6] hover:opacity-80 text-xs text-center font-bold py-3 px-4 rounded w-full mb-2 disabled:opacity-100 disabled:bg-[#DFDFE2FF] text-white'}>Confirm
                     </button>
                 </div>
@@ -32,8 +31,8 @@ const SetAmlFailedModal = ({hidePopup, setAmlFailed, ...props}) => {
     )
 }
 
-SetAmlFailedModal.propTypes = {}
+ResetAmlModal.propTypes = {}
 
-SetAmlFailedModal.defaultProps = {}
+ResetAmlModal.defaultProps = {}
 
-export default SetAmlFailedModal
+export default ResetAmlModal

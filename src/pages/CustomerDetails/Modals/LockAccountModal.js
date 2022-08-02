@@ -4,10 +4,6 @@ const LockAccountModal = ({hidePopup, saveLockAccountStatus, ...props}) => {
     const [lockAccountStatus, setLockAccountStatus] = useState(false)
     const [reason, setReason] = useState('')
 
-    const isButtonEnabled = () => {
-        return reason !== ''
-    }
-
     return (<>
             <div className='modal-content'>
                 <div className="pb-3 switcher">
@@ -41,7 +37,7 @@ const LockAccountModal = ({hidePopup, saveLockAccountStatus, ...props}) => {
                     </button>
                 </div>
                 <div className='modal-button'>
-                    <button onClick={() => saveLockAccountStatus(lockAccountStatus, reason)} disabled={!isButtonEnabled()}
+                    <button onClick={() => saveLockAccountStatus(lockAccountStatus, reason)} disabled={reason === ''}
                             className={'bg-[#52b2b6] hover:opacity-80 text-xs text-center font-bold py-3 px-4 rounded w-full mb-2 disabled:opacity-100 disabled:bg-[#DFDFE2FF] text-white'}>Confirm
                     </button>
                 </div>

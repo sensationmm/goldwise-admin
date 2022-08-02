@@ -8,47 +8,81 @@ import MonitorCustomerModal from "./Modals/MonitorCustomerModal";
 import TradingRestrictionsModal from "./Modals/TradingRestrictionsModal";
 import SetAmlPassedModal from "./Modals/SetAmlPassedModal";
 import SetAmlFailedModal from "./Modals/SetAmlFailedModal";
+import customerDetailService from "../../services/customerDetail.service";
 
 const CustomerDetails = () => {
+    const customerGuid = 1 // todo: change to one from page
     const [monitorCustomerModal, setMonitorCustomerModal] = useState(false)
     const [lockAccountModal, setLockAccountModal] = useState(false)
     const [tradingRestrictionsModal, setTradingRestrictionsModal] = useState(false)
     const [setAmlPassedModal, setSetAmlPassedModal] = useState(false)
     const [setAmlFailedModal, setSetAmlFailedModal] = useState(false)
+    const [resetAmlModal, setResetAmlModal] = useState(false)
 
-    const saveLockAccountStatus = (value, reason) => {
-        console.log(value, ' - ', reason)
-        //todo: make request to API
-        //todo: close popup
-        //todo: update value on page
+    const saveLockAccountStatus = async (value, reason) => {
+        try {
+            await customerDetailService.saveLockAccountStatus(value, reason, customerGuid)
+            //todo: update value on page
+        } catch (e) {
+            //todo: catch error
+        } finally {
+            setLockAccountModal(false)
+        }
     }
 
-    const saveMonitorCustomerStatus = (value, reason) => {
-        console.log(value, ' - ', reason)
-        //todo: make request to API
-        //todo: close popup
-        //todo: update value on page
+    const saveMonitorCustomerStatus = async (value, reason) => {
+        try {
+            await customerDetailService.saveMonitorCustomerStatus(value, reason, customerGuid)
+            //todo: update value on page
+        } catch (e) {
+            //todo: catch error
+        } finally {
+            setMonitorCustomerModal(false)
+        }
     }
 
-    const saveTradingRestrictions = (values, reason) => {
-        console.log(values, ' - ', reason)
-        //todo: make request to API
-        //todo: close popup
-        //todo: update value on page
+    const saveTradingRestrictions = async (canDeposit, canBuy, canSell, canConvert, canWithdraw, reason) => {
+        try {
+            await customerDetailService.saveTradingRestrictions(canDeposit, canBuy, canSell, canConvert, canWithdraw, reason, customerGuid)
+            //todo: update value on page
+        } catch (e) {
+            //todo: catch error
+        } finally {
+            setTradingRestrictionsModal(false)
+        }
     }
 
-    const setAmlFailed = (reason) => {
-        console.log(reason)
-        //todo: make request to API
-        //todo: close popup
-        //todo: update value on page
+    const setAmlFailed = async (reason) => {
+        try {
+            await customerDetailService.setAmlFailed(reason, customerGuid)
+            //todo: update value on page
+        } catch (e) {
+            //todo: catch error
+        } finally {
+            setMonitorCustomerModal(false)
+        }
     }
 
-    const setAmlPassed = (reason) => {
-        console.log(reason)
-        //todo: make request to API
-        //todo: close popup
-        //todo: update value on page
+    const setAmlPassed = async (reason) => {
+        try {
+            await customerDetailService.setAmlPassed(reason, customerGuid)
+            //todo: update value on page
+        } catch (e) {
+            //todo: catch error
+        } finally {
+            setSetAmlFailedModal(false)
+        }
+    }
+
+    const resetAml = async (reason) => {
+        try {
+            await customerDetailService.resetAml(reason, customerGuid)
+            //todo: update value on page
+        } catch (e) {
+            //todo: catch error
+        } finally {
+            setResetAmlModal(false)
+        }
     }
 
     return (
@@ -56,13 +90,13 @@ const CustomerDetails = () => {
             {lockAccountModal && <Modal hidePopup={() => setLockAccountModal(false)} title="Lock Account">
                 <LockAccountModal
                     hidePopup={() => setLockAccountModal(false)}
-                    saveLockAccountStatus={(value, reason) => saveLockAccountStatus(value, reason)}
+                    saveLockAccountStatus={saveLockAccountStatus}
                 />
             </Modal>
             }
             {monitorCustomerModal && <Modal hidePopup={() => setMonitorCustomerModal(false)} title="Monitor Account">
                 <MonitorCustomerModal
-                    saveMonitorCustomerStatus={(value, reason) => saveMonitorCustomerStatus(value, reason)}
+                    saveMonitorCustomerStatus={saveMonitorCustomerStatus}
                     hidePopup={() => setMonitorCustomerModal(false)}
                 />
             </Modal>
@@ -71,7 +105,7 @@ const CustomerDetails = () => {
             {tradingRestrictionsModal &&
             <Modal hidePopup={() => setTradingRestrictionsModal(false)} title="Restrict Account">
                 <TradingRestrictionsModal
-                    saveMonitorCustomerStatus={(values, reason) => saveTradingRestrictions(values, reason)}
+                    saveTradingRestrictions={saveTradingRestrictions}
                     hidePopup={() => setTradingRestrictionsModal(false)}
                 />
             </Modal>
@@ -80,7 +114,7 @@ const CustomerDetails = () => {
             {setAmlPassedModal &&
             <Modal hidePopup={() => setSetAmlPassedModal(false)} title="Set AML Status to Passed?">
                 <SetAmlPassedModal
-                    setAmlPassed={(reason) => setAmlPassed(reason)}
+                    setAmlPassed={setAmlPassed}
                     hidePopup={() => setSetAmlPassedModal(false)}
                 />
             </Modal>
@@ -89,8 +123,17 @@ const CustomerDetails = () => {
             {setAmlFailedModal &&
             <Modal hidePopup={() => setSetAmlFailedModal(false)} title="Set AML Status to Failed?">
                 <SetAmlFailedModal
-                    setAmlFailed={(reason) => setAmlFailed(reason)}
+                    setAmlFailed={setAmlFailed}
                     hidePopup={() => setSetAmlFailedModal(false)}
+                />
+            </Modal>
+            }
+
+            {resetAmlModal &&
+            <Modal hidePopup={() => setResetAmlModal(false)} title="Reset AML Status">
+                <SetAmlFailedModal
+                    resetAml={resetAml}
+                    hidePopup={() => setResetAmlModal(false)}
                 />
             </Modal>
             }
@@ -600,6 +643,10 @@ const CustomerDetails = () => {
                                 <button onClick={() => setTradingRestrictionsModal(true)}
                                         className='bg-[#52b2b6] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Restrict
                                     Account
+                                </button>
+                                <button onClick={() => setResetAmlModal(true)}
+                                        className='bg-[#52b2b6] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Reset
+                                    AML Status
                                 </button>
                                 <button
                                     onClick={() => setSetAmlPassedModal(true)}
