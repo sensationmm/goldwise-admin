@@ -23,6 +23,7 @@ const CustomerDetails = () => {
         try {
             await customerDetailService.saveLockAccountStatus(value, reason, customerGuid)
             //todo: update value on page
+            //todo: show success message
         } catch (e) {
             //todo: catch error
         } finally {
@@ -34,6 +35,7 @@ const CustomerDetails = () => {
         try {
             await customerDetailService.saveMonitorCustomerStatus(value, reason, customerGuid)
             //todo: update value on page
+            //todo: show success message
         } catch (e) {
             //todo: catch error
         } finally {
@@ -45,6 +47,7 @@ const CustomerDetails = () => {
         try {
             await customerDetailService.saveTradingRestrictions(canDeposit, canBuy, canSell, canConvert, canWithdraw, reason, customerGuid)
             //todo: update value on page
+            //todo: show success message
         } catch (e) {
             //todo: catch error
         } finally {
@@ -56,6 +59,7 @@ const CustomerDetails = () => {
         try {
             await customerDetailService.setAmlFailed(reason, customerGuid)
             //todo: update value on page
+            //todo: show success message
         } catch (e) {
             //todo: catch error
         } finally {
