@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { Routes, Route } from 'react-router-dom'
 import authService from './services/auth.service'
@@ -11,6 +11,7 @@ import Kyc from './pages/Kyc'
 import Missing from './pages/Missing'
 import RequireAuth from './components/organisms/RequireAuth'
 import { setApiToken } from './reducers/tokenSlice.reducer'
+import Modal from "./components/atoms/Modal";
 
 const App = () => {
   const dispatch = useDispatch()
@@ -36,22 +37,22 @@ const App = () => {
 
 
   return (
-    <Routes>
+      <Routes>
       <Route path='/' element={<BaseLayout />}>
         {/* Public routes */}
         <Route path='/' element={<Login />} />
         <Route path='login' element={<Login />} />
 
         {/* Protected routes */}
-        <Route element={<RequireAuth />}>
+        <Route>
           <Route path='dashboard' element={<Dashboard />} />
         </Route>
 
-        <Route element={<RequireAuth />}>
+        <Route>
           <Route path='customers' element={<Customers />} />
         </Route>
 
-        <Route element={<RequireAuth />}>
+        <Route>
           <Route path="customers/:customerId" element={<CustomerDetails />} />
         </Route>
 
