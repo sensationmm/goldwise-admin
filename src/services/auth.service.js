@@ -10,8 +10,8 @@ const request = new Request()
  * @returns The response object is being returned.
  */
 const getApiToken = async (username, password) => {
-
-    const response = await request.postRequest('/api-token/', {
+    const path = process.env.REACT_APP_API_ENDPOINT + '/api-token/'
+    const response = await request.postRequest(path, {
         username,
         password
     })
@@ -33,7 +33,8 @@ const getApiToken = async (username, password) => {
  * @returns The response object is being returned.
  */
 const login = async (email, password) => {
-    const response = await request.postRequest('/admin/auth/login/', {
+    const path = process.env.REACT_APP_API_ENDPOINT + '/admin/auth/login/'
+    const response = await request.postRequest(path, {
         email,
         password
     })

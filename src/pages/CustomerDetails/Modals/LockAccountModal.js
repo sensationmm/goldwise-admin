@@ -1,8 +1,12 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 
-const LockAccountModal = ({hidePopup, saveLockAccountStatus, ...props}) => {
-    const [lockAccountStatus, setLockAccountStatus] = useState(false)
+const LockAccountModal = ({hidePopup, lockAccountCurrentStatus, saveLockAccountStatus}) => {
+    const [lockAccountStatus, setLockAccountStatus] = useState(lockAccountCurrentStatus)
     const [reason, setReason] = useState('')
+
+    useEffect(() => {
+        setLockAccountStatus(lockAccountCurrentStatus)
+    }, [lockAccountCurrentStatus])
 
     return (<>
             <div className='modal-content'>
@@ -12,11 +16,12 @@ const LockAccountModal = ({hidePopup, saveLockAccountStatus, ...props}) => {
                            className="inline-flex relative items-center cursor-pointer">
                         <input type="checkbox"
                                value={lockAccountStatus}
+                               defaultValue={lockAccountStatus}
+                               checked={lockAccountStatus}
                                onChange={() => setLockAccountStatus(!lockAccountStatus)}
                                id="default-toggle"
                                className="sr-only peer"/>
-                        <div
-                            className="w-10 h-5 bg-gray-200 rounded-full dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-1 after:left-[5px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 dark:border-gray-600 peer-checked:bg-[#52b2b6]"/>
+                        <div className="w-10 h-5 bg-gray-200 rounded-full dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-1 after:left-[5px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-4 after:w-4 dark:border-gray-600 peer-checked:bg-[#52b2b6]"/>
                     </label>
                 </div>
                 <hr/>

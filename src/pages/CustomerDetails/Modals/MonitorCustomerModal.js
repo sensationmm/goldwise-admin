@@ -1,8 +1,12 @@
-import React, {useState} from "react";
+import React, {useLayoutEffect, useState} from "react";
 
-const MonitorCustomerModal = ({hidePopup, saveMonitorCustomerStatus, ...props}) => {
-    const [monitorCustomerStatus, setMonitorCustomerStatus] = useState(false)
+const MonitorCustomerModal = ({hidePopup, monitorCustomerCurrentStatus, saveMonitorCustomerStatus}) => {
+    const [monitorCustomerStatus, setMonitorCustomerStatus] = useState(monitorCustomerCurrentStatus)
     const [reason, setReason] = useState('')
+
+    useLayoutEffect(() => {
+        setMonitorCustomerStatus(monitorCustomerCurrentStatus)
+    }, [monitorCustomerCurrentStatus])
 
     return (<>
             <div className='modal-content'>
@@ -12,6 +16,8 @@ const MonitorCustomerModal = ({hidePopup, saveMonitorCustomerStatus, ...props}) 
                            className="inline-flex relative items-center cursor-pointer">
                         <input type="checkbox"
                                value={monitorCustomerStatus}
+                               defaultValue={monitorCustomerStatus}
+                               checked={monitorCustomerStatus}
                                onChange={() => setMonitorCustomerStatus(!monitorCustomerStatus)}
                                id="default-toggle"
                                className="sr-only peer"/>

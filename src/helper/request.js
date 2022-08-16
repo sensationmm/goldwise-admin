@@ -24,7 +24,13 @@ export default class Request {
     this.method = 'post'
     this.path = path
     this.parameters = parameters;
-
+    if (localStorage.getItem('apiToken')) {
+      headers = {
+        "apiToken": localStorage.getItem('apiToken'),
+        ...headers
+      }
+    }
+    this.headers = headers;
     return new Promise((resolve, reject) => {
       api.post(path, parameters, { headers: headers || {} }).then(
         (response) => {

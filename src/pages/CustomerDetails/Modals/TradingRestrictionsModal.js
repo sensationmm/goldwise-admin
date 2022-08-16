@@ -1,22 +1,31 @@
-import React, {useState} from "react";
+import React, {useLayoutEffect, useState} from "react";
 
-const TradingRestrictionsModal = ({hidePopup, saveTradingRestrictions, ...props}) => {
-    const [canDeposit, setCanDeposit] = useState(false)
-    const [canBuy, setCanBuy] = useState(false)
-    const [canSell, setCanSell] = useState(false)
-    const [canConvert, setCanConvert] = useState(false)
-    const [canWithdraw, setCanWithdraw] = useState(false)
+const TradingRestrictionsModal = ({hidePopup, currentTradingRestrictions, saveTradingRestrictions}) => {
+    const [restrictDeposit, setRestrictDeposit] = useState(false)
+    const [restrictBuy, setRestrictBuy] = useState(false)
+    const [restrictSell, setRestrictSell] = useState(false)
+    const [restrictConvert, setRestrictConvert] = useState(false)
+    const [restrictWithdraw, setRestrictWithdraw] = useState(false)
     const [reason, setReason] = useState('')
+
+    useLayoutEffect(() => {
+        setRestrictDeposit(currentTradingRestrictions.restrictDeposit)
+        setRestrictBuy(currentTradingRestrictions.restrictBuy)
+        setRestrictSell(currentTradingRestrictions.restrictSell)
+        setRestrictConvert(currentTradingRestrictions.restrictConvert)
+        setRestrictWithdraw(currentTradingRestrictions.restrictWithdraw)
+    }, [currentTradingRestrictions])
 
     return (<>
             <div className='modal-content'>
                 <div className="switcher-container pb-3 pt-3 switcher">
-                    <p className="text-sm text-gray-600 dark:text-gray-100 font-medium">Can Deposit</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-100 font-medium">Restrict Deposit</p>
                     <label htmlFor="default-toggle"
                            className="inline-flex relative items-center cursor-pointer">
                         <input type="checkbox"
-                               value={canDeposit}
-                               onChange={() => setCanDeposit(!canDeposit)}
+                               value={restrictDeposit}
+                               checked={restrictDeposit}
+                               onChange={() => setRestrictDeposit(!restrictDeposit)}
                                id="default-toggle"
                                className="sr-only peer"/>
                         <div
@@ -25,12 +34,13 @@ const TradingRestrictionsModal = ({hidePopup, saveTradingRestrictions, ...props}
                 </div>
                 <hr/>
                 <div className="switcher-container pb-3 pt-3  switcher">
-                    <p className="text-sm text-gray-600 dark:text-gray-100 font-medium">Can Buy</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-100 font-medium">Restrict Buy</p>
                     <label htmlFor="can-buy-toggle"
                            className="inline-flex relative items-center cursor-pointer">
                         <input type="checkbox"
-                               value={canBuy}
-                               onChange={() => setCanBuy(!canBuy)}
+                               value={restrictBuy}
+                               checked={restrictBuy}
+                               onChange={() => setRestrictBuy(!restrictBuy)}
                                id="can-buy-toggle"
                                className="sr-only peer"/>
                         <div
@@ -39,12 +49,13 @@ const TradingRestrictionsModal = ({hidePopup, saveTradingRestrictions, ...props}
                 </div>
                 <hr/>
                 <div className="switcher-container pb-3 pt-3  switcher">
-                    <p className="text-sm text-gray-600 dark:text-gray-100 font-medium">Can Sell</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-100 font-medium">Restrict Sell</p>
                     <label htmlFor="can-sell-toggle"
                            className="inline-flex relative items-center cursor-pointer">
                         <input type="checkbox"
-                               value={canSell}
-                               onChange={() => setCanSell(!canSell)}
+                               value={restrictSell}
+                               checked={restrictSell}
+                               onChange={() => setRestrictSell(!restrictSell)}
                                id="can-sell-toggle"
                                className="sr-only peer"/>
                         <div
@@ -53,12 +64,13 @@ const TradingRestrictionsModal = ({hidePopup, saveTradingRestrictions, ...props}
                 </div>
                 <hr/>
                 <div className="switcher-container pb-3 pt-3  switcher">
-                    <p className="text-sm text-gray-600 dark:text-gray-100 font-medium">Can Convert</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-100 font-medium">Restrict Convert</p>
                     <label htmlFor="can-convert-toggle"
                            className="inline-flex relative items-center cursor-pointer">
                         <input type="checkbox"
-                               value={canConvert}
-                               onChange={() => setCanConvert(!canConvert)}
+                               value={restrictConvert}
+                               checked={restrictConvert}
+                               onChange={() => setRestrictConvert(!restrictConvert)}
                                id="can-convert-toggle"
                                className="sr-only peer"/>
                         <div
@@ -67,12 +79,13 @@ const TradingRestrictionsModal = ({hidePopup, saveTradingRestrictions, ...props}
                 </div>
                 <hr/>
                 <div className="switcher-container pb-3 pt-3  switcher">
-                    <p className="text-sm text-gray-600 dark:text-gray-100 font-medium">Can Withdraw</p>
+                    <p className="text-sm text-gray-600 dark:text-gray-100 font-medium">Restrict Withdraw</p>
                     <label htmlFor="can-withdraw-toggle"
                            className="inline-flex relative items-center cursor-pointer">
                         <input type="checkbox"
-                               value={canWithdraw}
-                               onChange={() => setCanWithdraw(!canWithdraw)}
+                               value={restrictWithdraw}
+                               checked={restrictWithdraw}
+                               onChange={() => setRestrictWithdraw(!restrictWithdraw)}
                                id="can-withdraw-toggle"
                                className="sr-only peer"/>
                         <div
@@ -98,7 +111,14 @@ const TradingRestrictionsModal = ({hidePopup, saveTradingRestrictions, ...props}
                     </button>
                 </div>
                 <div className='modal-button'>
-                    <button onClick={() => saveTradingRestrictions(canDeposit, canBuy, canSell, canConvert, canWithdraw, reason)} disabled={reason === ''}
+                    <button onClick={() => saveTradingRestrictions(
+                        restrictDeposit,
+                        restrictBuy,
+                        restrictSell,
+                        restrictConvert,
+                        restrictWithdraw,
+                        reason
+                    )} disabled={reason === ''}
                             className={'bg-[#52b2b6] hover:opacity-80 text-xs text-center font-bold py-3 px-4 rounded w-full mb-2 disabled:opacity-100 disabled:bg-[#DFDFE2FF] text-white'}>Confirm
                     </button>
                 </div>

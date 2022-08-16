@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-const ResetAmlModal = ({hidePopup, resetAmlPassed, ...props}) => {
+const ResetAmlModal = ({hidePopup, resetAml, ...props}) => {
     const [reason, setReason] = useState('')
 
     return (<>
@@ -22,7 +22,7 @@ const ResetAmlModal = ({hidePopup, resetAmlPassed, ...props}) => {
                     </button>
                 </div>
                 <div className='modal-button'>
-                    <button onClick={() => resetAmlPassed(reason)} disabled={reason === ''}
+                    <button onClick={() => resetAml(reason)} disabled={reason === ''}
                             className={'bg-[#52b2b6] hover:opacity-80 text-xs text-center font-bold py-3 px-4 rounded w-full mb-2 disabled:opacity-100 disabled:bg-[#DFDFE2FF] text-white'}>Confirm
                     </button>
                 </div>

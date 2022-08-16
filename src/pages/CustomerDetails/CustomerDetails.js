@@ -8,22 +8,36 @@ import MonitorCustomerModal from "./Modals/MonitorCustomerModal";
 import TradingRestrictionsModal from "./Modals/TradingRestrictionsModal";
 import SetAmlPassedModal from "./Modals/SetAmlPassedModal";
 import SetAmlFailedModal from "./Modals/SetAmlFailedModal";
-import customerDetailService from "../../services/customerDetail.service";
+import ResetAmlModal from "./Modals/ResetAmlModal";
 
 const CustomerDetails = () => {
-    const customerGuid = 1 // todo: change to one from page
+    const customerGuid = "KzZOqfn7-xAzm-2f7Q-iKvF-krGSESCrf2Qr" // todo: change to one from page
     const [monitorCustomerModal, setMonitorCustomerModal] = useState(false)
     const [lockAccountModal, setLockAccountModal] = useState(false)
     const [tradingRestrictionsModal, setTradingRestrictionsModal] = useState(false)
     const [setAmlPassedModal, setSetAmlPassedModal] = useState(false)
     const [setAmlFailedModal, setSetAmlFailedModal] = useState(false)
     const [resetAmlModal, setResetAmlModal] = useState(false)
+    const [successMessage, setSuccessMessage] = useState("AML status reset successfully")
+
+    const [lockAccountStatus, setLockAccountStatus] = useState(true);
+    const [monitorCustomerStatus, setMonitorCustomer] = useState(true);
+
+    const [tradingRestrictions, setTradingRestrictions] = useState({
+        restrictDeposit: true,
+        restrictBuy: true,
+        restrictSell: true,
+        restrictConvert: true,
+        restrictWithdraw: true,
+    });
+
+    const [amlStatus, setAmlStatus] = useState("passed");
 
     const saveLockAccountStatus = async (value, reason) => {
         try {
-            await customerDetailService.saveLockAccountStatus(value, reason, customerGuid)
-            //todo: update value on page
-            //todo: show success message
+            // await customerDetailService.saveLockAccountStatus(value, reason, customerGuid)
+            setLockAccountStatus(value)
+            setSuccessMessage("Tom account locked successfully!")
         } catch (e) {
             //todo: catch error
         } finally {
@@ -33,9 +47,9 @@ const CustomerDetails = () => {
 
     const saveMonitorCustomerStatus = async (value, reason) => {
         try {
-            await customerDetailService.saveMonitorCustomerStatus(value, reason, customerGuid)
-            //todo: update value on page
-            //todo: show success message
+            // await customerDetailService.saveMonitorCustomerStatus(value, reason, customerGuid)
+            setMonitorCustomer(value)
+            setSuccessMessage("Tom account is set to “Monitor”successfully!")
         } catch (e) {
             //todo: catch error
         } finally {
@@ -43,11 +57,17 @@ const CustomerDetails = () => {
         }
     }
 
-    const saveTradingRestrictions = async (canDeposit, canBuy, canSell, canConvert, canWithdraw, reason) => {
+    const saveTradingRestrictions = async (restrictDeposit, restrictBuy, restrictSell, restrictConvert, restrictWithdraw, reason) => {
         try {
-            await customerDetailService.saveTradingRestrictions(canDeposit, canBuy, canSell, canConvert, canWithdraw, reason, customerGuid)
-            //todo: update value on page
-            //todo: show success message
+            // await customerDetailService.saveTradingRestrictions(restrictDeposit, restrictBuy, restrictSell, restrictConvert, restrictWithdraw, reason, customerGuid)
+            setTradingRestrictions({
+                restrictDeposit: restrictDeposit,
+                restrictBuy: restrictBuy,
+                restrictSell: restrictSell,
+                restrictConvert: restrictConvert,
+                restrictWithdraw: restrictWithdraw
+            })
+            setSuccessMessage("Tom account is restricted successfully!")
         } catch (e) {
             //todo: catch error
         } finally {
@@ -57,20 +77,9 @@ const CustomerDetails = () => {
 
     const setAmlFailed = async (reason) => {
         try {
-            await customerDetailService.setAmlFailed(reason, customerGuid)
-            //todo: update value on page
-            //todo: show success message
-        } catch (e) {
-            //todo: catch error
-        } finally {
-            setMonitorCustomerModal(false)
-        }
-    }
-
-    const setAmlPassed = async (reason) => {
-        try {
-            await customerDetailService.setAmlPassed(reason, customerGuid)
-            //todo: update value on page
+            // await customerDetailService.setAmlFailed(reason, customerGuid)
+            setAmlStatus('failed')
+            setSuccessMessage("AML status set to “FAILED” successfully!")
         } catch (e) {
             //todo: catch error
         } finally {
@@ -78,9 +87,22 @@ const CustomerDetails = () => {
         }
     }
 
+    const setAmlPassed = async (reason) => {
+        try {
+            // await customerDetailService.setAmlPassed(reason, customerGuid)
+            setAmlStatus('passed')
+            setSuccessMessage("AML reset successfully!")
+        } catch (e) {
+            //todo: catch error
+        } finally {
+            setSetAmlPassedModal(false)
+        }
+    }
+
     const resetAml = async (reason) => {
         try {
-            await customerDetailService.resetAml(reason, customerGuid)
+            // await customerDetailService.resetAml(reason, customerGuid)
+            setSuccessMessage("AML status set to “PASSED” successfully!")
             //todo: update value on page
         } catch (e) {
             //todo: catch error
@@ -93,6 +115,7 @@ const CustomerDetails = () => {
         <div>
             {lockAccountModal && <Modal hidePopup={() => setLockAccountModal(false)} title="Lock Account">
                 <LockAccountModal
+                    lockAccountCurrentStatus={lockAccountStatus}
                     hidePopup={() => setLockAccountModal(false)}
                     saveLockAccountStatus={saveLockAccountStatus}
                 />
@@ -100,6 +123,7 @@ const CustomerDetails = () => {
             }
             {monitorCustomerModal && <Modal hidePopup={() => setMonitorCustomerModal(false)} title="Monitor Account">
                 <MonitorCustomerModal
+                    monitorCustomerCurrentStatus={monitorCustomerStatus}
                     saveMonitorCustomerStatus={saveMonitorCustomerStatus}
                     hidePopup={() => setMonitorCustomerModal(false)}
                 />
@@ -109,6 +133,7 @@ const CustomerDetails = () => {
             {tradingRestrictionsModal &&
             <Modal hidePopup={() => setTradingRestrictionsModal(false)} title="Restrict Account">
                 <TradingRestrictionsModal
+                    currentTradingRestrictions={tradingRestrictions}
                     saveTradingRestrictions={saveTradingRestrictions}
                     hidePopup={() => setTradingRestrictionsModal(false)}
                 />
@@ -135,7 +160,7 @@ const CustomerDetails = () => {
 
             {resetAmlModal &&
             <Modal hidePopup={() => setResetAmlModal(false)} title="Reset AML Status">
-                <SetAmlFailedModal
+                <ResetAmlModal
                     resetAml={resetAml}
                     hidePopup={() => setResetAmlModal(false)}
                 />
@@ -172,8 +197,31 @@ const CustomerDetails = () => {
                                 <li className="text-xs text-gray-500 dark:text-gray-100">Tom Leach</li>
                             </ul>
                         </div>
-                        <div class="mx-auto pt-2 pb-8">
-                            <div className="grid grid-flow-col gap-3">
+                        {successMessage &&
+                        <div className="space-y-4 pb-5">
+                            <div className="pl-3 w-full pt-3 pb-3 bg-[#5ed197] shadow rounded">
+                                <div className="flex flex-row place-content-between content-center">
+                                    <div className="flex-shrink-0 mr-2 sm:mr-3 flex flex-row content-center">
+                                        <img className="rounded-full"
+                                             src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
+                                             width="30" height="30"
+                                             alt="Tom Leach"/>
+                                        <p className="pl-3 text-lg font-bold text-white">{successMessage}</p>
+                                    </div>
+
+                                    <div>
+                                        <i onClick={() => setSuccessMessage(null)}
+                                           style={{color: '#DFDFE2FF'}}
+                                           className='hover:text-gray-100 fa fa-times fa-2x mr-4'/>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        }
+
+
+                        <div className="ml-10 pt-2 pb-8">
+                            <div className="mx-auto grid grid-flow-col gap-3">
                                 <div
                                     className="flex items-center border-r-[1px] pr-2 col-span-1 dark:border-r-gray-600 transition-all duration-500 ease-in-out">
                                     <div className="flex-shrink-0 mr-2 sm:mr-3"><img className="rounded-full"
@@ -235,11 +283,17 @@ const CustomerDetails = () => {
                                             <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>KYC
                                             Status
                                             <span className="flex items-center justify-center pl-3">
+                                                {amlStatus === 'passed' &&
                                                 <span aria-hidden="true"
-                                                      className="w-3 h-3 rounded-full bg-red-500 inline-block align-middle">
-                                                </span>
+                                                      className="w-3 h-3 rounded-full bg-green-500 inline-block align-middle"/>
+                                                }
+                                                {amlStatus === 'failed' &&
+                                                <span aria-hidden="true"
+                                                      className="w-3 h-3 rounded-full bg-red-500 inline-block align-middle"/>
+                                                }
                                                 <span className="pl-2 text-gray-400 font-bold">
-                                                    No
+                                                    {amlStatus === 'passed' && "Passed"}
+                                                    {amlStatus === 'failed' && "Failed"}
                                                 </span>
                                             </span>
                                         </div>
@@ -251,10 +305,10 @@ const CustomerDetails = () => {
                                             Status
                                             <span className="flex items-center justify-center pl-3">
                                                 <span aria-hidden="true"
-                                                      className="w-3 h-3 rounded-full bg-green-500 inline-block align-middle">
+                                                      className={"w-3 h-3 rounded-full inline-block align-middle " + (!lockAccountStatus ? " bg-green-500 " : " bg-red-500 ")}>
                                                 </span>
                                                 <span className="pl-2 text-gray-400 dark:text-gray-100 font-bold">
-                                                    Passed
+                                                    {lockAccountStatus ? "Locked" : "Passed"}
                                                 </span>
                                             </span>
                                         </div>
@@ -266,10 +320,10 @@ const CustomerDetails = () => {
                                             Customer
                                             <span className="flex items-center justify-center pl-3">
                                                 <span aria-hidden="true"
-                                                      className="w-3 h-3 rounded-full bg-green-500 inline-block align-middle">
+                                                      className={"w-3 h-3 rounded-full inline-block align-middle " + (monitorCustomerStatus ? " bg-green-500 " : " bg-red-500 ")}>
                                                 </span>
                                                 <span className="pl-2 text-gray-400 dark:text-gray-100 font-bold">
-                                                    Passed
+                                                    {monitorCustomerStatus ? "Yes" : "No"}
                                                 </span>
                                             </span>
                                         </div>
@@ -317,67 +371,62 @@ const CustomerDetails = () => {
                                             <h2 className='p-3 font-bold'>Restrictions</h2>
 
                                             <div className="flex items-center justify-between p-3 w-full">
-                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Can
+                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
                                                     Deposit</p>
                                                 <span className="flex w-24 items-center justify-start pl-3">
                                                     <span aria-hidden="true"
-                                                          className="w-3 h-3 rounded-full bg-green-500 inline-block align-middle">
-                                                    </span>
+                                                          className={"w-3 h-3 rounded-full inline-block align-middle " + (!tradingRestrictions.restrictDeposit ? "bg-gray-300" : "bg-red-500")}/>
                                                     <span
                                                         className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                        Yes
+                                                        {!tradingRestrictions.restrictDeposit ? "Off" : "On"}
                                                     </span>
                                                 </span>
                                             </div>
                                             <div className="flex items-center justify-between p-3 w-full">
-                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Can
+                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
                                                     Buy</p>
                                                 <span className="flex w-24 items-center justify-start pl-3">
                                                     <span aria-hidden="true"
-                                                          className="w-3 h-3 rounded-full bg-green-500 inline-block align-middle">
-                                                    </span>
+                                                          className={"w-3 h-3 rounded-full inline-block align-middle " + (!tradingRestrictions.restrictBuy ? "bg-gray-300" : "bg-red-500")}/>
                                                     <span
                                                         className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                        Passed
+                                                        {!tradingRestrictions.restrictBuy ? "Off" : "On"}
                                                     </span>
                                                 </span>
                                             </div>
                                             <div className="flex items-center justify-between p-3 w-full">
-                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Can
+                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
                                                     Sell</p>
                                                 <span className="flex w-24 items-center justify-start pl-3">
                                                     <span aria-hidden="true"
-                                                          className="w-3 h-3 rounded-full bg-green-500 inline-block align-middle">
-                                                    </span>
+                                                          className={"w-3 h-3 rounded-full inline-block align-middle " + (!tradingRestrictions.restrictSell ? "bg-gray-300" : "bg-red-500")}/>
                                                     <span
                                                         className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                        Captured
+                                                        {!tradingRestrictions.restrictSell ? "Off" : "On"}
                                                     </span>
                                                 </span>
                                             </div>
                                             <div className="flex items-center justify-between p-3 w-full">
-                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Can
+                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
                                                     Convert</p>
                                                 <span className="flex w-24 items-center justify-start pl-3">
                                                     <span aria-hidden="true"
-                                                          className="w-3 h-3 rounded-full bg-orange-500 inline-block align-middle">
-                                                    </span>
+                                                          className={"w-3 h-3 rounded-full inline-block align-middle " + (!tradingRestrictions.restrictConvert ? "bg-gray-300" : "bg-red-500")}/>
                                                     <span
                                                         className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                        PEP Hit
+                                                        {tradingRestrictions.restrictConvert ? "Off" : "On"}
                                                     </span>
                                                 </span>
                                             </div>
                                             <div className="flex items-center justify-between p-3 w-full">
-                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Can
+                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
                                                     Withdraw</p>
                                                 <span className="flex w-24 items-center justify-start pl-3">
                                                     <span aria-hidden="true"
-                                                          className="w-3 h-3 rounded-full bg-green-500 inline-block align-middle">
-                                                    </span>
+                                                          className={"w-3 h-3 rounded-full inline-block align-middle " + (!tradingRestrictions.restrictWithdraw ? "bg-gray-300" : "bg-red-500")}/>
                                                     <span
                                                         className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                        Passed
+                                                        {!tradingRestrictions.restrictWithdraw ? "Off" : "On"}
                                                     </span>
                                                 </span>
                                             </div>

@@ -1,6 +1,6 @@
 import React, {useState} from "react";
 
-const SetAmlFailedModal = ({hidePopup, setAmlFailed, ...props}) => {
+const SetAmlFailedModal = ({hidePopup, setAmlFailed}) => {
     const [reason, setReason] = useState('')
 
     return (<>
