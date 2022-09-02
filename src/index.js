@@ -4,6 +4,7 @@ import { Provider } from 'react-redux'
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
 import { PersistGate } from "redux-persist/integration/react"
 import { store, persistor } from './store'
+import { ThemeProvider } from './components/context/ThemeContext'
 import App from './App'
 import reportWebVitals from './reportWebVitals'
 import './index.scss'
@@ -16,11 +17,13 @@ root.render(
     {/* TODO: Remove the React.StrictMode on production? */}
     <Provider store={store}>
       <PersistGate persistor={persistor}>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/*" element={<App />} />
-          </Routes>
-        </BrowserRouter>
+        <ThemeProvider>
+          <BrowserRouter>
+            <Routes>
+              <Route path="/*" element={<App />} />
+            </Routes>
+          </BrowserRouter>
+        </ThemeProvider>
       </PersistGate>
     </Provider>
   </React.StrictMode>

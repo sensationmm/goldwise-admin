@@ -1,3 +1,12 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+// TODO: convert to tailwind css (this is the initial approach)
+@import './components/atoms/Button/button';
+@import './components/atoms/Input/input';
+@import './components/atoms/Modal/modal';
+@import './pages/Login/login';
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',

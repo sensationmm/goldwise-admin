@@ -1,6 +1,6 @@
 # GoldWise Admin
 
-This is admin UI for GoldWise
+This is admin panel for GoldWise built using [Tailwind CSS](https://tailwindcss.com/)
 
 ## Project setup 
 

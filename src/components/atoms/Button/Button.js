@@ -1,5 +1,4 @@
 import PropTypes from 'prop-types'
-import './button.scss'
 
 const Button = ({ primary, backgroundColor, size, label, ...props }) => {
     const mode = primary ? 'button--primary' : 'button--secondary';
