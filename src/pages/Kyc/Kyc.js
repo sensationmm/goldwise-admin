@@ -1,10 +1,27 @@
 import { Link } from 'react-router-dom'
 import ReactCountryFlag from 'react-country-flag'
 import { FiSettings } from 'react-icons/fi'
+import React, {useState, useEffect} from "react";
 import Header from '../../components/molecules/Header'
 import Sidebar from '../../components/molecules/Sidebar'
+import customerAmlService from '../../services/customerAml.service'
+import Locked from './Locked';
+import KYCStatus from './KYCStatus';
 
 const Kyc = () => {
+    const [identityStatusId] = useState("0")
+    const [isgwMonitored] = useState("0")
+    const [customers, setCustomers] = useState()
+
+    const getCustomers = async() => {
+        const customersPromise = await customerAmlService.listAml(identityStatusId,isgwMonitored);
+        setCustomers(customersPromise)
+    }
+
+    useEffect(() => {
+        getCustomers()
+    }, [])
+
     return (
         <div>
             {/* TODO: add template */}
@@ -79,177 +96,72 @@ const Kyc = () => {
                                                 </tr>
                                             </thead>
                                             <tbody className="text-sm divide-y divide-gray-200 dark:divide-gray-600 dark:text-gray-100 transition-all duration-500 ease-in-out">
-                                                <tr>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="flex items-center">
-                                                            <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img className="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg" width="40" height="40" alt="Tom Leach" /></div>
-                                                        </div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-left">01234</div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-left font-medium text-gray-800 dark:text-gray-100">Tom Leach</div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-center">tom@miyumi.ai</div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-center">07456545655</div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="flex items-center justify-center">
-                                                            <div className="text-left text-lg sm:mr-3"><ReactCountryFlag countryCode="GB" /></div>
-                                                            <div className="text-left">United Kingdom</div>
-                                                        </div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <span className="flex items-center justify-center">
-                                                            <span aria-hidden="true" className="w-3 h-3 rounded-full bg-green-500 inline-block align-middle">
+                                                {   
+                                                    customers &&
+                                                    (customers.map( (customer,index) => ( 
+                                                    <tr key={index}>
+                                                        <td className="p-2 whitespace-nowrap">
+                                                            <div className="flex items-center">
+                                                                <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img className="rounded-full" src={!!customer.profilePhoto ? customer.profilePhoto : "https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"} width="40" height="40" alt={customer.firstName + ' ' + customer.lastName} /></div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="p-2 whitespace-nowrap">
+                                                            <div className="text-left">{customer.idCustomerGuid}</div>
+                                                        </td>
+                                                        <td className="p-2 whitespace-nowrap">
+                                                            <div className="text-left font-medium text-gray-800 dark:text-gray-100">{customer.firstName + ' ' + customer.lastName}</div>
+                                                        </td>
+                                                        <td className="p-2 whitespace-nowrap">
+                                                            <div className="text-left">{customer.emailAddress}</div>
+                                                        </td>
+                                                        <td className="p-2 whitespace-nowrap">
+                                                            <div className="text-right">{customer.contactNumber}</div>
+                                                        </td>
+                                                        <td className="p-2 whitespace-nowrap">
+                                                            <div className="flex items-center justify-center">
+                                                                <div className="text-left text-lg sm:mr-3"><ReactCountryFlag countryCode={customer.iso3CountryCode} /></div>
+                                                                <div className="text-left">{customer.countryName}</div>
+                                                            </div>
+                                                        </td>
+                                                        <td className="p-2 whitespace-nowrap">
+                                                            <span className="flex items-center justify-center">
+                                                                <Locked isLocked={customer.accountLocked}></Locked>
                                                             </span>
-                                                            <span className="pl-2">
-                                                                Unlocked
+                                                        </td>
+                                                        <td className="p-2 whitespace-nowrap">
+                                                            <span className="flex items-center justify-center">
+                                                                <KYCStatus status={0} statusDescription={"Passed"}></KYCStatus>
                                                             </span>
-                                                        </span>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <span className="flex items-center justify-center">
-                                                            <span aria-hidden="true" className="w-3 h-3 rounded-full bg-green-500 inline-block align-middle">
+                                                        </td>
+                                                        <td className="p-2 whitespace-nowrap">
+                                                            <span className="flex items-center justify-center">
+                                                            {customer.gwMonitor ?
+                                                                <>
+                                                                    <span aria-hidden="true" className="w-3 h-3 rounded-full bg-red-500 inline-block align-middle">
+                                                                    </span>
+                                                                    <span className="pl-2">
+                                                                        No
+                                                                    </span>
+                                                                </>
+                                                                :
+                                                                <>
+                                                                    <span aria-hidden="true" className="w-3 h-3 rounded-full bg-green-500 inline-block align-middle">
+                                                                    </span>
+                                                                    <span className="pl-2">
+                                                                        Yes
+                                                                    </span>
+                                                                </>
+                                                                }
                                                             </span>
-                                                            <span className="pl-2">
-                                                                Passed
+                                                        </td>
+                                                        <td className="p-2 whitespace-nowrap">
+                                                            <span className="flex items-center justify-center">
+                                                                <Link to='3e2f84a2-c540-11ec-92d3-bc764e0817e5' className="rounded-full bg-[#5db1b5] text-white pt-1 pr-6 pb-1 pl-6 font-bold">View</Link>
                                                             </span>
-                                                        </span>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <span className="flex items-center justify-center">
-                                                            <span aria-hidden="true" className="w-3 h-3 rounded-full bg-red-500 inline-block align-middle">
-                                                            </span>
-                                                            <span className="pl-2">
-                                                                No
-                                                            </span>
-                                                        </span>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <span className="flex items-center justify-center">
-                                                            <Link to='3e2f84a2-c540-11ec-92d3-bc764e0817e5' className="rounded-full bg-[#5db1b5] text-white pt-1 pr-6 pb-1 pl-6 font-bold">View</Link>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="flex items-center">
-                                                            <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img className="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg" width="40" height="40" alt="Tom Leach" /></div>
-                                                        </div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-left">01234</div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-left font-medium text-gray-800 dark:text-gray-100">Tom Leach</div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-center">tom@miyumi.ai</div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-center">07456545655</div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="flex items-center justify-center">
-                                                            <div className="text-left text-lg sm:mr-3"><ReactCountryFlag countryCode="GB" /></div>
-                                                            <div className="text-left">United Kingdom</div>
-                                                        </div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <span className="flex items-center justify-center">
-                                                            <span aria-hidden="true" className="w-3 h-3 rounded-full bg-green-500 inline-block align-middle">
-                                                            </span>
-                                                            <span className="pl-2">
-                                                                Unlocked
-                                                            </span>
-                                                        </span>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <span className="flex items-center justify-center">
-                                                            <span aria-hidden="true" className="w-3 h-3 rounded-full bg-green-500 inline-block align-middle">
-                                                            </span>
-                                                            <span className="pl-2">
-                                                                Passed
-                                                            </span>
-                                                        </span>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <span className="flex items-center justify-center">
-                                                            <span aria-hidden="true" className="w-3 h-3 rounded-full bg-red-500 inline-block align-middle">
-                                                            </span>
-                                                            <span className="pl-2">
-                                                                No
-                                                            </span>
-                                                        </span>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <span className="flex items-center justify-center">
-                                                            <Link to='3e2f84a2-c540-11ec-92d3-bc764e0817e5' className="rounded-full bg-[#5db1b5] text-white pt-1 pr-6 pb-1 pl-6 font-bold">View</Link>
-                                                        </span>
-                                                    </td>
-                                                </tr>
-                                                <tr>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="flex items-center">
-                                                            <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3"><img className="rounded-full" src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg" width="40" height="40" alt="Tom Leach" /></div>
-                                                        </div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-left">01234</div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-left font-medium text-gray-800 dark:text-gray-100">Tom Leach</div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-center">tom@miyumi.ai</div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="text-center">07456545655</div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <div className="flex items-center justify-center">
-                                                            <div className="text-left text-lg sm:mr-3"><ReactCountryFlag countryCode="GB" /></div>
-                                                            <div className="text-left">United Kingdom</div>
-                                                        </div>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <span className="flex items-center justify-center">
-                                                            <span aria-hidden="true" className="w-3 h-3 rounded-full bg-green-500 inline-block align-middle">
-                                                            </span>
-                                                            <span className="pl-2">
-                                                                Unlocked
-                                                            </span>
-                                                        </span>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <span className="flex items-center justify-center">
-                                                            <span aria-hidden="true" className="w-3 h-3 rounded-full bg-green-500 inline-block align-middle">
-                                                            </span>
-                                                            <span className="pl-2">
-                                                                Passed
-                                                            </span>
-                                                        </span>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <span className="flex items-center justify-center">
-                                                            <span aria-hidden="true" className="w-3 h-3 rounded-full bg-red-500 inline-block align-middle">
-                                                            </span>
-                                                            <span className="pl-2">
-                                                                No
-                                                            </span>
-                                                        </span>
-                                                    </td>
-                                                    <td className="p-2 whitespace-nowrap">
-                                                        <span className="flex items-center justify-center">
-                                                            <Link to='3e2f84a2-c540-11ec-92d3-bc764e0817e5' className="rounded-full bg-[#5db1b5] text-white pt-1 pr-6 pb-1 pl-6 font-bold">View</Link>
-                                                        </span>
-                                                    </td>
-                                                </tr>
+                                                        </td>
+                                                    </tr>)))  
+                                                }
+
                                             </tbody>
                                         </table>
                                     </div>
