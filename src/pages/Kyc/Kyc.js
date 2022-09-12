@@ -129,8 +129,8 @@ const Kyc = () => {
                                                             </span>
                                                         </td>
                                                         <td className="p-2 whitespace-nowrap">
-                                                            <span className="flex items-center justify-center">
-                                                                <KYCStatus status={0} statusDescription={"Passed"}></KYCStatus>
+                                                            <span className="flex items-center justify-left">
+                                                                <KYCStatus status={customer.idIdentityStatus} statusDescription={customer.identityStatusText}></KYCStatus>
                                                             </span>
                                                         </td>
                                                         <td className="p-2 whitespace-nowrap">
