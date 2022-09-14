@@ -7,14 +7,18 @@ import Sidebar from '../../components/molecules/Sidebar'
 import customerAmlService from '../../services/customerAml.service'
 import Locked from './Locked';
 import KYCStatus from './KYCStatus';
+import Loader from '../../components/atoms/Loader';
 
 const Kyc = () => {
     const [identityStatusId] = useState("0")
     const [isgwMonitored] = useState("0")
     const [customers, setCustomers] = useState()
+    const [loading, setLoading] = useState(false);
 
     const getCustomers = async() => {
+        setLoading(true);
         const customersPromise = await customerAmlService.listAml(identityStatusId,isgwMonitored);
+        setLoading(false);
         setCustomers(customersPromise)
     }
 
@@ -124,7 +128,7 @@ const Kyc = () => {
                                                             </div>
                                                         </td>
                                                         <td className="p-2 whitespace-nowrap">
-                                                            <span className="flex items-center justify-center">
+                                                            <span className="flex items-center justify-left">
                                                                 <Locked isLocked={customer.accountLocked}></Locked>
                                                             </span>
                                                         </td>
@@ -156,7 +160,7 @@ const Kyc = () => {
                                                         </td>
                                                         <td className="p-2 whitespace-nowrap">
                                                             <span className="flex items-center justify-center">
-                                                                <Link to='3e2f84a2-c540-11ec-92d3-bc764e0817e5' className="rounded-full bg-[#5db1b5] text-white pt-1 pr-6 pb-1 pl-6 font-bold">View</Link>
+                                                                <Link to={'/customers/' + customer.idCustomerGuid} className="rounded-full bg-[#5db1b5] text-white pt-1 pr-6 pb-1 pl-6 font-bold">View</Link>
                                                             </span>
                                                         </td>
                                                     </tr>)))  
@@ -165,6 +169,7 @@ const Kyc = () => {
                                             </tbody>
                                         </table>
                                     </div>
+                                    <Loader load={loading}></Loader>
                                 </div>
                             </div>
                         </div>
