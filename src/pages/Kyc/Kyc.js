@@ -139,23 +139,11 @@ const Kyc = () => {
                                                         </td>
                                                         <td className="p-2 whitespace-nowrap">
                                                             <span className="flex items-center justify-center">
-                                                            {customer.gwMonitor ?
-                                                                <>
-                                                                    <span aria-hidden="true" className="w-3 h-3 rounded-full bg-red-500 inline-block align-middle">
-                                                                    </span>
-                                                                    <span className="pl-2">
-                                                                        No
-                                                                    </span>
-                                                                </>
-                                                                :
-                                                                <>
-                                                                    <span aria-hidden="true" className="w-3 h-3 rounded-full bg-green-500 inline-block align-middle">
-                                                                    </span>
-                                                                    <span className="pl-2">
-                                                                        Yes
-                                                                    </span>
-                                                                </>
-                                                                }
+                                                                <span aria-hidden="true" className={"w-3 h-3 rounded-full inline-block align-middle" + (customer.gwMonitor ? " bg-green-500 " : " bg-red-500 ")}>
+                                                                </span>
+                                                                <span className="pl-2">
+                                                                        {customer.gwMonitor ? "Yes" : "No"}
+                                                                </span>
                                                             </span>
                                                         </td>
                                                         <td className="p-2 whitespace-nowrap">
