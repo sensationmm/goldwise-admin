@@ -549,45 +549,6 @@ const CustomerDetails = () => {
                                                     </span>
                                                 </div>
                                                 ))}
-                                                {/* <div className="flex items-center justify-between p-3 w-full">
-                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>New
-                                                        Products & Features</p>
-                                                    <span className="flex w-18 items-center justify-start pl-3">
-                                                        <span aria-hidden="true"
-                                                            className="w-3 h-3 rounded-full bg-green-500 inline-block align-middle">
-                                                        </span>
-                                                        <span
-                                                            className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                            Yes
-                                                        </span>
-                                                    </span>
-                                                </div>
-                                                <div className="flex items-center justify-between p-3 w-full">
-                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Market
-                                                        News & Insights</p>
-                                                    <span className="flex w-18 items-center justify-start pl-3">
-                                                        <span aria-hidden="true"
-                                                            className="w-3 h-3 rounded-full bg-red-500 inline-block align-middle">
-                                                        </span>
-                                                        <span
-                                                            className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                            No
-                                                        </span>
-                                                    </span>
-                                                </div>
-                                                <div className="flex items-center justify-between p-3 w-full">
-                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Offers
-                                                        & Promotions</p>
-                                                    <span className="flex w-18 items-center justify-start pl-3">
-                                                        <span aria-hidden="true"
-                                                            className="w-3 h-3 rounded-full bg-red-500 inline-block align-middle">
-                                                        </span>
-                                                        <span
-                                                            className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                            No
-                                                        </span>
-                                                    </span>
-                                                </div> */}
                                             </div>
                                         </div>
                                     </div>
