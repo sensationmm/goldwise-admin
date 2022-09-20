@@ -17,7 +17,7 @@ export const getAuthHeader = () => {
 
     let headers = {'apiToken': apiToken ?? ''}
     if (adminToken) {
-        headers.push({'adminToken': adminToken})
+        headers.adminToken = adminToken;
     }
 
     return headers;
