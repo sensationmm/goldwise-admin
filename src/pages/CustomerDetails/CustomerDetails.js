@@ -13,10 +13,12 @@ import customerDetailService from '../../services/customerDetail.service';
 import { useParams } from "react-router-dom";
 import ReactCountryFlag from 'react-country-flag';
 import Loader from '../../components/atoms/Loader';
+import dateFormat from 'dateformat';
 
 const CustomerDetails = () => {
     const { customerId } = useParams()
     const [customer, setCustomer] = useState()
+    const [dateOfBirth, setDateOfBirth] = useState()
     const [monitorCustomerModal, setMonitorCustomerModal] = useState(false)
     const [lockAccountModal, setLockAccountModal] = useState(false)
     const [tradingRestrictionsModal, setTradingRestrictionsModal] = useState(false)
@@ -46,7 +48,8 @@ const CustomerDetails = () => {
         setLoading(true);
         getCustomer().then((data) => {
             setLoading(false);
-            setCustomer(data.data.response)
+            setCustomer(data.data.response);
+            setDateOfBirth(new Date(customer.customerDetails.dateOfBirth));
         }) 
     }, [])
     const saveLockAccountStatus = async (value, reason) => {
@@ -268,7 +271,7 @@ const CustomerDetails = () => {
                                             <div
                                                 className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100">
                                                 <i className="fa fa-birthday-cake text-lg text-gray-800 dark:text-gray-100 pr-2"></i>
-                                                {customer.dateOfBirthFormated}
+                                               {dateFormat(dateOfBirth, "dd mmmm yyyy")}
                                             </div>
                                         </div>
 
@@ -303,9 +306,9 @@ const CustomerDetails = () => {
                                                 Status
                                                 <span className="flex items-center justify-center pl-3">
                                                     <span aria-hidden="true"
-                                                        className={"w-3 h-3 rounded-full inline-block align-middle" + (customer.customerIdentytiStatus.status.statusId === 6 ? "  bg-red-500 " : "  bg-green-500 ")}/>
+                                                        className={"w-3 h-3 rounded-full inline-block align-middle" + (customer.overallStatusID === 6 ? "  bg-red-500 " : "  bg-green-500 ")}/>
                                                     <span className="pl-2 text-gray-400 font-bold">
-                                                        {customer.customerIdentytiStatus.status.statusText}
+                                                        {customer.overallStatusText}
                                                     </span>
                                                 </span>
                                             </div>
