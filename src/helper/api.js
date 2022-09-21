@@ -15,10 +15,12 @@ export const getAuthHeader = () => {
     const apiToken = localStorage.getItem('apiToken')
     const adminToken = localStorage.getItem('adminToken')
 
-    return {
-        'apiToken': apiToken ?? '',
-        'adminToken': adminToken ?? ''
+    let headers = {'apiToken': apiToken ?? ''}
+    if (adminToken) {
+        headers.adminToken = adminToken;
     }
+
+    return headers;
 }
 
 const api = axios.create({
