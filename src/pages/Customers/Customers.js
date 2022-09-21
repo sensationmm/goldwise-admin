@@ -126,7 +126,7 @@ const Customers = () => {
                                                     </td>
                                                     <td className="p-2 whitespace-nowrap">
                                                         <span className="flex items-center justify-center">
-                                                            <Link to='3e2f84a2-c540-11ec-92d3-bc764e0817e5' className="rounded-full bg-[#5db1b5] text-white pt-1 pr-6 pb-1 pl-6 font-bold">View</Link>
+                                                            <Link to={`/customers/tnX1bsQz-BORG-c9P8-SUXj-QicXSDhTejrf`} className="rounded-full bg-[#5db1b5] text-white pt-1 pr-6 pb-1 pl-6 font-bold">View</Link>
                                                         </span>
                                                     </td>
                                                 </tr>
@@ -183,7 +183,7 @@ const Customers = () => {
                                                     </td>
                                                     <td className="p-2 whitespace-nowrap">
                                                         <span className="flex items-center justify-center">
-                                                            <Link to='3e2f84a2-c540-11ec-92d3-bc764e0817e5' className="rounded-full bg-[#5db1b5] text-white pt-1 pr-6 pb-1 pl-6 font-bold">View</Link>
+                                                            <Link to={`/customers/KzZOqfn7-xAzm-2f7Q-iKvF-krGSESCrf2Qr`} className="rounded-full bg-[#5db1b5] text-white pt-1 pr-6 pb-1 pl-6 font-bold">View</Link>
                                                         </span>
                                                     </td>
                                                 </tr>

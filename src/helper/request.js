@@ -14,25 +14,20 @@ export default class Request {
           resolve(response)
         },
         (error) => {
+          console.log(error,'error')
           this.errorHandler(path, error, resolve, reject);
         },
       );
     });
   }
 
-  postRequest(path, parameters, headers) {
+  postRequest(path, parameters) {
     this.method = 'post'
     this.path = path
     this.parameters = parameters;
-    if (localStorage.getItem('apiToken')) {
-      headers = {
-        "apiToken": localStorage.getItem('apiToken'),
-        ...headers
-      }
-    }
-    this.headers = headers;
+
     return new Promise((resolve, reject) => {
-      api.post(path, parameters, { headers: headers || {} }).then(
+      api.post(path, parameters).then(
         (response) => {
           resolve(response.data.response)
         },

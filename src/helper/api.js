@@ -1,21 +1,15 @@
 import axios from 'axios/index'
 // FIXME: get the token from state instead localStorage
-// import { store } from '../store'
-
-export const getHeaders = () => {
-    const headers = {
-        'Content-Type': 'application/json',
-    };
-
-    return { ...headers }
-}
 
 export const getAuthHeader = () => {
     // TODO: Get the value from global state
     const apiToken = localStorage.getItem('apiToken')
     const adminToken = localStorage.getItem('adminToken')
 
-    let headers = {'apiToken': apiToken ?? ''}
+    let headers = {
+        apiToken: apiToken ?? '',
+        'Content-Type': 'application/json'
+    }
     if (adminToken) {
         headers.adminToken = adminToken;
     }
@@ -26,9 +20,7 @@ export const getAuthHeader = () => {
 const api = axios.create({
     baseURL: process.env.REACT_APP_API_ENDPOINT,
     withCredentials: false,
-    headers: getHeaders()
+    headers: getAuthHeader()
 })
-
-api.defaults.headers.common = getAuthHeader()
 
 export default api
