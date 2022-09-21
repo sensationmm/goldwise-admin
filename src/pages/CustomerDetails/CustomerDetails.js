@@ -2,7 +2,7 @@ import {Link} from 'react-router-dom'
 import Header from '../../components/molecules/Header'
 import Sidebar from '../../components/molecules/Sidebar'
 import Modal from "../../components/atoms/Modal";
-import React, {useState, useEffect} from "react";
+import React, {useState, useEffect, useLayoutEffect} from "react";
 import LockAccountModal from "./Modals/LockAccountModal";
 import MonitorCustomerModal from "./Modals/MonitorCustomerModal";
 import TradingRestrictionsModal from "./Modals/TradingRestrictionsModal";
@@ -12,11 +12,14 @@ import ResetAmlModal from "./Modals/ResetAmlModal";
 import customerDetailService from '../../services/customerDetail.service';
 import { useParams } from "react-router-dom";
 import ReactCountryFlag from 'react-country-flag';
-import Loader from '../../components/atoms/Loader';
 import dateFormat from 'dateformat';
+import {useDispatch} from "react-redux";
+import {hideLoader, showLoader} from "../../reducers/loaderSlice.reducer";
 
 const CustomerDetails = () => {
-    const { customerId } = useParams()
+    const dispatch = useDispatch()
+
+    const { customerGuid } = useParams()
     const [customer, setCustomer] = useState()
     const [dateOfBirth, setDateOfBirth] = useState()
     const [monitorCustomerModal, setMonitorCustomerModal] = useState(false)
@@ -39,24 +42,32 @@ const CustomerDetails = () => {
     });
 
     const [amlStatus, setAmlStatus] = useState("passed");
-    const [loading, setLoading] = useState(false);
+
     const getCustomer = async () => {
-        return await customerDetailService.getCustomerDetails(customerId);
+        try {
+            dispatch(showLoader())
+            const customer = await customerDetailService.getCustomerDetails(customerGuid);
+            const customerDetailData = customer.data.response;
+            setCustomer(customerDetailData);
+            setLockAccountStatus(customerDetailData.customerDetails.isLocked)
+            setDateOfBirth(new Date(customerDetailData.customerDetails.dateOfBirth));
+        } catch (e) {
+            //todo: display error if happen
+            console.log(e)
+        } finally {
+            dispatch(hideLoader())
+        }
     }
 
-    useEffect(() => {
-        setLoading(true);
-        getCustomer().then((data) => {
-            setLoading(false);
-            setCustomer(data.data.response);
-            setDateOfBirth(new Date(customer.customerDetails.dateOfBirth));
-        }) 
+    useLayoutEffect(() => {
+        getCustomer()
     }, [])
+
     const saveLockAccountStatus = async (value, reason) => {
         try {
-            // await customerDetailService.saveLockAccountStatus(value, reason, customerGuid)
+            await customerDetailService.saveLockAccountStatus(value, reason, customerGuid)
             setLockAccountStatus(value)
-            setSuccessMessage("Tom account locked successfully!")
+            setSuccessMessage(customer.customerDetail.forename + " account locked successfully!")
         } catch (e) {
             //todo: catch error
         } finally {
@@ -559,10 +570,6 @@ const CustomerDetails = () => {
                             </div>
                         </>
                         )}
-                    <Loader load={loading}>
-                        
-                    </Loader>
-                    <div className={loading ? 'h-full' : ''}></div>
                     </section>
                 </main>
                 <div

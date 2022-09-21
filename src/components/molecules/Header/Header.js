@@ -15,6 +15,7 @@ const Header = forwardRef(({ open, setOpen }, ref) => {
             // TODO: Check for success before navigate
             // API response PR needs to be merged
             // if (response) {
+            localStorage.removeItem('adminToken')
             dispatch(clearAdmin())
             navigate('/', { replace: true })
         } catch (err) {

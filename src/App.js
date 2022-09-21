@@ -22,7 +22,6 @@ const App = () => {
         process.env.REACT_APP_API_PASSWORD
       )
       dispatch(setApiToken(response?.apiToken))
-
     } catch (error) {
       // TODO: Add popup or toast component to handle errors
       console.log(error)
@@ -31,42 +30,40 @@ const App = () => {
 
   useEffect(() => {
     getApiToken()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-
   return (
-    <Routes>
-      <Route path='/' element={<BaseLayout />}>
-        {/* Public routes */}
-        <Route path='/' element={<Login />} />
-        <Route path='login' element={<Login />} />
+        <Routes>
+          <Route path='/' element={<BaseLayout />}>
+            {/* Public routes */}
+            <Route path='/' element={<Login />} />
+            <Route path='login' element={<Login />} />
 
-        {/* Protected routes */}
-        <Route element={<RequireAuth />}>
-          <Route path='dashboard' element={<Dashboard />} />
-        </Route>
+            {/* Protected routes */}
+            <Route element={<RequireAuth />}>
+              <Route path='dashboard' element={<Dashboard />} />
+            </Route>
 
-        <Route element={<RequireAuth />}>
-          <Route path='customers' element={<Customers />} />
-        </Route>
+            <Route element={<RequireAuth />}>
+              <Route path='customers' element={<Customers />} />
+            </Route>
 
-        <Route element={<RequireAuth />}>
-          <Route path="customers/:customerId" element={<CustomerDetails />} />
-        </Route>
+            <Route element={<RequireAuth />}>
+              <Route path="customers/:customerGuid" element={<CustomerDetails />} />
+            </Route>
 
-        <Route element={<RequireAuth />}>
-          <Route path='kyc' element={<Kyc />} />
-        </Route>
+            <Route element={<RequireAuth />}>
+              <Route path='kyc' element={<Kyc />} />
+            </Route>
 
-        <Route element={<RequireAuth />}>
-          <Route path='kyc/:customerId' element={<CustomerDetails />} />
-        </Route>
+            <Route element={<RequireAuth />}>
+              <Route path='kyc/:customerId' element={<CustomerDetails />} />
+            </Route>
 
-        {/* Catch all */}
-        <Route path='*' element={<Missing />} />
-      </Route>
-    </Routes >
+            {/* Catch all */}
+            <Route path='*' element={<Missing />} />
+          </Route>
+        </Routes >
   )
 }
 

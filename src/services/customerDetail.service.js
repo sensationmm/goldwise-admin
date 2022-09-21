@@ -47,11 +47,10 @@ const resetAml = async (reason, customerGuid) => {
 
 const getCustomerDetails = async (customerGuid) => {
     try {
-        const customerDetails = await request.getRequest(`/admin/customers/${customerGuid}/get-customer-details/`)
-        return customerDetails;
+        return await request.getRequest(`/admin/customers/${customerGuid}/get-customer-details/`)
      } catch (error) {
          console.log(error);
-     } 
+     }
 }
 
 const customerDetailService = {

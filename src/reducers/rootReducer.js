@@ -1,9 +1,9 @@
-
 import { combineReducers } from 'redux'
 import storage from 'redux-persist/lib/storage'
 
-import userSlice from './userSlice.reducer'
 import tokenSlice from './tokenSlice.reducer'
+import loaderSlice from "./loaderSlice.reducer";
+import userSlice from "./userSlice.reducer";
 
 const rootPersistConfig = {
     key: 'root',
@@ -14,7 +14,8 @@ const rootPersistConfig = {
 
 const rootReducer = combineReducers({
     user: userSlice,
-    token: tokenSlice
+    token: tokenSlice,
+    loader: loaderSlice
 })
 
 export { rootPersistConfig, rootReducer }
