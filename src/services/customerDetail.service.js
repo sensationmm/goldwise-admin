@@ -45,6 +45,13 @@ const resetAml = async (reason, customerGuid) => {
     })
 }
 
+const getCustomerDetails = async (customerGuid) => {
+    try {
+        return await request.getRequest(`/admin/customers/${customerGuid}/get-customer-details/`)
+     } catch (error) {
+         console.log(error);
+     }
+}
 
 const customerDetailService = {
     saveLockAccountStatus,
@@ -52,7 +59,8 @@ const customerDetailService = {
     saveTradingRestrictions,
     setAmlFailed,
     setAmlPassed,
-    resetAml
+    resetAml,
+    getCustomerDetails
 }
 
 export default customerDetailService

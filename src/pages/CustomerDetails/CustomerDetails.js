@@ -2,24 +2,34 @@ import {Link} from 'react-router-dom'
 import Header from '../../components/molecules/Header'
 import Sidebar from '../../components/molecules/Sidebar'
 import Modal from "../../components/atoms/Modal";
-import React, {useState} from "react";
+import React, {useState, useEffect, useLayoutEffect} from "react";
 import LockAccountModal from "./Modals/LockAccountModal";
 import MonitorCustomerModal from "./Modals/MonitorCustomerModal";
 import TradingRestrictionsModal from "./Modals/TradingRestrictionsModal";
 import SetAmlPassedModal from "./Modals/SetAmlPassedModal";
 import SetAmlFailedModal from "./Modals/SetAmlFailedModal";
 import ResetAmlModal from "./Modals/ResetAmlModal";
+import customerDetailService from '../../services/customerDetail.service';
+import { useParams } from "react-router-dom";
+import ReactCountryFlag from 'react-country-flag';
+import dateFormat from 'dateformat';
+import {useDispatch} from "react-redux";
+import {hideLoader, showLoader} from "../../reducers/loaderSlice.reducer";
 
 const CustomerDetails = () => {
-    const customerGuid = "KzZOqfn7-xAzm-2f7Q-iKvF-krGSESCrf2Qr" // todo: change to one from page
+    const dispatch = useDispatch()
+
+    const { customerGuid } = useParams()
+    const [customer, setCustomer] = useState()
+    const [dateOfBirth, setDateOfBirth] = useState()
     const [monitorCustomerModal, setMonitorCustomerModal] = useState(false)
     const [lockAccountModal, setLockAccountModal] = useState(false)
     const [tradingRestrictionsModal, setTradingRestrictionsModal] = useState(false)
     const [setAmlPassedModal, setSetAmlPassedModal] = useState(false)
     const [setAmlFailedModal, setSetAmlFailedModal] = useState(false)
     const [resetAmlModal, setResetAmlModal] = useState(false)
-    const [successMessage, setSuccessMessage] = useState("AML status reset successfully")
-
+    const [successMessage, setSuccessMessage] = useState()
+    const [errorMessage, setErrorMessage] = useState()
     const [lockAccountStatus, setLockAccountStatus] = useState(true);
     const [monitorCustomerStatus, setMonitorCustomer] = useState(true);
 
@@ -33,11 +43,31 @@ const CustomerDetails = () => {
 
     const [amlStatus, setAmlStatus] = useState("passed");
 
+    const getCustomer = async () => {
+        try {
+            dispatch(showLoader())
+            const customer = await customerDetailService.getCustomerDetails(customerGuid);
+            const customerDetailData = customer.data.response;
+            setCustomer(customerDetailData);
+            setLockAccountStatus(customerDetailData.customerDetails.isLocked)
+            setDateOfBirth(new Date(customerDetailData.customerDetails.dateOfBirth));
+        } catch (e) {
+            //todo: display error if happen
+            console.log(e)
+        } finally {
+            dispatch(hideLoader())
+        }
+    }
+
+    useLayoutEffect(() => {
+        getCustomer()
+    }, [])
+
     const saveLockAccountStatus = async (value, reason) => {
         try {
-            // await customerDetailService.saveLockAccountStatus(value, reason, customerGuid)
+            await customerDetailService.saveLockAccountStatus(value, reason, customerGuid)
             setLockAccountStatus(value)
-            setSuccessMessage("Tom account locked successfully!")
+            setSuccessMessage(customer.customerDetail.forename + " account locked successfully!")
         } catch (e) {
             //todo: catch error
         } finally {
@@ -194,7 +224,7 @@ const CustomerDetails = () => {
                                         Result</Link>
                                     <span className="px-1 text-gray-500">&gt;</span>
                                 </li>
-                                <li className="text-xs text-gray-500 dark:text-gray-100">Tom Leach</li>
+                                <li className="text-xs text-gray-500 dark:text-gray-100">{customer && (<>{customer.customerDetails.forename} {customer.customerDetails.surname}</>)}</li>
                             </ul>
                         </div>
                         {successMessage &&
@@ -218,453 +248,328 @@ const CustomerDetails = () => {
                             </div>
                         </div>
                         }
+                        {customer && (
+                        <>
+                            <div className="ml-10 pt-2 pb-8">
+                                <div className="mx-auto grid grid-flow-col gap-3">
+                                    <div
+                                        className="flex items-center border-r-[1px] pr-2 col-span-1 dark:border-r-gray-600 transition-all duration-500 ease-in-out">
+                                        <div className="flex-shrink-0 mr-2 sm:mr-3">
+                                                                                        <img className="rounded-full"
+                                                                                        src={customer.customerDetails.profilePhoto ? customer.customerDetails.profilePhoto : "https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"}
+                                                                                        width="90" height="90"
+                                                                                        alt="Tom Leach"/></div>
+                                        <div className="flex-shrink-0 pl-6 mr-2 sm:mr-3">
+                                            <p className="text-left text-lg font-bold text-gray-800 dark:text-gray-100">{customer.customerDetails.forename} {customer.customerDetails.surname}</p>
+                                            <p className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
+                                                <i className="fa fa-check-circle text-lg text-[#5ed197] pr-2"></i>{customer.customerDetails.emailAddress}
+                                            </p>
+                                            <p className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">{customer.customerDetails.contactNumber}</p>
+                                            <div className="flex items-center pt-3">
+                                                <span
+                                                    className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                    <ReactCountryFlag countryCode={customer.address.iso3CountryCode} />
+                                                </span>
+                                                <span
+                                                    className="pl-2 text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">{customer.address.countryName}
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        className="group flex items-start flex-col pr-6 pl-6 border-r-[1px] col-span-1 dark:border-r-gray-600 transition-all duration-500 ease-in-out">
+                                        <div className="flex-shrink-0 mr-2 sm:mr-3">
+                                            <div
+                                                className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100">
+                                                <i className="fa fa-birthday-cake text-lg text-gray-800 dark:text-gray-100 pr-2"></i>
+                                               {dateFormat(dateOfBirth, "dd mmmm yyyy")}
+                                            </div>
+                                        </div>
 
+                                        <div className="flex-shrink-0 mr-2 sm:mr-3">
+                                            <div
+                                                className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
+                                                <i className="fa fa-mars text-lg text-gray-800 dark:text-gray-100 pr-3"></i>{customer.customerDetails.gender}
+                                            </div>
+                                        </div>
 
-                        <div className="ml-10 pt-2 pb-8">
-                            <div className="mx-auto grid grid-flow-col gap-3">
-                                <div
-                                    className="flex items-center border-r-[1px] pr-2 col-span-1 dark:border-r-gray-600 transition-all duration-500 ease-in-out">
-                                    <div className="flex-shrink-0 mr-2 sm:mr-3"><img className="rounded-full"
-                                                                                     src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
-                                                                                     width="90" height="90"
-                                                                                     alt="Tom Leach"/></div>
-                                    <div className="flex-shrink-0 pl-6 mr-2 sm:mr-3">
-                                        <p className="text-left text-lg font-bold text-gray-800 dark:text-gray-100">Tom
-                                            Leach</p>
-                                        <p className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
-                                            <i className="fa fa-check-circle text-lg text-[#5ed197] pr-2"></i>tom.leach@miyumi.ai
-                                        </p>
-                                        <p className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">+44
-                                            01234123456</p>
-                                        <div className="flex items-center pt-3">
-                                            <div className="text-left text-lg sm:mr-3">🇬🇧</div>
-                                            <p className="text-left">United Kingdom</p>
+                                        <div className="flex-shrink-0 mr-2 sm:mr-3">
+                                            <div
+                                                className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
+                                                <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>{customer.customerDetails.identificationNumber}
+                                            </div>
+                                        </div>
+
+                                        <div className="flex-shrink-0 mr-2 sm:mr-3">
+                                            <div
+                                                className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
+                                                <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>AB
+                                                12 34 56 C
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div
+                                        className="group flex items-start flex-col pr-6 pl-6 border-r-[1px] dark:border-r-gray-600 col-span-1 transition-all duration-500 ease-in-out">
+                                        <div className="flex-shrink-0 mr-2 sm:mr-3">
+                                            <div
+                                                className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100">
+                                                <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>KYC
+                                                Status
+                                                <span className="flex items-center justify-center pl-3">
+                                                    <span aria-hidden="true"
+                                                        className={"w-3 h-3 rounded-full inline-block align-middle" + (customer.overallStatusID === 6 ? "  bg-red-500 " : "  bg-green-500 ")}/>
+                                                    <span className="pl-2 text-gray-400 font-bold">
+                                                        {customer.overallStatusText}
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div className="flex-shrink-0 mr-2 sm:mr-3">
+                                            <div
+                                                className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
+                                                <i className="fa fa-lock text-lg text-gray-800 dark:text-gray-100 pr-4"></i>Account
+                                                Status
+                                                <span className="flex items-center justify-center pl-3">
+                                                    <span aria-hidden="true"
+                                                        className={"w-3 h-3 rounded-full inline-block align-middle " + (!customer.isLocked ? " bg-green-500 " : " bg-red-500 ")}>
+                                                    </span>
+                                                    <span className="pl-2 text-gray-400 dark:text-gray-100 font-bold">
+                                                        {customer.isLocked ? "Locked" : "Passed"}
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                        <div className="flex-shrink-0 mr-2 sm:mr-3">
+                                            <div
+                                                className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
+                                                <i className="fa fa-flag text-lg text-gray-800 dark:text-gray-100 pr-2"></i>Monitored
+                                                Customer
+                                                <span className="flex items-center justify-center pl-3">
+                                                    <span aria-hidden="true"
+                                                        className={"w-3 h-3 rounded-full inline-block align-middle " + (customer.isGwMonitored ? " bg-green-500 " : " bg-red-500 ")}>
+                                                    </span>
+                                                    <span className="pl-2 text-gray-400 dark:text-gray-100 font-bold">
+                                                        {customer.isGwMonitored ? "Yes" : "No"}
+                                                    </span>
+                                                </span>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div className="group flex items-start flex-col pr-6 pl-6 col-span-1">
+                                        <div className="flex-shrink-0 mr-2 sm:mr-3">
+                                            <div
+                                                className="flex items-start text-left text-sm font-bold text-gray-800 dark:text-gray-100 leading-loose">
+                                                <i className="fa fa-map-marker text-lg text-gray-800 dark:text-gray-100 pr-2"></i>
+                                                {customer.address.flatNumber} {customer.address.number} {customer.address.buildingName}<br/> {customer.address.street} <br/> {customer.address.townCity} <br/> {customer.address.postCode}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div
-                                    className="group flex items-start flex-col pr-6 pl-6 border-r-[1px] col-span-1 dark:border-r-gray-600 transition-all duration-500 ease-in-out">
-                                    <div className="flex-shrink-0 mr-2 sm:mr-3">
-                                        <div
-                                            className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100">
-                                            <i className="fa fa-birthday-cake text-lg text-gray-800 dark:text-gray-100 pr-2"></i>01
-                                            January 2022
-                                        </div>
-                                    </div>
-
-                                    <div className="flex-shrink-0 mr-2 sm:mr-3">
-                                        <div
-                                            className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
-                                            <i className="fa fa-mars text-lg text-gray-800 dark:text-gray-100 pr-3"></i>Male
-                                        </div>
-                                    </div>
-
-                                    <div className="flex-shrink-0 mr-2 sm:mr-3">
-                                        <div
-                                            className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
-                                            <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>NI
-                                            Number
-                                        </div>
-                                    </div>
-
-                                    <div className="flex-shrink-0 mr-2 sm:mr-3">
-                                        <div
-                                            className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
-                                            <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>AB
-                                            12 34 56 C
-                                        </div>
+                            </div>
+                            <div className="h-full">
+                                <div className="w-full mx-auto rounded-sm border-gray-200">
+                                    {/* TODO: Tabs component */}
+                                    <div
+                                        className="text-sm font-medium bg-white text-center text-gray-500 dark:text-gray-100 dark:bg-gray-600 transition-all duration-500 ease-in-out">
+                                        <ul className="flex flex-wrap -mb-px">
+                                            <li className="mr-2">
+                                                <Link to='' className="inline-block p-4 border-b-2 border-[#5db1b5] active">Account
+                                                    Details</Link>
+                                            </li>
+                                            <li className="mr-2">
+                                                <Link to='' className="inline-block p-4 border-transparent"
+                                                    aria-current="page">ID Verification</Link>
+                                            </li>
+                                            <li className="mr-2">
+                                                <Link to='' className="inline-block p-4 border-transparent"
+                                                    aria-current="page">Trading Accounts</Link>
+                                            </li>
+                                        </ul>
                                     </div>
                                 </div>
-                                <div
-                                    className="group flex items-start flex-col pr-6 pl-6 border-r-[1px] dark:border-r-gray-600 col-span-1 transition-all duration-500 ease-in-out">
-                                    <div className="flex-shrink-0 mr-2 sm:mr-3">
+                                <div className="-mx-2 md:flex pt-8">
+                                    <div className="w-full md:w-1/4 px-2">
                                         <div
-                                            className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100">
-                                            <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>KYC
-                                            Status
-                                            <span className="flex items-center justify-center pl-3">
-                                                {amlStatus === 'passed' &&
-                                                <span aria-hidden="true"
-                                                      className="w-3 h-3 rounded-full bg-green-500 inline-block align-middle"/>
+                                            className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
+                                            <div className="flex flex-col rounded-md relative overflow-hidden">
+                                                <h2 className='p-3 font-bold'>Restrictions</h2>
+
+                                                <div className="flex items-center justify-between p-3 w-full">
+                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
+                                                        Deposit</p>
+                                                    <span className="flex w-24 items-center justify-start pl-3">
+                                                        <span aria-hidden="true"
+                                                            className={"w-3 h-3 rounded-full inline-block align-middle " + (parseInt(customer.restrictions.restrictDeposit) ? " bg-red-500 " : " bg-gray-500 ")}/>
+                                                        <span
+                                                            className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                            {parseInt(customer.restrictions.restrictDeposit) ? "On" : "Off"}
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                                <div className="flex items-center justify-between p-3 w-full">
+                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
+                                                        Buy</p>
+                                                    <span className="flex w-24 items-center justify-start pl-3">
+                                                        <span aria-hidden="true"
+                                                            className={"w-3 h-3 rounded-full inline-block align-middle " + (parseInt(customer.restrictions.restrictBuy) ? " bg-red-500 " : " bg-gray-500 ")}/>
+                                                        <span
+                                                            className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                             {parseInt(customer.restrictions.restrictBuy) ? "On" : "Off"}
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                                <div className="flex items-center justify-between p-3 w-full">
+                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
+                                                        Sell</p>
+                                                    <span className="flex w-24 items-center justify-start pl-3">
+                                                        <span aria-hidden="true"
+                                                            className={"w-3 h-3 rounded-full inline-block align-middle " + (parseInt(customer.restrictions.restrictSell) ? " bg-red-500 " : " bg-gray-500 ")}/>
+                                                        <span
+                                                            className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                           {parseInt(customer.restrictions.restrictSell) ? "On" : "Off"}
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                                <div className="flex items-center justify-between p-3 w-full">
+                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
+                                                        Convert</p>
+                                                    <span className="flex w-24 items-center justify-start pl-3">
+                                                        <span aria-hidden="true"
+                                                            className={"w-3 h-3 rounded-full inline-block align-middle " + (parseInt(customer.restrictions.restrictConvert) ? " bg-red-500 " : " bg-gray-500 ")}/>
+                                                        <span
+                                                            className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                             {parseInt(customer.restrictions.restrictConvert) ? "On" : "Off"}
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                                <div className="flex items-center justify-between p-3 w-full">
+                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
+                                                        Withdraw</p>
+                                                    <span className="flex w-24 items-center justify-start pl-3">
+                                                        <span aria-hidden="true"
+                                                           className={"w-3 h-3 rounded-full inline-block align-middle " + (parseInt(customer.restrictions.restrictWithdraw) ? " bg-red-500 " : " bg-gray-500 ")}/>
+                                                        <span
+                                                            className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                           {parseInt(customer.restrictions.restrictWithdraw)  ? "On" : "Off"}
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="w-full md:w-1/4 px-2">
+                                        <div
+                                            className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
+                                            <div className="flex flex-col rounded-md relative overflow-hidden">
+                                                <h2 className='p-3 font-bold'>Preferences</h2>
+                                                <div className="flex items-center justify-between p-3 w-full">
+                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Two
+                                                        Factor</p>
+                                                    <span className="flex w-24 items-center justify-start pl-3">
+                                                        <span aria-hidden="true"
+                                                            className={"w-3 h-3 rounded-full inline-block align-middle" + (customer.securitySettings.is2faSet ? " bg-green-500 " : " bg-gray-500 ")}>
+                                                        </span>
+                                                        <span
+                                                            className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                            {customer.securitySettings.is2faSet ? "Enabled" : "Disabled"}
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                                <div className="flex items-center justify-between p-3 w-full">
+                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Language</p>
+                                                    <span className="flex w-24 items-center justify-start pl-3">
+                                                        <span
+                                                            className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                            <ReactCountryFlag countryCode={customer.tradingPreferences.languageCode} />
+                                                        </span>
+                                                        <span
+                                                            className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                            {customer.tradingPreferences.languageName}
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                                <div className="flex items-center justify-between p-3 w-full">
+                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Pricing
+                                                        Currency</p>
+                                                    <span className="flex w-36 items-center justify-start pl-3">
+                                                        <span aria-hidden="true"
+                                                           className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                             <ReactCountryFlag countryCode={customer.tradingPreferences.pricesCurrencyIsoCode} />
+                                                        </span>
+                                                        <span
+                                                            className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                            {customer.tradingPreferences.pricesCurrencyName}
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                                <div className="flex items-center justify-between p-3 w-full">
+                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Portfolio
+                                                        Currency</p>
+                                                    <span className="flex w-36 items-center justify-start pl-3">
+                                                        <span aria-hidden="true"
+                                                           className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                            <ReactCountryFlag countryCode={customer.tradingPreferences.portfolioCurrencyIsoCode} />
+                                                        </span>
+                                                        <span
+                                                            className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                            {customer.tradingPreferences.currencyName}
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className="w-full md:w-1/4 px-2">
+                                        <div
+                                            className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
+                                            <div className="flex flex-col rounded-md relative overflow-hidden">
+                                                <h2 className='p-3 font-bold'>Communications</h2>
+                                                {
+                                                    customer.contactTypes && customer.contactTypes.map((contactType, index) => (
+                                                    <div className="flex items-center justify-between p-3 w-full" key={index}>
+                                                        <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>{contactType.contactTypeText}</p>
+                                                        <span className="flex w-24 items-center justify-start pl-3">
+                                                            <span aria-hidden="true"
+                                                                className={"w-3 h-3 rounded-full inline-block align-middle" + (contactType.isSelected ? " bg-green-500 " : " bg-red-500 ")}>
+                                                            </span>
+                                                            <span
+                                                                className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                                {contactType.isSelected ? "Yes" : "No"}
+                                                            </span>
+                                                        </span>
+                                                    </div>
+                                                    ))
                                                 }
-                                                {amlStatus === 'failed' &&
-                                                <span aria-hidden="true"
-                                                      className="w-3 h-3 rounded-full bg-red-500 inline-block align-middle"/>
-                                                }
-                                                <span className="pl-2 text-gray-400 font-bold">
-                                                    {amlStatus === 'passed' && "Passed"}
-                                                    {amlStatus === 'failed' && "Failed"}
-                                                </span>
-                                            </span>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div className="flex-shrink-0 mr-2 sm:mr-3">
+                                    <div className="w-full md:w-1/4 px-2">
                                         <div
-                                            className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
-                                            <i className="fa fa-lock text-lg text-gray-800 dark:text-gray-100 pr-4"></i>Account
-                                            Status
-                                            <span className="flex items-center justify-center pl-3">
-                                                <span aria-hidden="true"
-                                                      className={"w-3 h-3 rounded-full inline-block align-middle " + (!lockAccountStatus ? " bg-green-500 " : " bg-red-500 ")}>
-                                                </span>
-                                                <span className="pl-2 text-gray-400 dark:text-gray-100 font-bold">
-                                                    {lockAccountStatus ? "Locked" : "Passed"}
-                                                </span>
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <div className="flex-shrink-0 mr-2 sm:mr-3">
-                                        <div
-                                            className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
-                                            <i className="fa fa-flag text-lg text-gray-800 dark:text-gray-100 pr-2"></i>Monitored
-                                            Customer
-                                            <span className="flex items-center justify-center pl-3">
-                                                <span aria-hidden="true"
-                                                      className={"w-3 h-3 rounded-full inline-block align-middle " + (monitorCustomerStatus ? " bg-green-500 " : " bg-red-500 ")}>
-                                                </span>
-                                                <span className="pl-2 text-gray-400 dark:text-gray-100 font-bold">
-                                                    {monitorCustomerStatus ? "Yes" : "No"}
-                                                </span>
-                                            </span>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="group flex items-start flex-col pr-6 pl-6 col-span-1">
-                                    <div className="flex-shrink-0 mr-2 sm:mr-3">
-                                        <div
-                                            className="flex items-start text-left text-sm font-bold text-gray-800 dark:text-gray-100 leading-loose">
-                                            <i className="fa fa-map-marker text-lg text-gray-800 dark:text-gray-100 pr-2"></i>
-                                            Tramshed Tech <br/> Pendyris Street <br/> Cardiff <br/> CF11 6BH
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="h-full">
-                            <div className="w-full mx-auto rounded-sm border-gray-200">
-                                {/* TODO: Tabs component */}
-                                <div
-                                    className="text-sm font-medium bg-white text-center text-gray-500 dark:text-gray-100 dark:bg-gray-600 transition-all duration-500 ease-in-out">
-                                    <ul className="flex flex-wrap -mb-px">
-                                        <li className="mr-2">
-                                            <Link to='' className="inline-block p-4 border-b-2 border-[#5db1b5] active">Account
-                                                Details</Link>
-                                        </li>
-                                        <li className="mr-2">
-                                            <Link to='' className="inline-block p-4 border-transparent"
-                                                  aria-current="page">ID Verification</Link>
-                                        </li>
-                                        <li className="mr-2">
-                                            <Link to='' className="inline-block p-4 border-transparent"
-                                                  aria-current="page">Trading Accounts</Link>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div className="-mx-2 md:flex pt-8">
-                                <div className="w-full md:w-1/4 px-2">
-                                    <div
-                                        className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
-                                        <div className="flex flex-col rounded-md relative overflow-hidden">
-                                            <h2 className='p-3 font-bold'>Restrictions</h2>
-
-                                            <div className="flex items-center justify-between p-3 w-full">
-                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
-                                                    Deposit</p>
-                                                <span className="flex w-24 items-center justify-start pl-3">
-                                                    <span aria-hidden="true"
-                                                          className={"w-3 h-3 rounded-full inline-block align-middle " + (!tradingRestrictions.restrictDeposit ? "bg-gray-300" : "bg-red-500")}/>
-                                                    <span
-                                                        className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                        {!tradingRestrictions.restrictDeposit ? "Off" : "On"}
+                                            className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
+                                            <div className="flex flex-col rounded-md relative overflow-hidden">
+                                                <h2 className='p-3 font-bold'>Topics</h2>
+                                                {customer.communicationTypes.map((communicationType, index) => (
+                                                <div className="flex items-center justify-between p-3 w-full" key={index}>
+                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>{communicationType.communicationTypeText}</p>
+                                                    <span className="flex w-18 items-center justify-start pl-3">
+                                                        <span aria-hidden="true"
+                                                            className={"w-3 h-3 rounded-full inline-block align-middle " + (communicationType.isSelected ? 'bg-green-500' : 'bg-red-500')}>
+                                                        </span>
+                                                        <span
+                                                            className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                            {communicationType.isSelected ? 'Yes' : 'No'}
+                                                        </span>
                                                     </span>
-                                                </span>
-                                            </div>
-                                            <div className="flex items-center justify-between p-3 w-full">
-                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
-                                                    Buy</p>
-                                                <span className="flex w-24 items-center justify-start pl-3">
-                                                    <span aria-hidden="true"
-                                                          className={"w-3 h-3 rounded-full inline-block align-middle " + (!tradingRestrictions.restrictBuy ? "bg-gray-300" : "bg-red-500")}/>
-                                                    <span
-                                                        className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                        {!tradingRestrictions.restrictBuy ? "Off" : "On"}
-                                                    </span>
-                                                </span>
-                                            </div>
-                                            <div className="flex items-center justify-between p-3 w-full">
-                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
-                                                    Sell</p>
-                                                <span className="flex w-24 items-center justify-start pl-3">
-                                                    <span aria-hidden="true"
-                                                          className={"w-3 h-3 rounded-full inline-block align-middle " + (!tradingRestrictions.restrictSell ? "bg-gray-300" : "bg-red-500")}/>
-                                                    <span
-                                                        className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                        {!tradingRestrictions.restrictSell ? "Off" : "On"}
-                                                    </span>
-                                                </span>
-                                            </div>
-                                            <div className="flex items-center justify-between p-3 w-full">
-                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
-                                                    Convert</p>
-                                                <span className="flex w-24 items-center justify-start pl-3">
-                                                    <span aria-hidden="true"
-                                                          className={"w-3 h-3 rounded-full inline-block align-middle " + (!tradingRestrictions.restrictConvert ? "bg-gray-300" : "bg-red-500")}/>
-                                                    <span
-                                                        className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                        {tradingRestrictions.restrictConvert ? "Off" : "On"}
-                                                    </span>
-                                                </span>
-                                            </div>
-                                            <div className="flex items-center justify-between p-3 w-full">
-                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
-                                                    Withdraw</p>
-                                                <span className="flex w-24 items-center justify-start pl-3">
-                                                    <span aria-hidden="true"
-                                                          className={"w-3 h-3 rounded-full inline-block align-middle " + (!tradingRestrictions.restrictWithdraw ? "bg-gray-300" : "bg-red-500")}/>
-                                                    <span
-                                                        className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                        {!tradingRestrictions.restrictWithdraw ? "Off" : "On"}
-                                                    </span>
-                                                </span>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="w-full md:w-1/4 px-2">
-                                    <div
-                                        className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
-                                        <div className="flex flex-col rounded-md relative overflow-hidden">
-                                            <h2 className='p-3 font-bold'>Preferences</h2>
-
-                                            <div className="flex items-center justify-between p-3 w-full">
-                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Two
-                                                    Factor</p>
-                                                <span className="flex w-24 items-center justify-start pl-3">
-                                                    <span aria-hidden="true"
-                                                          className="w-3 h-3 rounded-full bg-green-500 inline-block align-middle">
-                                                    </span>
-                                                    <span
-                                                        className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                        Enabled
-                                                    </span>
-                                                </span>
-                                            </div>
-                                            <div className="flex items-center justify-between p-3 w-full">
-                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Biometrics</p>
-                                                <span className="flex w-24 items-center justify-start pl-3">
-                                                    <span aria-hidden="true"
-                                                          className="w-3 h-3 rounded-full bg-green-500 inline-block align-middle">
-                                                    </span>
-                                                    <span
-                                                        className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                        Enabled
-                                                    </span>
-                                                </span>
-                                            </div>
-                                            <div className="flex items-center justify-between p-3 w-full">
-                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Passcode</p>
-                                                <span className="flex w-24 items-center justify-start pl-3">
-                                                    <span aria-hidden="true"
-                                                          className="w-3 h-3 rounded-full bg-green-500 inline-block align-middle">
-                                                    </span>
-                                                    <span
-                                                        className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                        Enabled
-                                                    </span>
-                                                </span>
-                                            </div>
-                                            <div className="flex items-center justify-between p-3 w-full">
-                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Language</p>
-                                                <span className="flex w-24 items-center justify-start pl-3">
-                                                    <span aria-hidden="true"
-                                                          className="w-3 h-3 rounded-full bg-orange-500 inline-block align-middle">
-                                                    </span>
-                                                    <span
-                                                        className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                        PEP Hit
-                                                    </span>
-                                                </span>
-                                            </div>
-                                            <div className="flex items-center justify-between p-3 w-full">
-                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Pricing
-                                                    Currency</p>
-                                                <span className="flex w-24 items-center justify-start pl-3">
-                                                    <span aria-hidden="true"
-                                                          className="w-3 h-3 rounded-full bg-green-500 inline-block align-middle">
-                                                    </span>
-                                                    <span
-                                                        className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                        Passed
-                                                    </span>
-                                                </span>
-                                            </div>
-                                            <div className="flex items-center justify-between p-3 w-full">
-                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Portfolio
-                                                    Currency</p>
-                                                <span className="flex w-24 items-center justify-start pl-3">
-                                                    <span aria-hidden="true"
-                                                          className="w-3 h-3 rounded-full bg-green-500 inline-block align-middle">
-                                                    </span>
-                                                    <span
-                                                        className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                        Passed
-                                                    </span>
-                                                </span>
-                                            </div>
-                                            <div className="flex items-center justify-between p-3 w-full">
-                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Technical
-                                                    Charts</p>
-                                                <span className="flex w-24 items-center justify-start pl-3">
-                                                    <span aria-hidden="true"
-                                                          className="w-3 h-3 rounded-full bg-green-500 inline-block align-middle">
-                                                    </span>
-                                                    <span
-                                                        className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                        Enabled
-                                                    </span>
-                                                </span>
-                                            </div>
-                                            <div className="flex items-center justify-between p-3 w-full">
-                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Conditional
-                                                    Orders</p>
-                                                <span className="flex w-24 items-center justify-start pl-3">
-                                                    <span aria-hidden="true"
-                                                          className="w-3 h-3 rounded-full bg-red-500 inline-block align-middle">
-                                                    </span>
-                                                    <span
-                                                        className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                        Disabled
-                                                    </span>
-                                                </span>
-                                            </div>
-
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="w-full md:w-1/4 px-2">
-                                    <div
-                                        className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
-                                        <div className="flex flex-col rounded-md relative overflow-hidden">
-                                            <h2 className='p-3 font-bold'>Communications</h2>
-
-                                            <div className="flex items-center justify-between p-3 w-full">
-                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Email</p>
-                                                <span className="flex w-24 items-center justify-start pl-3">
-                                                    <span aria-hidden="true"
-                                                          className="w-3 h-3 rounded-full bg-green-500 inline-block align-middle">
-                                                    </span>
-                                                    <span
-                                                        className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                        Yes
-                                                    </span>
-                                                </span>
-                                            </div>
-                                            <div className="flex items-center justify-between p-3 w-full">
-                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Post</p>
-                                                <span className="flex w-24 items-center justify-start pl-3">
-                                                    <span aria-hidden="true"
-                                                          className="w-3 h-3 rounded-full bg-green-500 inline-block align-middle">
-                                                    </span>
-                                                    <span
-                                                        className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                        Passed
-                                                    </span>
-                                                </span>
-                                            </div>
-                                            <div className="flex items-center justify-between p-3 w-full">
-                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Phone</p>
-                                                <span className="flex w-24 items-center justify-start pl-3">
-                                                    <span aria-hidden="true"
-                                                          className="w-3 h-3 rounded-full bg-green-500 inline-block align-middle">
-                                                    </span>
-                                                    <span
-                                                        className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                        Captured
-                                                    </span>
-                                                </span>
-                                            </div>
-                                            <div className="flex items-center justify-between p-3 w-full">
-                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>SMS</p>
-                                                <span className="flex w-24 items-center justify-start pl-3">
-                                                    <span aria-hidden="true"
-                                                          className="w-3 h-3 rounded-full bg-orange-500 inline-block align-middle">
-                                                    </span>
-                                                    <span
-                                                        className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                        PEP Hit
-                                                    </span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div className="w-full md:w-1/4 px-2">
-                                    <div
-                                        className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
-                                        <div className="flex flex-col rounded-md relative overflow-hidden">
-                                            <h2 className='p-3 font-bold'>Topics</h2>
-
-                                            <div className="flex items-center justify-between p-3 w-full">
-                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Price
-                                                    and Portfolio Alerts</p>
-                                                <span className="flex w-18 items-center justify-start pl-3">
-                                                    <span aria-hidden="true"
-                                                          className="w-3 h-3 rounded-full bg-green-500 inline-block align-middle">
-                                                    </span>
-                                                    <span
-                                                        className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                        Yes
-                                                    </span>
-                                                </span>
-                                            </div>
-                                            <div className="flex items-center justify-between p-3 w-full">
-                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>New
-                                                    Products & Features</p>
-                                                <span className="flex w-18 items-center justify-start pl-3">
-                                                    <span aria-hidden="true"
-                                                          className="w-3 h-3 rounded-full bg-green-500 inline-block align-middle">
-                                                    </span>
-                                                    <span
-                                                        className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                        Yes
-                                                    </span>
-                                                </span>
-                                            </div>
-                                            <div className="flex items-center justify-between p-3 w-full">
-                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Market
-                                                    News & Insights</p>
-                                                <span className="flex w-18 items-center justify-start pl-3">
-                                                    <span aria-hidden="true"
-                                                          className="w-3 h-3 rounded-full bg-red-500 inline-block align-middle">
-                                                    </span>
-                                                    <span
-                                                        className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                        No
-                                                    </span>
-                                                </span>
-                                            </div>
-                                            <div className="flex items-center justify-between p-3 w-full">
-                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Offers
-                                                    & Promotions</p>
-                                                <span className="flex w-18 items-center justify-start pl-3">
-                                                    <span aria-hidden="true"
-                                                          className="w-3 h-3 rounded-full bg-red-500 inline-block align-middle">
-                                                    </span>
-                                                    <span
-                                                        className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                        No
-                                                    </span>
-                                                </span>
+                                                </div>
+                                                ))}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </>
+                        )}
                     </section>
                 </main>
                 <div

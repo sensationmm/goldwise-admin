@@ -16,7 +16,6 @@ const LockAccountModal = ({hidePopup, lockAccountCurrentStatus, saveLockAccountS
                            className="inline-flex relative items-center cursor-pointer">
                         <input type="checkbox"
                                value={lockAccountStatus}
-                               defaultValue={lockAccountStatus}
                                checked={lockAccountStatus}
                                onChange={() => setLockAccountStatus(!lockAccountStatus)}
                                id="default-toggle"
