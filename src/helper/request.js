@@ -1,4 +1,6 @@
 import api from './api'
+import {setApiToken} from "../reducers/tokenSlice.reducer";
+import {useDispatch} from "react-redux";
 export default class Request {
   path = null
   method = null
@@ -22,6 +24,7 @@ export default class Request {
   }
 
   postRequest(path, parameters) {
+
     this.method = 'post'
     this.path = path
     this.parameters = parameters;
