@@ -7,6 +7,7 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Customers from './pages/Customers'
 import CustomerDetails from './pages/CustomerDetails'
+import Products from './pages/Products'
 import Kyc from './pages/Kyc'
 import Missing from './pages/Missing'
 import RequireAuth from './components/organisms/RequireAuth'
@@ -58,6 +59,10 @@ const App = () => {
 
             <Route element={<RequireAuth />}>
               <Route path='kyc/:customerId' element={<CustomerDetails />} />
+            </Route>
+
+            <Route element={<RequireAuth />}>
+              <Route path='products' element={<Products />} />
             </Route>
 
             {/* Catch all */}
