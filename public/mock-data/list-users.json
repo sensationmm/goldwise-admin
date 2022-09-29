@@ -1,0 +1,38 @@
+[
+  {
+    "userGuid": "Tom Leach",
+    "userPhotoUrl": "https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg",
+    "fullName": "Tom Leach",
+    "emailAddress": "tom.leach@miyumi.ai",
+    "idLevel": 1,
+    "idLevelText": "Admin",
+    "canLogin": true
+  },
+  {
+    "userGuid": "Jatin Patel",
+    "userPhotoUrl": "https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-04.jpg",
+    "fullName": "Jatin Patel",
+    "emailAddress": "jatin.patel@goldwise.com",
+    "idLevel": 2,
+    "idLevelText": "Leadership",
+    "canLogin": true
+  },
+  {
+    "userGuid": "Chris Minas",
+    "userPhotoUrl": "https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-01.jpg",
+    "fullName": "Chris Minas",
+    "emailAddress": "chris.minas@miyumi.ai",
+    "idLevel": 3,
+    "idLevelText": "Manager",
+    "canLogin": true
+  },
+  {
+    "userGuid": "Jatin Patel",
+    "userPhotoUrl": "https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-08.jpg",
+    "fullName": "Jatin Patel",
+    "emailAddress": "Jatin Patel",
+    "idLevel": 1,
+    "idLevelText": "Admin",
+    "canLogin": true
+  }
+]
