@@ -52,8 +52,9 @@ const login = async (email, password) => {
  * @returns the result of the request.postRequest function.
  */
 const logout = async () => {
+    const path = process.env.REACT_APP_API_ENDPOINT + '/admin/auth/logout/'
 
-    return await request.postRequest('/admin/auth/logout/', {})
+    return await request.postRequest(path, {})
 }
 
 const authService = {
