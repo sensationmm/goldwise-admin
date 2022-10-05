@@ -89,8 +89,9 @@ const CustomerDetails = () => {
         try {
             await customerDetailService.saveMonitorCustomerStatus(value, reason, customerGuid)
             setMonitorCustomer(value)
-            setSuccessMessage("Tom account is set to “Monitor”successfully!")
+            setSuccessMessage(customer.customerDetail.forename + " account is set to “Monitor” successfully!")
         } catch (e) {
+            console.log(e)
             //todo: catch error
         } finally {
             setMonitorCustomerModal(false)
@@ -107,7 +108,7 @@ const CustomerDetails = () => {
                 restrictConvert: restrictConvert,
                 restrictWithdraw: restrictWithdraw
             })
-            setSuccessMessage("Tom account is restricted successfully!")
+            setSuccessMessage(customer.customerDetail.forename + " account is restricted successfully!")
         } catch (e) {
             //todo: catch error
         } finally {

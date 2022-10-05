@@ -1,4 +1,5 @@
 import Request from "../helper/request"
+import {clearAdmin} from "../reducers/userSlice.reducer";
 
 const request = new Request()
 
@@ -33,6 +34,7 @@ const getApiToken = async (username, password) => {
  * @returns The response object is being returned.
  */
 const login = async (email, password) => {
+    localStorage.removeItem('adminToken')
     const path = process.env.REACT_APP_API_ENDPOINT + '/admin/auth/login/'
     const response = await request.postRequest(path, {
         email,
@@ -52,6 +54,7 @@ const login = async (email, password) => {
  * @returns the result of the request.postRequest function.
  */
 const logout = async () => {
+    localStorage.removeItem('adminToken')
     const path = process.env.REACT_APP_API_ENDPOINT + '/admin/auth/logout/'
 
     return await request.postRequest(path, {})
