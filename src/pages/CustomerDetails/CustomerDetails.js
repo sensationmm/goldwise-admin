@@ -36,15 +36,15 @@ const CustomerDetails = () => {
     const [lockAccountStatus, setLockAccountStatus] = useState(true);
     const [monitorCustomerStatus, setMonitorCustomer] = useState(true);
     const [tradingRestrictions, setTradingRestrictions] = useState({
-        restrictDeposit: true,
-        restrictBuy: true,
-        restrictSell: true,
-        restrictConvert: true,
-        restrictWithdraw: true,
+        restrictDeposit: false,
+        restrictBuy: false,
+        restrictSell: false,
+        restrictConvert: false,
+        restrictWithdraw: false,
     });
     const [amlStatus, setAmlStatus] = useState({
-        overallStatusID: 5,
-        overallStatusText: 'passed'
+        overallStatusID: 1,
+        overallStatusText: "Not Started"
     });
 
     const getCustomer = async () => {
@@ -56,7 +56,7 @@ const CustomerDetails = () => {
             setLockAccountStatus(customerDetailData.customerDetails.isLocked)
             setDateOfBirth(new Date(customerDetailData.customerDetails.dateOfBirth));
             setTradingRestrictions(customerDetailData.restrictions)
-            setMonitorCustomer(customer.isGwMonitored)
+            setMonitorCustomer(customerDetailData.customerDetails.isGwMonitored)
             setAmlStatus({
                 overallStatusID: customerDetailData.overallStatusID,
                 overallStatusText: customerDetailData.overallStatusText
@@ -73,11 +73,18 @@ const CustomerDetails = () => {
         getCustomer()
     }, [])
 
+
+    useEffect(() => {
+        if (successMessage) {
+            setTimeout(() => setSuccessMessage(null), 2000)
+        }
+    }, [successMessage])
+
     const saveLockAccountStatus = async (value, reason) => {
         try {
             await customerDetailService.saveLockAccountStatus(value, reason, customerGuid)
             setLockAccountStatus(value)
-            setSuccessMessage(customer.customerDetail.forename + " account locked successfully!")
+            setSuccessMessage(customer.customerDetails.forename + " account locked successfully!")
         } catch (e) {
             //todo: catch error
         } finally {
@@ -89,7 +96,7 @@ const CustomerDetails = () => {
         try {
             await customerDetailService.saveMonitorCustomerStatus(value, reason, customerGuid)
             setMonitorCustomer(value)
-            setSuccessMessage(customer.customerDetail.forename + " account is set to “Monitor” successfully!")
+            setSuccessMessage(customer.customerDetails.forename + " account is set to “Monitor” successfully!")
         } catch (e) {
             console.log(e)
             //todo: catch error
@@ -108,7 +115,7 @@ const CustomerDetails = () => {
                 restrictConvert: restrictConvert,
                 restrictWithdraw: restrictWithdraw
             })
-            setSuccessMessage(customer.customerDetail.forename + " account is restricted successfully!")
+            setSuccessMessage(customer.customerDetails.forename + " account is restricted successfully!")
         } catch (e) {
             //todo: catch error
         } finally {
@@ -337,7 +344,7 @@ const CustomerDetails = () => {
                                                 Status
                                                 <span className="flex items-center justify-center pl-3">
                                                     <span aria-hidden="true"
-                                                        className={"w-3 h-3 rounded-full inline-block align-middle" + (amlStatus.overallStatusID === 6 ? "  bg-red-500 " : "  bg-green-500 ")}/>
+                                                        className={"w-3 h-3 rounded-full inline-block align-middle" + (amlStatus.overallStatusID !== 6 ? "  bg-red-500 " : "  bg-green-500 ")}/>
                                                     <span className="pl-2 text-gray-400 font-bold">
                                                         {amlStatus.overallStatusText}
                                                     </span>
@@ -351,7 +358,7 @@ const CustomerDetails = () => {
                                                 Status
                                                 <span className="flex items-center justify-center pl-3">
                                                     <span aria-hidden="true"
-                                                        className={"w-3 h-3 rounded-full inline-block align-middle " + (lockAccountStatus ? " bg-green-500 " : " bg-red-500 ")}>
+                                                        className={"w-3 h-3 rounded-full inline-block align-middle " + (!lockAccountStatus ? " bg-green-500 " : " bg-red-500 ")}>
                                                     </span>
                                                     <span className="pl-2 text-gray-400 dark:text-gray-100 font-bold">
                                                         {lockAccountStatus ? "Locked" : "Passed"}
@@ -366,7 +373,7 @@ const CustomerDetails = () => {
                                                 Customer
                                                 <span className="flex items-center justify-center pl-3">
                                                     <span aria-hidden="true"
-                                                        className={"w-3 h-3 rounded-full inline-block align-middle " + (monitorCustomerStatus ? " bg-green-500 " : " bg-red-500 ")}>
+                                                        className={"w-3 h-3 rounded-full inline-block align-middle " + (!monitorCustomerStatus ? " bg-green-500 " : " bg-red-500 ")}>
                                                     </span>
                                                     <span className="pl-2 text-gray-400 dark:text-gray-100 font-bold">
                                                         {monitorCustomerStatus ? "Yes" : "No"}
