@@ -65,7 +65,7 @@ const App = () => {
                     <Route path='kyc/:customerId' element={<CustomerDetails/>}/>
                 </Route>
 
-                <Route>
+                <Route element={<RequireAuth/>}>
                     <Route path='users/user-management' element={<UserManagement />} />
                 </Route>
 
