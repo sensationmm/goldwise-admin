@@ -7,6 +7,7 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Customers from './pages/Customers'
 import CustomerDetails from './pages/CustomerDetails'
+import UserManagement from './pages/Users/UserManagement'
 import Kyc from './pages/Kyc'
 import Missing from './pages/Missing'
 import RequireAuth from './components/organisms/RequireAuth'
@@ -64,10 +65,14 @@ const App = () => {
                     <Route path='kyc/:customerId' element={<CustomerDetails/>}/>
                 </Route>
 
+                <Route element={<RequireAuth/>}>
+                    <Route path='users/user-management' element={<UserManagement />} />
+                </Route>
+
                 {/* Catch all */}
-                <Route path='*' element={<Missing/>}/>
+                <Route path='*' element={<Missing />} />
             </Route>
-        </Routes>
+        </Routes >
     )
 }
 
