@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Header from "../../../components/molecules/Header";
 import Sidebar from "../../../components/molecules/Sidebar";
-import { getRole } from "../../../services/helper";
+import RoleBadge from "../../../components/organisms/RoleBadge";
 
 const SpreadManagement = () => {
   const [users, setUsers] = useState([]);
@@ -124,7 +124,7 @@ const SpreadManagement = () => {
                             </td>
                             <td className="p-2 whitespace-nowrap pb-4">
                               <div className="text-left text-gray-500 font-semibold">
-                                {getRole(user.idLevel)}
+                                <RoleBadge level={user.idLevel}/>
                               </div>
                             </td>
                             <td className="flex p-2 whitespace-nowrap pb-4 justify-end	">
