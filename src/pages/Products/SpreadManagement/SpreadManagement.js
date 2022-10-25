@@ -1,9 +1,7 @@
-import { Link } from 'react-router-dom'
-import ReactCountryFlag from 'react-country-flag'
-import { FiSettings } from 'react-icons/fi'
-import Header from '../../components/molecules/Header'
-import Sidebar from '../../components/molecules/Sidebar'
-import SpreadHours from '../../components/organisms/SpreadHours'
+import Header from '../../../components/molecules/Header'
+import Sidebar from '../../../components/molecules/Sidebar'
+import SpreadHours from '../../../components/organisms/SpreadHours'
+import Button from '../../../components/atoms/Button';
 
 const Products = () => {
     return (
@@ -30,6 +28,10 @@ const Products = () => {
                                         />
                                     </div>
                                 </div>
+                            </div>
+                            <div className="flex justify-end pt-12 mt-12">
+                                <Button style={{ width: '200px', marginRight: '16px' }}>Cancel</Button>
+                                <Button style={{ width: '200px', backgroundColor: 'rgb(69, 179, 182)', color: 'white' }}>Save</Button>
                             </div>
                         </div>
                     </section>

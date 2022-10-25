@@ -22,26 +22,30 @@ const CustomerDetails = () => {
     const { customerGuid } = useParams()
     const [customer, setCustomer] = useState()
     const [dateOfBirth, setDateOfBirth] = useState()
+
     const [monitorCustomerModal, setMonitorCustomerModal] = useState(false)
     const [lockAccountModal, setLockAccountModal] = useState(false)
     const [tradingRestrictionsModal, setTradingRestrictionsModal] = useState(false)
     const [setAmlPassedModal, setSetAmlPassedModal] = useState(false)
     const [setAmlFailedModal, setSetAmlFailedModal] = useState(false)
     const [resetAmlModal, setResetAmlModal] = useState(false)
+
     const [successMessage, setSuccessMessage] = useState()
     const [errorMessage, setErrorMessage] = useState()
+
     const [lockAccountStatus, setLockAccountStatus] = useState(true);
     const [monitorCustomerStatus, setMonitorCustomer] = useState(true);
-
     const [tradingRestrictions, setTradingRestrictions] = useState({
-        restrictDeposit: true,
-        restrictBuy: true,
-        restrictSell: true,
-        restrictConvert: true,
-        restrictWithdraw: true,
+        restrictDeposit: false,
+        restrictBuy: false,
+        restrictSell: false,
+        restrictConvert: false,
+        restrictWithdraw: false,
     });
-
-    const [amlStatus, setAmlStatus] = useState("passed");
+    const [amlStatus, setAmlStatus] = useState({
+        overallStatusID: 1,
+        overallStatusText: "Not Started"
+    });
 
     const getCustomer = async () => {
         try {
@@ -51,6 +55,12 @@ const CustomerDetails = () => {
             setCustomer(customerDetailData);
             setLockAccountStatus(customerDetailData.customerDetails.isLocked)
             setDateOfBirth(new Date(customerDetailData.customerDetails.dateOfBirth));
+            setTradingRestrictions(customerDetailData.restrictions)
+            setMonitorCustomer(customerDetailData.customerDetails.isGwMonitored)
+            setAmlStatus({
+                overallStatusID: customerDetailData.overallStatusID,
+                overallStatusText: customerDetailData.overallStatusText
+            })
         } catch (e) {
             //todo: display error if happen
             console.log(e)
@@ -63,11 +73,18 @@ const CustomerDetails = () => {
         getCustomer()
     }, [])
 
+
+    useEffect(() => {
+        if (successMessage) {
+            setTimeout(() => setSuccessMessage(null), 2000)
+        }
+    }, [successMessage])
+
     const saveLockAccountStatus = async (value, reason) => {
         try {
             await customerDetailService.saveLockAccountStatus(value, reason, customerGuid)
             setLockAccountStatus(value)
-            setSuccessMessage(customer.customerDetail.forename + " account locked successfully!")
+            setSuccessMessage(customer.customerDetails.forename + " account locked successfully!")
         } catch (e) {
             //todo: catch error
         } finally {
@@ -77,10 +94,11 @@ const CustomerDetails = () => {
 
     const saveMonitorCustomerStatus = async (value, reason) => {
         try {
-            // await customerDetailService.saveMonitorCustomerStatus(value, reason, customerGuid)
+            await customerDetailService.saveMonitorCustomerStatus(value, reason, customerGuid)
             setMonitorCustomer(value)
-            setSuccessMessage("Tom account is set to “Monitor”successfully!")
+            setSuccessMessage(customer.customerDetails.forename + " account is set to “Monitor” successfully!")
         } catch (e) {
+            console.log(e)
             //todo: catch error
         } finally {
             setMonitorCustomerModal(false)
@@ -89,7 +107,7 @@ const CustomerDetails = () => {
 
     const saveTradingRestrictions = async (restrictDeposit, restrictBuy, restrictSell, restrictConvert, restrictWithdraw, reason) => {
         try {
-            // await customerDetailService.saveTradingRestrictions(restrictDeposit, restrictBuy, restrictSell, restrictConvert, restrictWithdraw, reason, customerGuid)
+            await customerDetailService.saveTradingRestrictions(restrictDeposit, restrictBuy, restrictSell, restrictConvert, restrictWithdraw, reason, customerGuid)
             setTradingRestrictions({
                 restrictDeposit: restrictDeposit,
                 restrictBuy: restrictBuy,
@@ -97,7 +115,7 @@ const CustomerDetails = () => {
                 restrictConvert: restrictConvert,
                 restrictWithdraw: restrictWithdraw
             })
-            setSuccessMessage("Tom account is restricted successfully!")
+            setSuccessMessage(customer.customerDetails.forename + " account is restricted successfully!")
         } catch (e) {
             //todo: catch error
         } finally {
@@ -107,8 +125,11 @@ const CustomerDetails = () => {
 
     const setAmlFailed = async (reason) => {
         try {
-            // await customerDetailService.setAmlFailed(reason, customerGuid)
-            setAmlStatus('failed')
+            await customerDetailService.setAmlFailed(reason, customerGuid)
+            setAmlStatus({
+                overallStatusID: 10,
+                overallStatusText: "Failed manually"
+            })
             setSuccessMessage("AML status set to “FAILED” successfully!")
         } catch (e) {
             //todo: catch error
@@ -119,9 +140,12 @@ const CustomerDetails = () => {
 
     const setAmlPassed = async (reason) => {
         try {
-            // await customerDetailService.setAmlPassed(reason, customerGuid)
-            setAmlStatus('passed')
-            setSuccessMessage("AML reset successfully!")
+            await customerDetailService.setAmlPassed(reason, customerGuid)
+            setAmlStatus({
+                overallStatusID: 9,
+                overallStatusText: "Passed manually"
+            })
+            setSuccessMessage("AML status set to “PASSED” successfully!")
         } catch (e) {
             //todo: catch error
         } finally {
@@ -131,9 +155,12 @@ const CustomerDetails = () => {
 
     const resetAml = async (reason) => {
         try {
-            // await customerDetailService.resetAml(reason, customerGuid)
-            setSuccessMessage("AML status set to “PASSED” successfully!")
-            //todo: update value on page
+            await customerDetailService.resetAml(reason, customerGuid)
+            setAmlStatus({
+                overallStatusID: 1,
+                overallStatusText: "Not Started"
+            })
+            setSuccessMessage("AML reset successfully!")
         } catch (e) {
             //todo: catch error
         } finally {
@@ -317,9 +344,9 @@ const CustomerDetails = () => {
                                                 Status
                                                 <span className="flex items-center justify-center pl-3">
                                                     <span aria-hidden="true"
-                                                        className={"w-3 h-3 rounded-full inline-block align-middle" + (customer.overallStatusID === 6 ? "  bg-red-500 " : "  bg-green-500 ")}/>
+                                                        className={"w-3 h-3 rounded-full inline-block align-middle" + (amlStatus.overallStatusID !== 6 ? "  bg-red-500 " : "  bg-green-500 ")}/>
                                                     <span className="pl-2 text-gray-400 font-bold">
-                                                        {customer.overallStatusText}
+                                                        {amlStatus.overallStatusText}
                                                     </span>
                                                 </span>
                                             </div>
@@ -331,10 +358,10 @@ const CustomerDetails = () => {
                                                 Status
                                                 <span className="flex items-center justify-center pl-3">
                                                     <span aria-hidden="true"
-                                                        className={"w-3 h-3 rounded-full inline-block align-middle " + (!customer.isLocked ? " bg-green-500 " : " bg-red-500 ")}>
+                                                        className={"w-3 h-3 rounded-full inline-block align-middle " + (!lockAccountStatus ? " bg-green-500 " : " bg-red-500 ")}>
                                                     </span>
                                                     <span className="pl-2 text-gray-400 dark:text-gray-100 font-bold">
-                                                        {customer.isLocked ? "Locked" : "Passed"}
+                                                        {lockAccountStatus ? "Locked" : "Passed"}
                                                     </span>
                                                 </span>
                                             </div>
@@ -346,10 +373,10 @@ const CustomerDetails = () => {
                                                 Customer
                                                 <span className="flex items-center justify-center pl-3">
                                                     <span aria-hidden="true"
-                                                        className={"w-3 h-3 rounded-full inline-block align-middle " + (customer.isGwMonitored ? " bg-green-500 " : " bg-red-500 ")}>
+                                                        className={"w-3 h-3 rounded-full inline-block align-middle " + (!monitorCustomerStatus ? " bg-green-500 " : " bg-red-500 ")}>
                                                     </span>
                                                     <span className="pl-2 text-gray-400 dark:text-gray-100 font-bold">
-                                                        {customer.isGwMonitored ? "Yes" : "No"}
+                                                        {monitorCustomerStatus ? "Yes" : "No"}
                                                     </span>
                                                 </span>
                                             </div>
@@ -400,10 +427,10 @@ const CustomerDetails = () => {
                                                         Deposit</p>
                                                     <span className="flex w-24 items-center justify-start pl-3">
                                                         <span aria-hidden="true"
-                                                            className={"w-3 h-3 rounded-full inline-block align-middle " + (parseInt(customer.restrictions.restrictDeposit) ? " bg-red-500 " : " bg-gray-500 ")}/>
+                                                            className={"w-3 h-3 rounded-full inline-block align-middle " + (tradingRestrictions.restrictDeposit ? " bg-red-500 " : " bg-gray-500 ")}/>
                                                         <span
                                                             className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                            {parseInt(customer.restrictions.restrictDeposit) ? "On" : "Off"}
+                                                            {tradingRestrictions.restrictDeposit ? "On" : "Off"}
                                                         </span>
                                                     </span>
                                                 </div>
@@ -412,10 +439,10 @@ const CustomerDetails = () => {
                                                         Buy</p>
                                                     <span className="flex w-24 items-center justify-start pl-3">
                                                         <span aria-hidden="true"
-                                                            className={"w-3 h-3 rounded-full inline-block align-middle " + (parseInt(customer.restrictions.restrictBuy) ? " bg-red-500 " : " bg-gray-500 ")}/>
+                                                            className={"w-3 h-3 rounded-full inline-block align-middle " + (tradingRestrictions.restrictBuy ? " bg-red-500 " : " bg-gray-500 ")}/>
                                                         <span
                                                             className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                             {parseInt(customer.restrictions.restrictBuy) ? "On" : "Off"}
+                                                             {tradingRestrictions.restrictBuy ? "On" : "Off"}
                                                         </span>
                                                     </span>
                                                 </div>
@@ -424,10 +451,10 @@ const CustomerDetails = () => {
                                                         Sell</p>
                                                     <span className="flex w-24 items-center justify-start pl-3">
                                                         <span aria-hidden="true"
-                                                            className={"w-3 h-3 rounded-full inline-block align-middle " + (parseInt(customer.restrictions.restrictSell) ? " bg-red-500 " : " bg-gray-500 ")}/>
+                                                            className={"w-3 h-3 rounded-full inline-block align-middle " + (tradingRestrictions.restrictSell ? " bg-red-500 " : " bg-gray-500 ")}/>
                                                         <span
                                                             className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                           {parseInt(customer.restrictions.restrictSell) ? "On" : "Off"}
+                                                           {tradingRestrictions.restrictSell ? "On" : "Off"}
                                                         </span>
                                                     </span>
                                                 </div>
@@ -436,10 +463,10 @@ const CustomerDetails = () => {
                                                         Convert</p>
                                                     <span className="flex w-24 items-center justify-start pl-3">
                                                         <span aria-hidden="true"
-                                                            className={"w-3 h-3 rounded-full inline-block align-middle " + (parseInt(customer.restrictions.restrictConvert) ? " bg-red-500 " : " bg-gray-500 ")}/>
+                                                            className={"w-3 h-3 rounded-full inline-block align-middle " + (tradingRestrictions.restrictConvert ? " bg-red-500 " : " bg-gray-500 ")}/>
                                                         <span
                                                             className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                             {parseInt(customer.restrictions.restrictConvert) ? "On" : "Off"}
+                                                             {tradingRestrictions.restrictConvert ? "On" : "Off"}
                                                         </span>
                                                     </span>
                                                 </div>
@@ -448,10 +475,10 @@ const CustomerDetails = () => {
                                                         Withdraw</p>
                                                     <span className="flex w-24 items-center justify-start pl-3">
                                                         <span aria-hidden="true"
-                                                           className={"w-3 h-3 rounded-full inline-block align-middle " + (parseInt(customer.restrictions.restrictWithdraw) ? " bg-red-500 " : " bg-gray-500 ")}/>
+                                                           className={"w-3 h-3 rounded-full inline-block align-middle " + (tradingRestrictions.restrictWithdraw ? " bg-red-500 " : " bg-gray-500 ")}/>
                                                         <span
                                                             className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                           {parseInt(customer.restrictions.restrictWithdraw)  ? "On" : "Off"}
+                                                           {tradingRestrictions.restrictWithdraw  ? "On" : "Off"}
                                                         </span>
                                                     </span>
                                                 </div>
