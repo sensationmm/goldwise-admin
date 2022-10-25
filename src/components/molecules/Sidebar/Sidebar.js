@@ -18,6 +18,18 @@ const menu = [
     icon: "fa-id-card",
   },
   {
+    name: "Products",
+    collapse: "products",
+    to: "/products/",
+    icon: "fa-angle-right",
+    children: [
+      {
+        name: "Spread Management",
+        to: "/products/spread-management",
+      },
+    ],
+  },
+  {
     name: "Users",
     collapse: "users",
     to: "/users/",
