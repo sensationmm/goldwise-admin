@@ -1,56 +1,71 @@
 import Request from "../helper/request"
 
-const request = new Request()
-
 const saveLockAccountStatus = async (isLocked, reason, customerGuid) => {
-    return await request.postRequest(`/admin/customers/${customerGuid}/trading-restrictions/locked/set/`, {
+    const path = process.env.REACT_APP_API_ENDPOINT + `/admin/customers/${customerGuid}/trading-restrictions/locked/set/`
+    const request = new Request()
+
+    return await request.postRequest(path, {
         isLocked: isLocked,
         logMessage: reason
     })
 }
 
 const saveMonitorCustomerStatus = async (isGWMonitored, reason, customerGuid) => {
-    return await request.postRequest(`/admin/customers/${customerGuid}/trading-restrictions/gw-monitor/set/`, {
+    const path = process.env.REACT_APP_API_ENDPOINT + `/admin/customers/${customerGuid}/trading-restrictions/gw-monitor/set/`
+    const request = new Request()
+
+    return await request.postRequest(path, {
         isGWMonitored: isGWMonitored,
         logMessage: reason
     })
 }
 
-const saveTradingRestrictions = async (canDeposit, canBuy, canSell, canConvert, canWithdraw, reason, customerGuid) => {
-    return await request.postRequest(`/admin/customers/${customerGuid}/trading-restrictions/set/`, {
-        preventBuy: canBuy,
-        preventSell: canSell,
-        preventDeposit: canDeposit,
-        preventWithdraw: canWithdraw,
-        preventConvert: canConvert,
+const saveTradingRestrictions = async (restrictDeposit, restrictBuy, restrictSell, restrictConvert, restrictWithdraw, reason, customerGuid) => {
+    const path = process.env.REACT_APP_API_ENDPOINT + `/admin/customers/${customerGuid}/trading-restrictions/set/`
+    const request = new Request()
+
+    return await request.postRequest(path, {
+        restrictBuy: restrictBuy,
+        restrictSell: restrictSell,
+        restrictDeposit: restrictDeposit,
+        restrictWithdraw: restrictWithdraw,
+        restrictConvert: restrictConvert,
         logMessage: reason
     })
 }
 
 const setAmlFailed = async (reason, customerGuid) => {
-    return await request.postRequest(`/admin/customers/${customerGuid}/trading-restrictions/aml/failed-manual/`, {
+    const path = process.env.REACT_APP_API_ENDPOINT + `/admin/customers/${customerGuid}/trading-restrictions/aml/failed-manual/`
+    const request = new Request()
+
+    return await request.postRequest(path, {
         logMessage: reason
     })
 }
 
 const setAmlPassed = async (reason, customerGuid) => {
-    return await request.postRequest(`/admin/customers/${customerGuid}/trading-restrictions/aml/passed-manual/`, {
+    const path = process.env.REACT_APP_API_ENDPOINT + `/admin/customers/${customerGuid}/trading-restrictions/aml/passed-manual/`
+    const request = new Request()
+
+    return await request.postRequest(path, {
         logMessage: reason
     })
 }
 
 const resetAml = async (reason, customerGuid) => {
-    return await request.postRequest(`/admin/customers/${customerGuid}/trading-restrictions/aml/reset/`, {
+    const path = process.env.REACT_APP_API_ENDPOINT + `/admin/customers/${customerGuid}/trading-restrictions/aml/reset/`
+    const request = new Request()
+
+    return await request.postRequest(path, {
         logMessage: reason
     })
 }
 
 const getCustomerDetails = async (customerGuid) => {
-    try {
-        return await request.getRequest(`/admin/customers/${customerGuid}/get-customer-details/`)
-     } catch (error) {
-         console.log(error);
-     }
+    const path = process.env.REACT_APP_API_ENDPOINT + `/admin/customers/${customerGuid}/get-customer-details/`
+    const request = new Request()
+
+    return await request.getRequest(path)
 }
 
 const customerDetailService = {
