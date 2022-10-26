@@ -72,7 +72,7 @@ const Sidebar = () => {
                         });
                       }}
                       className={
-                        collapse[element.collapse] || isPath
+                        isPath
                           ? "hover:text-[#5db1b5] flex items-center p-2 my-6 transition-colors dark:hover:text-white duration-200 dark:text-gray-400 text-[#5db1b5] dark:hover:text-[#5db1b5] dark:text-[#5db1b5] cursor-pointer"
                           : "hover:text-gray-800 hover:bg-gray-100 flex items-center p-2 mt-6 transition-colors dark:hover:text-white dark:hover:bg-gray-800 duration-200 text-gray-600 dark:text-gray-400 rounded-lg cursor-pointer"
                       }
