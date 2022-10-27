@@ -34,6 +34,8 @@ const CustomerDetails = () => {
     const [errorMessage, setErrorMessage] = useState()
 
     const [lockAccountStatus, setLockAccountStatus] = useState(true);
+    const [activeAccountStatus, setActiveAccountStatus] = useState(true);
+    const [verifiedEmailAccount, setVerifiedEmailAccount] = useState(true);
     const [monitorCustomerStatus, setMonitorCustomer] = useState(true);
     const [tradingRestrictions, setTradingRestrictions] = useState({
         restrictDeposit: false,
@@ -54,6 +56,8 @@ const CustomerDetails = () => {
             const customerDetailData = customer.data.response;
             setCustomer(customerDetailData);
             setLockAccountStatus(customerDetailData.customerDetails.isLocked)
+            setActiveAccountStatus(customerDetailData.customerDetails.isActive)
+            setVerifiedEmailAccount(customerDetailData.customerDetails.isEmailVerify)
             setDateOfBirth(new Date(customerDetailData.customerDetails.dateOfBirth));
             setTradingRestrictions(customerDetailData.restrictions)
             setMonitorCustomer(customerDetailData.customerDetails.isGwMonitored)
@@ -343,8 +347,9 @@ const CustomerDetails = () => {
                                                 <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>KYC
                                                 Status
                                                 <span className="flex items-center justify-center pl-3">
-                                                    <span aria-hidden="true"
-                                                        className={"w-3 h-3 rounded-full inline-block align-middle" + (amlStatus.overallStatusID !== 6 ? "  bg-red-500 " : "  bg-green-500 ")}/>
+                                                    <span
+                                                        aria-hidden="true"
+                                                        className={"w-3 h-3 rounded-full inline-block align-middle" + ([5,6].includes(amlStatus.overallStatusID) ? " bg-green-500  " : amlStatus.overallStatusID === 8 ? " bg-orange-500 " : " bg-red-500 ")}/>
                                                     <span className="pl-2 text-gray-400 font-bold">
                                                         {amlStatus.overallStatusText}
                                                     </span>
@@ -358,10 +363,11 @@ const CustomerDetails = () => {
                                                 Status
                                                 <span className="flex items-center justify-center pl-3">
                                                     <span aria-hidden="true"
-                                                        className={"w-3 h-3 rounded-full inline-block align-middle " + (!lockAccountStatus ? " bg-green-500 " : " bg-red-500 ")}>
+                                                        className={"w-3 h-3 rounded-full inline-block align-middle " +
+                                                        (activeAccountStatus && !lockAccountStatus && verifiedEmailAccount ? " bg-green-500 " : activeAccountStatus && !lockAccountStatus && !verifiedEmailAccount ? " bg-orange-500 " : " bg-red-500 ")}>
                                                     </span>
                                                     <span className="pl-2 text-gray-400 dark:text-gray-100 font-bold">
-                                                        {lockAccountStatus ? "Locked" : "Passed"}
+                                                        {activeAccountStatus && !lockAccountStatus && verifiedEmailAccount ? "Active" : activeAccountStatus && !lockAccountStatus && !verifiedEmailAccount? "Pending" : "Locked "}
                                                     </span>
                                                 </span>
                                             </div>
