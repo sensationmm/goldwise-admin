@@ -27,6 +27,10 @@ const menu = [
         name: "Spread Management",
         to: "/products/spread-management",
       },
+      {
+        name: "Product Management",
+        to: "/products/product-management",
+      },
     ],
   },
   {

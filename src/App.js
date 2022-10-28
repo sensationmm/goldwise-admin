@@ -7,6 +7,7 @@ import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import Customers from './pages/Customers'
 import CustomerDetails from './pages/CustomerDetails'
+import ProductManagement from './pages/Products/ProductManagement'
 import SpreadManagement from './pages/Products/SpreadManagement'
 import UserManagement from './pages/Users/UserManagement'
 import Kyc from './pages/Kyc'
@@ -70,6 +71,10 @@ const App = () => {
 
                 <Route element={<RequireAuth/>}>
                     <Route path='users/user-management' element={<UserManagement />} />
+                </Route>
+
+                <Route>
+                    <Route path='products/product-management' element={<ProductManagement />} />
                 </Route>
 
                 <Route element={<RequireAuth />}>
