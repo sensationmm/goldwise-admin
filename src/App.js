@@ -40,11 +40,13 @@ const App = () => {
 
     return (
         <Routes>
-            <Route path='/' element={<BaseLayout/>}>
+            <Route path='/' element={<BaseLayout full={true}/>}>
                 {/* Public routes */}
                 <Route path='/' element={<Login/>}/>
                 <Route path='login' element={<Login/>}/>
+            </Route>
 
+            <Route path='/' element={<BaseLayout/>}>
                 {/* Protected routes */}
                 <Route element={<RequireAuth/>}>
                     <Route path='dashboard' element={<Dashboard/>}/>
