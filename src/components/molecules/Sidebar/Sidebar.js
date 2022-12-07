@@ -27,6 +27,10 @@ const menu = [
         name: "Spread Management",
         to: "/products/spread-management",
       },
+      {
+        name: "Product Management",
+        to: "/products/product-management",
+      },
     ],
   },
   {
@@ -59,17 +63,22 @@ const Sidebar = () => {
                 const isPath = location.pathname.includes(element.to);
 
                 return (
-                  <div key={element.to}>
+                  <>
                     <div
                       onClick={() => {
+                        console.log(Object.keys(collapse).map((el) => {
+                          setCollapse({
+                            [el]: false
+                          })
+                        }))
                         setCollapse({
                           [element.collapse]: !collapse[element.collapse],
                         });
                       }}
                       className={
-                        collapse[element.collapse] || isPath
+                        isPath
                           ? "hover:text-[#5db1b5] flex items-center p-2 my-6 transition-colors dark:hover:text-white duration-200 dark:text-gray-400 text-[#5db1b5] dark:hover:text-[#5db1b5] dark:text-[#5db1b5] cursor-pointer"
-                          : "hover:text-gray-800 hover:bg-gray-100 flex items-center p-2 my-6 transition-colors dark:hover:text-white dark:hover:bg-gray-800 duration-200 text-gray-600 dark:text-gray-400 rounded-lg cursor-pointer"
+                          : "hover:text-gray-800 hover:bg-gray-100 flex items-center p-2 mt-6 transition-colors dark:hover:text-white dark:hover:bg-gray-800 duration-200 text-gray-600 dark:text-gray-400 rounded-lg cursor-pointer"
                       }
                     >
                       <i
@@ -89,7 +98,7 @@ const Sidebar = () => {
                       </span>
                     </div>
                     {collapse[element.collapse] && (
-                      <nav className="mt-8 pl-4">
+                      <nav className="mt-4 pl-4">
                         {element.children.map((child) => (
                           <NavLink
                             key={child.to}
@@ -113,7 +122,7 @@ const Sidebar = () => {
                         ))}
                       </nav>
                     )}
-                  </div>
+                  </>
                 );
               } else {
                 return (
@@ -135,10 +144,7 @@ const Sidebar = () => {
                       {element.name}
                     </span>
                     <span className="flex-grow text-right">
-                      <i
-                        className="fa fa-angle-right text-2xl"
-                        aria-hidden="true"
-                      ></i>
+
                     </span>
                   </NavLink>
                 );

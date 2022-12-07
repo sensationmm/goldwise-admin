@@ -35,7 +35,7 @@ const CustomerDetails = () => {
 
     const [lockAccountStatus, setLockAccountStatus] = useState(true);
     const [activeAccountStatus, setActiveAccountStatus] = useState(true);
-    const [verifiedEmailAccount, setVerifiedEmailAccount] = useState(true);
+    const [emailactiveStatus, setEmailactiveStatus] = useState(true);
     const [monitorCustomerStatus, setMonitorCustomer] = useState(true);
     const [tradingRestrictions, setTradingRestrictions] = useState({
         restrictDeposit: false,
@@ -54,10 +54,11 @@ const CustomerDetails = () => {
             dispatch(showLoader())
             const customer = await customerDetailService.getCustomerDetails(customerGuid);
             const customerDetailData = customer.data.response;
+            console.log(customer.data.response)
             setCustomer(customerDetailData);
             setLockAccountStatus(customerDetailData.customerDetails.isLocked)
+            setEmailactiveStatus(customerDetailData.customerDetails.isEmailVerify)
             setActiveAccountStatus(customerDetailData.customerDetails.isActive)
-            setVerifiedEmailAccount(customerDetailData.customerDetails.isEmailVerify)
             setDateOfBirth(new Date(customerDetailData.customerDetails.dateOfBirth));
             setTradingRestrictions(customerDetailData.restrictions)
             setMonitorCustomer(customerDetailData.customerDetails.isGwMonitored)
@@ -173,7 +174,7 @@ const CustomerDetails = () => {
     }
 
     return (
-        <div>
+        <div className="flex w-full">
             {lockAccountModal && <Modal hidePopup={() => setLockAccountModal(false)} title="Lock Account">
                 <LockAccountModal
                     lockAccountCurrentStatus={lockAccountStatus}
@@ -229,12 +230,9 @@ const CustomerDetails = () => {
             }
 
             {/* TODO: add template */}
-            <Header/>
-            <div className="flex h-full">
-                <Sidebar/>
                 <main className="flex flex-col w-full overflow-x-hidden overflow-y-auto">
                     <section
-                        className="flex flex-col justify-center antialiased bg-gray-100 text-gray-800 min-h-screen p-4 dark:bg-gray-800 dark:text-gray-100 transition-all duration-500 ease-in-out">
+                        className="flex flex-col justify-start antialiased bg-gray-100 text-gray-800 min-h-screen p-4 dark:bg-gray-800 dark:text-gray-100 transition-all duration-500 ease-in-out">
                         <div className="py-4 px-4 sm:px-6 md:px-8 md:py-5">
                             {/* TODO: Create a  Breadcrumbs component */}
                             <ul className="flex items-center">
@@ -280,238 +278,237 @@ const CustomerDetails = () => {
                         </div>
                         }
                         {customer && (
-                        <>
-                            <div className="ml-10 pt-2 pb-8">
-                                <div className="mx-auto grid grid-flow-col gap-3">
-                                    <div
-                                        className="flex items-center border-r-[1px] pr-2 col-span-1 dark:border-r-gray-600 transition-all duration-500 ease-in-out">
-                                        <div className="flex-shrink-0 mr-2 sm:mr-3">
-                                                                                        <img className="rounded-full"
-                                                                                        src={customer.customerDetails.profilePhoto ? customer.customerDetails.profilePhoto : "https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"}
-                                                                                        width="90" height="90"
-                                                                                        alt="Tom Leach"/></div>
-                                        <div className="flex-shrink-0 pl-6 mr-2 sm:mr-3">
-                                            <p className="text-left text-lg font-bold text-gray-800 dark:text-gray-100">{customer.customerDetails.forename} {customer.customerDetails.surname}</p>
-                                            <p className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
-                                                <i className="fa fa-check-circle text-lg text-[#5ed197] pr-2"></i>{customer.customerDetails.emailAddress}
-                                            </p>
-                                            <p className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">{customer.customerDetails.contactNumber}</p>
-                                            <div className="flex items-center pt-3">
+                            <>
+                                <div className="ml-10 pt-2 pb-8">
+                                    <div className="mx-auto grid grid-flow-col gap-3">
+                                        <div
+                                            className="flex items-center border-r-[1px] pr-2 col-span-1 dark:border-r-gray-600 transition-all duration-500 ease-in-out">
+                                            <div className="flex-shrink-0 mr-2 sm:mr-3">
+                                                <img className="rounded-full"
+                                                     src={customer.customerDetails.profilePhoto ? customer.customerDetails.profilePhoto : "https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"}
+                                                     width="90" height="90"
+                                                     alt="Tom Leach"/></div>
+                                            <div className="flex-shrink-0 pl-6 mr-2 sm:mr-3">
+                                                <p className="text-left text-lg font-bold text-gray-800 dark:text-gray-100">{customer.customerDetails.forename} {customer.customerDetails.surname}</p>
+                                                <p className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
+                                                    <i className="fa fa-check-circle text-lg text-[#5ed197] pr-2"></i>{customer.customerDetails.emailAddress}
+                                                </p>
+                                                <p className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">{customer.customerDetails.contactNumber}</p>
+                                                <div className="flex items-center pt-3">
                                                 <span
                                                     className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
                                                     <ReactCountryFlag countryCode={customer.address.iso3CountryCode} />
                                                 </span>
-                                                <span
-                                                    className="pl-2 text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">{customer.address.countryName}
+                                                    <span
+                                                        className="pl-2 text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">{customer.address.countryName}
                                                 </span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div
-                                        className="group flex items-start flex-col pr-6 pl-6 border-r-[1px] col-span-1 dark:border-r-gray-600 transition-all duration-500 ease-in-out">
-                                        <div className="flex-shrink-0 mr-2 sm:mr-3">
-                                            <div
-                                                className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100">
-                                                <i className="fa fa-birthday-cake text-lg text-gray-800 dark:text-gray-100 pr-2"></i>
-                                               {dateFormat(dateOfBirth, "dd mmmm yyyy")}
+                                        <div
+                                            className="group flex items-start flex-col pr-6 pl-6 border-r-[1px] col-span-1 dark:border-r-gray-600 transition-all duration-500 ease-in-out">
+                                            <div className="flex-shrink-0 mr-2 sm:mr-3">
+                                                <div
+                                                    className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100">
+                                                    <i className="fa fa-birthday-cake text-lg text-gray-800 dark:text-gray-100 pr-2"></i>
+                                                    {dateFormat(dateOfBirth, "dd mmmm yyyy")}
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <div className="flex-shrink-0 mr-2 sm:mr-3">
-                                            <div
-                                                className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
-                                                <i className="fa fa-mars text-lg text-gray-800 dark:text-gray-100 pr-3"></i>{customer.customerDetails.gender}
+                                            <div className="flex-shrink-0 mr-2 sm:mr-3">
+                                                <div
+                                                    className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
+                                                    <i className="fa fa-mars text-lg text-gray-800 dark:text-gray-100 pr-3"></i>{customer.customerDetails.gender}
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <div className="flex-shrink-0 mr-2 sm:mr-3">
-                                            <div
-                                                className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
-                                                <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>{customer.customerDetails.identificationNumber}
+                                            <div className="flex-shrink-0 mr-2 sm:mr-3">
+                                                <div
+                                                    className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
+                                                    <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>{customer.customerDetails.identificationNumber}
+                                                </div>
                                             </div>
-                                        </div>
 
-                                        <div className="flex-shrink-0 mr-2 sm:mr-3">
-                                            <div
-                                                className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
-                                                <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>AB
-                                                12 34 56 C
+                                            <div className="flex-shrink-0 mr-2 sm:mr-3">
+                                                <div
+                                                    className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
+                                                    <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>AB
+                                                    12 34 56 C
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div
-                                        className="group flex items-start flex-col pr-6 pl-6 border-r-[1px] dark:border-r-gray-600 col-span-1 transition-all duration-500 ease-in-out">
-                                        <div className="flex-shrink-0 mr-2 sm:mr-3">
-                                            <div
-                                                className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100">
-                                                <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>KYC
-                                                Status
-                                                <span className="flex items-center justify-center pl-3">
+                                        <div
+                                            className="group flex items-start flex-col pr-6 pl-6 border-r-[1px] dark:border-r-gray-600 col-span-1 transition-all duration-500 ease-in-out">
+                                            <div className="flex-shrink-0 mr-2 sm:mr-3">
+                                                <div
+                                                    className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100">
+                                                    <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>KYC
+                                                    Status
+                                                    <span className="flex items-center justify-center pl-3">
                                                     <span
                                                         aria-hidden="true"
-                                                        className={"w-3 h-3 rounded-full inline-block align-middle" + ([5,6].includes(amlStatus.overallStatusID) ? " bg-green-500  " : amlStatus.overallStatusID === 8 ? " bg-orange-500 " : " bg-red-500 ")}/>
+                                                        className={"w-3 h-3 rounded-full inline-block align-middle " + ([5,9].includes(amlStatus.overallStatusID) ? "bg-green-500" : amlStatus.overallStatusID === 8 ? "bg-orange-500" : "bg-red-500")}/>
                                                     <span className="pl-2 text-gray-400 font-bold">
                                                         {amlStatus.overallStatusText}
                                                     </span>
                                                 </span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="flex-shrink-0 mr-2 sm:mr-3">
-                                            <div
-                                                className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
-                                                <i className="fa fa-lock text-lg text-gray-800 dark:text-gray-100 pr-4"></i>Account
-                                                Status
-                                                <span className="flex items-center justify-center pl-3">
+                                            <div className="flex-shrink-0 mr-2 sm:mr-3">
+                                                <div
+                                                    className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
+                                                    <i className="fa fa-lock text-lg text-gray-800 dark:text-gray-100 pr-4"></i>Account
+                                                    Status
+                                                    <span className="flex items-center justify-center pl-3">
                                                     <span aria-hidden="true"
-                                                        className={"w-3 h-3 rounded-full inline-block align-middle " +
-                                                        (activeAccountStatus && !lockAccountStatus && verifiedEmailAccount ? " bg-green-500 " : activeAccountStatus && !lockAccountStatus && !verifiedEmailAccount ? " bg-orange-500 " : " bg-red-500 ")}>
+                                                          className={"w-3 h-3 rounded-full inline-block align-middle " + (lockAccountStatus || !activeAccountStatus ? "bg-red-500" : activeAccountStatus && emailactiveStatus ? "bg-orange-500" : "bg-green-500")}>
                                                     </span>
                                                     <span className="pl-2 text-gray-400 dark:text-gray-100 font-bold">
-                                                        {activeAccountStatus && !lockAccountStatus && verifiedEmailAccount ? "Active" : activeAccountStatus && !lockAccountStatus && !verifiedEmailAccount? "Pending" : "Locked "}
+                                                        {lockAccountStatus && !activeAccountStatus ? "Locked - Not Active" : lockAccountStatus ? "Locked" : activeAccountStatus ? "Not Active" : emailactiveStatus ? "Pending Email Activation" : "Active"}
                                                     </span>
                                                 </span>
+                                                </div>
                                             </div>
-                                        </div>
-                                        <div className="flex-shrink-0 mr-2 sm:mr-3">
-                                            <div
-                                                className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
-                                                <i className="fa fa-flag text-lg text-gray-800 dark:text-gray-100 pr-2"></i>Monitored
-                                                Customer
-                                                <span className="flex items-center justify-center pl-3">
+                                            <div className="flex-shrink-0 mr-2 sm:mr-3">
+                                                <div
+                                                    className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
+                                                    <i className="fa fa-flag text-lg text-gray-800 dark:text-gray-100 pr-2"></i>Monitored
+                                                    Customer
+                                                    <span className="flex items-center justify-center pl-3">
                                                     <span aria-hidden="true"
-                                                        className={"w-3 h-3 rounded-full inline-block align-middle " + (!monitorCustomerStatus ? " bg-green-500 " : " bg-red-500 ")}>
+                                                          className={"w-3 h-3 rounded-full inline-block align-middle " + (!monitorCustomerStatus ? " bg-green-500 " : " bg-red-500 ")}>
                                                     </span>
                                                     <span className="pl-2 text-gray-400 dark:text-gray-100 font-bold">
                                                         {monitorCustomerStatus ? "Yes" : "No"}
                                                     </span>
                                                 </span>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div className="group flex items-start flex-col pr-6 pl-6 col-span-1">
-                                        <div className="flex-shrink-0 mr-2 sm:mr-3">
-                                            <div
-                                                className="flex items-start text-left text-sm font-bold text-gray-800 dark:text-gray-100 leading-loose">
-                                                <i className="fa fa-map-marker text-lg text-gray-800 dark:text-gray-100 pr-2"></i>
-                                                {customer.address.flatNumber} {customer.address.number} {customer.address.buildingName}<br/> {customer.address.street} <br/> {customer.address.townCity} <br/> {customer.address.postCode}
+                                        <div className="group flex items-start flex-col pr-6 pl-6 col-span-1">
+                                            <div className="flex-shrink-0 mr-2 sm:mr-3">
+                                                <div
+                                                    className="flex items-start text-left text-sm font-bold text-gray-800 dark:text-gray-100 leading-loose">
+                                                    <i className="fa fa-map-marker text-lg text-gray-800 dark:text-gray-100 pr-2"></i>
+                                                    {customer.address.flatNumber} {customer.address.number} {customer.address.buildingName}<br/> {customer.address.street} <br/> {customer.address.townCity} <br/> {customer.address.postCode}
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div className="h-full">
-                                <div className="w-full mx-auto rounded-sm border-gray-200">
-                                    {/* TODO: Tabs component */}
-                                    <div
-                                        className="text-sm font-medium bg-white text-center text-gray-500 dark:text-gray-100 dark:bg-gray-600 transition-all duration-500 ease-in-out">
-                                        <ul className="flex flex-wrap -mb-px">
-                                            <li className="mr-2">
-                                                <Link to='' className="inline-block p-4 border-b-2 border-[#5db1b5] active">Account
-                                                    Details</Link>
-                                            </li>
-                                            <li className="mr-2">
-                                                <Link to='' className="inline-block p-4 border-transparent"
-                                                    aria-current="page">ID Verification</Link>
-                                            </li>
-                                            <li className="mr-2">
-                                                <Link to='' className="inline-block p-4 border-transparent"
-                                                    aria-current="page">Trading Accounts</Link>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div className="-mx-2 md:flex pt-8">
-                                    <div className="w-full md:w-1/4 px-2">
+                                <div className="h-full">
+                                    <div className="w-full mx-auto rounded-sm border-gray-200">
+                                        {/* TODO: Tabs component */}
                                         <div
-                                            className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
-                                            <div className="flex flex-col rounded-md relative overflow-hidden">
-                                                <h2 className='p-3 font-bold'>Restrictions</h2>
+                                            className="text-sm font-medium bg-white text-center text-gray-500 dark:text-gray-100 dark:bg-gray-600 transition-all duration-500 ease-in-out">
+                                            <ul className="flex flex-wrap -mb-px">
+                                                <li className="mr-2">
+                                                    <Link to='' className="inline-block p-4 border-b-2 border-[#5db1b5] active">Account
+                                                        Details</Link>
+                                                </li>
+                                                <li className="mr-2">
+                                                    <Link to='' className="inline-block p-4 border-transparent"
+                                                          aria-current="page">ID Verification</Link>
+                                                </li>
+                                                <li className="mr-2">
+                                                    <Link to='' className="inline-block p-4 border-transparent"
+                                                          aria-current="page">Trading Accounts</Link>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div className="-mx-2 md:flex pt-8">
+                                        <div className="w-full md:w-1/4 px-2">
+                                            <div
+                                                className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
+                                                <div className="flex flex-col rounded-md relative overflow-hidden">
+                                                    <h2 className='p-3 font-bold'>Restrictions</h2>
 
-                                                <div className="flex items-center justify-between p-3 w-full">
-                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
-                                                        Deposit</p>
-                                                    <span className="flex w-24 items-center justify-start pl-3">
+                                                    <div className="flex items-center justify-between p-3 w-full">
+                                                        <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
+                                                            Deposit</p>
+                                                        <span className="flex w-24 items-center justify-start pl-3">
                                                         <span aria-hidden="true"
-                                                            className={"w-3 h-3 rounded-full inline-block align-middle " + (tradingRestrictions.restrictDeposit ? " bg-red-500 " : " bg-gray-500 ")}/>
+                                                              className={"w-3 h-3 rounded-full inline-block align-middle " + (tradingRestrictions.restrictDeposit ? " bg-red-500 " : " bg-gray-500 ")}/>
                                                         <span
                                                             className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
                                                             {tradingRestrictions.restrictDeposit ? "On" : "Off"}
                                                         </span>
                                                     </span>
-                                                </div>
-                                                <div className="flex items-center justify-between p-3 w-full">
-                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
-                                                        Buy</p>
-                                                    <span className="flex w-24 items-center justify-start pl-3">
+                                                    </div>
+                                                    <div className="flex items-center justify-between p-3 w-full">
+                                                        <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
+                                                            Buy</p>
+                                                        <span className="flex w-24 items-center justify-start pl-3">
                                                         <span aria-hidden="true"
-                                                            className={"w-3 h-3 rounded-full inline-block align-middle " + (tradingRestrictions.restrictBuy ? " bg-red-500 " : " bg-gray-500 ")}/>
+                                                              className={"w-3 h-3 rounded-full inline-block align-middle " + (tradingRestrictions.restrictBuy ? " bg-red-500 " : " bg-gray-500 ")}/>
                                                         <span
                                                             className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
                                                              {tradingRestrictions.restrictBuy ? "On" : "Off"}
                                                         </span>
                                                     </span>
-                                                </div>
-                                                <div className="flex items-center justify-between p-3 w-full">
-                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
-                                                        Sell</p>
-                                                    <span className="flex w-24 items-center justify-start pl-3">
+                                                    </div>
+                                                    <div className="flex items-center justify-between p-3 w-full">
+                                                        <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
+                                                            Sell</p>
+                                                        <span className="flex w-24 items-center justify-start pl-3">
                                                         <span aria-hidden="true"
-                                                            className={"w-3 h-3 rounded-full inline-block align-middle " + (tradingRestrictions.restrictSell ? " bg-red-500 " : " bg-gray-500 ")}/>
+                                                              className={"w-3 h-3 rounded-full inline-block align-middle " + (tradingRestrictions.restrictSell ? " bg-red-500 " : " bg-gray-500 ")}/>
                                                         <span
                                                             className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
                                                            {tradingRestrictions.restrictSell ? "On" : "Off"}
                                                         </span>
                                                     </span>
-                                                </div>
-                                                <div className="flex items-center justify-between p-3 w-full">
-                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
-                                                        Convert</p>
-                                                    <span className="flex w-24 items-center justify-start pl-3">
+                                                    </div>
+                                                    <div className="flex items-center justify-between p-3 w-full">
+                                                        <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
+                                                            Convert</p>
+                                                        <span className="flex w-24 items-center justify-start pl-3">
                                                         <span aria-hidden="true"
-                                                            className={"w-3 h-3 rounded-full inline-block align-middle " + (tradingRestrictions.restrictConvert ? " bg-red-500 " : " bg-gray-500 ")}/>
+                                                              className={"w-3 h-3 rounded-full inline-block align-middle " + (tradingRestrictions.restrictConvert ? " bg-red-500 " : " bg-gray-500 ")}/>
                                                         <span
                                                             className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
                                                              {tradingRestrictions.restrictConvert ? "On" : "Off"}
                                                         </span>
                                                     </span>
-                                                </div>
-                                                <div className="flex items-center justify-between p-3 w-full">
-                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
-                                                        Withdraw</p>
-                                                    <span className="flex w-24 items-center justify-start pl-3">
+                                                    </div>
+                                                    <div className="flex items-center justify-between p-3 w-full">
+                                                        <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
+                                                            Withdraw</p>
+                                                        <span className="flex w-24 items-center justify-start pl-3">
                                                         <span aria-hidden="true"
-                                                           className={"w-3 h-3 rounded-full inline-block align-middle " + (tradingRestrictions.restrictWithdraw ? " bg-red-500 " : " bg-gray-500 ")}/>
+                                                              className={"w-3 h-3 rounded-full inline-block align-middle " + (tradingRestrictions.restrictWithdraw ? " bg-red-500 " : " bg-gray-500 ")}/>
                                                         <span
                                                             className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
                                                            {tradingRestrictions.restrictWithdraw  ? "On" : "Off"}
                                                         </span>
                                                     </span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="w-full md:w-1/4 px-2">
-                                        <div
-                                            className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
-                                            <div className="flex flex-col rounded-md relative overflow-hidden">
-                                                <h2 className='p-3 font-bold'>Preferences</h2>
-                                                <div className="flex items-center justify-between p-3 w-full">
-                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Two
-                                                        Factor</p>
-                                                    <span className="flex w-24 items-center justify-start pl-3">
+                                        <div className="w-full md:w-1/4 px-2">
+                                            <div
+                                                className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
+                                                <div className="flex flex-col rounded-md relative overflow-hidden">
+                                                    <h2 className='p-3 font-bold'>Preferences</h2>
+                                                    <div className="flex items-center justify-between p-3 w-full">
+                                                        <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Two
+                                                            Factor</p>
+                                                        <span className="flex w-24 items-center justify-start pl-3">
                                                         <span aria-hidden="true"
-                                                            className={"w-3 h-3 rounded-full inline-block align-middle" + (customer.securitySettings.is2faSet ? " bg-green-500 " : " bg-gray-500 ")}>
+                                                              className={"w-3 h-3 rounded-full inline-block align-middle" + (customer.securitySettings.is2faSet ? " bg-green-500 " : " bg-gray-500 ")}>
                                                         </span>
                                                         <span
                                                             className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
                                                             {customer.securitySettings.is2faSet ? "Enabled" : "Disabled"}
                                                         </span>
                                                     </span>
-                                                </div>
-                                                <div className="flex items-center justify-between p-3 w-full">
-                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Language</p>
-                                                    <span className="flex w-24 items-center justify-start pl-3">
+                                                    </div>
+                                                    <div className="flex items-center justify-between p-3 w-full">
+                                                        <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Language</p>
+                                                        <span className="flex w-24 items-center justify-start pl-3">
                                                         <span
                                                             className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
                                                             <ReactCountryFlag countryCode={customer.tradingPreferences.languageCode} />
@@ -521,13 +518,13 @@ const CustomerDetails = () => {
                                                             {customer.tradingPreferences.languageName}
                                                         </span>
                                                     </span>
-                                                </div>
-                                                <div className="flex items-center justify-between p-3 w-full">
-                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Pricing
-                                                        Currency</p>
-                                                    <span className="flex w-36 items-center justify-start pl-3">
+                                                    </div>
+                                                    <div className="flex items-center justify-between p-3 w-full">
+                                                        <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Pricing
+                                                            Currency</p>
+                                                        <span className="flex w-36 items-center justify-start pl-3">
                                                         <span aria-hidden="true"
-                                                           className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                              className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
                                                              <ReactCountryFlag countryCode={customer.tradingPreferences.pricesCurrencyIsoCode} />
                                                         </span>
                                                         <span
@@ -535,13 +532,13 @@ const CustomerDetails = () => {
                                                             {customer.tradingPreferences.pricesCurrencyName}
                                                         </span>
                                                     </span>
-                                                </div>
-                                                <div className="flex items-center justify-between p-3 w-full">
-                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Portfolio
-                                                        Currency</p>
-                                                    <span className="flex w-36 items-center justify-start pl-3">
+                                                    </div>
+                                                    <div className="flex items-center justify-between p-3 w-full">
+                                                        <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Portfolio
+                                                            Currency</p>
+                                                        <span className="flex w-36 items-center justify-start pl-3">
                                                         <span aria-hidden="true"
-                                                           className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                              className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
                                                             <ReactCountryFlag countryCode={customer.tradingPreferences.portfolioCurrencyIsoCode} />
                                                         </span>
                                                         <span
@@ -549,59 +546,59 @@ const CustomerDetails = () => {
                                                             {customer.tradingPreferences.currencyName}
                                                         </span>
                                                     </span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="w-full md:w-1/4 px-2">
-                                        <div
-                                            className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
-                                            <div className="flex flex-col rounded-md relative overflow-hidden">
-                                                <h2 className='p-3 font-bold'>Communications</h2>
-                                                {
-                                                    customer.contactTypes && customer.contactTypes.map((contactType, index) => (
-                                                    <div className="flex items-center justify-between p-3 w-full" key={index}>
-                                                        <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>{contactType.contactTypeText}</p>
-                                                        <span className="flex w-24 items-center justify-start pl-3">
+                                        <div className="w-full md:w-1/4 px-2">
+                                            <div
+                                                className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
+                                                <div className="flex flex-col rounded-md relative overflow-hidden">
+                                                    <h2 className='p-3 font-bold'>Communications</h2>
+                                                    {
+                                                        customer.contactTypes && customer.contactTypes.map((contactType, index) => (
+                                                            <div className="flex items-center justify-between p-3 w-full" key={index}>
+                                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>{contactType.contactTypeText}</p>
+                                                                <span className="flex w-24 items-center justify-start pl-3">
                                                             <span aria-hidden="true"
-                                                                className={"w-3 h-3 rounded-full inline-block align-middle" + (contactType.isSelected ? " bg-green-500 " : " bg-red-500 ")}>
+                                                                  className={"w-3 h-3 rounded-full inline-block align-middle" + (contactType.isSelected ? " bg-green-500 " : " bg-red-500 ")}>
                                                             </span>
                                                             <span
                                                                 className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
                                                                 {contactType.isSelected ? "Yes" : "No"}
                                                             </span>
                                                         </span>
-                                                    </div>
-                                                    ))
-                                                }
+                                                            </div>
+                                                        ))
+                                                    }
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div className="w-full md:w-1/4 px-2">
-                                        <div
-                                            className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
-                                            <div className="flex flex-col rounded-md relative overflow-hidden">
-                                                <h2 className='p-3 font-bold'>Topics</h2>
-                                                {customer.communicationTypes.map((communicationType, index) => (
-                                                <div className="flex items-center justify-between p-3 w-full" key={index}>
-                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>{communicationType.communicationTypeText}</p>
-                                                    <span className="flex w-18 items-center justify-start pl-3">
+                                        <div className="w-full md:w-1/4 px-2">
+                                            <div
+                                                className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
+                                                <div className="flex flex-col rounded-md relative overflow-hidden">
+                                                    <h2 className='p-3 font-bold'>Topics</h2>
+                                                    {customer.communicationTypes.map((communicationType, index) => (
+                                                        <div className="flex items-center justify-between p-3 w-full" key={index}>
+                                                            <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>{communicationType.communicationTypeText}</p>
+                                                            <span className="flex w-18 items-center justify-start pl-3">
                                                         <span aria-hidden="true"
-                                                            className={"w-3 h-3 rounded-full inline-block align-middle " + (communicationType.isSelected ? 'bg-green-500' : 'bg-red-500')}>
+                                                              className={"w-3 h-3 rounded-full inline-block align-middle " + (communicationType.isSelected ? 'bg-green-500' : 'bg-red-500')}>
                                                         </span>
                                                         <span
                                                             className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
                                                             {communicationType.isSelected ? 'Yes' : 'No'}
                                                         </span>
                                                     </span>
+                                                        </div>
+                                                    ))}
                                                 </div>
-                                                ))}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        </>
+                            </>
                         )}
                     </section>
                 </main>
@@ -670,7 +667,6 @@ const CustomerDetails = () => {
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
     )
 }
