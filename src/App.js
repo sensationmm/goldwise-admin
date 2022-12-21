@@ -15,6 +15,7 @@ import Missing from './pages/Missing'
 import RequireAuth from './components/organisms/RequireAuth'
 import {setApiToken} from './reducers/tokenSlice.reducer'
 import {hideLoader, showLoader} from "./reducers/loaderSlice.reducer";
+import VaultSetting from "./pages/VaultSetting";
 
 const App = () => {
     const dispatch = useDispatch()
@@ -79,6 +80,10 @@ const App = () => {
 
                 <Route element={<RequireAuth />}>
                     <Route path='products/spread-management' element={<SpreadManagement />} />
+                </Route>
+
+                <Route element={<RequireAuth />}>
+                    <Route path='vault-settings' element={<VaultSetting />} />
                 </Route>
 
                 {/* Catch all */}

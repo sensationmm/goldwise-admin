@@ -45,6 +45,11 @@ const menu = [
       },
     ],
   },
+  {
+    name: "Vault Settings",
+    to: "/vault-settings",
+    icon: "fa-cog",
+  },
 ];
 
 const Sidebar = () => {
