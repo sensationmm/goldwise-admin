@@ -20,3 +20,49 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.fixed.side{
+  top: 4rem;
+  left: 5.5rem;
+  height: .5rem;
+  transition: all .5s;
+
+  button {
+    height: 0;
+    overflow: hidden;
+    transition: height .5s;
+  }
+
+  &:hover{
+    button{
+      height: 2rem;
+    }
+  }
+}
+
+.sidebar-collapse {
+  left: -85px;
+  width: 0;
+  transition: all .5s ease;
+
+  .fixed.side{
+    top: 4rem;
+    left: .5rem;
+    height: .5rem;
+    width: 2rem;
+    transition: all .5s;
+
+    button {
+      height: 0;
+      overflow: hidden;
+      transition: height .5s;
+    }
+
+    &:hover{
+      background: transparent !important;
+      button{
+        height: 2rem;
+      }
+    }
+  }
+}
