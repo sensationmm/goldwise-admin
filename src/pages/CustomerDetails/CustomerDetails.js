@@ -54,7 +54,6 @@ const CustomerDetails = () => {
             dispatch(showLoader())
             const customer = await customerDetailService.getCustomerDetails(customerGuid);
             const customerDetailData = customer.data.response;
-            console.log(customer.data.response)
             setCustomer(customerDetailData);
             setLockAccountStatus(customerDetailData.customerDetails.isLocked)
             setEmailactiveStatus(customerDetailData.customerDetails.isEmailVerify)
@@ -347,7 +346,7 @@ const CustomerDetails = () => {
                                                     <span className="flex items-center justify-center pl-3">
                                                     <span
                                                         aria-hidden="true"
-                                                        className={"w-3 h-3 rounded-full inline-block align-middle " + ([5,9].includes(amlStatus.overallStatusID) ? "bg-green-500" : amlStatus.overallStatusID === 8 ? "bg-orange-500" : "bg-red-500")}/>
+                                                        className={"w-3 h-3 rounded-full inline-block align-middle " + ([5,9].includes(amlStatus.overallStatusID) ?  "bg-green-500" : amlStatus.overallStatusID === 8 ? "bg-orange-500" : "bg-red-500")}/>
                                                     <span className="pl-2 text-gray-400 font-bold">
                                                         {amlStatus.overallStatusText}
                                                     </span>
@@ -361,10 +360,10 @@ const CustomerDetails = () => {
                                                     Status
                                                     <span className="flex items-center justify-center pl-3">
                                                     <span aria-hidden="true"
-                                                          className={"w-3 h-3 rounded-full inline-block align-middle " + (lockAccountStatus || !activeAccountStatus ? "bg-red-500" : activeAccountStatus && emailactiveStatus ? "bg-orange-500" : "bg-green-500")}>
+                                                          className={"w-3 h-3 rounded-full inline-block align-middle " + (lockAccountStatus || !activeAccountStatus ? "bg-red-500" : !activeAccountStatus || !emailactiveStatus ? "bg-orange-500" : "bg-green-500")}>
                                                     </span>
                                                     <span className="pl-2 text-gray-400 dark:text-gray-100 font-bold">
-                                                        {lockAccountStatus && !activeAccountStatus ? "Locked - Not Active" : lockAccountStatus ? "Locked" : activeAccountStatus ? "Not Active" : emailactiveStatus ? "Pending Email Activation" : "Active"}
+                                                        {lockAccountStatus && !activeAccountStatus ? "Locked - Not Active" : lockAccountStatus ? "Locked" : !activeAccountStatus ? "Not Active" : !emailactiveStatus ? "Pending Email Activation" : "Active"}
                                                     </span>
                                                 </span>
                                                 </div>

@@ -152,12 +152,15 @@ const Kyc = () => {
                                                     </td>
                                                     <td className="p-2 whitespace-nowrap">
                                                         <span className="flex items-center justify-left">
-                                                            <Locked isLocked={customer.accountLocked}></Locked>
+                                                            <Locked
+                                                                isLocked={parseInt(customer.isLocked)}
+                                                                isActive={parseInt(customer.isActive)}
+                                                                isEmailVerified={parseInt(customer.isEmailVerify)} />
                                                         </span>
                                                     </td>
                                                     <td className="p-2 whitespace-nowrap">
                                                         <span className="flex items-center justify-left">
-                                                            <KYCStatus status={customer.idIdentityStatus}
+                                                            <KYCStatus status={parseInt(customer.idIdentityStatus)}
                                                                        statusDescription={customer.identityStatusText}></KYCStatus>
                                                         </span>
                                                     </td>
