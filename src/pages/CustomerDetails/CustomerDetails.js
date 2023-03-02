@@ -16,11 +16,12 @@ import dateFormat from 'dateformat';
 import {useDispatch} from "react-redux";
 import {hideLoader, showLoader} from "../../reducers/loaderSlice.reducer";
 
-const CustomerDetails = () => {
+const CustomerDetails = (props) => {
     const dispatch = useDispatch()
 
     const { customerGuid } = useParams()
     const [customer, setCustomer] = useState()
+    const [actionMenu, setActionMenu] = useState(false)
     const [dateOfBirth, setDateOfBirth] = useState()
 
     const [monitorCustomerModal, setMonitorCustomerModal] = useState(false)
@@ -168,6 +169,15 @@ const CustomerDetails = () => {
         }
     }
 
+    const toggleActionMenu = () => {
+        setActionMenu(!actionMenu)
+    }
+
+    const prevRoute = {
+        path: "/" + window.location.href.split('/')[3],
+        name: window.location.href.split('/')[3].charAt(0).toUpperCase() + window.location.href.split('/')[3].slice(1)
+    }
+
     return (
         <div className="flex w-full">
             {lockAccountModal && <Modal hidePopup={() => setLockAccountModal(false)} title="Lock Account">
@@ -227,29 +237,31 @@ const CustomerDetails = () => {
             {/* TODO: add template */}
                 <main className="flex flex-col w-full overflow-x-hidden overflow-y-auto">
                     <section
-                        className="flex flex-col justify-start antialiased bg-gray-100 text-gray-800 min-h-screen p-4 dark:bg-gray-800 dark:text-gray-100 transition-all duration-500 ease-in-out">
-                        <div className="py-4 px-4 sm:px-6 md:px-8 md:py-5">
-                            {/* TODO: Create a  Breadcrumbs component */}
-                            <ul className="flex items-center">
-                                <svg className="text-gray-500 dark:text-gray-100" width="20" fill="currentColor"
-                                     height="20" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
-                                    <path
-                                        d="M1523 1339q-22-155-87.5-257.5t-184.5-118.5q-67 74-159.5 115.5t-195.5 41.5-195.5-41.5-159.5-115.5q-119 16-184.5 118.5t-87.5 257.5q106 150 271 237.5t356 87.5 356-87.5 271-237.5zm-243-699q0-159-112.5-271.5t-271.5-112.5-271.5 112.5-112.5 271.5 112.5 271.5 271.5 112.5 271.5-112.5 112.5-271.5zm512 256q0 182-71 347.5t-190.5 286-285.5 191.5-349 71q-182 0-348-71t-286-191-191-286-71-348 71-348 191-286 286-191 348-71 348 71 286 191 191 286 71 348z">
-                                    </path>
-                                </svg>
-                                <li className="flex items-center pl-2">
-                                    <Link to=''
-                                          className="text-xs text-gray-500 dark:text-gray-100 hover:text-primary underline decoration-1">Customers</Link>
-                                    <span className="px-1 text-gray-500">&gt;</span>
-                                </li>
-                                <li className="flex items-center">
-                                    <Link to=''
-                                          className="text-xs text-gray-500 dark:text-gray-100 hover:text-primary underline decoration-1">Search
-                                        Result</Link>
-                                    <span className="px-1 text-gray-500">&gt;</span>
-                                </li>
-                                <li className="text-xs text-gray-500 dark:text-gray-100">{customer && (<>{customer.customerDetails.forename} {customer.customerDetails.surname}</>)}</li>
-                            </ul>
+                        className="flex flex-col justify-center antialiased bg-gray-100 text-gray-800 min-h-screen p-4 dark:bg-gray-800 dark:text-gray-100 transition-all duration-500 ease-in-out">
+                        <div className="py-4 px-4 sm:px-6 lg:px-8 lg:py-5">
+                            <div className="grid grid-flow-col">
+                                {/* TODO: Create a  Breadcrumbs component */}
+                                <ul className="flex items-center">
+                                    <li className="flex items-center pl-2">
+                                        <Link to="/"
+                                              className="text-xs text-gray-500 dark:text-gray-100 hover:text-primary underline decoration-1">
+                                            <i className="fa fa-home fa-2x"/>
+                                        </Link>
+                                        <span className="px-1 text-gray-500">&gt;</span>
+                                    </li>
+                                    <li className="flex items-center">
+                                        <Link to={prevRoute.path}
+                                              className="text-xs text-gray-500 dark:text-gray-100 hover:text-primary underline decoration-1">{prevRoute.name}</Link>
+                                        <span className="px-1 text-gray-500">&gt;</span>
+                                    </li>
+                                    <li className="text-xs text-gray-500 dark:text-gray-100">{customer && (<>{customer.customerDetails.forename} {customer.customerDetails.surname}</>)}</li>
+                                </ul>
+                                <span className="text-right">
+                                    <button className="bg-red" onClick={toggleActionMenu}>
+                                        <i className="fa fa-cog"></i>
+                                    </button>
+                                </span>
+                            </div>
                         </div>
                         {successMessage &&
                         <div className="space-y-4 pb-5">
@@ -273,42 +285,41 @@ const CustomerDetails = () => {
                         </div>
                         }
                         {customer && (
-                            <>
-                                <div className="ml-10 pt-2 pb-8">
-                                    <div className="mx-auto grid grid-flow-col gap-3">
-                                        <div
-                                            className="flex items-center border-r-[1px] pr-2 col-span-1 dark:border-r-gray-600 transition-all duration-500 ease-in-out">
-                                            <div className="flex-shrink-0 mr-2 sm:mr-3">
-                                                <img className="rounded-full"
-                                                     src={customer.customerDetails.profilePhoto ? customer.customerDetails.profilePhoto : "https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"}
-                                                     width="90" height="90"
-                                                     alt="Tom Leach"/></div>
-                                            <div className="flex-shrink-0 pl-6 mr-2 sm:mr-3">
-                                                <p className="text-left text-lg font-bold text-gray-800 dark:text-gray-100">{customer.customerDetails.forename} {customer.customerDetails.surname}</p>
-                                                <p className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
-                                                    <i className="fa fa-check-circle text-lg text-[#5ed197] pr-2"></i>{customer.customerDetails.emailAddress}
-                                                </p>
-                                                <p className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">{customer.customerDetails.contactNumber}</p>
-                                                <div className="flex items-center pt-3">
+                        <>
+                            <div className="ml-10 pt-2 pb-8">
+                                <div className="mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                                    <div
+                                        className="grid grid-cols-2 border-r-[1px] px-2 col-span-1 dark:border-r-gray-600 border-b-[1px] dark:border-b-gray-600 lg:border-b-[0px] transition-all duration-500 ease-in-out">
+                                        <div className="overflow-auto">
+                                            <img className="rounded-full w-2/3"
+                                            src={customer.customerDetails.profilePhoto ? customer.customerDetails.profilePhoto : "https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"}
+                                            alt="Tom Leach"/></div>
+                                        <div className="overflow-auto">
+                                            <p className="text-left text-lg font-bold text-gray-800 dark:text-gray-100">{customer.customerDetails.forename} {customer.customerDetails.surname}</p>
+                                            <p className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
+                                                <i className="fa fa-check-circle text-lg text-[#5ed197] pr-2"></i>{customer.customerDetails.emailAddress}
+                                            </p>
+                                            <p className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">{customer.customerDetails.contactNumber}</p>
+                                            <div className="flex items-center pt-3">
                                                 <span
-                                                    className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                    className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold ">
                                                     <ReactCountryFlag countryCode={customer.address.iso3CountryCode} />
                                                 </span>
-                                                    <span
-                                                        className="pl-2 text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">{customer.address.countryName}
+                                                <span
+                                                    className="pl-2 text-left text-sm font-medium text-gray-800 dark:text-gray-100">{customer.address.countryName}
                                                 </span>
-                                                </div>
                                             </div>
                                         </div>
-                                        <div
-                                            className="group flex items-start flex-col pr-6 pl-6 border-r-[1px] col-span-1 dark:border-r-gray-600 transition-all duration-500 ease-in-out">
-                                            <div className="flex-shrink-0 mr-2 sm:mr-3">
-                                                <div
-                                                    className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100">
-                                                    <i className="fa fa-birthday-cake text-lg text-gray-800 dark:text-gray-100 pr-2"></i>
-                                                    {dateFormat(dateOfBirth, "dd mmmm yyyy")}
-                                                </div>
+                                    </div>
+                                    <div
+                                        className="group flex items-start flex-col px-6 py-2 md: border-r-0 border-r-[1px] border-b-[1px] dark:border-b-gray-600 lg:border-b-[0px] col-span-1 dark:border-r-gray-600 transition-all duration-500 ease-in-out">
+                                        <div className="flex-shrink-0 mr-2 sm:mr-3">
+                                            <div
+                                                className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100">
+                                                <i className="fa fa-birthday-cake text-lg text-gray-800 dark:text-gray-100 pr-2"></i>
+                                               {dateFormat(dateOfBirth, "dd mmmm yyyy")}
                                             </div>
+                                        </div>
 
                                             <div className="flex-shrink-0 mr-2 sm:mr-3">
                                                 <div
@@ -324,36 +335,40 @@ const CustomerDetails = () => {
                                                 </div>
                                             </div>
 
-                                            <div className="flex-shrink-0 mr-2 sm:mr-3">
-                                                <div
-                                                    className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
-                                                    <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>AB
-                                                    12 34 56 C
-                                                </div>
+                                        <div className="flex-shrink-0 mr-2 sm:mr-3">
+                                            <div
+                                                className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
+                                                <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>AB
+                                                12 34 56 C
                                             </div>
                                         </div>
-                                        <div
-                                            className="group flex items-start flex-col pr-6 pl-6 border-r-[1px] dark:border-r-gray-600 col-span-1 transition-all duration-500 ease-in-out">
-                                            <div className="flex-shrink-0 mr-2 sm:mr-3">
-                                                <div
-                                                    className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100">
+                                    </div>
+                                    <div
+                                        className="group flex items-start flex-col px-6 py-2 border-r-[1px] dark:border-r-gray-600 border-b-[1px] dark:border-b-gray-600 lg:border-b-[0px] col-span-1 transition-all duration-500 ease-in-out">
+                                        <div className="flex-shrink-0 mr-2 sm:mr-3 w-full">
+                                            <div
+                                                className="grid grid-cols-2 text-left text-sm font-medium text-gray-800 dark:text-gray-100">
+                                                <span>
                                                     <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>KYC
                                                     Status
-                                                    <span className="flex items-center justify-center pl-3">
+                                                    </span>
+                                                <span className="flex items-center pl-4 ml-1">
                                                     <span aria-hidden="true"
-                                                          className={"w-3 h-3 rounded-full inline-block align-middle" + (amlStatus.overallStatusID !== 6 ? "  bg-red-500 " : "  bg-green-500 ")}/>
-                                                    <span className="pl-2 text-gray-400 font-bold">
+                                                        className={"w-3 h-3 rounded-full inline-block align-middle" + (amlStatus.overallStatusID !== 6 ? "  bg-red-500 " : "  bg-green-500 ")}/>
+                                                    <span className="pl-2 text-gray-400 font-bold w-2/3">
                                                         {amlStatus.overallStatusText}
                                                     </span>
                                                 </span>
-                                                </div>
                                             </div>
-                                            <div className="flex-shrink-0 mr-2 sm:mr-3">
-                                                <div
-                                                    className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
+                                        </div>
+                                        <div className="flex-shrink-0 mr-2 sm:mr-3 w-full">
+                                            <div
+                                                className="grid grid-cols-2 text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
+                                                <span>
                                                     <i className="fa fa-lock text-lg text-gray-800 dark:text-gray-100 pr-4"></i>Account
                                                     Status
-                                                    <span className="flex items-center justify-center pl-3">
+                                                    </span>
+                                                <span className="flex items-center pl-4 ml-1">
                                                     <span aria-hidden="true"
                                                           className={"w-3 h-3 rounded-full inline-block align-middle " + (!lockAccountStatus ? " bg-green-500 " : " bg-red-500 ")}>
                                                     </span>
@@ -361,14 +376,16 @@ const CustomerDetails = () => {
                                                         {lockAccountStatus ? "Locked" : "Passed"}
                                                     </span>
                                                 </span>
-                                                </div>
                                             </div>
-                                            <div className="flex-shrink-0 mr-2 sm:mr-3">
-                                                <div
-                                                    className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
+                                        </div>
+                                        <div className="flex-shrink-0 mr-2 sm:mr-3 w-full">
+                                            <div
+                                                className="grid grid-cols-2 text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
+                                                <span>
                                                     <i className="fa fa-flag text-lg text-gray-800 dark:text-gray-100 pr-2"></i>Monitored
                                                     Customer
-                                                    <span className="flex items-center justify-center pl-3">
+                                                </span>
+                                                <span className="flex items-center pl-4 ml-1">
                                                     <span aria-hidden="true"
                                                           className={"w-3 h-3 rounded-full inline-block align-middle " + (!monitorCustomerStatus ? " bg-green-500 " : " bg-red-500 ")}>
                                                     </span>
@@ -380,44 +397,44 @@ const CustomerDetails = () => {
                                             </div>
                                         </div>
 
-                                        <div className="group flex items-start flex-col pr-6 pl-6 col-span-1">
-                                            <div className="flex-shrink-0 mr-2 sm:mr-3">
-                                                <div
-                                                    className="flex items-start text-left text-sm font-bold text-gray-800 dark:text-gray-100 leading-loose">
-                                                    <i className="fa fa-map-marker text-lg text-gray-800 dark:text-gray-100 pr-2"></i>
-                                                    {customer.address.flatNumber} {customer.address.number} {customer.address.buildingName}<br/> {customer.address.street} <br/> {customer.address.townCity} <br/> {customer.address.postCode}
-                                                </div>
+                                    <div className="group flex items-start flex-col px-6 py-2 col-span-1 border-b-[1px] dark:border-b-gray-600 lg:border-b-[0px]">
+                                        <div className="flex-shrink-0 mr-2 sm:mr-3">
+                                            <div
+                                                className="flex items-start text-left text-sm font-bold text-gray-800 dark:text-gray-100 leading-loose">
+                                                <i className="fa fa-map-marker text-lg text-gray-800 dark:text-gray-100 pr-2"></i>
+                                                {customer.address.flatNumber} {customer.address.number} {customer.address.buildingName}<br/> {customer.address.street} <br/> {customer.address.townCity} <br/> {customer.address.postCode}
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div className="h-full">
-                                    <div className="w-full mx-auto rounded-sm border-gray-200">
-                                        {/* TODO: Tabs component */}
-                                        <div
-                                            className="text-sm font-medium bg-white text-center text-gray-500 dark:text-gray-100 dark:bg-gray-600 transition-all duration-500 ease-in-out">
-                                            <ul className="flex flex-wrap -mb-px">
-                                                <li className="mr-2">
-                                                    <Link to='' className="inline-block p-4 border-b-2 border-[#5db1b5] active">Account
-                                                        Details</Link>
-                                                </li>
-                                                <li className="mr-2">
-                                                    <Link to='' className="inline-block p-4 border-transparent"
-                                                          aria-current="page">ID Verification</Link>
-                                                </li>
-                                                <li className="mr-2">
-                                                    <Link to='' className="inline-block p-4 border-transparent"
-                                                          aria-current="page">Trading Accounts</Link>
-                                                </li>
-                                            </ul>
-                                        </div>
+                            </div>
+                            <div className="h-full">
+                                <div className="w-full mx-auto rounded-sm border-gray-200">
+                                    {/* TODO: Tabs component */}
+                                    <div
+                                        className="text-sm font-medium bg-white text-center text-gray-500 dark:text-gray-100 dark:bg-gray-600 transition-all duration-500 ease-in-out">
+                                        <ul className="flex flex-wrap -mb-px">
+                                            <li className="mr-2">
+                                                <Link to='' className="inline-block p-4 border-b-2 border-[#5db1b5] active">Account
+                                                    Details</Link>
+                                            </li>
+                                            <li className="mr-2">
+                                                <Link to='' className="inline-block p-4 border-transparent"
+                                                    aria-current="page">ID Verification</Link>
+                                            </li>
+                                            <li className="mr-2">
+                                                <Link to='' className="inline-block p-4 border-transparent"
+                                                    aria-current="page">Trading Accounts</Link>
+                                            </li>
+                                        </ul>
                                     </div>
-                                    <div className="-mx-2 md:flex pt-8">
-                                        <div className="w-full md:w-1/4 px-2">
-                                            <div
-                                                className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
-                                                <div className="flex flex-col rounded-md relative overflow-hidden">
-                                                    <h2 className='p-3 font-bold'>Restrictions</h2>
+                                </div>
+                                <div className="-mx-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 pt-8">
+                                    <div className="w-full px-2">
+                                        <div
+                                            className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
+                                            <div className="flex flex-col rounded-md relative overflow-hidden">
+                                                <h2 className='p-3 font-bold'>Restrictions</h2>
 
                                                     <div className="flex items-center justify-between p-3 w-full">
                                                         <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
@@ -478,19 +495,19 @@ const CustomerDetails = () => {
                                                            {tradingRestrictions.restrictWithdraw  ? "On" : "Off"}
                                                         </span>
                                                     </span>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="w-full md:w-1/4 px-2">
-                                            <div
-                                                className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
-                                                <div className="flex flex-col rounded-md relative overflow-hidden">
-                                                    <h2 className='p-3 font-bold'>Preferences</h2>
-                                                    <div className="flex items-center justify-between p-3 w-full">
-                                                        <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Two
-                                                            Factor</p>
-                                                        <span className="flex w-24 items-center justify-start pl-3">
+                                    </div>
+                                    <div className="w-full px-2">
+                                        <div
+                                            className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
+                                            <div className="flex flex-col rounded-md relative overflow-hidden">
+                                                <h2 className='p-3 font-bold'>Preferences</h2>
+                                                <div className="flex items-center justify-between p-3 w-full">
+                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Two
+                                                        Factor</p>
+                                                    <span className="flex w-24 items-center justify-start pl-3">
                                                         <span aria-hidden="true"
                                                               className={"w-3 h-3 rounded-full inline-block align-middle" + (customer.securitySettings.is2faSet ? " bg-green-500 " : " bg-gray-500 ")}>
                                                         </span>
@@ -540,20 +557,20 @@ const CustomerDetails = () => {
                                                             {customer.tradingPreferences.currencyName}
                                                         </span>
                                                     </span>
-                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="w-full md:w-1/4 px-2">
-                                            <div
-                                                className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
-                                                <div className="flex flex-col rounded-md relative overflow-hidden">
-                                                    <h2 className='p-3 font-bold'>Communications</h2>
-                                                    {
-                                                        customer.contactTypes && customer.contactTypes.map((contactType, index) => (
-                                                            <div className="flex items-center justify-between p-3 w-full" key={index}>
-                                                                <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>{contactType.contactTypeText}</p>
-                                                                <span className="flex w-24 items-center justify-start pl-3">
+                                    </div>
+                                    <div className="w-full px-2">
+                                        <div
+                                            className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
+                                            <div className="flex flex-col rounded-md relative overflow-hidden">
+                                                <h2 className='p-3 font-bold'>Communications</h2>
+                                                {
+                                                    customer.contactTypes && customer.contactTypes.map((contactType, index) => (
+                                                    <div className="flex items-center justify-between p-3 w-full" key={index}>
+                                                        <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>{contactType.contactTypeText}</p>
+                                                        <span className="flex w-24 items-center justify-start pl-3">
                                                             <span aria-hidden="true"
                                                                   className={"w-3 h-3 rounded-full inline-block align-middle" + (contactType.isSelected ? " bg-green-500 " : " bg-red-500 ")}>
                                                             </span>
@@ -562,21 +579,21 @@ const CustomerDetails = () => {
                                                                 {contactType.isSelected ? "Yes" : "No"}
                                                             </span>
                                                         </span>
-                                                            </div>
-                                                        ))
-                                                    }
-                                                </div>
+                                                    </div>
+                                                    ))
+                                                }
                                             </div>
                                         </div>
-                                        <div className="w-full md:w-1/4 px-2">
-                                            <div
-                                                className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
-                                                <div className="flex flex-col rounded-md relative overflow-hidden">
-                                                    <h2 className='p-3 font-bold'>Topics</h2>
-                                                    {customer.communicationTypes.map((communicationType, index) => (
-                                                        <div className="flex items-center justify-between p-3 w-full" key={index}>
-                                                            <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>{communicationType.communicationTypeText}</p>
-                                                            <span className="flex w-18 items-center justify-start pl-3">
+                                    </div>
+                                    <div className="w-full px-2">
+                                        <div
+                                            className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
+                                            <div className="flex flex-col rounded-md relative overflow-hidden">
+                                                <h2 className='p-3 font-bold'>Topics</h2>
+                                                {customer.communicationTypes.map((communicationType, index) => (
+                                                <div className="flex items-center justify-between p-3 w-full" key={index}>
+                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>{communicationType.communicationTypeText}</p>
+                                                    <span className="flex w-18 items-center justify-start pl-3">
                                                         <span aria-hidden="true"
                                                               className={"w-3 h-3 rounded-full inline-block align-middle " + (communicationType.isSelected ? 'bg-green-500' : 'bg-red-500')}>
                                                         </span>
@@ -597,13 +614,21 @@ const CustomerDetails = () => {
                     </section>
                 </main>
                 <div
-                    className="relative bg-gray-100 dark:bg-gray-800 border-l-[1px] dark:border-l-gray-600 transition-all duration-500 ease-in-out">
-                    <div className="flex flex-col sm:flex-row sm:justify-around">
-                        <div className="w-60 h-screen">
+                    className={`${actionMenu ? "fixed" : "hidden"} right-0 h-screen bg-gray-100 dark:bg-gray-800 border-l-[1px] dark:border-l-gray-600 transition-all duration-500 ease-in-out`}>
+                    <div className="h-screen">
+                        <div className="w-60 h-screen overflow-y-scroll">
                             <div className="mt-8 px-4">
                                 {/* TODO: load the colors from config */}
-                                <h3 className="text-sm text-left text-gray-800 font-semibold leading-tight my-6">Action
-                                    Menu</h3>
+                                <div className="w-100 grid grid-flow-col">
+                                    <h3 className="text-sm text-left text-gray-800 font-semibold leading-tight my-6">Action
+                                        Menu
+                                    </h3>
+                                    <span className="text-right  my-6">
+                                    <button className="bg-red" onClick={toggleActionMenu}>
+                                        <i className="fa fa-angle-right"></i>
+                                    </button>
+                                </span>
+                                </div>
                                 <h4 className="text-sm text-gray-500 leading-tight mb-4">Account Access</h4>
                                 <button
                                     className='bg-[#52b2b6] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Send
