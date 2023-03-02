@@ -355,6 +355,7 @@ const CustomerDetails = (props) => {
                                                 <span>
                                                     <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>KYC
                                                     Status
+                                                </span>
                                                     <span className="flex items-center justify-center pl-3">
                                                     <span
                                                         aria-hidden="true"
