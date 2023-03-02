@@ -35,6 +35,8 @@ const CustomerDetails = (props) => {
     const [errorMessage, setErrorMessage] = useState()
 
     const [lockAccountStatus, setLockAccountStatus] = useState(true);
+    const [activeAccountStatus, setActiveAccountStatus] = useState(true);
+    const [emailactiveStatus, setEmailactiveStatus] = useState(true);
     const [monitorCustomerStatus, setMonitorCustomer] = useState(true);
     const [tradingRestrictions, setTradingRestrictions] = useState({
         restrictDeposit: false,
@@ -55,6 +57,8 @@ const CustomerDetails = (props) => {
             const customerDetailData = customer.data.response;
             setCustomer(customerDetailData);
             setLockAccountStatus(customerDetailData.customerDetails.isLocked)
+            setEmailactiveStatus(customerDetailData.customerDetails.isEmailVerify)
+            setActiveAccountStatus(customerDetailData.customerDetails.isActive)
             setDateOfBirth(new Date(customerDetailData.customerDetails.dateOfBirth));
             setTradingRestrictions(customerDetailData.restrictions)
             setMonitorCustomer(customerDetailData.customerDetails.isGwMonitored)
@@ -351,11 +355,12 @@ const CustomerDetails = (props) => {
                                                 <span>
                                                     <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>KYC
                                                     Status
-                                                    </span>
-                                                <span className="flex items-center pl-4 ml-1">
-                                                    <span aria-hidden="true"
-                                                        className={"w-3 h-3 rounded-full inline-block align-middle" + (amlStatus.overallStatusID !== 6 ? "  bg-red-500 " : "  bg-green-500 ")}/>
-                                                    <span className="pl-2 text-gray-400 font-bold w-2/3">
+                                                </span>
+                                                    <span className="flex items-center justify-center pl-3">
+                                                    <span
+                                                        aria-hidden="true"
+                                                        className={"w-3 h-3 rounded-full inline-block align-middle " + ([5,9].includes(amlStatus.overallStatusID) ?  "bg-green-500" : amlStatus.overallStatusID === 8 ? "bg-orange-500" : "bg-red-500")}/>
+                                                    <span className="pl-2 text-gray-400 font-bold">
                                                         {amlStatus.overallStatusText}
                                                     </span>
                                                 </span>
@@ -370,10 +375,10 @@ const CustomerDetails = (props) => {
                                                     </span>
                                                 <span className="flex items-center pl-4 ml-1">
                                                     <span aria-hidden="true"
-                                                          className={"w-3 h-3 rounded-full inline-block align-middle " + (!lockAccountStatus ? " bg-green-500 " : " bg-red-500 ")}>
+                                                          className={"w-3 h-3 rounded-full inline-block align-middle " + (lockAccountStatus || !activeAccountStatus ? "bg-red-500" : !activeAccountStatus || !emailactiveStatus ? "bg-orange-500" : "bg-green-500")}>
                                                     </span>
                                                     <span className="pl-2 text-gray-400 dark:text-gray-100 font-bold">
-                                                        {lockAccountStatus ? "Locked" : "Passed"}
+                                                        {lockAccountStatus && !activeAccountStatus ? "Locked - Not Active" : lockAccountStatus ? "Locked" : !activeAccountStatus ? "Not Active" : !emailactiveStatus ? "Pending Email Activation" : "Active"}
                                                     </span>
                                                 </span>
                                             </div>
