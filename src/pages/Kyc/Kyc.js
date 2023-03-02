@@ -1,4 +1,4 @@
-import {Link} from 'react-router-dom'
+import {Link, useNavigate} from 'react-router-dom'
 import ReactCountryFlag from 'react-country-flag'
 import {FiSettings} from 'react-icons/fi'
 import React, {useEffect, useState} from "react";
@@ -13,10 +13,9 @@ import {hideLoader, showLoader} from "../../reducers/loaderSlice.reducer";
 const Kyc = () => {
     const dispatch = useDispatch()
 
-    const [identityStatusId] = useState("0")
+    const [identityStatusId, setIdentityStatusId] = useState("0")
     const [isgwMonitored] = useState("0")
     const [customers, setCustomers] = useState()
-
     const getCustomers = async () => {
         try {
             dispatch(showLoader())
@@ -30,14 +29,68 @@ const Kyc = () => {
         }
     }
 
+    const customersStatus = [
+        {
+            id: "0",
+            name: "View All",
+        },
+        {
+            id: "1",
+            name: "Not Started",
+        },
+        {
+            id: "2",
+            name: "Awaiting Information",
+        },
+        {
+            id: "3",
+            name: "In Progress",
+        },
+        {
+            id: "4",
+            name: "In Review",
+        },
+        {
+            id: "5",
+            name: "Passed",
+        },
+        {
+            id: "6",
+            name: "Failed",
+        },
+        {
+            id: "7",
+            name: "Retry",
+        },
+        {
+            id: "8",
+            name: "Expired",
+        },
+        {
+            id: "9",
+            name: "Passed (manual)",
+        },
+        {
+            id: "10",
+            name: "Failed (manual)",
+        },
+        {
+            id: "11",
+            name: "Suspended",
+        },
+    ]
+
+    const navigate = useNavigate();
+
     useEffect(() => {
         getCustomers()
-    }, [])
+    }, [identityStatusId, isgwMonitored])
 
     return (
         <div className="flex w-full">
             {/* TODO: add template */}
-            <main className="flex flex-col w-full overflow-x-hidden overflow-y-auto">
+            <div className="flex h-full">
+                <main className="flex flex-col w-full overflow-x-hidden overflow-y-auto">
                 <section
                     className="flex flex-col justify-start antialiased bg-gray-100 text-gray-800 min-h-screen p-4 dark:bg-gray-800 transition-all duration-500 ease-in-out">
                     <div className="h-full">
@@ -152,12 +205,15 @@ const Kyc = () => {
                                                     </td>
                                                     <td className="p-2 whitespace-nowrap">
                                                         <span className="flex items-center justify-left">
-                                                            <Locked isLocked={customer.accountLocked}></Locked>
+                                                            <Locked
+                                                                isLocked={parseInt(customer.isLocked)}
+                                                                isActive={parseInt(customer.isActive)}
+                                                                isEmailVerified={parseInt(customer.isEmailVerify)} />
                                                         </span>
                                                     </td>
                                                     <td className="p-2 whitespace-nowrap">
                                                         <span className="flex items-center justify-left">
-                                                            <KYCStatus status={customer.idIdentityStatus}
+                                                            <KYCStatus status={parseInt(customer.idIdentityStatus)}
                                                                        statusDescription={customer.identityStatusText}></KYCStatus>
                                                         </span>
                                                     </td>
@@ -188,6 +244,7 @@ const Kyc = () => {
                     </div>
                 </section>
             </main>
+            </div>
         </div>
     )
 }

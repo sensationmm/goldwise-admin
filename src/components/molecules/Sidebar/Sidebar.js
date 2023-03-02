@@ -1,4 +1,4 @@
-import { useReducer } from "react";
+import { useReducer, useState } from "react";
 import { NavLink, useLocation } from "react-router-dom";
 
 const menu = [
@@ -7,11 +7,11 @@ const menu = [
     to: "/dashboard",
     icon: "fa-home",
   },
-  {
-    name: "Customers",
-    to: "/customers",
-    icon: "fa-user-circle",
-  },
+  // {
+  //   name: "Customers",
+  //   to: "/customers",
+  //   icon: "fa-user-circle",
+  // },
   {
     name: "KYC",
     to: "/kyc",
@@ -58,15 +58,25 @@ const Sidebar = () => {
     (preState, newState) => ({ ...preState, ...newState }), {}
   );
 
+  const [sidebarCollapse, setSidebarCollapse] = useState(false)
+  const toggleSidebar = () => {
+    setSidebarCollapse(!sidebarCollapse);
+  }
+
   return (
-    <div className="relative bg-gray-100 dark:bg-gray-800 border-r-[1px] dark:border-r-gray-600 transition-all duration-500 ease-in-out">
+  <>
+    <div className={`relative bg-gray-100 dark:bg-gray-800 border-r-[1px] dark:border-r-gray-600 ${ sidebarCollapse ? "sidebar-collapse" : ""}`}>
       <div className="flex flex-col sm:flex-row sm:justify-around">
-        <div className="w-80 h-screen">
-          <nav className="mt-8 px-4">
+        <div className="w-30 lg:w-80 h-screen">
+          <nav className="px-4">
+            <div className="fixed side z-10 bg-current dark:bg-white lg:hidden">
+              <button className="bg-gray-800 dark:bg-white w-8 rounded" onClick={toggleSidebar}>
+                <i className="fa fa-bars text-lg text-secondary bold text-white dark:text-gray-800"/>
+              </button>
+            </div>
             {menu.map((element) => {
               if (element.children) {
                 const isPath = location.pathname.includes(element.to);
-
                 return (
                   <>
                     <div
@@ -89,17 +99,19 @@ const Sidebar = () => {
                       <i
                         className="fa fa-th-large text-2xl"
                         aria-hidden="true"
-                      ></i>
-                      <span className="flex-grow mx-8 text-base font-normal">
+                      />
+                      <span className={`flex-grow mx-8 text-base font-normal lg:block ${
+                            collapse[element.collapse] ? "block" : "hidden"
+                          }`}>
                         {element.name}
                       </span>
-                      <span className="flex-grow text-right">
+                      <span className="flex-grow text-right ml-1 lg:ml-0">
                         <i
                           className={`fa fa-angle-right text-2xl duration-200 ${
                             collapse[element.collapse] ? "rotate-90" : ""
                           }`}
                           aria-hidden="true"
-                        ></i>
+                        />
                       </span>
                     </div>
                     {collapse[element.collapse] && (
@@ -116,12 +128,6 @@ const Sidebar = () => {
                           >
                             <span className="flex-grow mx-8 text-sm font-normal">
                               {child.name}
-                            </span>
-                            <span className="flex-grow text-right">
-                              <i
-                                className="fa fa-angle-right text-2xl"
-                                aria-hidden="true"
-                              ></i>
                             </span>
                           </NavLink>
                         ))}
@@ -143,9 +149,9 @@ const Sidebar = () => {
                     <i
                       className={`fa text-2xl ${element.icon}`}
                       aria-hidden="true"
-                    ></i>
+                    />
 
-                    <span className="flex-grow mx-8 text-base font-normal">
+                    <span className="flex-grow mx-8 text-base font-normal hidden lg:block">
                       {element.name}
                     </span>
                     <span className="flex-grow text-right">
@@ -159,6 +165,7 @@ const Sidebar = () => {
         </div>
       </div>
     </div>
+  </>
   );
 };
 
