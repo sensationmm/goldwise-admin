@@ -1,21 +1,25 @@
-import { useState, useEffect } from "react"
+import React, { useEffect, useState } from "react";
+import vaultService from "../../services/vaultService";
 import EditVault from "./components/EditVault";
+import {hideLoader, showLoader} from "../../reducers/loaderSlice.reducer";
+import {useDispatch} from "react-redux";
 
 const VaultSetting = () => {
+    const dispatch = useDispatch()
     const [vaults, setVaults] = useState([])
     const [selectedVault, setSelectedVault] = useState(-1)
 
-    const fetchVaults = () => {
-        fetch("/mock-data/vaults.json", {
-            headers: {
-                "Content-Type": "application/json",
-                "Accept": "application/json",
-            },
-        })
-            .then((response) => response.json())
-            .then((data) => {
-                setVaults(data);
-            });
+    const getVaults = async () => {
+        try {
+            dispatch(showLoader())
+            const vaults = await vaultService.listVaultsAvailable();
+            setVaults(vaults.data.response);
+          } catch (e) {
+            //todo: display error if happen
+            console.log(e)
+          } finally {
+            dispatch(hideLoader())
+          }
     }
 
     const handleVaultChange = (index) => {
@@ -30,9 +34,9 @@ const VaultSetting = () => {
     const resetVaultIndex = () => {
         setSelectedVault(-1)
     }
-
+    
     useEffect(() => {
-        fetchVaults()
+        getVaults()
     }, [])
 
 
@@ -50,8 +54,8 @@ const VaultSetting = () => {
                         </div>
                         <div className="w-full" >
                             <div className="card shadow-xs bg-white p-10 rounded">
-                                {vaults.map((vault, index) => (
-                                    <div className="shadow p-2" key={vault.id}>
+                                {vaults && vaults.map((vault, index) => (
+                                    <div className="shadow p-2" key={index}>
                                         <div className="w-full grid grid-cols-12">
                                             <div className="col-span-10">{vault.vaultName}</div>
                                             <div className="col-span-2 border-l border-gray-200 pl-4">

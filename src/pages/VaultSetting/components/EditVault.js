@@ -1,45 +1,37 @@
 import { useEffect, useState } from "react";
 import _ from "lodash"
-const mockedFees = [
-    {
-        vaultProductStorageFees: [
-            {
-                product: "Digital Gold",
-                vaultStorageFeePerc: 3.2342
-            },
-            {
-                product: "Digital Silver",
-                vaultStorageFeePerc: 3.2342
-            }
-        ]
-    },
-    {
-        minimumVaultStorageFees: [
-            {
-                currencyCode: "EUR",
-                symbol: "€",
-                flag: "/assets/images/European-Union.svg",
-                fee: 2.55
-            },
-            {
-                currencyCode: "GBP",
-                symbol: "£",
-                flag: "/assets/images/United-Kingdom.svg",
-                fee: 2.55
-            }
-        ]
-    }
-]
+import vaultService from "../../../services/vaultService";
+import {hideLoader, showLoader} from "../../../reducers/loaderSlice.reducer";
+import {useDispatch} from "react-redux";
 
 const EditVault = ({ vault, resetVaultIndex }) => {
 
+    const dispatch = useDispatch()
     const [fees, setFees] = useState([])
     const [originalFees, setOriginalFees] = useState([])
+    const [vaultProductStorageFees, setVaultProductStorageFees] = useState([])
+    const [vaultMinimumStorageFees, setVaultMinimumStorageFees] = useState([])
+
+    const getVaultFees = async () => {
+        try {
+            dispatch(showLoader())
+            const vaultfees = await vaultService.getVaultFees(vault.vaultGuid)
+            setOriginalFees(vaultfees.data.response)
+            setFees(vaultfees.data.response)
+            setVaultProductStorageFees(vaultfees.data.response.vaultProductStorageFees)
+            setVaultMinimumStorageFees(vaultfees.data.response.vaultMinimumStorageFees)
+          } catch (e) {
+            //todo: display error if happen
+            console.log(e)
+          } finally {
+            dispatch(hideLoader())
+          }
+    }
 
     const handlePerFeeChange = (feeindex, index, value) => {
         setFees((prevFees) => {
             const newFees = Object.assign([], prevFees)
-            newFees[feeindex].vaultProductStorageFees[index].vaultStorageFeePerc = parseFloat(value)
+            newFees.vaultProductStorageFees[index].vaultStorageFeePerc = parseFloat(value)
             return newFees
         })
     }
@@ -47,17 +39,17 @@ const EditVault = ({ vault, resetVaultIndex }) => {
     const handleMinFeeChange = (feeIndex, index, value) => {
         setFees((prevFee) => {
             const newFee = Object.assign([], prevFee)
-            newFee[feeIndex].minimumVaultStorageFees[index].fee = parseFloat(value)
+            newFee.vaultMinimumStorageFees[index].fee = parseFloat(value)
             return newFee
         })
     }
 
     const changedMiniFee = (feeIndex, index) =>(
-        fees[feeIndex].minimumVaultStorageFees[index].fee === originalFees[feeIndex].minimumVaultStorageFees[index].fee
+        fees.vaultMinimumStorageFees[index].fee === originalFees.vaultMinimumStorageFees[index].fee
     )
 
     const changedPerFee = (feeIndex, index) =>(
-        fees[feeIndex].vaultProductStorageFees[index].vaultStorageFeePerc === originalFees[feeIndex].vaultProductStorageFees[index].vaultStorageFeePerc
+        fees.vaultProductStorageFees[index].vaultStorageFeePerc === originalFees.vaultProductStorageFees[index].vaultStorageFeePerc
     )
 
     const cancel = () => {
@@ -73,9 +65,8 @@ const EditVault = ({ vault, resetVaultIndex }) => {
     }
 
     useEffect(()=> {
-        setFees(mockedFees)
-        setOriginalFees(_.cloneDeep(mockedFees))
-    }, [vault])
+        getVaultFees()
+    }, [])
 
     return (
         <div className="w-full">
@@ -97,7 +88,7 @@ const EditVault = ({ vault, resetVaultIndex }) => {
                         </tr>
                         </thead>
                         <tbody className="font-bold text-gray-400 dark:text-gray-100">
-                        {fees?.map((vaultfees, feeIndex) => vaultfees?.vaultProductStorageFees?.map((fee, index) => (
+                        {vaultProductStorageFees && vaultProductStorageFees.map((fee, index) => (
                             <tr key={index}>
                                 <td>{fee.product}</td>
                                 <td>
@@ -108,17 +99,17 @@ const EditVault = ({ vault, resetVaultIndex }) => {
                                             min="0"
                                             step="0.0001"
                                             value={fee.vaultStorageFeePerc}
-                                            onChange={(e) => handlePerFeeChange(feeIndex, index, e.target.value)}
+                                            onChange={(e) => handlePerFeeChange(resetVaultIndex, index, e.target.value)}
                                         />
                                     </div>
                                 </td>
                                 <td>
                                     <div className="w-full h-full flex items-center justify-center">
-                                        <div className={ changedPerFee(feeIndex,index) ? "block w-5 h-5 rounded-full bg-green-500" : "block w-5 h-5 rounded-full bg-red-500"} ></div>
+                                        <div className={ changedPerFee(resetVaultIndex,index) ? "block w-5 h-5 rounded-full bg-green-500" : "block w-5 h-5 rounded-full bg-red-500"} ></div>
                                     </div>
                                 </td>
                             </tr>
-                        )))}
+                        ))}
                         </tbody>
                     </table>
                 </div>
@@ -141,7 +132,7 @@ const EditVault = ({ vault, resetVaultIndex }) => {
                         </tr>
                         </thead>
                         <tbody className="font-bold text-gray-400 dark:text-gray-100">
-                        {fees?.map((minimutfees, feeIndex) => minimutfees.minimumVaultStorageFees?.map((fee, index) => (
+                        {vaultMinimumStorageFees && vaultMinimumStorageFees.map((fee, index) => (
                             <tr key={index}>
                                 <td>
                                     <div className="w-full flex">
@@ -157,7 +148,7 @@ const EditVault = ({ vault, resetVaultIndex }) => {
                                             min="0"
                                             step="0.01"
                                             value={fee.fee}
-                                            onChange={(e) => handleMinFeeChange(feeIndex, index, e.target.value)}
+                                            onChange={(e) => handleMinFeeChange(resetVaultIndex, index, e.target.value)}
                                         />
                                     </div>
                                 </td>
@@ -165,14 +156,14 @@ const EditVault = ({ vault, resetVaultIndex }) => {
                                     <div className="w-full h-full flex items-center justify-center">
                                         <div
                                             className={
-                                                changedMiniFee(feeIndex,index) ?
+                                                changedMiniFee(resetVaultIndex,index) ?
                                                     "block w-5 h-5 rounded-full bg-green-500"
                                                     : "block w-5 h-5 rounded-full bg-red-500"
                                             } />
                                     </div>
                                 </td>
                             </tr>
-                        )))}
+                        ))}
                         </tbody>
                     </table>
                 </div>
