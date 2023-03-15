@@ -9,21 +9,25 @@ import Locked from './Locked';
 import KYCStatus from './KYCStatus';
 import {useDispatch} from "react-redux";
 import {hideLoader, showLoader} from "../../reducers/loaderSlice.reducer";
+import { useSelector } from 'react-redux'
+import Dropdown from "../../components/atoms/Dropdown";
 
-const Kyc = () => {
+const Kyc = (props) => {
     const dispatch = useDispatch()
-
-    const [identityStatusId, setIdentityStatusId] = useState("0")
+    const searchTerm = useSelector((state) => state.search?.searchTerm)
+    const [identityStatusId, setIdentityStatusId] = useState("1")
     const [isgwMonitored] = useState("0")
-    const [customers, setCustomers] = useState()
-    const getCustomers = async () => {
+    const [customers, setCustomers] = useState();
+
+    const getCustomers = async (displayLoader) => {
         try {
-            dispatch(showLoader())
-            const customersPromise = await customerAmlService.listAml(identityStatusId, isgwMonitored);
+            if (!displayLoader) dispatch(showLoader())
+            let customersPromise = await customerAmlService.listAml(identityStatusId, isgwMonitored, searchTerm);
+            console.log(customersPromise);
+            //if (!Array.isArray(customersPromise)) customersPromise = [customersPromise]
             setCustomers(customersPromise)
         } catch (e) {
             //todo: display error if happen
-            console.log(e)
         } finally {
             dispatch(hideLoader())
         }
@@ -83,8 +87,12 @@ const Kyc = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        getCustomers()
-    }, [identityStatusId, isgwMonitored])
+        getCustomers();
+    }, [identityStatusId])
+
+    useEffect(() => {
+        if (searchTerm !== "") getCustomers(true)
+    }, [searchTerm]);
 
     return (
         <div className="flex w-full">
@@ -110,20 +118,20 @@ const Kyc = () => {
                                 className="text-sm font-medium bg-white text-center text-gray-500 dark:bg-gray-600 dark:text-gray-100 transition-all duration-500 ease-in-out">
                                 <ul className="flex flex-wrap -mb-px">
                                     <li className="mr-2">
-                                        <Link to='' className="inline-block p-4 border-b-2 border-[#5db1b5] active">To
-                                            Be Reviewed</Link>
+                                        <div onClick={() => {setIdentityStatusId('1');}} className={(identityStatusId === "1") ? 'inline-block p-4 border-b-2 border-[#5db1b5]': 'inline-block p-4'}  >To
+                                            Be Reviewed</div>
                                     </li>
                                     <li className="mr-2">
-                                        <Link to='' className="inline-block p-4 border-transparent"
-                                              aria-current="page">View All</Link>
+                                        <div onClick={() => {setIdentityStatusId('0');}} className={(identityStatusId === "0") ? 'inline-block p-4 border-b-2 border-[#5db1b5]': 'inline-block p-4'}
+                                              aria-current="page">View All</div>
                                     </li>
                                     <li className="mr-2">
-                                        <Link to='' className="inline-block p-4 border-transparent"
-                                              aria-current="page">Passed</Link>
+                                        <div onClick={() => {setIdentityStatusId('5');}} className={(identityStatusId === "5") ? 'inline-block p-4 border-b-2 border-[#5db1b5]': 'inline-block p-4'}
+                                              aria-current="page">Passed</div>
                                     </li>
                                     <li className="mr-2">
-                                        <Link to='' className="inline-block p-4 border-transparent"
-                                              aria-current="page">Failed</Link>
+                                        <div onClick={() => {setIdentityStatusId('6');}} className={(identityStatusId === "6") ? 'inline-block p-4 border-b-2 border-[#5db1b5]': 'inline-block p-4'}
+                                              aria-current="page">Failed</div>
                                     </li>
                                 </ul>
                             </div>
@@ -133,7 +141,7 @@ const Kyc = () => {
                                     <table className="table-auto w-full">
                                         <thead className="text-xs font-bold text-gray-800 dark:text-gray-100">
                                         <tr>
-                                            <th className="p-3 whitespace-nowrap">
+                                            <th className="p-3 whitespace-nowrap" style={{display: 'none'}}>
                                                 <div className="font-semibold text-left">Photo</div>
                                             </th>
                                             <th className="p-3 whitespace-nowrap">
@@ -169,10 +177,10 @@ const Kyc = () => {
                                         <tbody
                                             className="text-sm divide-y divide-gray-200 dark:divide-gray-600 dark:text-gray-100 transition-all duration-500 ease-in-out">
                                         {
-                                            customers &&
-                                            (customers.map((customer, index) => (
+                                            customers && customers.length > 0 &&
+                                            (customers?.map((customer, index) => (
                                                 <tr key={index}>
-                                                    <td className="p-2 whitespace-nowrap">
+                                                    <td style={{display: 'none'}} className="p-2 whitespace-nowrap">
                                                         <div className="flex items-center">
                                                             <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
                                                                 <img className="rounded-full"
