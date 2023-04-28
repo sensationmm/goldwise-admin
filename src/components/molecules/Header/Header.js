@@ -1,14 +1,16 @@
 import React, { forwardRef, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { ReactSVG } from "react-svg";
 import { clearAdmin } from "../../../reducers/userSlice.reducer";
 // import authService from '../../../services/auth.service'
 import withClickOutside from "../../../helper/withClickOutside";
 import UserInfoCard from "../UserInfoCard";
+import {search} from "../../../reducers/search.reducer";
 
 const Header = forwardRef(({ open, setOpen }, ref) => {
   const dispatch = useDispatch();
+  const searchTerm = useSelector((state) => state.search?.searchTerm);
   const navigate = useNavigate();
   const [user, setUser] = useState({});
   useEffect(() => {
@@ -36,6 +38,10 @@ const Header = forwardRef(({ open, setOpen }, ref) => {
       console.log(err);
     }
   };
+
+  const handleSearch = (e) => {
+    dispatch(search(e.target.value));
+  }
   return (
     <div className="sticky top-0 z-50">
       <nav className="flex bg-white dark:bg-gray-800 shadow sticky top-0 z-50 dark:shadow-gray-600 transition-all duration-500 ease-in-out">
@@ -53,6 +59,7 @@ const Header = forwardRef(({ open, setOpen }, ref) => {
             </div>
             <input
               type="text"
+              onKeyUp={handleSearch}
               className="h-10 w-full pr-8 pl-12 rounded-md z-0 outline-none focus:outline-none border-0 bg-gray-100 dark:bg-gray-600 transition-all duration-500 ease-in-out"
               placeholder=""
             />

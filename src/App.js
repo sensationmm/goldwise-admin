@@ -16,6 +16,7 @@ import RequireAuth from './components/organisms/RequireAuth'
 import {setApiToken} from './reducers/tokenSlice.reducer'
 import {hideLoader, showLoader} from "./reducers/loaderSlice.reducer";
 import VaultSetting from "./pages/VaultSetting";
+import {search} from "./reducers/search.reducer";
 
 const App = () => {
     const dispatch = useDispatch()
@@ -37,6 +38,7 @@ const App = () => {
     }
 
     useEffect(() => {
+        dispatch(search(""))
         getApiToken()
     }, [])
 
@@ -63,7 +65,16 @@ const App = () => {
                 </Route>
 
                 <Route element={<RequireAuth/>}>
-                    <Route path='kyc' element={<Kyc/>}/>
+                    <Route path='kyc' element={<Kyc  page={"0"}/>}/>
+                </Route>
+                <Route element={<RequireAuth/>}>
+                    <Route path='kyc/all' element={<Kyc  page={"1"}/>}/>
+                </Route>
+                <Route element={<RequireAuth/>}>
+                    <Route path='kyc/passed' element={<Kyc  page={"2"}/>}/>
+                </Route>
+                <Route element={<RequireAuth/>}>
+                    <Route path='kyc/failed' element={<Kyc  page={"3"}/>}/>
                 </Route>
 
                 <Route element={<RequireAuth/>}>

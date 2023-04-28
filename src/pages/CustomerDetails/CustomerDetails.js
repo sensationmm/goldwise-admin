@@ -294,7 +294,7 @@ const CustomerDetails = (props) => {
                                 <div className="mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
                                     <div
                                         className="grid grid-cols-2 border-r-[1px] px-2 col-span-1 dark:border-r-gray-600 border-b-[1px] dark:border-b-gray-600 lg:border-b-[0px] transition-all duration-500 ease-in-out">
-                                        <div className="overflow-auto">
+                                        <div className="overflow-auto hidden">
                                             <img className="rounded-full w-2/3"
                                             src={customer.customerDetails.profilePhoto ? customer.customerDetails.profilePhoto : "https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"}
                                             alt="Tom Leach"/></div>

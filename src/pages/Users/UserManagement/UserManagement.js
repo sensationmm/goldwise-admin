@@ -76,7 +76,7 @@ const SpreadManagement = () => {
                   <table className="table-auto w-full">
                     <thead className="text-xs font-bold text-gray-800 dark:text-gray-100">
                       <tr>
-                        <th className="p-3 whitespace-nowrap">
+                        <th className="p-3 whitespace-nowrap hidden">
                           <div className="font-semibold text-left">Photo</div>
                         </th>
                         <th className="p-3 whitespace-nowrap">
@@ -96,7 +96,7 @@ const SpreadManagement = () => {
                     <tbody className="text-sm divide-y divide-gray-200 dark:divide-gray-600 dark:text-gray-100 transition-all duration-500 ease-in-out">
                       {users.map((user, index) => (
                         <tr key={index} className="border-none">
-                          <td className="p-2 whitespace-nowrap pb-4">
+                          <td className="p-2 whitespace-nowrap pb-4 hidden">
                             <div className="flex items-center">
                               <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
                                 <img
