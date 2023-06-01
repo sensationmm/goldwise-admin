@@ -5,6 +5,7 @@ import React, {useEffect, useState} from "react";
 import Header from '../../components/molecules/Header'
 import Sidebar from '../../components/molecules/Sidebar'
 import customerAmlService from '../../services/customerAml.service'
+import customerDetailService from '../../services/customerDetail.service';
 import Locked from './Locked';
 import KYCStatus from './KYCStatus';
 import {useDispatch} from "react-redux";
@@ -15,17 +16,20 @@ import Dropdown from "../../components/atoms/Dropdown";
 const Kyc = (props) => {
     const dispatch = useDispatch()
     const searchTerm = useSelector((state) => state.search?.searchTerm)
-    const [identityStatusId, setIdentityStatusId] = useState("1")
+    const [identityStatusId, setIdentityStatusId] = useState("0")
     const [isgwMonitored] = useState("0")
     const [customers, setCustomers] = useState();
 
     const getCustomers = async (displayLoader) => {
         try {
             if (!displayLoader) dispatch(showLoader())
-            let customersPromise = await customerAmlService.listAml(identityStatusId, isgwMonitored, searchTerm);
-            console.log(customersPromise);
-            //if (!Array.isArray(customersPromise)) customersPromise = [customersPromise]
-            setCustomers(customersPromise)
+            if (identityStatusId == 0) {
+                let customersPromise = await customerDetailService.getAllCustomers(searchTerm);
+                setCustomers(customersPromise)
+            } else {
+                let customersPromise = await customerAmlService.listAml(identityStatusId, isgwMonitored, searchTerm);
+                setCustomers(customersPromise)
+            }
         } catch (e) {
             //todo: display error if happen
         } finally {
@@ -95,9 +99,7 @@ const Kyc = (props) => {
     }, [searchTerm]);
 
     return (
-        <div className="flex w-full">
-            {/* TODO: add template */}
-            <div className="flex h-full">
+        <div className="flex w-full ">
                 <main className="flex flex-col w-full overflow-x-hidden overflow-y-auto">
                 <section
                     className="flex flex-col justify-start antialiased bg-gray-100 text-gray-800 min-h-screen p-4 dark:bg-gray-800 transition-all duration-500 ease-in-out">
@@ -118,13 +120,13 @@ const Kyc = (props) => {
                                 className="text-sm font-medium bg-white text-center text-gray-500 dark:bg-gray-600 dark:text-gray-100 transition-all duration-500 ease-in-out">
                                 <ul className="flex flex-wrap -mb-px">
                                     <li className="mr-2">
-                                        <div onClick={() => {setIdentityStatusId('1');}} className={(identityStatusId === "1") ? 'inline-block p-4 border-b-2 border-[#5db1b5]': 'inline-block p-4'}  >To
-                                            Be Reviewed</div>
+                                        <div onClick={() => {setIdentityStatusId('0');}} className={(identityStatusId === "0") ? 'inline-block p-4 border-b-2 border-[#5db1b5]': 'inline-block p-4'}
+                                            >View All</div>
                                     </li>
                                     <li className="mr-2">
-                                        <div onClick={() => {setIdentityStatusId('0');}} className={(identityStatusId === "0") ? 'inline-block p-4 border-b-2 border-[#5db1b5]': 'inline-block p-4'}
-                                              aria-current="page">View All</div>
-                                    </li>
+                                        <div onClick={() => {setIdentityStatusId('1');}} className={(identityStatusId === "1") ? 'inline-block p-4 border-b-2 border-[#5db1b5]': 'inline-block p-4'} aria-current="page">To
+                                            Be Reviewed</div>
+                                    </li>                                    
                                     <li className="mr-2">
                                         <div onClick={() => {setIdentityStatusId('5');}} className={(identityStatusId === "5") ? 'inline-block p-4 border-b-2 border-[#5db1b5]': 'inline-block p-4'}
                                               aria-current="page">Passed</div>
@@ -186,7 +188,7 @@ const Kyc = (props) => {
                                                                 <img className="rounded-full"
                                                                      src={!!customer.profilePhoto ? customer.profilePhoto : "https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"}
                                                                      width="40" height="40"
-                                                                     alt={customer.forename + ' ' + customer.surname}/>
+                                                                     alt={(!!customer.forename) ? customer.forename + ' ' + customer.surname : customer.fullName}/>
                                                             </div>
                                                         </div>
                                                     </td>
@@ -195,7 +197,7 @@ const Kyc = (props) => {
                                                     </td>
                                                     <td className="p-2 whitespace-nowrap">
                                                         <div
-                                                            className="text-left font-medium text-gray-800 dark:text-gray-100">{customer.forename + ' ' + customer.surname}</div>
+                                                            className="text-left font-medium text-gray-800 dark:text-gray-100">{!!customer.forename ? customer.forename + ' ' + customer.surname : customer.fullName}</div>
                                                     </td>
                                                     <td className="p-2 whitespace-nowrap">
                                                         <div className="text-left">{customer.emailAddress}</div>
@@ -207,7 +209,7 @@ const Kyc = (props) => {
                                                         <div className="flex items-center justify-center">
                                                             <div className="text-left text-lg sm:mr-3">
                                                                 <ReactCountryFlag
-                                                                    countryCode={customer.iso3CountryCode}/></div>
+                                                                    countryCode={(customer.iso3CountryCode !== "") ? customer.iso3CountryCode : customer.countryOfResidence}/></div>
                                                             <div className="text-left">{customer.countryName}</div>
                                                         </div>
                                                     </td>
@@ -252,7 +254,7 @@ const Kyc = (props) => {
                     </div>
                 </section>
             </main>
-            </div>
+
         </div>
     )
 }

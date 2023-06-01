@@ -64,11 +64,6 @@ const ProductManagement = () => {
   }, []);
 
   return (
-    <div>
-      <Header />
-      <div className="flex h-full">
-        <Sidebar />
-        <main className="flex flex-col w-full overflow-x-hidden overflow-y-auto">
           <section className="flex flex-col justify-center antialiased bg-gray-100 text-gray-800 min-h-screen p-4 dark:bg-gray-800 transition-all duration-500 ease-in-out">
             <div className="h-full">
               <div className="w-full mx-auto rounded-sm border-gray-200">
@@ -290,9 +285,7 @@ const ProductManagement = () => {
               </div>
             </div>
           </section>
-        </main>
-      </div>
-    </div>
+
   );
 };
 
