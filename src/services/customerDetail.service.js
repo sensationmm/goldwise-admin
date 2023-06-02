@@ -68,6 +68,15 @@ const getCustomerDetails = async (customerGuid) => {
     return await request.getRequest(path)
 }
 
+const getAllCustomers = async (searchParam) => {
+    const path = process.env.REACT_APP_API_ENDPOINT + `/admin/customers/search/`
+    const request = new Request()
+
+    return await request.postRequest(path, {
+        search: searchParam
+    })
+}
+
 const customerDetailService = {
     saveLockAccountStatus,
     saveMonitorCustomerStatus,
@@ -75,7 +84,8 @@ const customerDetailService = {
     setAmlFailed,
     setAmlPassed,
     resetAml,
-    getCustomerDetails
+    getCustomerDetails,
+    getAllCustomers
 }
 
 export default customerDetailService

@@ -13,7 +13,7 @@ const menu = [
   //   icon: "fa-user-circle",
   // },
   {
-    name: "KYC",
+    name: "Customers",
     to: "/kyc",
     icon: "fa-id-card",
   },
