@@ -56,29 +56,29 @@ const App = () => {
                     <Route path='dashboard' element={<Dashboard/>}/>
                 </Route>
 
-                <Route element={<RequireAuth/>}>
+                {/* <Route element={<RequireAuth/>}>
                     <Route path='customers' element={<Customers/>}/>
-                </Route>
+                </Route> */}
 
                 <Route element={<RequireAuth/>}>
                     <Route path="customers/:customerGuid" element={<CustomerDetails/>}/>
                 </Route>
 
                 <Route element={<RequireAuth/>}>
-                    <Route path='kyc' element={<Kyc  page={"0"}/>}/>
+                    <Route path='customers' element={<Kyc  page={"0"}/>}/>
                 </Route>
                 <Route element={<RequireAuth/>}>
-                    <Route path='kyc/all' element={<Kyc  page={"1"}/>}/>
+                    <Route path='customers/all' element={<Kyc  page={"1"}/>}/>
                 </Route>
                 <Route element={<RequireAuth/>}>
-                    <Route path='kyc/passed' element={<Kyc  page={"2"}/>}/>
+                    <Route path='customers/passed' element={<Kyc  page={"2"}/>}/>
                 </Route>
                 <Route element={<RequireAuth/>}>
-                    <Route path='kyc/failed' element={<Kyc  page={"3"}/>}/>
+                    <Route path='customers/failed' element={<Kyc  page={"3"}/>}/>
                 </Route>
 
                 <Route element={<RequireAuth/>}>
-                    <Route path='kyc/:customerGuid' element={<CustomerDetails/>}/>
+                    <Route path='customers/:customerGuid' element={<CustomerDetails/>}/>
                 </Route>
 
                 <Route element={<RequireAuth/>}>
