@@ -6,6 +6,7 @@ import Header from '../../components/molecules/Header'
 import Sidebar from '../../components/molecules/Sidebar'
 import customerAmlService from '../../services/customerAml.service'
 import customerDetailService from '../../services/customerDetail.service';
+import flagService from '../../services/flagService';
 import Locked from './Locked';
 import KYCStatus from './KYCStatus';
 import {useDispatch} from "react-redux";
@@ -26,9 +27,11 @@ const Kyc = (props) => {
             if (identityStatusId == 0) {
                 let customersPromise = await customerDetailService.getAllCustomers(searchTerm);
                 setCustomers(customersPromise)
+                flagService.setImages()
             } else {
                 let customersPromise = await customerAmlService.listAml(identityStatusId, isgwMonitored, searchTerm);
                 setCustomers(customersPromise)
+                flagService.setImages()
             }
         } catch (e) {
             //todo: display error if happen
@@ -209,7 +212,9 @@ const Kyc = (props) => {
                                                         <div className="flex items-center justify-center">
                                                             <div className="text-left text-lg sm:mr-3">
                                                                 <ReactCountryFlag
-                                                                    countryCode={(customer.iso3CountryCode !== "") ? customer.iso3CountryCode : customer.countryOfResidence}/></div>
+                                                                    countryCode={customer.countryOfResidence}
+                                                                    src={customer.countryFlag ? customer.countryFlag : customer.countryFlagUrl}
+                                                                    title={customer.countryOfResidence ? customer.countryOfResidence : customer.iso3CountryCode}/></div>
                                                             <div className="text-left">{customer.countryName}</div>
                                                         </div>
                                                     </td>

@@ -10,6 +10,7 @@ import SetAmlPassedModal from "./Modals/SetAmlPassedModal";
 import SetAmlFailedModal from "./Modals/SetAmlFailedModal";
 import ResetAmlModal from "./Modals/ResetAmlModal";
 import customerDetailService from '../../services/customerDetail.service';
+import flagService from '../../services/flagService';
 import { useParams } from "react-router-dom";
 import ReactCountryFlag from 'react-country-flag';
 import dateFormat from 'dateformat';
@@ -66,6 +67,7 @@ const CustomerDetails = (props) => {
                 overallStatusID: customerDetailData.overallStatusID,
                 overallStatusText: customerDetailData.overallStatusText
             })
+            flagService.setImages()
         } catch (e) {
             //todo: display error if happen
             console.log(e)
