@@ -228,12 +228,12 @@ const Kyc = (props) => {
                                                         </span>
                                                     </td>
                                                     <td className="p-2 whitespace-nowrap">
-                                                        <span className="flex items-center justify-center">
+                                                            <span className="flex items-center justify-center">
                                                             <span aria-hidden="true"
-                                                                  className={"w-3 h-3 rounded-full inline-block align-middle" + (customer.gwMonitor ? " bg-green-500 " : " bg-red-500 ")}>
+                                                            className={"w-3 h-3 rounded-full inline-block align-middle " + (!customer.gwMonitor ? " bg-green-500 " : " bg-red-500 ")}>
                                                             </span>
                                                             <span className="pl-2">
-                                                                    {customer.gwMonitor ? "Yes" : "No"}
+                                                                {customer.gwMonitor ? "Yes" : "No"}
                                                             </span>
                                                         </span>
                                                     </td>
