@@ -14,7 +14,7 @@ const menu = [
   // },
   {
     name: "Customers",
-    to: "/kyc",
+    to: "/customers",
     icon: "fa-id-card",
   },
   {
