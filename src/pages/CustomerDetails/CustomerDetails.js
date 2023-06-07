@@ -363,7 +363,7 @@ const CustomerDetails = (props) => {
                                                         aria-hidden="true"
                                                         className={"w-3 h-3 rounded-full inline-block align-middle " + ([5,9].includes(amlStatus.overallStatusID) ?  "bg-green-500" : amlStatus.overallStatusID === 8 ? "bg-orange-500" : "bg-red-500")}/>
                                                     <span className="pl-2 text-gray-400 font-bold">
-                                                        {amlStatus.overallStatusText}
+                                                        {amlStatus.overallStatusText ? amlStatus.overallStatusText : "Not Started"}
                                                     </span>
                                                 </span>
                                             </div>

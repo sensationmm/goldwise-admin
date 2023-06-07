@@ -125,20 +125,20 @@ const Kyc = (props) => {
                                 className="text-sm font-medium bg-white text-center text-gray-500 dark:bg-gray-600 dark:text-gray-100 transition-all duration-500 ease-in-out">
                                 <ul className="flex flex-wrap -mb-px">
                                     <li className="mr-2">
-                                        <div onClick={() => {setIdentityStatusId('0');}} className={(identityStatusId === "0") ? 'inline-block p-4 border-b-2 border-[#5db1b5]': 'inline-block p-4'}
+                                        <div onClick={() => {setIdentityStatusId('0');}} className={(identityStatusId === "0") ? 'inline-block p-4 border-b-2 border-[#5db1b5] handCursor': 'inline-block p-4 handCursor'}
                                             >View All</div>
                                     </li>
                                     <li className="mr-2">
-                                        <div onClick={() => {setIdentityStatusId('1');}} className={(identityStatusId === "1") ? 'inline-block p-4 border-b-2 border-[#5db1b5]': 'inline-block p-4'} aria-current="page">To
+                                        <div onClick={() => {setIdentityStatusId('1');}} className={(identityStatusId === "1") ? 'inline-block p-4 border-b-2 border-[#5db1b5] handCursor': 'inline-block p-4 handCursor'} aria-current="page">To
                                             Be Reviewed</div>
                                     </li>                                    
                                     <li className="mr-2">
-                                        <div onClick={() => {setIdentityStatusId('5');}} className={(identityStatusId === "5") ? 'inline-block p-4 border-b-2 border-[#5db1b5]': 'inline-block p-4'}
+                                        <div onClick={() => {setIdentityStatusId('5');}} className={(identityStatusId === "5") ? 'inline-block p-4 border-b-2 border-[#5db1b5] handCursor': 'inline-block p-4 handCursor'}
                                               aria-current="page">Passed</div>
                                     </li>
                                     <li className="mr-2">
-                                        <div onClick={() => {setIdentityStatusId('6');}} className={(identityStatusId === "6") ? 'inline-block p-4 border-b-2 border-[#5db1b5]': 'inline-block p-4'}
-                                              aria-current="page">Failed</div>
+                                        <div onClick={() => {setIdentityStatusId('6');}} className={(identityStatusId === "6") ? 'inline-block p-4 border-b-2 border-[#5db1b5] handCursor': 'inline-block p-4 handCursor'}
+                                              aria-current="page" >Failed</div>
                                     </li>
                                 </ul>
                             </div>
@@ -235,12 +235,12 @@ const Kyc = (props) => {
                                                         </span>
                                                     </td>
                                                     <td className="p-2 whitespace-nowrap">
-                                                        <span className="flex items-center justify-center">
+                                                            <span className="flex items-center justify-center">
                                                             <span aria-hidden="true"
-                                                                  className={"w-3 h-3 rounded-full inline-block align-middle" + (customer.gwMonitor ? " bg-green-500 " : " bg-red-500 ")}>
+                                                            className={"w-3 h-3 rounded-full inline-block align-middle " + (!customer.gwMonitor ? " bg-green-500 " : " bg-red-500 ")}>
                                                             </span>
                                                             <span className="pl-2">
-                                                                    {customer.gwMonitor ? "Yes" : "No"}
+                                                                {customer.gwMonitor ? "Yes" : "No"}
                                                             </span>
                                                         </span>
                                                     </td>
