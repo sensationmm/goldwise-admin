@@ -10,12 +10,12 @@ import SetAmlPassedModal from "./Modals/SetAmlPassedModal";
 import SetAmlFailedModal from "./Modals/SetAmlFailedModal";
 import ResetAmlModal from "./Modals/ResetAmlModal";
 import customerDetailService from '../../services/customerDetail.service';
-import flagService from '../../services/flagService';
 import { useParams } from "react-router-dom";
-import ReactCountryFlag from 'react-country-flag';
 import dateFormat from 'dateformat';
 import {useDispatch} from "react-redux";
 import {hideLoader, showLoader} from "../../reducers/loaderSlice.reducer";
+import Flag from '../../components/atoms/Flag/Flag';
+import ReactCountryFlag from 'react-country-flag';
 
 const CustomerDetails = (props) => {
     const dispatch = useDispatch()
@@ -67,7 +67,6 @@ const CustomerDetails = (props) => {
                 overallStatusID: customerDetailData.overallStatusID,
                 overallStatusText: customerDetailData.overallStatusText
             })
-            flagService.setImages()
         } catch (e) {
             //todo: display error if happen
             console.log(e)
@@ -309,7 +308,11 @@ const CustomerDetails = (props) => {
                                             <div className="flex items-center pt-3">
                                                 <span
                                                     className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold ">
-                                                    <ReactCountryFlag countryCode={customer.address.iso3CountryCode} />
+                                                    <Flag 
+                                                       src={customer.countryFlag ? customer.countryFlag : customer.countryFlagUrl}
+                                                       title={customer.countryOfResidence ? customer.countryOfResidence : customer.iso3CountryCode}
+                                                       alt={customer.countryName}  
+                                                    />
                                                 </span>
                                                 <span
                                                     className="pl-2 text-left text-sm font-medium text-gray-800 dark:text-gray-100">{customer.address.countryName}
