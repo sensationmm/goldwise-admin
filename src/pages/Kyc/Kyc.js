@@ -1,5 +1,4 @@
 import {Link, useNavigate} from 'react-router-dom'
-import ReactCountryFlag from 'react-country-flag'
 import {FiSettings} from 'react-icons/fi'
 import React, {useEffect, useState} from "react";
 import Header from '../../components/molecules/Header'
