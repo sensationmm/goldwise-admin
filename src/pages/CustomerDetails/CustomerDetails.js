@@ -329,7 +329,7 @@ const CustomerDetails = (props) => {
                                             <p className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
                                                 <i className="fa fa-check-circle text-lg text-[#5ed197] pr-2"></i>{customer.customerDetails.emailAddress}
                                             </p>
-                                            <p className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">{customer.customerDetails.contactNumber}</p>
+                                            <p className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">{customer.customerDetails.contactNumber ? customer.customerDetails.contactNumber : "-"}</p>
                                             <div className="flex items-center pt-3">
                                                 <span
                                                     className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold ">
@@ -353,21 +353,21 @@ const CustomerDetails = (props) => {
                                             <div className="flex-shrink-0 mr-2 sm:mr-3">
                                                 <div
                                                     className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
-                                                    <i className="fa fa-mars text-lg text-gray-800 dark:text-gray-100 pr-3"></i>{customer.customerDetails.gender}
+                                                    <i className="fa fa-mars text-lg text-gray-800 dark:text-gray-100 pr-3"></i>{customer.customerDetails.gender ? customer.customerDetails.gender : "-"}
                                                 </div>
                                             </div>
 
                                             <div className="flex-shrink-0 mr-2 sm:mr-3">
                                                 <div
                                                     className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
-                                                    <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>{customer.customerDetails.identificationNumberTypeText}
+                                                    <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>{customer.customerDetails.identificationNumberTypeText ? customer.customerDetails.identificationNumberTypeText : "-"}
                                                 </div>
                                             </div>
 
                                         <div className="flex-shrink-0 mr-2 sm:mr-3">
                                             <div
                                                 className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
-                                                <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>{customer.customerDetails.identificationNumber}
+                                                <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>{customer.customerDetails.identificationNumber ? customer.customerDetails.identificationNumber : "-"}
                                             </div>
                                         </div>
                                     </div>
