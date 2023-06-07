@@ -77,9 +77,9 @@ const App = () => {
                     <Route path='customers/failed' element={<Kyc  page={"3"}/>}/>
                 </Route>
 
-                <Route element={<RequireAuth/>}>
+                {/* <Route element={<RequireAuth/>}>
                     <Route path='customers/:customerGuid' element={<CustomerDetails/>}/>
-                </Route>
+                </Route> */}
 
                 <Route element={<RequireAuth/>}>
                     <Route path='users/user-management' element={<UserManagement />} />

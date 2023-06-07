@@ -9,7 +9,7 @@ const KYCStatus = ({status, statusDescription}) => {
             >
             </span>
             <span className="pl-2">
-                {statusDescription}
+                {statusDescription ? statusDescription : "Not Started"}
             </span>
         </>
     );
