@@ -50,28 +50,28 @@ const CustomerDetails = (props) => {
         overallStatusText: "Not Started"
     });
 
-    const questionnaire = [
+    const [questionnaire, setCustomerQuestionnaire] = useState([
         {
-            text: "Experience Level",
-            value: "Extensive"
+            text: "What's your experience?",
+            value: "-"
         },
         {
-            text: "Purpose",
-            value: "Income"
+            text: "Your reason for using us?",
+            value: "-"
         },
         {
-            text: "Source of Funds",
-            value: "Salary"
+            text: "Source of funds?",
+            value: "-"
         },
         {
-            text: "Invested Amount",
-            value: "£ 10,000+"
+            text: "Invested Amount?",
+            value: "-"
         },
         {
-            text: "Investment Frequency",
-            value: "40 times"
+            text: "Investment Frequency?",
+            value: "-"
         }
-    ]
+    ]);
 
     const getCustomer = async () => {
         try {
@@ -89,6 +89,9 @@ const CustomerDetails = (props) => {
                 overallStatusID: customerDetailData.overallStatusID,
                 overallStatusText: customerDetailData.overallStatusText
             })
+            if (customerDetailData.customerDetails.customerQuestionnaire.lenght) {
+                setCustomerQuestionnaire(customerDetailData.customerDetails.customerQuestionnaire)
+            }
         } catch (e) {
             //todo: display error if happen
             console.log(e)
@@ -347,7 +350,6 @@ const CustomerDetails = (props) => {
                                                {dateFormat(dateOfBirth, "dd mmmm yyyy")}
                                             </div>
                                         </div>
-
                                             <div className="flex-shrink-0 mr-2 sm:mr-3">
                                                 <div
                                                     className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
@@ -358,15 +360,14 @@ const CustomerDetails = (props) => {
                                             <div className="flex-shrink-0 mr-2 sm:mr-3">
                                                 <div
                                                     className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
-                                                    <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>{customer.customerDetails.identificationNumber}
+                                                    <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>{customer.customerDetails.identificationNumberTypeText}
                                                 </div>
                                             </div>
 
                                         <div className="flex-shrink-0 mr-2 sm:mr-3">
                                             <div
                                                 className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
-                                                <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>AB
-                                                12 34 56 C
+                                                <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>{customer.customerDetails.identificationNumber}
                                             </div>
                                         </div>
                                     </div>
@@ -641,7 +642,7 @@ const CustomerDetails = (props) => {
                                                 <h2 className='p-3 font-bold'>Questionnaire</h2>
                                                 {questionnaire.map((question, index) => (
                                                 <div className="flex items-center justify-between p-3 w-full" key={index}>
-                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>{question.text}:</p>
+                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>{question.text}</p>
                                                     <span className="flex w-18 items-center justify-start pl-3">
                                                         <span
                                                             className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
