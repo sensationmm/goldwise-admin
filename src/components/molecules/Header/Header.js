@@ -81,7 +81,7 @@ const Header = forwardRef(({ open, setOpen }, ref) => {
                 id="options-menu"
               >
                 {/* TODO: get the name from the user data */}
-                <span className="text-sm font-medium pr-4">Gareth Tucker</span>
+                {/* <span className="text-sm font-medium pr-4">Gareth Tucker</span> */}
                 {/* TODO: load the SVG if there is no image for the user */}
                 <ReactSVG src="/images/user.svg" />
               </button>

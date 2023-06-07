@@ -17,7 +17,7 @@ const UserInfoCard = (props) => {
             alt="avatar"
           />
         </div>
-        <div className="col-span-3">
+        {/* <div className="col-span-3">
           <div
             className="py-1 text-left"
             role="menu"
@@ -40,7 +40,7 @@ const UserInfoCard = (props) => {
               </p>
             </NavLink>
           </div>
-        </div>
+        </div> */}
       </div>
       <button
         onClick={() => logOut()}
