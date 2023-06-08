@@ -208,7 +208,7 @@ const Kyc = (props) => {
                                                         <div className="text-right">{customer.contactNumber}</div>
                                                     </td>
                                                     <td className="p-2 whitespace-nowrap">
-                                                        <div className="flex items-center justify-center">
+                                                        <div className="flex">
                                                             <div className="text-left text-lg sm:mr-3">
                                                                 <Flag 
                                                                     src={customer.countryFlag ? customer.countryFlag : customer.countryFlagUrl}
