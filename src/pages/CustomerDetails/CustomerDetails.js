@@ -89,7 +89,7 @@ const CustomerDetails = (props) => {
                 overallStatusID: customerDetailData.overallStatusID,
                 overallStatusText: customerDetailData.overallStatusText
             })
-            if (customerDetailData.customerDetails.customerQuestionnaire.lenght) {
+            if (customerDetailData.customerDetails.customerQuestionnaire.length) {
                 setCustomerQuestionnaire(customerDetailData.customerDetails.customerQuestionnaire)
             }
         } catch (e) {
