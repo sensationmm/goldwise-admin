@@ -52,24 +52,24 @@ const CustomerDetails = (props) => {
 
     const [questionnaire, setCustomerQuestionnaire] = useState([
         {
-            text: "What's your experience?",
-            value: "-"
+            questionTitle: "What's your experience?",
+            answer: "-"
         },
         {
-            text: "Your reason for using us?",
-            value: "-"
+            questionTitle: "Your reason for using us?",
+            answer: "-"
         },
         {
-            text: "Source of funds?",
-            value: "-"
+            questionTitle: "Source of funds?",
+            answer: "-"
         },
         {
-            text: "Invested Amount?",
-            value: "-"
+            questionTitle: "Invested Amount?",
+            answer: "-"
         },
         {
-            text: "Investment Frequency?",
-            value: "-"
+            questionTitle: "Investment Frequency?",
+            answer: "-"
         }
     ]);
 
@@ -89,8 +89,9 @@ const CustomerDetails = (props) => {
                 overallStatusID: customerDetailData.overallStatusID,
                 overallStatusText: customerDetailData.overallStatusText
             })
-            if (customerDetailData.customerDetails.customerQuestionnaire.length) {
-                setCustomerQuestionnaire(customerDetailData.customerDetails.customerQuestionnaire)
+
+            if (customerDetailData.customerQuestionnaire.length > 0) {
+                setCustomerQuestionnaire(customerDetailData.customerQuestionnaire)
             }
         } catch (e) {
             //todo: display error if happen
@@ -642,11 +643,11 @@ const CustomerDetails = (props) => {
                                                 <h2 className='p-3 font-bold'>Questionnaire</h2>
                                                 {questionnaire.map((question, index) => (
                                                 <div className="flex items-center justify-between p-3 w-full" key={index}>
-                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>{question.text}</p>
+                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>{question.questionTitle}</p>
                                                     <span className="flex w-18 items-center justify-start pl-3">
                                                         <span
                                                             className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                            {question.value}
+                                                            {question.answer ? question.answer : "-"}
                                                         </span>
                                                     </span>
                                                         </div>
