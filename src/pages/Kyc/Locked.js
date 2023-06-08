@@ -19,7 +19,6 @@ const Locked = ({isLocked, isActive, isEmailVerified}) => {
         bgText = "Pending Email Activation";
     }
 
-
     return (
         <>
             <span aria-hidden="true"
