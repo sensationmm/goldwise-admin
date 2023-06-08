@@ -222,9 +222,9 @@ const Kyc = (props) => {
                                                     <td className="p-2 whitespace-nowrap">
                                                         <span className="flex items-center justify-left">
                                                             <Locked
-                                                                isLocked={parseInt(customer.isLocked)}
-                                                                isActive={parseInt(customer.isActive)}
-                                                                isEmailVerified={parseInt(customer.isEmailVerify)} />
+                                                                isLocked={(customer.isLocked)}
+                                                                isActive={(customer.isActive)}
+                                                                isEmailVerified={(customer.isEmailVerify)} />
                                                         </span>
                                                     </td>
                                                     <td className="p-2 whitespace-nowrap">
