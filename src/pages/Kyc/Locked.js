@@ -2,17 +2,17 @@ import { React } from "react";
 const Locked = ({isLocked, isActive, isEmailVerified}) => {
     var bg = "bg-green-500";
     var bgText = "Active";
-    if (isLocked || !isActive) {
-        bg = "bg-red-500";
-    }
     if (isLocked && !isActive) {
         bgText = "Locked - Not Active";
+        bg = "bg-red-500";
     }
     if (isLocked) {
         bgText = "Locked";
+        bg = "bg-red-500";
     }
     if (!isActive) {
         bgText = "Not Active";
+        bg = "bg-red-500";
     }
     if (!isLocked && isActive && !isEmailVerified) {
         bg = "bg-orange-500";
