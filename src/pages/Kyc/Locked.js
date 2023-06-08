@@ -8,10 +8,10 @@ const Locked = ({isLocked, isActive, isEmailVerified}) => {
     if (isLocked && !isActive) {
         bgText = "Locked - Not Active";
     }
-    if (isLocked && isActive) {
+    if (isLocked) {
         bgText = "Locked";
     }
-    if (!isLocked && !isActive) {
+    if (!isActive) {
         bgText = "Not Active";
     }
     if (!isLocked && isActive && !isEmailVerified) {
