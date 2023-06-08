@@ -50,6 +50,29 @@ const CustomerDetails = (props) => {
         overallStatusText: "Not Started"
     });
 
+    const [questionnaire, setCustomerQuestionnaire] = useState([
+        {
+            text: "What's your experience?",
+            value: "-"
+        },
+        {
+            text: "Your reason for using us?",
+            value: "-"
+        },
+        {
+            text: "Source of funds?",
+            value: "-"
+        },
+        {
+            text: "Invested Amount?",
+            value: "-"
+        },
+        {
+            text: "Investment Frequency?",
+            value: "-"
+        }
+    ]);
+
     const getCustomer = async () => {
         try {
             dispatch(showLoader())
@@ -66,6 +89,9 @@ const CustomerDetails = (props) => {
                 overallStatusID: customerDetailData.overallStatusID,
                 overallStatusText: customerDetailData.overallStatusText
             })
+            if (customerDetailData.customerDetails.customerQuestionnaire.length) {
+                setCustomerQuestionnaire(customerDetailData.customerDetails.customerQuestionnaire)
+            }
         } catch (e) {
             //todo: display error if happen
             console.log(e)
@@ -298,12 +324,12 @@ const CustomerDetails = (props) => {
                                             <img className="rounded-full w-2/3"
                                             src={customer.customerDetails.profilePhoto ? customer.customerDetails.profilePhoto : "https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"}
                                             alt="Tom Leach"/></div>
-                                        <div className="overflow-auto">
+                                        <div>
                                             <p className="text-left text-lg font-bold text-gray-800 dark:text-gray-100">{customer.customerDetails.forename} {customer.customerDetails.surname}</p>
                                             <p className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
                                                 <i className="fa fa-check-circle text-lg text-[#5ed197] pr-2"></i>{customer.customerDetails.emailAddress}
                                             </p>
-                                            <p className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">{customer.customerDetails.contactNumber}</p>
+                                            <p className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">{customer.customerDetails.contactNumber ? customer.customerDetails.contactNumber : "-"}</p>
                                             <div className="flex items-center pt-3">
                                                 <span
                                                     className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold ">
@@ -324,26 +350,24 @@ const CustomerDetails = (props) => {
                                                {dateFormat(dateOfBirth, "dd mmmm yyyy")}
                                             </div>
                                         </div>
-
                                             <div className="flex-shrink-0 mr-2 sm:mr-3">
                                                 <div
                                                     className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
-                                                    <i className="fa fa-mars text-lg text-gray-800 dark:text-gray-100 pr-3"></i>{customer.customerDetails.gender}
+                                                    <i className="fa fa-mars text-lg text-gray-800 dark:text-gray-100 pr-3"></i>{customer.customerDetails.gender ? customer.customerDetails.gender : "-"}
                                                 </div>
                                             </div>
 
                                             <div className="flex-shrink-0 mr-2 sm:mr-3">
                                                 <div
                                                     className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
-                                                    <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>{customer.customerDetails.identificationNumber}
+                                                    <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>{customer.customerDetails.identificationNumberTypeText ? customer.customerDetails.identificationNumberTypeText : "-"}
                                                 </div>
                                             </div>
 
                                         <div className="flex-shrink-0 mr-2 sm:mr-3">
                                             <div
                                                 className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
-                                                <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>AB
-                                                12 34 56 C
+                                                <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>{customer.customerDetails.identificationNumber ? customer.customerDetails.identificationNumber : "-"}
                                             </div>
                                         </div>
                                     </div>
@@ -566,9 +590,29 @@ const CustomerDetails = (props) => {
                                             </div>
                                         </div>
                                     </div>
-                                    <div className="w-full px-2">
+                                    <div className="w-full px-1">
                                         <div
-                                            className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
+                                            className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 transition-all duration-500 ease-in-out">
+                                            <div className="flex flex-col rounded-md relative overflow-hidden">
+                                                <h2 className='p-3 font-bold'>Topics</h2>
+                                                {customer.communicationTypes.map((communicationType, index) => (
+                                                <div className="flex items-center justify-between p-3 w-full" key={index}>
+                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>{communicationType.communicationTypeText}</p>
+                                                    <span className="flex w-18 items-center justify-start pl-3">
+                                                        <span aria-hidden="true"
+                                                              className={"w-3 h-3 rounded-full inline-block align-middle " + (communicationType.isSelected ? 'bg-green-500' : 'bg-red-500')}>
+                                                        </span>
+                                                        <span
+                                                            className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                            {communicationType.isSelected ? 'Yes' : 'No'}
+                                                        </span>
+                                                    </span>
+                                                        </div>
+                                                    ))}
+                                                </div>
+                                            </div>
+                                        <div
+                                            className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 transition-all duration-500 ease-in-out">
                                             <div className="flex flex-col rounded-md relative overflow-hidden">
                                                 <h2 className='p-3 font-bold'>Communications</h2>
                                                 {
@@ -589,22 +633,20 @@ const CustomerDetails = (props) => {
                                                 }
                                             </div>
                                         </div>
+                                        
                                     </div>
                                     <div className="w-full px-2">
-                                        <div
+                                    <div
                                             className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
                                             <div className="flex flex-col rounded-md relative overflow-hidden">
-                                                <h2 className='p-3 font-bold'>Topics</h2>
-                                                {customer.communicationTypes.map((communicationType, index) => (
+                                                <h2 className='p-3 font-bold'>Questionnaire</h2>
+                                                {questionnaire.map((question, index) => (
                                                 <div className="flex items-center justify-between p-3 w-full" key={index}>
-                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>{communicationType.communicationTypeText}</p>
+                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>{question.text}</p>
                                                     <span className="flex w-18 items-center justify-start pl-3">
-                                                        <span aria-hidden="true"
-                                                              className={"w-3 h-3 rounded-full inline-block align-middle " + (communicationType.isSelected ? 'bg-green-500' : 'bg-red-500')}>
-                                                        </span>
                                                         <span
                                                             className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                            {communicationType.isSelected ? 'Yes' : 'No'}
+                                                            {question.value}
                                                         </span>
                                                     </span>
                                                         </div>
