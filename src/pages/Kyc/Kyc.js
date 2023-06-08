@@ -154,15 +154,15 @@ const Kyc = (props) => {
                                             >View All</div>
                                     </li>
                                     <li className="mr-2">
-                                        <div onClick={() => {setIdentityStatusId('1');}} className={(identityStatusId === "1") ? 'inline-block p-4 border-b-2 border-[#5db1b5] handCursor': 'inline-block p-4 handCursor'} aria-current="page">To
+                                        <div onClick={() => {setIdentityStatusId('4');}} className={(identityStatusId === "4") ? 'inline-block p-4 border-b-2 border-[#5db1b5] handCursor': 'inline-block p-4 handCursor'} aria-current="page">To
                                             Be Reviewed</div>
                                     </li>                                    
                                     <li className="mr-2">
-                                        <div onClick={() => {setIdentityStatusId('5');}} className={(identityStatusId === "5") ? 'inline-block p-4 border-b-2 border-[#5db1b5] handCursor': 'inline-block p-4 handCursor'}
+                                        <div onClick={() => {setIdentityStatusId('5,9');}} className={(identityStatusId === "5,9") ? 'inline-block p-4 border-b-2 border-[#5db1b5] handCursor': 'inline-block p-4 handCursor'}
                                               aria-current="page">Passed</div>
                                     </li>
                                     <li className="mr-2">
-                                        <div onClick={() => {setIdentityStatusId('6');}} className={(identityStatusId === "6") ? 'inline-block p-4 border-b-2 border-[#5db1b5] handCursor': 'inline-block p-4 handCursor'}
+                                        <div onClick={() => {setIdentityStatusId('6,10,11');}} className={(identityStatusId === "6,10,11") ? 'inline-block p-4 border-b-2 border-[#5db1b5] handCursor': 'inline-block p-4 handCursor'}
                                               aria-current="page" >Failed</div>
                                     </li>
                                     <li className="mr-2 filter">
@@ -242,7 +242,7 @@ const Kyc = (props) => {
                                                         <div className="text-right">{customer.contactNumber}</div>
                                                     </td>
                                                     <td className="p-2 whitespace-nowrap">
-                                                        <div className="flex items-center justify-center">
+                                                        <div className="flex">
                                                             <div className="text-left text-lg sm:mr-3">
                                                                 <Flag 
                                                                     src={customer.countryFlag ? customer.countryFlag : customer.countryFlagUrl}
@@ -256,9 +256,9 @@ const Kyc = (props) => {
                                                     <td className="p-2 whitespace-nowrap">
                                                         <span className="flex items-center justify-left">
                                                             <Locked
-                                                                isLocked={parseInt(customer.isLocked)}
-                                                                isActive={parseInt(customer.isActive)}
-                                                                isEmailVerified={parseInt(customer.isEmailVerify)} />
+                                                                isLocked={(customer.isLocked)}
+                                                                isActive={(customer.isActive)}
+                                                                isEmailVerified={(customer.isEmailVerify)} />
                                                         </span>
                                                     </td>
                                                     <td className="p-2 whitespace-nowrap">
