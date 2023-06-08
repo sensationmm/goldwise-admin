@@ -1,5 +1,4 @@
 import {Link, useNavigate} from 'react-router-dom'
-import ReactCountryFlag from 'react-country-flag'
 import {FiSettings} from 'react-icons/fi'
 import React, {useEffect, useState} from "react";
 import Header from '../../components/molecules/Header'
@@ -12,6 +11,7 @@ import {useDispatch} from "react-redux";
 import {hideLoader, showLoader} from "../../reducers/loaderSlice.reducer";
 import { useSelector } from 'react-redux'
 import Dropdown from "../../components/atoms/Dropdown";
+import Flag from '../../components/atoms/Flag/Flag';
 
 const Kyc = (props) => {
     const dispatch = useDispatch()
@@ -210,8 +210,12 @@ const Kyc = (props) => {
                                                     <td className="p-2 whitespace-nowrap">
                                                         <div className="flex items-center justify-center">
                                                             <div className="text-left text-lg sm:mr-3">
-                                                                <ReactCountryFlag
-                                                                    countryCode={(customer.iso3CountryCode !== "") ? customer.iso3CountryCode : customer.countryOfResidence}/></div>
+                                                                <Flag 
+                                                                    src={customer.countryFlag ? customer.countryFlag : customer.countryFlagUrl}
+                                                                    title={customer.countryOfResidence ? customer.countryOfResidence : customer.iso3CountryCode}
+                                                                    alt={customer.countryName}
+                                                                />
+                                                            </div>
                                                             <div className="text-left">{customer.countryName}</div>
                                                         </div>
                                                     </td>
