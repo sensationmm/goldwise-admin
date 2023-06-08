@@ -12,6 +12,7 @@ import {useDispatch} from "react-redux";
 import {hideLoader, showLoader} from "../../reducers/loaderSlice.reducer";
 import { useSelector } from 'react-redux'
 import Dropdown from "../../components/atoms/Dropdown";
+import { FiFilter } from 'react-icons/fi';
 
 const Kyc = (props) => {
     const dispatch = useDispatch()
@@ -19,6 +20,7 @@ const Kyc = (props) => {
     const [identityStatusId, setIdentityStatusId] = useState("0")
     const [isgwMonitored] = useState("0")
     const [customers, setCustomers] = useState();
+    const [sortOrder, setSortOrder] = useState('asc');
 
     const getCustomers = async (displayLoader) => {
         try {
@@ -100,6 +102,33 @@ const Kyc = (props) => {
         if (searchTerm !== "" && searchTerm.length >= 3) getCustomers(true)
     }, [searchTerm]);
 
+    const sortKycList = () => {
+        const sortedCustomers = [...customers];
+        sortedCustomers.sort((a, b) => {
+            const nameA = (a.forename ? a.forename + ' ' + a.surname : a.fullName).toUpperCase();
+            const nameB = (b.forename ? b.forename + ' ' + b.surname : b.fullName).toUpperCase();
+            if (sortOrder == 'asc') {
+                if (nameA < nameB) {
+                return -1;
+                }
+                if (nameA > nameB) {
+                return 1;
+                }
+                return 0;
+            } else {
+                if (nameA < nameB) {
+                return 1;
+                }
+                if (nameA > nameB) {
+                return -1;
+                }
+                return 0;
+            }
+        });
+        setSortOrder(sortOrder=='asc' ? 'desc':'asc')
+        setCustomers(sortedCustomers);
+    };
+
     return (
         <div className="flex w-full ">
                 <main className="flex flex-col w-full overflow-x-hidden overflow-y-auto">
@@ -136,6 +165,12 @@ const Kyc = (props) => {
                                     <li className="mr-2">
                                         <div onClick={() => {setIdentityStatusId('6');}} className={(identityStatusId === "6") ? 'inline-block p-4 border-b-2 border-[#5db1b5] handCursor': 'inline-block p-4 handCursor'}
                                               aria-current="page" >Failed</div>
+                                    </li>
+                                    <li className="mr-2 filter">
+                                        <div onClick={() => {} } className="inline-block p-4"><i className="fa fa-thin fa-filter dark:text-gray-100"></i>Filter Options</div>
+                                    </li>
+                                    <li className="mr-2">
+                                        <div onClick={() => {sortKycList();} } className="inline-block p-4 handCursor"><i className="fa fa-solid fa-sort"></i>Sort by: A - Z</div>
                                     </li>
                                 </ul>
                             </div>
