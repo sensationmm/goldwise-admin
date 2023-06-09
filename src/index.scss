@@ -70,3 +70,16 @@ code {
 .handCursor {
   cursor: pointer;
 }
+
+.filter {
+  margin-left: 60%;
+}
+
+.selected {
+  font-weight: bold;
+}
+
+.selected::after {
+  content: "\2713"; /* Check mark Unicode character */
+  margin-left: 5px;
+}

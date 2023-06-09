@@ -12,6 +12,7 @@ import {hideLoader, showLoader} from "../../reducers/loaderSlice.reducer";
 import { useSelector } from 'react-redux'
 import Dropdown from "../../components/atoms/Dropdown";
 import Flag from '../../components/atoms/Flag/Flag';
+import Modal from '../../components/atoms/Modal/Modal';
 
 const Kyc = (props) => {
     const dispatch = useDispatch()
@@ -19,6 +20,8 @@ const Kyc = (props) => {
     const [identityStatusId, setIdentityStatusId] = useState("0")
     const [isgwMonitored] = useState("0")
     const [customers, setCustomers] = useState();
+    const [sortOrder, setSortOrder] = useState('dateDesc');
+    const [filterListOptionsModal, setFilterListOptionsModal] = useState(false)
 
     const getCustomers = async (displayLoader) => {
         try {
@@ -27,6 +30,7 @@ const Kyc = (props) => {
                 if (searchTerm.length == 0 || searchTerm.length >= 3) {
                     let customersPromise = await customerDetailService.getAllCustomers(searchTerm);
                     setCustomers(customersPromise)
+                    setFilterListOption(sortOrder)
                 }
             } else {
                 let customersPromise = await customerAmlService.listAml(identityStatusId, isgwMonitored, searchTerm);
@@ -99,9 +103,92 @@ const Kyc = (props) => {
     useEffect(() => {
         if (searchTerm !== "" && searchTerm.length >= 3) getCustomers(true)
     }, [searchTerm]);
+    useEffect(() => {
+        sortKycList();
+    },[sortOrder]);
+
+    const sortKycList = () => {
+        if (customers) {
+            const sortedCustomers = [...customers];
+            sortedCustomers.sort((a, b) => {
+                const nameA = (a.forename ? a.forename + ' ' + a.surname : a.fullName).toUpperCase();
+                const nameB = (b.forename ? b.forename + ' ' + b.surname : b.fullName).toUpperCase();
+                const dateA = new Date(a.dateCreated ? a.dateCreated : a.identityLastUpdatedDate);
+                const dateB = new Date(b.dateCreated ? b.dateCreated : b.identityLastUpdatedDate);
+    
+                if (sortOrder == 'nameAsc') {
+                    if (nameA < nameB) {
+                    return -1;
+                    }
+                    if (nameA > nameB) {
+                    return 1;
+                    }
+                    return 0;
+                } else if (sortOrder == 'nameDesc') { 
+                    if (nameA < nameB) {
+                    return 1;
+                    }
+                    if (nameA > nameB) {
+                    return -1;
+                    }
+                    return 0;
+                } else if (sortOrder == 'dateDesc') {
+                    if (dateA.getTime() < dateB.getTime()) {
+                        return 1;
+                    }
+                    if (dateA.getTime() > dateB.getTime()) {
+                        return -1;
+                    }
+                        return 0;
+                } else {
+                    if (dateB.getTime() < dateA.getTime()) {
+                        return 1;
+                    }
+                    if (dateB.getTime() > dateA.getTime()) {
+                        return -1;
+                    }
+                        return 0;
+                }
+            });
+            setCustomers(sortedCustomers);
+        }
+    };
+
+    const setFilterListOption = (option) => {
+        setSortOrder(option)
+        sortKycList()
+        setFilterListOptionsModal(false)
+    }
 
     return (
         <div className="flex w-full ">
+            {filterListOptionsModal && <Modal hidePopup={() => setFilterListOptionsModal(false) } title="Filter List Options">
+            <div className='modal-content'>
+                <ul>
+                    <li>
+                        <div className={"handCursor" + (sortOrder === 'nameAsc' ? " selected" : "")} onClick={() => setFilterListOption('nameAsc')}>
+                            Name A - Z
+                        </div>
+                    </li>
+                    <li>
+                        <div className={"handCursor" + (sortOrder === 'nameDesc' ? " selected" : "")} onClick={() => setFilterListOption('nameDesc')}>
+                            Name Z - A
+                        </div>
+                    </li>
+                    <li>
+                        <div className={"handCursor" + (sortOrder === 'dateDesc' ? " selected" : "")} onClick={() => setFilterListOption('dateDesc')}>
+                            Date Created Descending
+                        </div>
+                    </li>
+                    <li>
+                        <div className={"handCursor" + (sortOrder === 'dateAsc' ? " selected" : "")} onClick={() => setFilterListOption('dateAsc')}>
+                            Date Created Ascending
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            </Modal>}
+            
                 <main className="flex flex-col w-full overflow-x-hidden overflow-y-auto">
                 <section
                     className="flex flex-col justify-start antialiased bg-gray-100 text-gray-800 min-h-screen p-4 dark:bg-gray-800 transition-all duration-500 ease-in-out">
@@ -136,6 +223,9 @@ const Kyc = (props) => {
                                     <li className="mr-2">
                                         <div onClick={() => {setIdentityStatusId('6,10,11');}} className={(identityStatusId === "6,10,11") ? 'inline-block p-4 border-b-2 border-[#5db1b5] handCursor': 'inline-block p-4 handCursor'}
                                               aria-current="page" >Failed</div>
+                                    </li>
+                                    <li className="mr-2 filter">
+                                        <div onClick={() => {setFilterListOptionsModal(true)} } className="inline-block p-4 handCursor"><i className="fa fa-thin fa-filter dark:text-gray-100"></i>Filter Options</div>
                                     </li>
                                 </ul>
                             </div>
