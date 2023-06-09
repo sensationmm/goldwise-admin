@@ -72,7 +72,7 @@ code {
 }
 
 .filter {
-  margin-left: 60%;
+  margin-left: 40%;
 }
 
 .selected {
@@ -82,4 +82,8 @@ code {
 .selected::after {
   content: "\2713"; /* Check mark Unicode character */
   margin-left: 5px;
+}
+
+.sortIcon {
+  padding-right: 5px;
 }
