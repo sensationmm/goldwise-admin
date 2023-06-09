@@ -19,24 +19,26 @@ const Kyc = (props) => {
     const searchTerm = useSelector((state) => state.search?.searchTerm)
     const [identityStatusId, setIdentityStatusId] = useState("0")
     const [isgwMonitored] = useState("0")
-    const [customers, setCustomers] = useState();
-    const [sortOrder, setSortOrder] = useState('dateDesc');
+    const [customers, setCustomers] = useState([]);
+    const [sortOrder, setSortOrder] = useState('');
     const [filterListOptionsModal, setFilterListOptionsModal] = useState(false)
 
     const getCustomers = async (displayLoader) => {
         try {
-            if (!displayLoader) dispatch(showLoader())
-            if (identityStatusId == 0) {
-                let customersPromise = await customerDetailService.getAllCustomers(searchTerm);
-                setCustomers(customersPromise)
+            if (!displayLoader) dispatch(showLoader());
+            let customersPromise;
+            if (identityStatusId === "0") {
+              customersPromise = await customerDetailService.getAllCustomers(searchTerm);
             } else {
-                let customersPromise = await customerAmlService.listAml(identityStatusId, isgwMonitored, searchTerm);
-                setCustomers(customersPromise)
+              customersPromise = await customerAmlService.listAml(identityStatusId, isgwMonitored, searchTerm);
             }
+            setCustomers(prevCustomers => customersPromise);
         } catch (e) {
-            //todo: display error if happen
+            console.error("Error occurred:", e);
+            // Display or handle the error
         } finally {
             dispatch(hideLoader())
+            setSortOrder('');
         }
     }
 
@@ -92,61 +94,45 @@ const Kyc = (props) => {
     ]
 
     const navigate = useNavigate();
-
     useEffect(() => {
-        if (searchTerm === "" || searchTerm.length >= 3) getCustomers(true)
-    }, [identityStatusId, searchTerm])
+        if (sortOrder == "") {
+            setSortOrder('dateDesc');
+        }
+    });
     useEffect(() => {
-        sortKycList();
-    },[sortOrder]);
+        if (searchTerm === "" || searchTerm.length >= 3) {
+          getCustomers(true);
+        }
+    }, [searchTerm]);
+      
+    useEffect(() => {
+        getCustomers(true);
+    }, [identityStatusId]);
 
     const sortKycList = () => {
         if (customers) {
-            const sortedCustomers = [...customers];
-            sortedCustomers.sort((a, b) => {
-                const nameA = (a.forename ? a.forename + ' ' + a.surname : a.fullName).toUpperCase();
-                const nameB = (b.forename ? b.forename + ' ' + b.surname : b.fullName).toUpperCase();
-                const dateA = new Date(a.dateCreated ? a.dateCreated : a.identityLastUpdatedDate);
-                const dateB = new Date(b.dateCreated ? b.dateCreated : b.identityLastUpdatedDate);
-    
-                if (sortOrder === 'nameAsc') {
-                    if (nameA < nameB) {
-                    return -1;
-                    }
-                    if (nameA > nameB) {
-                    return 1;
-                    }
-                    return 0;
-                } else if (sortOrder === 'nameDesc') { 
-                    if (nameA < nameB) {
-                    return 1;
-                    }
-                    if (nameA > nameB) {
-                    return -1;
-                    }
-                    return 0;
-                } else if (sortOrder === 'dateDesc') {
-                    if (dateA.getTime() < dateB.getTime()) {
-                        return 1;
-                    }
-                    if (dateA.getTime() > dateB.getTime()) {
-                        return -1;
-                    }
-                        return 0;
-                } else {
-                    if (dateB.getTime() < dateA.getTime()) {
-                        return 1;
-                    }
-                    if (dateB.getTime() > dateA.getTime()) {
-                        return -1;
-                    }
-                        return 0;
-                }
-            });
-            setCustomers(sortedCustomers);
+          const sortedCustomers = [...customers].sort((a, b) => {
+            const nameA = (a.forename ? a.forename + ' ' + a.surname : a.fullName).toUpperCase();
+            const nameB = (b.forename ? b.forename + ' ' + b.surname : b.fullName).toUpperCase();
+            const dateA = new Date(a.dateCreated ? a.dateCreated : a.identityLastUpdatedDate).getTime();
+            const dateB = new Date(b.dateCreated ? b.dateCreated : b.identityLastUpdatedDate).getTime();
+      
+            if (sortOrder === 'nameAsc') {
+              return nameA.localeCompare(nameB);
+            } else if (sortOrder === 'nameDesc') {
+              return nameB.localeCompare(nameA);
+            } else if (sortOrder === 'dateDesc') {
+              return dateB - dateA;
+            } else {
+              return dateA - dateB;
+            }
+          });
+          setCustomers(sortedCustomers);
         }
     };
-
+    useEffect(() => {
+        sortKycList();
+    }, [sortOrder]);
     const setFilterListOption = (option) => {
         setSortOrder(option)
         sortKycList()
