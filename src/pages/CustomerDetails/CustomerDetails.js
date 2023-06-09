@@ -16,6 +16,7 @@ import dateFormat from 'dateformat';
 import {useDispatch} from "react-redux";
 import {hideLoader, showLoader} from "../../reducers/loaderSlice.reducer";
 import SendResetEmailModal from './Modals/SendResetEmailModal';
+import ResendVerificationEmailModal from './Modals/ResendVerificationEmailModal';
 
 const CustomerDetails = (props) => {
     const dispatch = useDispatch()
@@ -32,6 +33,7 @@ const CustomerDetails = (props) => {
     const [setAmlFailedModal, setSetAmlFailedModal] = useState(false)
     const [resetAmlModal, setResetAmlModal] = useState(false)
     const [sendPassResetEmail, sendPassResetEmailModal] = useState(false)
+    const [resendVerificationEmailM, resendVerificationEmailModal] = useState(false)
 
     const [successMessage, setSuccessMessage] = useState()
     const [errorMessage, setErrorMessage] = useState()
@@ -215,6 +217,19 @@ const CustomerDetails = (props) => {
         }
     }
 
+    const resendVerificationEmail = async () => {
+        try {
+            dispatch(showLoader())
+            await customerDetailService.resendVerificationEmail(customer.customerDetails.emailAddress, customerGuid)
+            setSuccessMessage("verification email sent successfully!")
+        } catch (e) {
+            //todo: catch error
+        } finally {
+            resendVerificationEmailModal(false)
+            dispatch(hideLoader())
+        }
+    }
+
     const toggleActionMenu = () => {
         setActionMenu(!actionMenu)
     }
@@ -286,6 +301,16 @@ const CustomerDetails = (props) => {
                     sendResetEmail={sendResetEmail}
                     isEmailVerify={customer.customerDetails.isEmailVerify}
                     hidePopup={() => sendPassResetEmailModal(false)}
+                />
+            </Modal>
+            }
+
+            {resendVerificationEmailM &&
+            <Modal hidePopup={() => resendVerificationEmailModal(false)} title="Resend Verification Email">
+                <ResendVerificationEmailModal
+                    resendVerificationEmail={resendVerificationEmail}
+                    isEmailVerify={customer.customerDetails.isEmailVerify}
+                    hidePopup={() => resendVerificationEmailModal(false)}
                 />
             </Modal>
             }
@@ -706,6 +731,9 @@ const CustomerDetails = (props) => {
                                 <button onClick={() => sendPassResetEmailModal(true)}
                                     className='bg-[#52b2b6] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Send
                                     Password Reset Email
+                                </button>
+                                <button onClick={() => resendVerificationEmailModal(true)}
+                                    className='bg-[#52b2b6] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Resend Verification Email
                                 </button>
                                 <h4 className="text-sm text-gray-500 leading-tight mt-6 mb-4">KYC Actions</h4>
                                 <button

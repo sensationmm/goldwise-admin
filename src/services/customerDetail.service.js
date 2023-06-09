@@ -86,6 +86,16 @@ const sendResetEmail = async (email) => {
     })
 }
 
+const resendVerificationEmail = async (email, customerGuid) => {
+    const path = process.env.REACT_APP_API_ENDPOINT + `/customer/account/email-verification/send/`
+    const request = new Request()
+
+    return await request.postRequest(path, {
+        emailAddress: email,
+        customerGuid: customerGuid
+    })
+}
+
 const customerDetailService = {
     saveLockAccountStatus,
     saveMonitorCustomerStatus,
@@ -95,7 +105,8 @@ const customerDetailService = {
     resetAml,
     getCustomerDetails,
     getAllCustomers,
-    sendResetEmail
+    sendResetEmail,
+    resendVerificationEmail
 }
 
 export default customerDetailService
