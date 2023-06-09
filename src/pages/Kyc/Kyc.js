@@ -27,11 +27,8 @@ const Kyc = (props) => {
         try {
             if (!displayLoader) dispatch(showLoader())
             if (identityStatusId == 0) {
-                if (searchTerm.length == 0 || searchTerm.length >= 3) {
-                    let customersPromise = await customerDetailService.getAllCustomers(searchTerm);
-                    setCustomers(customersPromise)
-                    setFilterListOption(sortOrder)
-                }
+                let customersPromise = await customerDetailService.getAllCustomers(searchTerm);
+                setCustomers(customersPromise)
             } else {
                 let customersPromise = await customerAmlService.listAml(identityStatusId, isgwMonitored, searchTerm);
                 setCustomers(customersPromise)
@@ -97,12 +94,8 @@ const Kyc = (props) => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        getCustomers();
-    }, [identityStatusId])
-
-    useEffect(() => {
-        if (searchTerm !== "" && searchTerm.length >= 3) getCustomers(true)
-    }, [searchTerm]);
+        if (searchTerm === "" || searchTerm.length >= 3) getCustomers(true)
+    }, [identityStatusId, searchTerm])
     useEffect(() => {
         sortKycList();
     },[sortOrder]);
