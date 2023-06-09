@@ -116,7 +116,7 @@ const Kyc = (props) => {
                 const dateA = new Date(a.dateCreated ? a.dateCreated : a.identityLastUpdatedDate);
                 const dateB = new Date(b.dateCreated ? b.dateCreated : b.identityLastUpdatedDate);
     
-                if (sortOrder == 'nameAsc') {
+                if (sortOrder === 'nameAsc') {
                     if (nameA < nameB) {
                     return -1;
                     }
@@ -124,7 +124,7 @@ const Kyc = (props) => {
                     return 1;
                     }
                     return 0;
-                } else if (sortOrder == 'nameDesc') { 
+                } else if (sortOrder === 'nameDesc') { 
                     if (nameA < nameB) {
                     return 1;
                     }
@@ -132,7 +132,7 @@ const Kyc = (props) => {
                     return -1;
                     }
                     return 0;
-                } else if (sortOrder == 'dateDesc') {
+                } else if (sortOrder === 'dateDesc') {
                     if (dateA.getTime() < dateB.getTime()) {
                         return 1;
                     }
@@ -162,7 +162,7 @@ const Kyc = (props) => {
 
     return (
         <div className="flex w-full ">
-            {filterListOptionsModal && <Modal hidePopup={() => setFilterListOptionsModal(false) } title="Filter List Options">
+            {filterListOptionsModal && <Modal hidePopup={() => setFilterListOptionsModal(false) } title="Sort by Options">
             <div className='modal-content'>
                 <ul>
                     <li>
@@ -225,7 +225,7 @@ const Kyc = (props) => {
                                               aria-current="page" >Failed</div>
                                     </li>
                                     <li className="mr-2 filter">
-                                        <div onClick={() => {setFilterListOptionsModal(true)} } className="inline-block p-4 handCursor"><i className="fa fa-thin fa-filter dark:text-gray-100"></i>Filter Options</div>
+                                        <div onClick={() => {setFilterListOptionsModal(true)} } className="inline-block p-4 handCursor"><i className="fa fa-thin fa-sort dark:text-gray-100 sortIcon"></i>Sort by:</div>
                                     </li>
                                 </ul>
                             </div>
