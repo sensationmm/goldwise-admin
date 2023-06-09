@@ -8,7 +8,7 @@ const listAml = async (identityStatusId, isGWMonitored, search) => {
     return await request.postRequest(path, {
         identityStatusId: identityStatusId,
         isGWMonitored:isGWMonitored,
-        search: [{name: search}]
+        search: [{"name": search}, {"emailAddress": search}, {"contactNumber": search}]
     })
 }
 
