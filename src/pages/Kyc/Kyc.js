@@ -35,7 +35,6 @@ const Kyc = (props) => {
             } else {
                 let customersPromise = await customerAmlService.listAml(identityStatusId, isgwMonitored, searchTerm);
                 setCustomers(customersPromise)
-                setFilterListOption(sortOrder)
             }
         } catch (e) {
             //todo: display error if happen
@@ -104,18 +103,18 @@ const Kyc = (props) => {
     useEffect(() => {
         if (searchTerm !== "" && searchTerm.length >= 3) getCustomers(true)
     }, [searchTerm]);
-
     useEffect(() => {
         sortKycList();
-    },[sortOrder, customers]);
+    },[sortOrder]);
+
     const sortKycList = () => {
         if (customers) {
             const sortedCustomers = [...customers];
             sortedCustomers.sort((a, b) => {
                 const nameA = (a.forename ? a.forename + ' ' + a.surname : a.fullName).toUpperCase();
                 const nameB = (b.forename ? b.forename + ' ' + b.surname : b.fullName).toUpperCase();
-                const dateA = new Date(a.dateCreated);
-                const dateB = new Date(b.dateCreated);
+                const dateA = new Date(a.dateCreated ? a.dateCreated : a.identityLastUpdatedDate);
+                const dateB = new Date(b.dateCreated ? b.dateCreated : b.identityLastUpdatedDate);
     
                 if (sortOrder == 'nameAsc') {
                     if (nameA < nameB) {
