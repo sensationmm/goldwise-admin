@@ -15,6 +15,7 @@ import ReactCountryFlag from 'react-country-flag';
 import dateFormat from 'dateformat';
 import {useDispatch} from "react-redux";
 import {hideLoader, showLoader} from "../../reducers/loaderSlice.reducer";
+import SendResetEmailModal from './Modals/SendResetEmailModal';
 
 const CustomerDetails = (props) => {
     const dispatch = useDispatch()
@@ -30,6 +31,7 @@ const CustomerDetails = (props) => {
     const [setAmlPassedModal, setSetAmlPassedModal] = useState(false)
     const [setAmlFailedModal, setSetAmlFailedModal] = useState(false)
     const [resetAmlModal, setResetAmlModal] = useState(false)
+    const [sendPassResetEmail, sendPassResetEmailModal] = useState(false)
 
     const [successMessage, setSuccessMessage] = useState()
     const [errorMessage, setErrorMessage] = useState()
@@ -200,6 +202,19 @@ const CustomerDetails = (props) => {
         }
     }
 
+    const sendResetEmail = async () => {
+        try {
+            dispatch(showLoader())
+            await customerDetailService.sendResetEmail(customer.customerDetails.emailAddress)
+            setSuccessMessage("reset email sent successfully!")
+        } catch (e) {
+            //todo: catch error
+        } finally {
+            sendPassResetEmailModal(false)
+            dispatch(hideLoader())
+        }
+    }
+
     const toggleActionMenu = () => {
         setActionMenu(!actionMenu)
     }
@@ -261,6 +276,16 @@ const CustomerDetails = (props) => {
                 <ResetAmlModal
                     resetAml={resetAml}
                     hidePopup={() => setResetAmlModal(false)}
+                />
+            </Modal>
+            }
+
+            {sendPassResetEmail &&
+            <Modal hidePopup={() => sendPassResetEmailModal(false)} title="Send Reset Password Email">
+                <SendResetEmailModal
+                    sendResetEmail={sendResetEmail}
+                    isEmailVerify={customer.customerDetails.isEmailVerify}
+                    hidePopup={() => sendPassResetEmailModal(false)}
                 />
             </Modal>
             }
@@ -678,9 +703,9 @@ const CustomerDetails = (props) => {
                                 </span>
                                 </div>
                                 <h4 className="text-sm text-gray-500 leading-tight mb-4">Account Access</h4>
-                                <button
+                                <button onClick={() => sendPassResetEmailModal(true)}
                                     className='bg-[#52b2b6] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Send
-                                    Password Rest Email
+                                    Password Reset Email
                                 </button>
                                 <h4 className="text-sm text-gray-500 leading-tight mt-6 mb-4">KYC Actions</h4>
                                 <button

@@ -77,6 +77,15 @@ const getAllCustomers = async (searchParam) => {
     })
 }
 
+const sendResetEmail = async (email) => {
+    const path = process.env.REACT_APP_API_ENDPOINT + `/customer/forgot-password/reset/`
+    const request = new Request()
+
+    return await request.postRequest(path, {
+        email: email
+    })
+}
+
 const customerDetailService = {
     saveLockAccountStatus,
     saveMonitorCustomerStatus,
@@ -85,7 +94,8 @@ const customerDetailService = {
     setAmlPassed,
     resetAml,
     getCustomerDetails,
-    getAllCustomers
+    getAllCustomers,
+    sendResetEmail
 }
 
 export default customerDetailService
