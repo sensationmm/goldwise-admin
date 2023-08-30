@@ -5,7 +5,6 @@ import authService from './services/auth.service'
 import BaseLayout from './pages/BaseLayout'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
-import Customers from './pages/Customers'
 import CustomerDetails from './pages/CustomerDetails'
 import ProductManagement from './pages/Products/ProductManagement'
 import SpreadManagement from './pages/Products/SpreadManagement'
@@ -17,6 +16,7 @@ import {setApiToken} from './reducers/tokenSlice.reducer'
 import {hideLoader, showLoader} from "./reducers/loaderSlice.reducer";
 import VaultSetting from "./pages/VaultSetting";
 import {search} from "./reducers/search.reducer";
+import Reconciliation from './pages/Reconciliation/Reconciliation'
 
 const App = () => {
     const dispatch = useDispatch()
@@ -97,6 +97,9 @@ const App = () => {
                     <Route path='vault-settings' element={<VaultSetting />} />
                 </Route>
 
+                <Route element={<RequireAuth />}>
+                  <Route path='reports/reconciliation' element={<Reconciliation/>}/>
+                </Route>
                 {/* Catch all */}
                 <Route path='*' element={<Missing />} />
             </Route>
