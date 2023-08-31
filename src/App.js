@@ -51,6 +51,10 @@ const App = () => {
             </Route>
 
             <Route path='/' element={<BaseLayout/>}>
+                <Route path='reports/reconciliation' element={<Reconciliation/>}/>
+            </Route>
+
+            <Route path='/' element={<BaseLayout/>}>
                 {/* Protected routes */}
                 <Route element={<RequireAuth/>}>
                     <Route path='dashboard' element={<Dashboard/>}/>
@@ -97,9 +101,6 @@ const App = () => {
                     <Route path='vault-settings' element={<VaultSetting />} />
                 </Route>
 
-                <Route element={<RequireAuth />}>
-                  <Route path='reports/reconciliation' element={<Reconciliation/>}/>
-                </Route>
                 {/* Catch all */}
                 <Route path='*' element={<Missing />} />
             </Route>

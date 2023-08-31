@@ -14,8 +14,11 @@ const BaseLayout = ({full}) => {
                 {full ? <Outlet /> : <>
                 <Header />
                 <div className="flex h-full">
-                    <Sidebar />
+                  <Sidebar />
+                  
+                  <div className="w-4/5">
                     <Outlet />
+                  </div>
                 </div>
                 </>}
             </main>
