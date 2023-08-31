@@ -7,11 +7,6 @@ const menu = [
     to: "/dashboard",
     icon: "fa-home",
   },
-  // {
-  //   name: "Customers",
-  //   to: "/customers",
-  //   icon: "fa-user-circle",
-  // },
   {
     name: "Customers",
     to: "/customers",
@@ -21,7 +16,7 @@ const menu = [
     name: "Products",
     collapse: "products",
     to: "/products/",
-    icon: "fa-angle-right",
+    icon: "fa-list",
     children: [
       {
         name: "Spread Management",
@@ -37,11 +32,22 @@ const menu = [
     name: "Users",
     collapse: "users",
     to: "/users/",
-    icon: "fa-angle-right",
+    icon: "fa-user",
     children: [
       {
         name: "User Management",
         to: "/users/user-management",
+      },
+    ],
+  },
+  {
+    name: "Reports",
+    collapse: "reports",
+    icon: "fa-bar-chart",
+    children: [
+      {
+        name: "Reconciliation",
+        to: "/reports/reconciliation",
       },
     ],
   },
@@ -93,7 +99,7 @@ const Sidebar = () => {
                       key={index}
                     >
                       <i
-                        className="fa fa-th-large text-2xl"
+                      className={`fa text-2xl ${element.icon}`}
                         aria-hidden="true"
                       />
                       <span className={`flex-grow mx-8 text-base font-normal lg:block ${
