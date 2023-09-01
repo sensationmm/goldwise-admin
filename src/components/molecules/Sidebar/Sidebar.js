@@ -71,7 +71,7 @@ const Sidebar = () => {
 
   return (
   <>
-    <div className={`relative bg-gray-100 dark:bg-gray-800 border-r-[1px] dark:border-r-gray-600 ${ sidebarCollapse ? "sidebar-collapse" : ""}`}>
+    <div className={`w-1/5 relative bg-gray-100 dark:bg-gray-800 border-r-[1px] dark:border-r-gray-600 ${ sidebarCollapse ? "sidebar-collapse" : ""}`}>
       <div className="flex flex-col sm:flex-row sm:justify-around">
         <div className="w-30 lg:w-80 h-screen">
           <nav className="px-4">
@@ -84,7 +84,7 @@ const Sidebar = () => {
               if (element.children) {
                 const isPath = location.pathname.includes(element.to);
                 return (
-                  <>
+                  <div key={`menu-item-${index}`}>
                     <div
                       onClick={() => {
                         setCollapse({
@@ -135,7 +135,7 @@ const Sidebar = () => {
                         ))}
                       </nav>
                     )}
-                  </>
+                  </div>
                 );
               } else {
                 return (
