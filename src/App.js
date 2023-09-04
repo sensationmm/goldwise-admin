@@ -51,7 +51,8 @@ const App = () => {
             </Route>
 
             <Route path='/' element={<BaseLayout/>}>
-                <Route path='reports/reconciliation' element={<Reconciliation/>}/>
+                { /* TODO: move inside authed routes */}
+                <Route path='reconciliation/reports' element={<Reconciliation/>}/>
             </Route>
 
             <Route path='/' element={<BaseLayout/>}>

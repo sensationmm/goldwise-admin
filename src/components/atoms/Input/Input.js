@@ -1,7 +1,7 @@
 // import PropTypes from 'prop-types'
 
 const Input = ({
-    type,
+    type = 'text',
     className,
     placeholder,
     value,

@@ -41,13 +41,13 @@ const menu = [
     ],
   },
   {
-    name: "Reports",
-    collapse: "reports",
+    name: "Reconciliation",
+    collapse: "reconciliation",
     icon: "fa-bar-chart",
     children: [
       {
-        name: "Reconciliation",
-        to: "/reports/reconciliation",
+        name: "Reports",
+        to: "/reconciliation/reports",
       },
     ],
   },

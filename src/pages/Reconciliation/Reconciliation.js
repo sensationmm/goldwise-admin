@@ -1,8 +1,31 @@
+import { useEffect, useReducer } from "react";
 import DataTable from "../../components/atoms/DataTable/DataTable";
 import MockData from "../../mocks/reconciliation.json"
-import { formatCurrency } from "../../utils/number";
 
 const Reconciliation = () => {
+  const [state, setState] = useReducer(
+    (preState, newState) => ({ ...preState, ...newState }),
+    {
+      rows: [],
+      dataTypes: [],
+    }
+  );
+  const { rows, dataTypes } = state;
+
+  useEffect(() => {
+    let data = [];
+    let dataTypes = [];
+
+     Object.keys(MockData.dataTypes).forEach((type) => dataTypes.push(MockData.dataTypes[type]))
+
+    MockData.data.forEach((record) => {
+      const processed = Object.keys(record).map((param) => record[param])
+      data.push(processed)
+    })
+
+    setState({ rows: data, dataTypes });
+  }, []);
+
   return (
     <div className="flex w-full">
       <main className="flex flex-col w-full overflow-x-hidden overflow-y-auto">
@@ -18,40 +41,41 @@ const Reconciliation = () => {
               </h2>
             </header>
 
-            <div className="w-auto relative mx-auto rounded-sm border-gray-200 overflow-scroll">
+            <div className="w-auto h-[100%] relative mx-auto rounded-sm border-gray-200 overflow-scroll">
               <DataTable
-                defaultWidth={150}
-                columns={[
-                    { field: Object.keys(MockData.data[0])[0], headerName: 'ID',  },
-                    { field: Object.keys(MockData.data[0])[1], headerName: 'GW Entity' },
-                    { field: Object.keys(MockData.data[0])[2], headerName: 'Internal Trade No' },
-                    { field: Object.keys(MockData.data[0])[3], headerName: 'Order Type' },
-                    { field: Object.keys(MockData.data[0])[4], headerName: 'Order Sub Type' },
-                    { field: Object.keys(MockData.data[0])[5], headerName: 'Trade Time', width: 230 },
-                    { field: Object.keys(MockData.data[0])[6], headerName: 'Settlement Date', width: 230 },
-                    { field: Object.keys(MockData.data[0])[7], headerName: 'Supplier' },
-                    { field: Object.keys(MockData.data[0])[8], headerName: 'CCY Pair' },
-                    { field: Object.keys(MockData.data[0])[9], headerName: 'Weight' },
-                    { field: Object.keys(MockData.data[0])[10], headerName: 'Actual Metal Cost', valueFormatter: (params) => formatCurrency(params.value) },
-                    { field: Object.keys(MockData.data[0])[11], headerName: 'Integral Spread Amount', valueFormatter: (params) => formatCurrency(params.value) },
-                    { field: Object.keys(MockData.data[0])[12], headerName: 'GW EHT Spread Amount', valueFormatter: (params) => formatCurrency(params.value) },
-                    { field: Object.keys(MockData.data[0])[13], headerName: 'Total Final Spread Amount', valueFormatter: (params) => formatCurrency(params.value) },
-                    { field: Object.keys(MockData.data[0])[14], headerName: 'Customer Product Amount', valueFormatter: (params) => formatCurrency(params.value) },
-                    { field: Object.keys(MockData.data[0])[15], headerName: 'Customer Product Price', valueFormatter: (params) => formatCurrency(params.value) },
-                    { field: Object.keys(MockData.data[0])[16], headerName: 'Fee', valueFormatter: (params) => formatCurrency(params.value) },
-                    { field: Object.keys(MockData.data[0])[17], headerName: 'Tax', valueFormatter: (params) => formatCurrency(params.value) },
-                    { field: Object.keys(MockData.data[0])[18], headerName: 'Customer Total', valueFormatter: (params) => formatCurrency(params.value) },
-                    { field: Object.keys(MockData.data[0])[19], headerName: 'E-Money in Recon Wallet', width: 250 },
-                    { field: Object.keys(MockData.data[0])[20], headerName: 'STP Confirmed (B-K)' },
-                    { field: Object.keys(MockData.data[0])[21], headerName: 'Fix OrderID' },
-                    { field: Object.keys(MockData.data[0])[22], headerName: 'Fix ExecID' },
-                    { field: Object.keys(MockData.data[0])[23], headerName: '(Order Request / Pending) ClOrderID', width: 250 },
-                    { field: Object.keys(MockData.data[0])[24], headerName: 'Trade Capture Report', width: 250 },
-                    { field: Object.keys(MockData.data[0])[25], headerName: 'Integral Spread' },
-                    { field: Object.keys(MockData.data[0])[26], headerName: 'Market Open Status' },
-                    { field: Object.keys(MockData.data[0])[27], headerName: 'STP Price', valueFormatter: (params) => formatCurrency(params.value) },
-                  ]}
-                rows={MockData.data}
+                headers={[
+                  'ID',
+                  'GW Entity',
+                  'Internal Trade No',
+                  'Order Type',
+                  'Order Sub Type',
+                  'Trade Time',
+                  'Settlement Date',
+                  'Supplier',
+                  'CCY Pair',
+                  'Weight',
+                  'Actual Metal Cost',
+                  'Integral Spread Amount',
+                  'GW EHT Spread Amount',
+                  'Total Final Spread Amount',
+                  'Customer Product Amount',
+                  'Customer Product Price',
+                  'Fee',
+                  'Tax',
+                  'Customer Total',
+                  'E-Money in Recon Wallet',
+                  'STP Confirmed (B-K)',
+                  'Fix OrderID',
+                  'Fix ExecID',
+                  '(Order Request / Pending) ClOrderID',
+                  'Trade Capture Report',
+                  'Integral Spread',
+                  'Market Open Status',
+                  'STP Price',
+                ]}
+                data={rows} 
+                dataTypes={dataTypes}
+                excludeFilters={['ID']}
               />
             </div>
           </div>
