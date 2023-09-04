@@ -1,5 +1,6 @@
 { 
   "dataTypes": {
+    "id": "string",
     "gwEntity": "string",
     "internalTradeNo": "string",
     "orderType": "string",
