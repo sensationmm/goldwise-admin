@@ -2,7 +2,6 @@ import React, {useEffect} from 'react'
 import {useDispatch} from 'react-redux'
 import {Route, Routes} from 'react-router-dom'
 import authService from './services/auth.service'
-import BaseLayout from './pages/BaseLayout'
 import Login from './pages/Login'
 import Dashboard from './pages/Dashboard'
 import CustomerDetails from './pages/CustomerDetails'
@@ -43,70 +42,41 @@ const App = () => {
     }, [])
 
     return (
-        <Routes>
-            <Route path='/' element={<BaseLayout full={true}/>}>
-                {/* Public routes */}
-                <Route path='/' element={<Login/>}/>
-                <Route path='login' element={<Login/>}/>
-            </Route>
+      <Routes>
+        {/* Public routes */}
+        <Route path='/' element={<Login/>}/>
+        <Route path='login' element={<Login/>}/>
 
-            <Route path='/' element={<BaseLayout/>}>
-                { /* TODO: move inside authed routes */}
-                <Route path='reconciliation/reports' element={<Reconciliation/>}/>
-            </Route>
+        { /* TODO: move inside authed routes */}
+        <Route path='reconciliation/reports' element={<Reconciliation/>}/>
 
-            <Route path='/' element={<BaseLayout/>}>
-                {/* Protected routes */}
-                <Route element={<RequireAuth/>}>
-                    <Route path='dashboard' element={<Dashboard/>}/>
-                </Route>
+        {/* Protected routes */}
+        <Route element={<RequireAuth/>}>
+          <Route path='dashboard' element={<Dashboard/>}/>
 
-                {/* <Route element={<RequireAuth/>}>
-                    <Route path='customers' element={<Customers/>}/>
-                </Route> */}
+          <Route path="customers/:customerGuid" element={<CustomerDetails/>}/>
 
-                <Route element={<RequireAuth/>}>
-                    <Route path="customers/:customerGuid" element={<CustomerDetails/>}/>
-                </Route>
+          <Route path='customers' element={<Kyc  page={"0"}/>}/>
 
-                <Route element={<RequireAuth/>}>
-                    <Route path='customers' element={<Kyc  page={"0"}/>}/>
-                </Route>
-                <Route element={<RequireAuth/>}>
-                    <Route path='customers/all' element={<Kyc  page={"1"}/>}/>
-                </Route>
-                <Route element={<RequireAuth/>}>
-                    <Route path='customers/passed' element={<Kyc  page={"2"}/>}/>
-                </Route>
-                <Route element={<RequireAuth/>}>
-                    <Route path='customers/failed' element={<Kyc  page={"3"}/>}/>
-                </Route>
+          <Route path='customers/all' element={<Kyc  page={"1"}/>}/>
 
-                {/* <Route element={<RequireAuth/>}>
-                    <Route path='customers/:customerGuid' element={<CustomerDetails/>}/>
-                </Route> */}
+          <Route path='customers/passed' element={<Kyc  page={"2"}/>}/>
 
-                <Route element={<RequireAuth/>}>
-                    <Route path='users/user-management' element={<UserManagement />} />
-                </Route>
+          <Route path='customers/failed' element={<Kyc  page={"3"}/>}/>
 
-                <Route>
-                    <Route path='products/product-management' element={<ProductManagement />} />
-                </Route>
+          <Route path='users/user-management' element={<UserManagement />} />
 
-                <Route element={<RequireAuth />}>
-                    <Route path='products/spread-management' element={<SpreadManagement />} />
-                </Route>
+          <Route path='products/product-management' element={<ProductManagement />} />
 
-                <Route element={<RequireAuth />}>
-                    <Route path='vault-settings' element={<VaultSetting />} />
-                </Route>
+          <Route path='products/spread-management' element={<SpreadManagement />} />
 
-                {/* Catch all */}
-                <Route path='*' element={<Missing />} />
-            </Route>
-        </Routes >
-    )
+          <Route path='vault-settings' element={<VaultSetting />} />
+
+          {/* Catch all */}
+          <Route path='*' element={<Missing />} />
+      </Route>
+    </Routes >
+  )
 }
 
 export default App

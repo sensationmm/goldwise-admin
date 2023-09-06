@@ -1,6 +1,4 @@
 import {Link} from 'react-router-dom'
-import Header from '../../components/molecules/Header'
-import Sidebar from '../../components/molecules/Sidebar'
 import Modal from "../../components/atoms/Modal";
 import React, {useState, useEffect, useLayoutEffect} from "react";
 import LockAccountModal from "./Modals/LockAccountModal";
@@ -17,6 +15,7 @@ import {useDispatch} from "react-redux";
 import {hideLoader, showLoader} from "../../reducers/loaderSlice.reducer";
 import SendResetEmailModal from './Modals/SendResetEmailModal';
 import ResendVerificationEmailModal from './Modals/ResendVerificationEmailModal';
+import BaseLayout from '../BaseLayout/BaseLayout';
 
 const CustomerDetails = (props) => {
     const dispatch = useDispatch()
@@ -315,478 +314,478 @@ const CustomerDetails = (props) => {
             </Modal>
             }
 
-            {/* TODO: add template */}
-                <main className="flex flex-col w-full overflow-x-hidden overflow-y-auto">
-                    <section
-                        className="flex flex-col justify-center antialiased bg-gray-100 text-gray-800 min-h-screen p-4 dark:bg-gray-800 dark:text-gray-100 transition-all duration-500 ease-in-out">
-                        <div className="py-4 px-4 sm:px-6 lg:px-8 lg:py-5">
-                            <div className="grid grid-flow-col">
-                                {/* TODO: Create a  Breadcrumbs component */}
-                                <ul className="flex items-center">
-                                    <li className="flex items-center pl-2">
-                                        <Link to="/"
-                                              className="text-xs text-gray-500 dark:text-gray-100 hover:text-primary underline decoration-1">
-                                            <i className="fa fa-home fa-2x"/>
-                                        </Link>
-                                        <span className="px-1 text-gray-500">&gt;</span>
-                                    </li>
-                                    <li className="flex items-center">
-                                        <Link to={prevRoute.path}
-                                              className="text-xs text-gray-500 dark:text-gray-100 hover:text-primary underline decoration-1">{prevRoute.name}</Link>
-                                        <span className="px-1 text-gray-500">&gt;</span>
-                                    </li>
-                                    <li className="text-xs text-gray-500 dark:text-gray-100">{customer && (<>{customer.customerDetails.forename} {customer.customerDetails.surname}</>)}</li>
-                                </ul>
-                                <span className="text-right">
-                                    <button className="bg-red" onClick={toggleActionMenu}>
-                                        <i className="fa fa-cog"></i>
-                                    </button>
-                                </span>
-                            </div>
-                        </div>
-                        {successMessage &&
-                        <div className="space-y-4 pb-5">
-                            <div className="pl-3 w-full pt-3 pb-3 bg-[#5ed197] shadow rounded">
-                                <div className="flex flex-row place-content-between content-center">
-                                    <div className="flex-shrink-0 mr-2 sm:mr-3 flex flex-row content-center">
-                                        <img className="rounded-full"
-                                             src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
-                                             width="30" height="30"
-                                             alt="Tom Leach"/>
-                                        <p className="pl-3 text-lg font-bold text-white">{successMessage}</p>
-                                    </div>
+            <BaseLayout title="Customer Details">
+              <section
+                  className="flex flex-col justify-center antialiased bg-gray-100 text-gray-800 min-h-screen p-4 dark:bg-gray-800 dark:text-gray-100 transition-all duration-500 ease-in-out">
+                  <div className="py-4 px-4 sm:px-6 lg:px-8 lg:py-5">
+                      <div className="grid grid-flow-col">
+                          {/* TODO: Create a  Breadcrumbs component */}
+                          <ul className="flex items-center">
+                              <li className="flex items-center pl-2">
+                                  <Link to="/"
+                                        className="text-xs text-gray-500 dark:text-gray-100 hover:text-primary underline decoration-1">
+                                      <i className="fa fa-home fa-2x"/>
+                                  </Link>
+                                  <span className="px-1 text-gray-500">&gt;</span>
+                              </li>
+                              <li className="flex items-center">
+                                  <Link to={prevRoute.path}
+                                        className="text-xs text-gray-500 dark:text-gray-100 hover:text-primary underline decoration-1">{prevRoute.name}</Link>
+                                  <span className="px-1 text-gray-500">&gt;</span>
+                              </li>
+                              <li className="text-xs text-gray-500 dark:text-gray-100">{customer && (<>{customer.customerDetails.forename} {customer.customerDetails.surname}</>)}</li>
+                          </ul>
+                          <span className="text-right">
+                              <button className="bg-red" onClick={toggleActionMenu}>
+                                  <i className="fa fa-cog"></i>
+                              </button>
+                          </span>
+                      </div>
+                  </div>
+                  {successMessage &&
+                  <div className="space-y-4 pb-5">
+                      <div className="pl-3 w-full pt-3 pb-3 bg-[#5ed197] shadow rounded">
+                          <div className="flex flex-row place-content-between content-center">
+                              <div className="flex-shrink-0 mr-2 sm:mr-3 flex flex-row content-center">
+                                  <img className="rounded-full"
+                                        src="https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"
+                                        width="30" height="30"
+                                        alt="Tom Leach"/>
+                                  <p className="pl-3 text-lg font-bold text-white">{successMessage}</p>
+                              </div>
 
-                                    <div>
-                                        <i onClick={() => setSuccessMessage(null)}
-                                           style={{color: '#DFDFE2FF'}}
-                                           className='hover:text-gray-100 fa fa-times fa-2x mr-4'/>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        }
-                        {customer && (
-                        <>
-                            <div className="ml-10 pt-2 pb-8">
-                                <div className="mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
-                                    <div
-                                        className="grid grid-cols-2 border-r-[1px] px-2 col-span-1 dark:border-r-gray-600 border-b-[1px] dark:border-b-gray-600 lg:border-b-[0px] transition-all duration-500 ease-in-out">
-                                        <div className="overflow-auto hidden">
-                                            <img className="rounded-full w-2/3"
-                                            src={customer.customerDetails.profilePhoto ? customer.customerDetails.profilePhoto : "https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"}
-                                            alt="Tom Leach"/></div>
-                                        <div>
-                                            <p className="text-left text-lg font-bold text-gray-800 dark:text-gray-100">{customer.customerDetails.forename} {customer.customerDetails.surname}</p>
-                                            <p className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
-                                                <i className="fa fa-check-circle text-lg text-[#5ed197] pr-2"></i>{customer.customerDetails.emailAddress}
-                                            </p>
-                                            <p className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">{customer.customerDetails.contactNumber ? customer.customerDetails.contactNumber : "-"}</p>
-                                            <div className="flex items-center pt-3">
-                                                <span
-                                                    className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold ">
-                                                    <ReactCountryFlag countryCode={customer.address.iso3CountryCode} />
-                                                </span>
-                                                <span
-                                                    className="pl-2 text-left text-sm font-medium text-gray-800 dark:text-gray-100">{customer.address.countryName}
-                                                </span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div
-                                        className="group flex items-start flex-col px-6 py-2 md: border-r-0 border-r-[1px] border-b-[1px] dark:border-b-gray-600 lg:border-b-[0px] col-span-1 dark:border-r-gray-600 transition-all duration-500 ease-in-out">
-                                        <div className="flex-shrink-0 mr-2 sm:mr-3">
-                                            <div
-                                                className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100">
-                                                <i className="fa fa-birthday-cake text-lg text-gray-800 dark:text-gray-100 pr-2"></i>
-                                               {dateFormat(dateOfBirth, "dd mmmm yyyy")}
-                                            </div>
-                                        </div>
-                                            <div className="flex-shrink-0 mr-2 sm:mr-3">
-                                                <div
-                                                    className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
-                                                    <i className="fa fa-mars text-lg text-gray-800 dark:text-gray-100 pr-3"></i>{customer.customerDetails.gender ? customer.customerDetails.gender : "-"}
-                                                </div>
-                                            </div>
+                              <div>
+                                  <i onClick={() => setSuccessMessage(null)}
+                                      style={{color: '#DFDFE2FF'}}
+                                      className='hover:text-gray-100 fa fa-times fa-2x mr-4'/>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  }
+                  {customer && (
+                  <>
+                      <div className="ml-10 pt-2 pb-8">
+                          <div className="mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+                              <div
+                                  className="grid grid-cols-2 border-r-[1px] px-2 col-span-1 dark:border-r-gray-600 border-b-[1px] dark:border-b-gray-600 lg:border-b-[0px] transition-all duration-500 ease-in-out">
+                                  <div className="overflow-auto hidden">
+                                      <img className="rounded-full w-2/3"
+                                      src={customer.customerDetails.profilePhoto ? customer.customerDetails.profilePhoto : "https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"}
+                                      alt="Tom Leach"/></div>
+                                  <div>
+                                      <p className="text-left text-lg font-bold text-gray-800 dark:text-gray-100">{customer.customerDetails.forename} {customer.customerDetails.surname}</p>
+                                      <p className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
+                                          <i className="fa fa-check-circle text-lg text-[#5ed197] pr-2"></i>{customer.customerDetails.emailAddress}
+                                      </p>
+                                      <p className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">{customer.customerDetails.contactNumber ? customer.customerDetails.contactNumber : "-"}</p>
+                                      <div className="flex items-center pt-3">
+                                          <span
+                                              className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold ">
+                                              <ReactCountryFlag countryCode={customer.address.iso3CountryCode} />
+                                          </span>
+                                          <span
+                                              className="pl-2 text-left text-sm font-medium text-gray-800 dark:text-gray-100">{customer.address.countryName}
+                                          </span>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div
+                                  className="group flex items-start flex-col px-6 py-2 md: border-r-0 border-r-[1px] border-b-[1px] dark:border-b-gray-600 lg:border-b-[0px] col-span-1 dark:border-r-gray-600 transition-all duration-500 ease-in-out">
+                                  <div className="flex-shrink-0 mr-2 sm:mr-3">
+                                      <div
+                                          className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100">
+                                          <i className="fa fa-birthday-cake text-lg text-gray-800 dark:text-gray-100 pr-2"></i>
+                                          {dateFormat(dateOfBirth, "dd mmmm yyyy")}
+                                      </div>
+                                  </div>
+                                      <div className="flex-shrink-0 mr-2 sm:mr-3">
+                                          <div
+                                              className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
+                                              <i className="fa fa-mars text-lg text-gray-800 dark:text-gray-100 pr-3"></i>{customer.customerDetails.gender ? customer.customerDetails.gender : "-"}
+                                          </div>
+                                      </div>
 
-                                            <div className="flex-shrink-0 mr-2 sm:mr-3">
-                                                <div
-                                                    className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
-                                                    <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>{customer.customerDetails.identificationNumberTypeText ? customer.customerDetails.identificationNumberTypeText : "-"}
-                                                </div>
-                                            </div>
+                                      <div className="flex-shrink-0 mr-2 sm:mr-3">
+                                          <div
+                                              className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
+                                              <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>{customer.customerDetails.identificationNumberTypeText ? customer.customerDetails.identificationNumberTypeText : "-"}
+                                          </div>
+                                      </div>
 
-                                        <div className="flex-shrink-0 mr-2 sm:mr-3">
-                                            <div
-                                                className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
-                                                <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>{customer.customerDetails.identificationNumber ? customer.customerDetails.identificationNumber : "-"}
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div
-                                        className="group flex items-start flex-col px-6 py-2 border-r-[1px] dark:border-r-gray-600 border-b-[1px] dark:border-b-gray-600 lg:border-b-[0px] col-span-1 transition-all duration-500 ease-in-out">
-                                        <div className="flex-shrink-0 mr-2 sm:mr-3 w-full">
-                                            <div
-                                                className="grid grid-cols-2 text-left text-sm font-medium text-gray-800 dark:text-gray-100">
-                                                <span>
-                                                    <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>KYC
-                                                    Status
-                                                </span>
-                                                    <span className="flex items-center justify-center pl-3">
-                                                    <span
-                                                        aria-hidden="true"
-                                                        className={"w-3 h-3 rounded-full inline-block align-middle " + ([5,9].includes(amlStatus.overallStatusID) ?  "bg-green-500" : amlStatus.overallStatusID === 8 ? "bg-orange-500" : "bg-red-500")}/>
-                                                    <span className="pl-2 text-gray-400 font-bold">
-                                                        {amlStatus.overallStatusText ? amlStatus.overallStatusText : "Not Started"}
-                                                    </span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div className="flex-shrink-0 mr-2 sm:mr-3 w-full">
-                                            <div
-                                                className="grid grid-cols-2 text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
-                                                <span>
-                                                    <i className="fa fa-lock text-lg text-gray-800 dark:text-gray-100 pr-4"></i>Account
-                                                    Status
-                                                    </span>
-                                                <span className="flex items-center pl-4 ml-1">
-                                                    <span aria-hidden="true"
-                                                          className={"w-3 h-3 rounded-full inline-block align-middle " + (lockAccountStatus || !activeAccountStatus ? "bg-red-500" : !activeAccountStatus || !emailactiveStatus ? "bg-orange-500" : "bg-green-500")}>
-                                                    </span>
-                                                    <span className="pl-2 text-gray-400 dark:text-gray-100 font-bold">
-                                                        {lockAccountStatus && !activeAccountStatus ? "Locked - Not Active" : lockAccountStatus ? "Locked" : !activeAccountStatus ? "Not Active" : !emailactiveStatus ? "Pending Email Activation" : "Active"}
-                                                    </span>
-                                                </span>
-                                            </div>
-                                        </div>
-                                        <div className="flex-shrink-0 mr-2 sm:mr-3 w-full">
-                                            <div
-                                                className="grid grid-cols-2 text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
-                                                <span>
-                                                    <i className="fa fa-flag text-lg text-gray-800 dark:text-gray-100 pr-2"></i>Monitored
-                                                    Customer
-                                                </span>
-                                                <span className="flex items-center pl-4 ml-1">
-                                                    <span aria-hidden="true"
-                                                          className={"w-3 h-3 rounded-full inline-block align-middle " + (!monitorCustomerStatus ? " bg-green-500 " : " bg-red-500 ")}>
-                                                    </span>
-                                                    <span className="pl-2 text-gray-400 dark:text-gray-100 font-bold">
-                                                        {monitorCustomerStatus ? "Yes" : "No"}
-                                                    </span>
-                                                </span>
-                                                </div>
-                                            </div>
-                                        </div>
+                                  <div className="flex-shrink-0 mr-2 sm:mr-3">
+                                      <div
+                                          className="flex items-center text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
+                                          <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>{customer.customerDetails.identificationNumber ? customer.customerDetails.identificationNumber : "-"}
+                                      </div>
+                                  </div>
+                              </div>
+                              <div
+                                  className="group flex items-start flex-col px-6 py-2 border-r-[1px] dark:border-r-gray-600 border-b-[1px] dark:border-b-gray-600 lg:border-b-[0px] col-span-1 transition-all duration-500 ease-in-out">
+                                  <div className="flex-shrink-0 mr-2 sm:mr-3 w-full">
+                                      <div
+                                          className="grid grid-cols-2 text-left text-sm font-medium text-gray-800 dark:text-gray-100">
+                                          <span>
+                                              <i className="fa fa-address-card text-lg text-gray-800 dark:text-gray-100 pr-2"></i>KYC
+                                              Status
+                                          </span>
+                                              <span className="flex items-center justify-center pl-3">
+                                              <span
+                                                  aria-hidden="true"
+                                                  className={"w-3 h-3 rounded-full inline-block align-middle " + ([5,9].includes(amlStatus.overallStatusID) ?  "bg-green-500" : amlStatus.overallStatusID === 8 ? "bg-orange-500" : "bg-red-500")}/>
+                                              <span className="pl-2 text-gray-400 font-bold">
+                                                  {amlStatus.overallStatusText ? amlStatus.overallStatusText : "Not Started"}
+                                              </span>
+                                          </span>
+                                      </div>
+                                  </div>
+                                  <div className="flex-shrink-0 mr-2 sm:mr-3 w-full">
+                                      <div
+                                          className="grid grid-cols-2 text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
+                                          <span>
+                                              <i className="fa fa-lock text-lg text-gray-800 dark:text-gray-100 pr-4"></i>Account
+                                              Status
+                                              </span>
+                                          <span className="flex items-center pl-4 ml-1">
+                                              <span aria-hidden="true"
+                                                    className={"w-3 h-3 rounded-full inline-block align-middle " + (lockAccountStatus || !activeAccountStatus ? "bg-red-500" : !activeAccountStatus || !emailactiveStatus ? "bg-orange-500" : "bg-green-500")}>
+                                              </span>
+                                              <span className="pl-2 text-gray-400 dark:text-gray-100 font-bold">
+                                                  {lockAccountStatus && !activeAccountStatus ? "Locked - Not Active" : lockAccountStatus ? "Locked" : !activeAccountStatus ? "Not Active" : !emailactiveStatus ? "Pending Email Activation" : "Active"}
+                                              </span>
+                                          </span>
+                                      </div>
+                                  </div>
+                                  <div className="flex-shrink-0 mr-2 sm:mr-3 w-full">
+                                      <div
+                                          className="grid grid-cols-2 text-left text-sm font-medium text-gray-800 dark:text-gray-100 pt-3">
+                                          <span>
+                                              <i className="fa fa-flag text-lg text-gray-800 dark:text-gray-100 pr-2"></i>Monitored
+                                              Customer
+                                          </span>
+                                          <span className="flex items-center pl-4 ml-1">
+                                              <span aria-hidden="true"
+                                                    className={"w-3 h-3 rounded-full inline-block align-middle " + (!monitorCustomerStatus ? " bg-green-500 " : " bg-red-500 ")}>
+                                              </span>
+                                              <span className="pl-2 text-gray-400 dark:text-gray-100 font-bold">
+                                                  {monitorCustomerStatus ? "Yes" : "No"}
+                                              </span>
+                                          </span>
+                                          </div>
+                                      </div>
+                                  </div>
 
-                                    <div className="group flex items-start flex-col px-6 py-2 col-span-1 border-b-[1px] dark:border-b-gray-600 lg:border-b-[0px]">
-                                        <div className="flex-shrink-0 mr-2 sm:mr-3">
-                                            <div
-                                                className="flex items-start text-left text-sm font-bold text-gray-800 dark:text-gray-100 leading-loose">
-                                                <i className="fa fa-map-marker text-lg text-gray-800 dark:text-gray-100 pr-2"></i>
-                                                {customer.address.flatNumber} {customer.address.number} {customer.address.buildingName}<br/> {customer.address.street} <br/> {customer.address.townCity} <br/> {customer.address.postCode}
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="h-full">
-                                <div className="w-full mx-auto rounded-sm border-gray-200">
-                                    {/* TODO: Tabs component */}
-                                    <div
-                                        className="text-sm font-medium bg-white text-center text-gray-500 dark:text-gray-100 dark:bg-gray-600 transition-all duration-500 ease-in-out">
-                                        <ul className="flex flex-wrap -mb-px">
-                                            <li className="mr-2">
-                                                <Link to='' className="inline-block p-4 border-b-2 border-[#5db1b5] active">Account
-                                                    Details</Link>
-                                            </li>
-                                            <li className="mr-2">
-                                                <Link to='' className="inline-block p-4 border-transparent"
-                                                    aria-current="page">ID Verification</Link>
-                                            </li>
-                                            <li className="mr-2">
-                                                <Link to='' className="inline-block p-4 border-transparent"
-                                                    aria-current="page">Trading Accounts</Link>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                </div>
-                                <div className="-mx-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 pt-8">
-                                    <div className="w-full px-2">
-                                        <div
-                                            className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
-                                            <div className="flex flex-col rounded-md relative overflow-hidden">
-                                                <h2 className='p-3 font-bold'>Restrictions</h2>
+                              <div className="group flex items-start flex-col px-6 py-2 col-span-1 border-b-[1px] dark:border-b-gray-600 lg:border-b-[0px]">
+                                  <div className="flex-shrink-0 mr-2 sm:mr-3">
+                                      <div
+                                          className="flex items-start text-left text-sm font-bold text-gray-800 dark:text-gray-100 leading-loose">
+                                          <i className="fa fa-map-marker text-lg text-gray-800 dark:text-gray-100 pr-2"></i>
+                                          {customer.address.flatNumber} {customer.address.number} {customer.address.buildingName}<br/> {customer.address.street} <br/> {customer.address.townCity} <br/> {customer.address.postCode}
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </div>
+                      <div className="h-full">
+                          <div className="w-full mx-auto rounded-sm border-gray-200">
+                              {/* TODO: Tabs component */}
+                              <div
+                                  className="text-sm font-medium bg-white text-center text-gray-500 dark:text-gray-100 dark:bg-gray-600 transition-all duration-500 ease-in-out">
+                                  <ul className="flex flex-wrap -mb-px">
+                                      <li className="mr-2">
+                                          <Link to='' className="inline-block p-4 border-b-2 border-[#5db1b5] active">Account
+                                              Details</Link>
+                                      </li>
+                                      <li className="mr-2">
+                                          <Link to='' className="inline-block p-4 border-transparent"
+                                              aria-current="page">ID Verification</Link>
+                                      </li>
+                                      <li className="mr-2">
+                                          <Link to='' className="inline-block p-4 border-transparent"
+                                              aria-current="page">Trading Accounts</Link>
+                                      </li>
+                                  </ul>
+                              </div>
+                          </div>
+                          <div className="-mx-2 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 pt-8">
+                              <div className="w-full px-2">
+                                  <div
+                                      className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
+                                      <div className="flex flex-col rounded-md relative overflow-hidden">
+                                          <h2 className='p-3 font-bold'>Restrictions</h2>
 
-                                                    <div className="flex items-center justify-between p-3 w-full">
-                                                        <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
-                                                            Deposit</p>
-                                                        <span className="flex w-24 items-center justify-start pl-3">
-                                                        <span aria-hidden="true"
-                                                              className={"w-3 h-3 rounded-full inline-block align-middle " + (tradingRestrictions.restrictDeposit ? " bg-red-500 " : " bg-gray-500 ")}/>
-                                                        <span
-                                                            className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                            {tradingRestrictions.restrictDeposit ? "On" : "Off"}
-                                                        </span>
-                                                    </span>
-                                                    </div>
-                                                    <div className="flex items-center justify-between p-3 w-full">
-                                                        <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
-                                                            Buy</p>
-                                                        <span className="flex w-24 items-center justify-start pl-3">
-                                                        <span aria-hidden="true"
-                                                              className={"w-3 h-3 rounded-full inline-block align-middle " + (tradingRestrictions.restrictBuy ? " bg-red-500 " : " bg-gray-500 ")}/>
-                                                        <span
-                                                            className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                             {tradingRestrictions.restrictBuy ? "On" : "Off"}
-                                                        </span>
-                                                    </span>
-                                                    </div>
-                                                    <div className="flex items-center justify-between p-3 w-full">
-                                                        <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
-                                                            Sell</p>
-                                                        <span className="flex w-24 items-center justify-start pl-3">
-                                                        <span aria-hidden="true"
-                                                              className={"w-3 h-3 rounded-full inline-block align-middle " + (tradingRestrictions.restrictSell ? " bg-red-500 " : " bg-gray-500 ")}/>
-                                                        <span
-                                                            className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                           {tradingRestrictions.restrictSell ? "On" : "Off"}
-                                                        </span>
-                                                    </span>
-                                                    </div>
-                                                    <div className="flex items-center justify-between p-3 w-full">
-                                                        <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
-                                                            Convert</p>
-                                                        <span className="flex w-24 items-center justify-start pl-3">
-                                                        <span aria-hidden="true"
-                                                              className={"w-3 h-3 rounded-full inline-block align-middle " + (tradingRestrictions.restrictConvert ? " bg-red-500 " : " bg-gray-500 ")}/>
-                                                        <span
-                                                            className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                             {tradingRestrictions.restrictConvert ? "On" : "Off"}
-                                                        </span>
-                                                    </span>
-                                                    </div>
-                                                    <div className="flex items-center justify-between p-3 w-full">
-                                                        <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
-                                                            Withdraw</p>
-                                                        <span className="flex w-24 items-center justify-start pl-3">
-                                                        <span aria-hidden="true"
-                                                              className={"w-3 h-3 rounded-full inline-block align-middle " + (tradingRestrictions.restrictWithdraw ? " bg-red-500 " : " bg-gray-500 ")}/>
-                                                        <span
-                                                            className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                           {tradingRestrictions.restrictWithdraw  ? "On" : "Off"}
-                                                        </span>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="w-full px-2">
-                                        <div
-                                            className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
-                                            <div className="flex flex-col rounded-md relative overflow-hidden">
-                                                <h2 className='p-3 font-bold'>Preferences</h2>
-                                                <div className="flex items-center justify-between p-3 w-full">
-                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Two
-                                                        Factor</p>
-                                                    <span className="flex w-24 items-center justify-start pl-3">
-                                                        <span aria-hidden="true"
-                                                              className={"w-3 h-3 rounded-full inline-block align-middle" + (customer.securitySettings.is2faSet ? " bg-green-500 " : " bg-gray-500 ")}>
-                                                        </span>
-                                                        <span
-                                                            className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                            {customer.securitySettings.is2faSet ? "Enabled" : "Disabled"}
-                                                        </span>
-                                                    </span>
-                                                    </div>
-                                                    <div className="flex items-center justify-between p-3 w-full">
-                                                        <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Language</p>
-                                                        <span className="flex w-24 items-center justify-start pl-3">
-                                                        <span
-                                                            className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                            <ReactCountryFlag countryCode={customer.tradingPreferences.languageCode} />
-                                                        </span>
-                                                        <span
-                                                            className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                            {customer.tradingPreferences.languageName}
-                                                        </span>
-                                                    </span>
-                                                    </div>
-                                                    <div className="flex items-center justify-between p-3 w-full">
-                                                        <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Pricing
-                                                            Currency</p>
-                                                        <span className="flex w-36 items-center justify-start pl-3">
-                                                        <span aria-hidden="true"
-                                                              className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                             <ReactCountryFlag countryCode={customer.tradingPreferences.pricesCurrencyIsoCode} />
-                                                        </span>
-                                                        <span
-                                                            className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                            {customer.tradingPreferences.pricesCurrencyName}
-                                                        </span>
-                                                    </span>
-                                                    </div>
-                                                    <div className="flex items-center justify-between p-3 w-full">
-                                                        <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Portfolio
-                                                            Currency</p>
-                                                        <span className="flex w-36 items-center justify-start pl-3">
-                                                        <span aria-hidden="true"
-                                                              className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                            <ReactCountryFlag countryCode={customer.tradingPreferences.portfolioCurrencyIsoCode} />
-                                                        </span>
-                                                        <span
-                                                            className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                            {customer.tradingPreferences.currencyName}
-                                                        </span>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div className="w-full px-1">
-                                        <div
-                                            className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 transition-all duration-500 ease-in-out">
-                                            <div className="flex flex-col rounded-md relative overflow-hidden">
-                                                <h2 className='p-3 font-bold'>Topics</h2>
-                                                {customer.communicationTypes.map((communicationType, index) => (
-                                                <div className="flex items-center justify-between p-3 w-full" key={index}>
-                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>{communicationType.communicationTypeText}</p>
-                                                    <span className="flex w-18 items-center justify-start pl-3">
-                                                        <span aria-hidden="true"
-                                                              className={"w-3 h-3 rounded-full inline-block align-middle " + (communicationType.isSelected ? 'bg-green-500' : 'bg-red-500')}>
-                                                        </span>
-                                                        <span
-                                                            className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                            {communicationType.isSelected ? 'Yes' : 'No'}
-                                                        </span>
-                                                    </span>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        <div
-                                            className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 transition-all duration-500 ease-in-out">
-                                            <div className="flex flex-col rounded-md relative overflow-hidden">
-                                                <h2 className='p-3 font-bold'>Communications</h2>
-                                                {
-                                                    customer.contactTypes && customer.contactTypes.map((contactType, index) => (
-                                                    <div className="flex items-center justify-between p-3 w-full" key={index}>
-                                                        <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>{contactType.contactTypeText}</p>
-                                                        <span className="flex w-24 items-center justify-start pl-3">
-                                                            <span aria-hidden="true"
-                                                                  className={"w-3 h-3 rounded-full inline-block align-middle" + (contactType.isSelected ? " bg-green-500 " : " bg-red-500 ")}>
-                                                            </span>
-                                                            <span
-                                                                className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                                {contactType.isSelected ? "Yes" : "No"}
-                                                            </span>
-                                                        </span>
-                                                    </div>
-                                                    ))
-                                                }
-                                            </div>
-                                        </div>
-                                        
-                                    </div>
-                                    <div className="w-full px-2">
-                                    <div
-                                            className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
-                                            <div className="flex flex-col rounded-md relative overflow-hidden">
-                                                <h2 className='p-3 font-bold'>Questionnaire</h2>
-                                                {questionnaire.map((question, index) => (
-                                                <div className="flex items-center justify-between p-3 w-full" key={index}>
-                                                    <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>{question.questionTitle}</p>
-                                                    <span className="flex w-18 items-center justify-start pl-3">
-                                                        <span
-                                                            className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
-                                                            {question.answer ? question.answer : "-"}
-                                                        </span>
-                                                    </span>
-                                                        </div>
-                                                    ))}
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </>
-                        )}
-                    </section>
-                </main>
-                <div
-                    className={`${actionMenu ? "fixed" : "hidden"} right-0 h-screen bg-gray-100 dark:bg-gray-800 border-l-[1px] dark:border-l-gray-600 transition-all duration-500 ease-in-out`}>
-                    <div className="h-screen">
-                        <div className="w-60 h-screen overflow-y-scroll">
-                            <div className="mt-8 px-4">
-                                {/* TODO: load the colors from config */}
-                                <div className="w-100 grid grid-flow-col">
-                                    <h3 className="text-sm text-left text-gray-800 font-semibold leading-tight my-6">Action
-                                        Menu
-                                    </h3>
-                                    <span className="text-right  my-6">
-                                    <button className="bg-red" onClick={toggleActionMenu}>
-                                        <i className="fa fa-angle-right"></i>
-                                    </button>
-                                </span>
-                                </div>
-                                <h4 className="text-sm text-gray-500 leading-tight mb-4">Account Access</h4>
-                                <button onClick={() => sendPassResetEmailModal(true)}
-                                    className='bg-[#52b2b6] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Send
-                                    Password Reset Email
-                                </button>
-                                <button onClick={() => resendVerificationEmailModal(true)}
-                                    className='bg-[#52b2b6] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Resend Verification Email
-                                </button>
-                                <h4 className="text-sm text-gray-500 leading-tight mt-6 mb-4">KYC Actions</h4>
-                                <button
-                                    className='bg-[#52b2b6] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>View
-                                    KYC Details
-                                </button>
-                                <button onClick={() => setMonitorCustomerModal(true)}
-                                        className='bg-[#52b2b6] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Monitor
-                                    Customer
-                                </button>
-                                <button onClick={() => setLockAccountModal(true)}
-                                        className='bg-[#52b2b6] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Lock
-                                    Account
-                                </button>
-                                <button onClick={() => setTradingRestrictionsModal(true)}
-                                        className='bg-[#52b2b6] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Restrict
-                                    Account
-                                </button>
-                                <button onClick={() => setResetAmlModal(true)}
-                                        className='bg-[#52b2b6] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Reset
-                                    AML Status
-                                </button>
-                                <button
-                                    onClick={() => setSetAmlPassedModal(true)}
-                                    className='bg-[#5ed197] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Set
-                                    KYC Status to Pass
-                                </button>
-                                <button
-                                    onClick={() => setSetAmlFailedModal(true)}
-                                    className='bg-[#d03d44] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Set
-                                    KYC Status to Fail
-                                </button>
-                                <button
-                                    className='bg-[#404353] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Request
-                                    Proof of Address
-                                </button>
-                                <button
-                                    className='bg-[#404353] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Request
-                                    Additional Identification
-                                </button>
-                                <h4 className="text-sm text-gray-500 leading-tight mt-6 mb-4">Close Account</h4>
-                                <button
-                                    className='bg-[#52b2b6] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Sell
-                                    All Holdings
-                                </button>
-                                <button
-                                    className='bg-[#52b2b6] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Withdraw
-                                    Funds
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                                              <div className="flex items-center justify-between p-3 w-full">
+                                                  <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
+                                                      Deposit</p>
+                                                  <span className="flex w-24 items-center justify-start pl-3">
+                                                  <span aria-hidden="true"
+                                                        className={"w-3 h-3 rounded-full inline-block align-middle " + (tradingRestrictions.restrictDeposit ? " bg-red-500 " : " bg-gray-500 ")}/>
+                                                  <span
+                                                      className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                      {tradingRestrictions.restrictDeposit ? "On" : "Off"}
+                                                  </span>
+                                              </span>
+                                              </div>
+                                              <div className="flex items-center justify-between p-3 w-full">
+                                                  <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
+                                                      Buy</p>
+                                                  <span className="flex w-24 items-center justify-start pl-3">
+                                                  <span aria-hidden="true"
+                                                        className={"w-3 h-3 rounded-full inline-block align-middle " + (tradingRestrictions.restrictBuy ? " bg-red-500 " : " bg-gray-500 ")}/>
+                                                  <span
+                                                      className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                        {tradingRestrictions.restrictBuy ? "On" : "Off"}
+                                                  </span>
+                                              </span>
+                                              </div>
+                                              <div className="flex items-center justify-between p-3 w-full">
+                                                  <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
+                                                      Sell</p>
+                                                  <span className="flex w-24 items-center justify-start pl-3">
+                                                  <span aria-hidden="true"
+                                                        className={"w-3 h-3 rounded-full inline-block align-middle " + (tradingRestrictions.restrictSell ? " bg-red-500 " : " bg-gray-500 ")}/>
+                                                  <span
+                                                      className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                      {tradingRestrictions.restrictSell ? "On" : "Off"}
+                                                  </span>
+                                              </span>
+                                              </div>
+                                              <div className="flex items-center justify-between p-3 w-full">
+                                                  <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
+                                                      Convert</p>
+                                                  <span className="flex w-24 items-center justify-start pl-3">
+                                                  <span aria-hidden="true"
+                                                        className={"w-3 h-3 rounded-full inline-block align-middle " + (tradingRestrictions.restrictConvert ? " bg-red-500 " : " bg-gray-500 ")}/>
+                                                  <span
+                                                      className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                        {tradingRestrictions.restrictConvert ? "On" : "Off"}
+                                                  </span>
+                                              </span>
+                                              </div>
+                                              <div className="flex items-center justify-between p-3 w-full">
+                                                  <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Restrict
+                                                      Withdraw</p>
+                                                  <span className="flex w-24 items-center justify-start pl-3">
+                                                  <span aria-hidden="true"
+                                                        className={"w-3 h-3 rounded-full inline-block align-middle " + (tradingRestrictions.restrictWithdraw ? " bg-red-500 " : " bg-gray-500 ")}/>
+                                                  <span
+                                                      className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                      {tradingRestrictions.restrictWithdraw  ? "On" : "Off"}
+                                                  </span>
+                                              </span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div className="w-full px-2">
+                                  <div
+                                      className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
+                                      <div className="flex flex-col rounded-md relative overflow-hidden">
+                                          <h2 className='p-3 font-bold'>Preferences</h2>
+                                          <div className="flex items-center justify-between p-3 w-full">
+                                              <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Two
+                                                  Factor</p>
+                                              <span className="flex w-24 items-center justify-start pl-3">
+                                                  <span aria-hidden="true"
+                                                        className={"w-3 h-3 rounded-full inline-block align-middle" + (customer.securitySettings.is2faSet ? " bg-green-500 " : " bg-gray-500 ")}>
+                                                  </span>
+                                                  <span
+                                                      className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                      {customer.securitySettings.is2faSet ? "Enabled" : "Disabled"}
+                                                  </span>
+                                              </span>
+                                              </div>
+                                              <div className="flex items-center justify-between p-3 w-full">
+                                                  <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Language</p>
+                                                  <span className="flex w-24 items-center justify-start pl-3">
+                                                  <span
+                                                      className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                      <ReactCountryFlag countryCode={customer.tradingPreferences.languageCode} />
+                                                  </span>
+                                                  <span
+                                                      className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                      {customer.tradingPreferences.languageName}
+                                                  </span>
+                                              </span>
+                                              </div>
+                                              <div className="flex items-center justify-between p-3 w-full">
+                                                  <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Pricing
+                                                      Currency</p>
+                                                  <span className="flex w-36 items-center justify-start pl-3">
+                                                  <span aria-hidden="true"
+                                                        className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                        <ReactCountryFlag countryCode={customer.tradingPreferences.pricesCurrencyIsoCode} />
+                                                  </span>
+                                                  <span
+                                                      className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                      {customer.tradingPreferences.pricesCurrencyName}
+                                                  </span>
+                                              </span>
+                                              </div>
+                                              <div className="flex items-center justify-between p-3 w-full">
+                                                  <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>Portfolio
+                                                      Currency</p>
+                                                  <span className="flex w-36 items-center justify-start pl-3">
+                                                  <span aria-hidden="true"
+                                                        className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                      <ReactCountryFlag countryCode={customer.tradingPreferences.portfolioCurrencyIsoCode} />
+                                                  </span>
+                                                  <span
+                                                      className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                      {customer.tradingPreferences.currencyName}
+                                                  </span>
+                                              </span>
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                              <div className="w-full px-1">
+                                  <div
+                                      className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 transition-all duration-500 ease-in-out">
+                                      <div className="flex flex-col rounded-md relative overflow-hidden">
+                                          <h2 className='p-3 font-bold'>Topics</h2>
+                                          {customer.communicationTypes.map((communicationType, index) => (
+                                          <div className="flex items-center justify-between p-3 w-full" key={index}>
+                                              <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>{communicationType.communicationTypeText}</p>
+                                              <span className="flex w-18 items-center justify-start pl-3">
+                                                  <span aria-hidden="true"
+                                                        className={"w-3 h-3 rounded-full inline-block align-middle " + (communicationType.isSelected ? 'bg-green-500' : 'bg-red-500')}>
+                                                  </span>
+                                                  <span
+                                                      className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                      {communicationType.isSelected ? 'Yes' : 'No'}
+                                                  </span>
+                                              </span>
+                                                  </div>
+                                              ))}
+                                          </div>
+                                      </div>
+                                  <div
+                                      className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 transition-all duration-500 ease-in-out">
+                                      <div className="flex flex-col rounded-md relative overflow-hidden">
+                                          <h2 className='p-3 font-bold'>Communications</h2>
+                                          {
+                                              customer.contactTypes && customer.contactTypes.map((contactType, index) => (
+                                              <div className="flex items-center justify-between p-3 w-full" key={index}>
+                                                  <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>{contactType.contactTypeText}</p>
+                                                  <span className="flex w-24 items-center justify-start pl-3">
+                                                      <span aria-hidden="true"
+                                                            className={"w-3 h-3 rounded-full inline-block align-middle" + (contactType.isSelected ? " bg-green-500 " : " bg-red-500 ")}>
+                                                      </span>
+                                                      <span
+                                                          className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                          {contactType.isSelected ? "Yes" : "No"}
+                                                      </span>
+                                                  </span>
+                                              </div>
+                                              ))
+                                          }
+                                      </div>
+                                  </div>
+                                  
+                              </div>
+                              <div className="w-full px-2">
+                              <div
+                                      className="rounded-md mb-4 border-solid border-2 border-gray-200 dark:border-gray-600 min-h-full transition-all duration-500 ease-in-out">
+                                      <div className="flex flex-col rounded-md relative overflow-hidden">
+                                          <h2 className='p-3 font-bold'>Questionnaire</h2>
+                                          {questionnaire.map((question, index) => (
+                                          <div className="flex items-center justify-between p-3 w-full" key={index}>
+                                              <p className='text-left text-sm font-medium text-gray-800 dark:text-gray-100'>{question.questionTitle}</p>
+                                              <span className="flex w-18 items-center justify-start pl-3">
+                                                  <span
+                                                      className="pl-2 text-sm text-gray-400 dark:text-gray-100 font-semibold">
+                                                      {question.answer ? question.answer : "-"}
+                                                  </span>
+                                              </span>
+                                                  </div>
+                                              ))}
+                                          </div>
+                                      </div>
+                                  </div>
+                              </div>
+                          </div>
+                      </>
+                  )}
+              </section>
+          </BaseLayout>
+
+          <div
+              className={`${actionMenu ? "fixed" : "hidden"} right-0 h-screen bg-gray-100 dark:bg-gray-800 border-l-[1px] dark:border-l-gray-600 transition-all duration-500 ease-in-out`}>
+              <div className="h-screen">
+                  <div className="w-60 h-screen overflow-y-scroll">
+                      <div className="mt-8 px-4">
+                          {/* TODO: load the colors from config */}
+                          <div className="w-100 grid grid-flow-col">
+                              <h3 className="text-sm text-left text-gray-800 font-semibold leading-tight my-6">Action
+                                  Menu
+                              </h3>
+                              <span className="text-right  my-6">
+                              <button className="bg-red" onClick={toggleActionMenu}>
+                                  <i className="fa fa-angle-right"></i>
+                              </button>
+                          </span>
+                          </div>
+                          <h4 className="text-sm text-gray-500 leading-tight mb-4">Account Access</h4>
+                          <button onClick={() => sendPassResetEmailModal(true)}
+                              className='bg-[#52b2b6] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Send
+                              Password Reset Email
+                          </button>
+                          <button onClick={() => resendVerificationEmailModal(true)}
+                              className='bg-[#52b2b6] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Resend Verification Email
+                          </button>
+                          <h4 className="text-sm text-gray-500 leading-tight mt-6 mb-4">KYC Actions</h4>
+                          <button
+                              className='bg-[#52b2b6] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>View
+                              KYC Details
+                          </button>
+                          <button onClick={() => setMonitorCustomerModal(true)}
+                                  className='bg-[#52b2b6] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Monitor
+                              Customer
+                          </button>
+                          <button onClick={() => setLockAccountModal(true)}
+                                  className='bg-[#52b2b6] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Lock
+                              Account
+                          </button>
+                          <button onClick={() => setTradingRestrictionsModal(true)}
+                                  className='bg-[#52b2b6] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Restrict
+                              Account
+                          </button>
+                          <button onClick={() => setResetAmlModal(true)}
+                                  className='bg-[#52b2b6] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Reset
+                              AML Status
+                          </button>
+                          <button
+                              onClick={() => setSetAmlPassedModal(true)}
+                              className='bg-[#5ed197] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Set
+                              KYC Status to Pass
+                          </button>
+                          <button
+                              onClick={() => setSetAmlFailedModal(true)}
+                              className='bg-[#d03d44] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Set
+                              KYC Status to Fail
+                          </button>
+                          <button
+                              className='bg-[#404353] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Request
+                              Proof of Address
+                          </button>
+                          <button
+                              className='bg-[#404353] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Request
+                              Additional Identification
+                          </button>
+                          <h4 className="text-sm text-gray-500 leading-tight mt-6 mb-4">Close Account</h4>
+                          <button
+                              className='bg-[#52b2b6] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Sell
+                              All Holdings
+                          </button>
+                          <button
+                              className='bg-[#52b2b6] hover:opacity-80 text-white text-xs text-center font-bold py-3 px-4 rounded w-full mb-2'>Withdraw
+                              Funds
+                          </button>
+                      </div>
+                  </div>
+              </div>
+          </div>
         </div>
     )
 }
