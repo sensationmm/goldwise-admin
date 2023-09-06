@@ -47,7 +47,15 @@ const Reconciliation = () => {
   }
 
   return (
-    <BaseLayout title="Reconciliation Reports">
+    <BaseLayout
+      title="Reconciliation Reports"
+      action={
+        <div className="grid grid-cols-2 gap-4">
+          <Button variant="contained" color="secondary" size="large">STP Request</Button>
+          <Button variant="contained" size="large">Submit Report</Button>
+        </div>
+      }
+    >
       <Tabs value={reportType} onChange={(_, newValue) => setReportType(newValue)}>
         <Tab label="New Report" />
         <Tab label="Historic Reports" />
@@ -87,17 +95,30 @@ const Reconciliation = () => {
 
         <Button variant="outlined" onClick={resetForm} color="secondary">Reset</Button>
       </div>
-      
-      <Tabs value={paymentsView} onChange={(_, newValue) => setPaymentsView(newValue)}>
-        <Tab label="Currency Payments" />
-        <Tab label="Metals Payments" />
-      </Tabs>
+
+      <div className="flex justify-between items-center">
+        <Tabs value={paymentsView} onChange={(_, newValue) => setPaymentsView(newValue)}>
+          <Tab label="Currency Payments" />
+          <Tab label="Metals Payments" />
+        </Tabs>
+        <div className="text-sm"><span className="font-bold">Results from:</span> 03 JAN 2023 10:00:02 GMT</div>
+      </div>
 
       {paymentsView === 0 ? <SelectedPayments /> : <MetalPayments />}
 
       <SelectedTotals />
 
-      <div className="w-auto h-[100%] relative mx-auto rounded-sm border-gray-200 overflow-scroll pt-12 border-t-2 border-slate-400 mt-4">
+      
+      <div className="flex justify-between pt-12 border-t-2 border-slate-400 mt-4 mb-1">
+        <h3>Executed Trades</h3>
+        <div className="text-sm">
+          <span className="font-bold">1000</span> Trades Selected | 
+          <span className="font-bold pl-1">998</span>  <span className="text-green-400">Confirmed</span> | 
+          <span className="font-bold pl-1">2</span> <span className="text-red-600">Not Confirmed</span>
+        </div>
+      </div>
+
+      <div className="w-auto h-[100%] relative mx-auto rounded-sm border-gray-200 overflow-scroll border px-2">
         <DataTable
           headers={[
             'ID',

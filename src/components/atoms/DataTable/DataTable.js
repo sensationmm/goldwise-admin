@@ -123,10 +123,10 @@ import Button from "../Button/Button"
     <table className="border-separate border-spacing-y-0.5 table-fixed w-max text-sm">
       <thead>
         <tr>
-        <th>Select</th>
+        <th className="border-b">Select</th>
         {headers.map((text, countHeader) => {
           return ( 
-            <th key={`header-${countHeader}`} className="text-gray-800 dark:text-gray-100 px-3 py-2 text-left whitespace-normal">
+            <th key={`header-${countHeader}`} className="text-gray-800 px-3 py-2 text-left whitespace-normal border-b">
               {text}
               <i
                 className={`cursor-pointer fa text-sm pl-2 ${sortDirection === 'asc' || sort !== countHeader ? 'fa-chevron-down' : 'fa-chevron-up'} ${sort === countHeader ? 'text-red-600' : 'text-inherit' }`}
@@ -161,7 +161,7 @@ import Button from "../Button/Button"
           return show
         })
         .map((row, countRow) => {
-          const cellFormat = `px-3 py-3 ${countRow % 2 === 0 ? 'bg-slate-400' : 'bg-slate-300'}`
+          const cellFormat = `px-3 py-3`
 
           return (
             <tr key={`row-${row[indexColumn]}`}>

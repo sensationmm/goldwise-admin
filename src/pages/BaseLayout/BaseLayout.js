@@ -5,7 +5,7 @@ import Sidebar from "../../components/molecules/Sidebar";
 import { useState } from 'react';
 import Header from '../../components/molecules/Header/Header';
 
-const BaseLayout = ({full, title, children}) => {
+const BaseLayout = ({full, title, action, children}) => {
     const loader = useSelector((state) => state.loader?.display)
     const [showSidePanel, setShowSidePanel] = useState(true)
 
@@ -26,7 +26,10 @@ const BaseLayout = ({full, title, children}) => {
                 </div>
                 
                 <main className="relative overflow-hidden p-12 z-10">
-                  <header className="mb-8"><h1>{title}</h1></header>
+                  <header className="mb-8 flex justify-between pr-[40px]">
+                    <h1>{title}</h1>
+                    {action}
+                  </header>
                   {children}
                 </main>
               </div>
