@@ -39,9 +39,6 @@ import Button from "../Button/Button"
   const formatValue = (value, type) => {
     switch(type) {
       case 'currency':
-        if(value < 0) {
-          return <span className="text-red-600">{formatCurrency(value)}</span>
-        }
         return formatCurrency(value)
       case 'string':
       default: 
