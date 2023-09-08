@@ -3,19 +3,26 @@ import DataTable from "../../components/atoms/DataTable/DataTable";
 import MockData from "../../mocks/reconciliation.json"
 import { DatePicker } from "@mui/x-date-pickers";
 import { Button, FormControl, InputLabel, MenuItem, Select, Tab, Tabs } from "@mui/material";
-import { Currencies, Entities } from "../../helper/constants";
 import SelectedPayments from "./SelectedPayments";
 import SelectedTotals from "./SelectedTotals";
 import MetalPayments from "./MetalPayments";
 import BaseLayout from "../BaseLayout/BaseLayout";
+import reconciliationService from "../../services/reconciliation.service";
+import { useDispatch } from "react-redux";
+import { hideLoader, showLoader } from "../../reducers/loaderSlice.reducer";
 
 const Reconciliation = () => {
+  const dispatch = useDispatch()
   const [reportType, setReportType] = useState(0)
   const [paymentsView, setPaymentsView] = useState(0)
   const [reportFrom, setReportFrom] = useState(null)
   const [reportTo, setReportTo] = useState(null)
   const [reportEntity, setReportEntity] = useState(0)
-  const [reportCurrency, setReportCurrency] = useState('GBP')
+  const [reportCurrency, setReportCurrency] = useState(0)
+  const [entitiesList, setEntitiesList] = useState([])
+  const [currenciesList, setCurrenciesList] = useState([])
+  const [selectedTrades, setSelectedTrades] = useState([])
+
   const [state, setState] = useReducer(
     (preState, newState) => ({ ...preState, ...newState }),
     {
@@ -24,6 +31,62 @@ const Reconciliation = () => {
     }
   );
   const { rows, dataTypes } = state;
+
+  const getEntities = async () => {
+    try {
+      dispatch(showLoader())
+      const entities = await reconciliationService.getEntities();
+      setEntitiesList(entities.data.response.map(ent => ({ value: ent.idCompanyGuid, label: ent.companyName})));
+    } catch (e) {
+      //todo: display error if happen
+      console.log(e)
+    } finally {
+      dispatch(hideLoader())
+    }
+  }
+
+  const getCurrencies = async () => {
+    try {
+      dispatch(showLoader())
+      const currencies = await reconciliationService.getCurrencies();
+      setCurrenciesList(currencies.data.response.map(curr => ({ value: curr.currencyIso3, label: `${curr.currencyName} (${curr.currencySymbol})`})));
+    } catch (e) {
+      //todo: display error if happen
+      console.log(e)
+    } finally {
+      dispatch(hideLoader())
+    }
+  }
+
+  const generateReport = async () => {
+    try {
+      dispatch(showLoader())
+      await reconciliationService.generateReport(reportFrom, reportTo, reportEntity, reportCurrency);
+    } catch (e) {
+      //todo: display error if happen
+      console.log(e)
+    } finally {
+      dispatch(hideLoader())
+    }
+  }
+
+  const handleSelectTrade = (trade) => {
+    dispatch(showLoader())
+
+    setTimeout(() => {
+      dispatch(hideLoader())
+
+      const hidden = selectedTrades.slice()
+
+      if(!selectedTrades.includes(trade)) {
+        hidden.push(trade)
+      } else {
+        hidden.splice(selectedTrades.indexOf(trade), 1)
+      }
+
+      setSelectedTrades(hidden)
+    }, 500)
+  }
 
   useEffect(() => {
     let data = [];
@@ -37,12 +100,16 @@ const Reconciliation = () => {
     })
 
     setState({ rows: data, dataTypes });
+
+    getEntities()
+    getCurrencies()
+
   }, []);
 
   const resetForm = () => {
     setReportFrom(null)
     setReportTo(null)
-    setReportCurrency('GBP')
+    setReportCurrency(0)
     setReportEntity(0) 
   }
 
@@ -67,41 +134,53 @@ const Reconciliation = () => {
         <DatePicker label="Date To" value={reportTo} onChange={setReportTo} />
 
         <FormControl>
-          <InputLabel id="report-entity">Entity</InputLabel>
+          <InputLabel id="report-entity" disabled={entitiesList.length === 0}>Entity</InputLabel>
           <Select
+            id="select-entity"
             labelId="report-entity"
             label="Entity"
-            value={reportEntity}
+            value={entitiesList.length > 0 ? reportEntity : ''}
             onChange={e => setReportEntity(e.target.value)}
+            disabled={entitiesList.length === 0}
           >
             <MenuItem value={0}>All</MenuItem>
-            {Object.keys(Entities).map((ent, count) => <MenuItem key={`ent-${count}`} value={ent}>{Entities[ent]}</MenuItem>)}
+            {entitiesList.map((ent, count) => <MenuItem key={`select-entity-${count}`} value={ent.value}>{ent.label}</MenuItem>)}
           </Select>
         </FormControl>
 
         <FormControl>
-          <InputLabel id="report-currency">Currency</InputLabel>
+          <InputLabel id="report-currency" disabled={currenciesList.length === 0}>Currency</InputLabel>
           <Select
+            id="select-currency"
             labelId="report-currency"
             label="Currency"
-            value={reportCurrency}
+            value={currenciesList.length > 0 ? reportCurrency : ''}
             onChange={e => setReportCurrency(e.target.value)}
+            disabled={currenciesList.length === 0}
           >
-            {Object.keys(Currencies).map((cur, count) => <MenuItem key={`cur-${count}`} value={cur}>{Currencies[cur]}</MenuItem>)}
+            <MenuItem value={0}>All</MenuItem>
+            {currenciesList.map((curr, count) => <MenuItem key={`select-currency-${count}`} value={curr.value}>{curr.label}</MenuItem>)}
           </Select>
         </FormControl>
 
-        <Button variant="contained" color="secondary">Search</Button>
+        <Button 
+          variant="contained" 
+          color="secondary" 
+          onClick={generateReport}
+          disabled = {reportFrom === null || reportTo === null}
+        >
+          Search
+        </Button>
 
         <Button variant="outlined" onClick={resetForm} color="secondary">Reset</Button>
       </div>
 
-      <div className="flex justify-between items-center">
+      <div className="flex justify-between items-end">
         <Tabs value={paymentsView} onChange={(_, newValue) => setPaymentsView(newValue)}>
           <Tab label="Currency Payments" />
           <Tab label="Metals Payments" />
         </Tabs>
-        <div className="text-sm"><span className="font-bold">Results from:</span> 03 JAN 2023 10:00:02 GMT</div>
+        <div className="text-sm"><span className="font-bold">Results from:</span> 03 JAN 2023 - 12 JAN 2023 10:00:02 GMT</div>
       </div>
 
       {paymentsView === 0 ? <SelectedPayments /> : <MetalPayments />}
@@ -112,13 +191,18 @@ const Reconciliation = () => {
       <div className="flex justify-between pt-12 border-t-2 border-slate-400 mt-4 mb-1">
         <h3>Executed Trades</h3>
         <div className="text-sm">
-          <span className="font-bold">1000</span> Trades Selected | 
-          <span className="font-bold pl-1">998</span>  <span className="text-green-400">Confirmed</span> | 
-          <span className="font-bold pl-1">2</span> <span className="text-red-600">Not Confirmed</span>
+          <span className="pr-1"><span className="font-bold">{selectedTrades.length}</span> Trades Selected</span>
+          {selectedTrades.length > 0 &&
+            <>
+              | <span className="font-bold px-1">{selectedTrades.length}</span>  <span className="text-green-400">Confirmed</span>
+              {/* TODO: implement confirmed count */}
+              {/*  | <span className="font-bold pl-1">2</span> <span className="text-red-600">Not Confirmed</span> */}
+            </>
+          }
         </div>
       </div>
 
-      <div className="w-auto h-[100%] relative mx-auto rounded-sm border-gray-200 overflow-scroll border px-2">
+      <div className="relative rounded-sm border-gray-200 border px-2">
         <DataTable
           headers={[
             'ID',
@@ -153,6 +237,9 @@ const Reconciliation = () => {
           data={rows} 
           dataTypes={dataTypes}
           excludeFilters={['ID']}
+          excludeLiteralFilter={['Internal Trade No','(Order Request / Pending) ClOrderID','Trade Capture Report']}
+          selected={selectedTrades}
+          onSelect={handleSelectTrade}
         />
       </div>
     </BaseLayout>
