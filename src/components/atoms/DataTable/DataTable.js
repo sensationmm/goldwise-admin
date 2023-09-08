@@ -1,19 +1,26 @@
 import { useState } from "react"
 import { formatCurrency } from "../../../utils/number"
 import Input from "../Input/Input"
-import Button from "../Button/Button"
+import { Button, Checkbox } from "@mui/material";
 
  const DataTable = ({
   headers = [],
   data = [],
   dataTypes = [],
   indexColumn = 0,
-  excludeFilters = []
+  excludeFilters = [],
+  excludeLiteralFilter = [],
+  selected = [],
+  onSelect,
+  maxPerPage = 10,
+  paginate = true
  }) => {
   const [sort, setSort] = useState(null)
   const [sortDirection, setSortDirection] = useState('asc')
   const [filterColumn, setFilterColumn] = useState(null)
   const [filters, setFilters] = useState({})
+  const [hiddenColumns, setHiddenColumns] = useState([])
+  const [activePage, setActivePage] = useState(0)
 
   if(data.length > 0 && headers.length !== Object.keys(data[0]).length) {
     return (
@@ -33,6 +40,18 @@ import Button from "../Button/Button"
     }
   }
 
+  const handleHide = (item) => {
+    const hidden = hiddenColumns.slice()
+
+    if(!hiddenColumns.includes(item)) {
+      hidden.push(item)
+    } else {
+      hidden.splice(hiddenColumns.indexOf(item), 1)
+    }
+
+    setHiddenColumns(hidden)
+  }
+
   const getSortValDefault = () => sortDirection === 'asc' ? 1 : -1;
   const getSortValInvert = () => sortDirection === 'asc' ? -1 : 1;
 
@@ -46,7 +65,7 @@ import Button from "../Button/Button"
     }
   }
 
-  const initialFilter = {'text': '', 'from': '', 'to': ''}
+  const initialFilter = {'text': '', 'from': '', 'to': '', 'values': []}
 
   const activateFilter = (columnID) => {
     setFilterColumn(columnID)
@@ -63,15 +82,17 @@ import Button from "../Button/Button"
       ...filters,
       [columnID]: {...filters[columnID], [key]: value}
     })
+    setActivePage(0)
   }
 
   const deactivateFilter = (columnID) => {
-    if(filters[columnID]['text'] === '' && filters[columnID]['from'] === '' && filters[columnID]['to'] === '') {
+    if(filters[columnID]['text'] === '' && filters[columnID]['from'] === '' && filters[columnID]['to'] === '' && filters[columnID]['values'].length === 0) {
       const newFilters = {...filters}
       delete newFilters[columnID]
       setFilters(newFilters)
     }
     setFilterColumn(null)
+    setActivePage(0)
   }
 
   const clearFilter  = (columnID) => {
@@ -79,105 +100,233 @@ import Button from "../Button/Button"
     delete newFilters[columnID]
     setFilters(newFilters)
     setFilterColumn(null)
+    setActivePage(0)
+  }
+
+  const setFilterUnique = (columnID, value) => {
+    const uniqueValues = filters[columnID]['values'].slice();
+
+    if(uniqueValues.indexOf(value) === -1) {
+      uniqueValues.push(value)
+    } else {
+      uniqueValues.splice(uniqueValues.indexOf(value), 1)
+    }
+
+    setFilter(columnID, 'values', uniqueValues)
+  }
+
+  const getUniqueValues = (columnID) => {
+    const existingValues = []
+    data.forEach((row) => {
+      const value = row[columnID]
+
+      if(existingValues.indexOf(value) === -1) {
+        existingValues.push(value)
+      }
+    })
+
+    return existingValues.sort((a, b) => a > b ? 1 :  -1).map((val,count) => (
+      <div key={`filter-${columnID}-${count}`} className="text-sm mb-1">
+        <Checkbox
+          checked={filters[columnID].values.includes(val)}
+          onChange={() => setFilterUnique(columnID, val)}
+        />
+        {val}
+      </div>
+    ))
+  }
+
+  const filteredData = data
+    .sort((a, b) => sort !== null && a[sort] >= b[sort] ? getSortValDefault() : getSortValInvert())
+    .filter((row) => {
+      let show = true
+      Object.keys(filters).forEach((column) => {
+        if(
+          (filters[column]['text'] !== '' && row[column].toLowerCase().indexOf(filters[column]['text'].toLowerCase()) < 0) ||
+          (filters[column]['from'] !== '' && row[column] < filters[column]['from']) ||
+          (filters[column]['to'] !== '' && row[column] > filters[column]['to']) ||
+          (filters[column]['values'].length > 0 && !filters[column]['values'].includes(row[column]))
+        ) {
+          show = false
+        }
+      })
+
+      return show
+    })
+            
+
+  const numPages = Math.ceil(filteredData.length / maxPerPage)
+
+  const renderPagination = () => {
+    const showPrev = activePage > 0;
+    const showNext = activePage + 1 < numPages;
+
+    return (
+      <div className="flex justify-between items-center text-sm text-gray-400">
+        <div>
+          {filteredData.length !== data.length ? `Filtered Records: ${filteredData.length} (${data.length} Total)` : `Total Records: ${data.length}`}
+        </div>
+
+        <div className="flex items-center">
+          <i className={`fa text-xs fa-chevron-left px-2 cursor-pointer ${!showPrev && 'cursor-not-allowed text-gray-200'}`} aria-hidden="true" onClick={() => showPrev ? setActivePage(activePage - 1) : undefined} />
+          {[...Array(numPages)].map((_, count) => (
+            <div key={`page-${count}`} className="p-2 cursor-pointer" onClick={() => setActivePage(count)}>{count + 1}</div>
+          ))}
+          <i className={`fa text-xs fa-chevron-right px-2 cursor-pointer ${!showNext && 'cursor-not-allowed text-gray-200'}`} aria-hidden="true" onClick={() => showNext ? setActivePage(activePage + 1) : undefined} />
+        </div>
+      </div>
+    )
   }
 
   return (
     <>
-    {filterColumn && 
-      <div className="fixed w-[530px] -ml-[265px] p-6 left-1/2 top-1/4 bg-white border border-slate-600">
-        <div className="font-bold">FILTER COLUMN {headers[filterColumn]}</div>
-        
-        <div className="grid grid-cols-[200px_1fr]">
-          <div className="flex items-center justify-left">Equals/Contains</div>
-          <Input
-            value={filters[filterColumn] ? filters[filterColumn]['text'] : ''}
-            onChange={(ev) => filters[filterColumn] && setFilter(filterColumn, 'text', ev.target.value) }
-          />
-        </div>
-        
-        {['number', 'currency'].includes(dataTypes[filterColumn]) && <>
+      {filterColumn && 
+        <div className="fixed w-[530px] -ml-[265px] p-6 left-1/2 top-1/4 bg-white border border-slate-600 z-[1000]">
+          <div className="font-bold mb-3">FILTER COLUMN {headers[filterColumn]}</div>
+          
           <div className="grid grid-cols-[200px_1fr]">
-            <div className="flex items-center justify-left">Greater than</div>
-            <Input
-              value={filters[filterColumn] ? filters[filterColumn]['from'] : ''}
-              onChange={(ev) => filters[filterColumn] && setFilter(filterColumn, 'from', ev.target.value) }
-            />
+            <div className="flex items-center justify-left">Hide Column</div>
+            <div className="flex items-center justify-left">
+              <Checkbox 
+                size="large" 
+                checked={hiddenColumns.includes(filterColumn)} 
+                onChange={() => handleHide(filterColumn)}
+              /></div>
           </div>
           
           <div className="grid grid-cols-[200px_1fr]">
-            <div className="flex items-center justify-left">Less than</div>
+            <div className="flex items-center justify-left">Equals/Contains</div>
             <Input
-              value={filters[filterColumn] ? filters[filterColumn]['to'] : ''}
-              onChange={(ev) => filters[filterColumn] && setFilter(filterColumn, 'to', ev.target.value) }
+              value={filters[filterColumn] ? filters[filterColumn]['text'] : ''}
+              onChange={(ev) => filters[filterColumn] && setFilter(filterColumn, 'text', ev.target.value) }
             />
           </div>
-        </>}
-
-        <div className="grid grid-cols-2 gap-2 mt-4">
-          <Button onClick={() => deactivateFilter(filterColumn)} label="Done" />
-          <Button onClick={() => clearFilter(filterColumn)} label="Clear" />
-        </div>
-      </div>
-    }
-
-    <table className="border-separate border-spacing-y-0.5 table-fixed w-max text-sm">
-      <thead>
-        <tr>
-        <th className="border-b">Select</th>
-        {headers.map((text, countHeader) => {
-          return ( 
-            <th key={`header-${countHeader}`} className="text-gray-800 px-3 py-2 text-left whitespace-normal border-b">
-              {text}
-              <i
-                className={`cursor-pointer fa text-sm pl-2 ${sortDirection === 'asc' || sort !== countHeader ? 'fa-chevron-down' : 'fa-chevron-up'} ${sort === countHeader ? 'text-red-600' : 'text-inherit' }`}
-                aria-hidden="true"
-                onClick={() => handleSort(countHeader)}
+          
+          {['number', 'currency'].includes(dataTypes[filterColumn]) && <>
+            <div className="grid grid-cols-[200px_1fr]">
+              <div className="flex items-center justify-left">Greater than</div>
+              <Input
+                value={filters[filterColumn] ? filters[filterColumn]['from'] : ''}
+                onChange={(ev) => filters[filterColumn] && setFilter(filterColumn, 'from', ev.target.value) }
               />
-              {!excludeFilters.includes(text) && <i
-                className={`cursor-pointer fa fa-filter text-sm pl-2 ${filters.hasOwnProperty(countHeader.toString()) ? 'text-red-600' : 'text-inherit' }`}
-                aria-hidden="true"
-                onClick={() => activateFilter(countHeader)}
-              />}
-            </th>
-          )
-        })}
-        </tr>
-      </thead>
-      <tbody>
-      {data
-        .sort((a, b) => sort !== null && a[sort] >= b[sort] ? getSortValDefault() : getSortValInvert())
-        .filter((row) => {
-          let show = true
-          Object.keys(filters).forEach((column) => {
-            if(
-              (filters[column]['text'] !== '' && row[column].toLowerCase().indexOf(filters[column]['text'].toLowerCase()) < 0) ||
-              (filters[column]['from'] !== '' && row[column] < filters[column]['from']) ||
-              (filters[column]['to'] !== '' && row[column] > filters[column]['to'])
-            ) {
-              show = false
-            }
-          })
+            </div>
+            
+            <div className="grid grid-cols-[200px_1fr]">
+              <div className="flex items-center justify-left">Less than</div>
+              <Input
+                value={filters[filterColumn] ? filters[filterColumn]['to'] : ''}
+                onChange={(ev) => filters[filterColumn] && setFilter(filterColumn, 'to', ev.target.value) }
+              />
+            </div>
+          </>}
+          
+          {dataTypes[filterColumn] === 'string' && !excludeLiteralFilter.includes(headers[filterColumn]) && <>
+            <div className="grid grid-cols-[200px_1fr] mt-4">
+              <div className="flex items-center justify-left">Values</div>
+              <div className="px-3 pt-3 pb-2 bg-slate-200">
+              {getUniqueValues(filterColumn)}
+              </div>
+            </div>
+          </>}
 
-          return show
-        })
-        .map((row, countRow) => {
-          const cellFormat = `px-3 py-3`
-
-          return (
-            <tr key={`row-${row[indexColumn]}`}>
-              <td className={cellFormat}><input type="radio" /></td>
-              {row.map((cell, countCell) => {
-                return (
-                  <td key={`row-${countRow}-cell-${countCell}`} className={`${cellFormat} ${['number','currency'].indexOf(dataTypes[countCell]) > -1 ? 'text-right' : ''}`}>
-                    {formatValue(cell, dataTypes[countCell])}
-                  </td>
-                )})}
-              </tr>
-            )
-        })
+          <div className="grid grid-cols-2 gap-2 mt-4">
+            <Button onClick={() => deactivateFilter(filterColumn)} variant="contained" color="secondary">Done</Button>
+            <Button onClick={() => clearFilter(filterColumn)} variant="outlined" color="secondary">Clear</Button>
+          </div>
+        </div>
       }
-      </tbody>
-    </table>
+
+      {(Object.keys(filters).length > 0 || sort !== null || hiddenColumns.length > 0) && 
+        <div className="flex justify-between bg-gray-200 mt-2 p-4 text-xs">
+          {sort !== null && 
+            <span>SORTED BY: {headers[sort]} 
+              <span className="text-[10px] cursor-pointer hover:text-primary" onClick={() => setSort(null)}> [CLEAR SORT]</span>
+            </span>
+          }
+          {Object.keys(filters).length > 0 && 
+            <span>FILTERED BY: {Object.keys(filters).map(f => headers[f]).join(', ')}
+              <span className="text-[10px] cursor-pointer hover:text-primary" onClick={() => setFilters({})}> [CLEAR ALL FILTERS]</span>
+            </span> 
+          }
+          {hiddenColumns.length > 0 && 
+            <span>{hiddenColumns.length} COLUMN{hiddenColumns.length !== 1 && 'S'} HIDDEN
+              <span className="text-[10px] cursor-pointer hover:text-primary" onClick={() => setHiddenColumns([])}> [SHOW ALL]</span>
+            </span>
+          }
+        </div>
+      }
+
+      <div className="w-full overflow-scroll">
+
+        <table className="border-separate border-spacing-y-0.5 text-sm">
+          <thead>
+            <tr>
+            <th className="border-b">Select</th>
+            {headers.map((text, countHeader) => {
+              const filter = !excludeFilters.includes(text) ? 
+                <i
+                  className={`cursor-pointer fa fa-filter text-sm ${filters.hasOwnProperty(countHeader.toString()) || hiddenColumns.includes(countHeader) ? 'text-red-600' : 'text-inherit' }`}
+                  aria-hidden="true"
+                  onClick={() => activateFilter(countHeader)}
+                /> : <></>
+
+                if(hiddenColumns.includes(countHeader)) {
+                  return <td className="border-b">{filter}</td>
+                }
+
+                return ( 
+                <th key={`header-${countHeader}`} className="text-gray-800 px-3 py-2 text-left border-b">
+                  <div className="grid grid-cols-[1fr__30px] items-center">
+                  <div className="min-w-[60px]">{text}</div>
+                  <div className="pl-4">
+                    <i
+                      className={`cursor-pointer fa text-sm ${sortDirection === 'asc' || sort !== countHeader ? 'fa-chevron-down' : 'fa-chevron-up'} ${sort === countHeader ? 'text-red-600' : 'text-inherit' }`}
+                      aria-hidden="true"
+                      onClick={() => handleSort(countHeader)}
+                    />
+                    {filter}
+                    </div>
+                  </div>
+                </th>
+              )
+            })}
+            </tr>
+          </thead>
+          <tbody>
+          {filteredData.slice(activePage * maxPerPage, paginate ? (activePage + 1) * maxPerPage : undefined)
+            .map((row, countRow) => {
+              const cellFormat = `px-3 py-3 whitespace-nowrap`
+
+              return (
+                <tr key={`row-${row[indexColumn]}`}>
+                  <td className={cellFormat}>
+                    <Checkbox
+                      checked={selected.includes(row[indexColumn])} 
+                      onChange={() => onSelect(row[indexColumn])} 
+                    />
+                  </td>
+                  {row.map((cell, countCell) => {
+                    if(hiddenColumns.includes(countCell)) {
+                      return <td />
+                    }
+                    return (
+                      <td key={`row-${countRow}-cell-${countCell}`} className={`${cellFormat} ${['number','currency'].indexOf(dataTypes[countCell]) > -1 ? 'text-right' : ''}`}>
+                        {formatValue(cell, dataTypes[countCell])}
+                      </td>
+                    )})
+                  }
+                  </tr>
+                )
+            })
+          }
+          {paginate && activePage + 1 === numPages && 
+            [...Array(filteredData.length % maxPerPage !== 0 ? maxPerPage - (filteredData.length % maxPerPage) : 0)]
+            .map((_, count) => (<tr key={`spacer-${count}`} aria-hidden="true" className="h-[48px]"><td></td></tr>))
+          }
+          </tbody>
+        </table>
+      </div>
+      {paginate && <div className="p-2 pr-0 border-t">{renderPagination()}</div>}
     </>
   )
  }
