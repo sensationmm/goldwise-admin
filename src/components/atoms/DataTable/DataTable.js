@@ -9,14 +9,16 @@ import { Button, Checkbox } from "@mui/material";
   dataTypes = [],
   indexColumn = 0,
   excludeFilters = [],
+  excludeSort = [],
   excludeLiteralFilter = [],
   selected = [],
   onSelect,
   maxPerPage = 10,
   paginate = true
  }) => {
-  const [sort, setSort] = useState(null)
+  const [sort, setSort] = useState(indexColumn)
   const [sortDirection, setSortDirection] = useState('asc')
+  const [editColumn, setEditColumn] = useState(null)
   const [filterColumn, setFilterColumn] = useState(null)
   const [filters, setFilters] = useState({})
   const [hiddenColumns, setHiddenColumns] = useState([])
@@ -31,13 +33,14 @@ import { Button, Checkbox } from "@mui/material";
     )
   }
 
-  const handleSort = (item) => {
+  const handleSort = (item, dir) => {
     if(sort !== item) {
       setSort(item)
-      setSortDirection('asc')
+      setSortDirection(dir)
     } else {
-      setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc')
+      setSort(indexColumn)
     }
+    setEditColumn(null)
   }
 
   const handleHide = (item) => {
@@ -50,6 +53,7 @@ import { Button, Checkbox } from "@mui/material";
     }
 
     setHiddenColumns(hidden)
+    setEditColumn(null)
   }
 
   const getSortValDefault = () => sortDirection === 'asc' ? 1 : -1;
@@ -137,7 +141,7 @@ import { Button, Checkbox } from "@mui/material";
   }
 
   const filteredData = data
-    .sort((a, b) => sort !== null && a[sort] >= b[sort] ? getSortValDefault() : getSortValInvert())
+    .sort((a, b) => a[sort] >= b[sort] ? getSortValDefault() : getSortValInvert())
     .filter((row) => {
       let show = true
       Object.keys(filters).forEach((column) => {
@@ -170,7 +174,7 @@ import { Button, Checkbox } from "@mui/material";
         <div className="flex items-center">
           <i className={`fa text-xs fa-chevron-left px-2 cursor-pointer ${!showPrev && 'cursor-not-allowed text-gray-200'}`} aria-hidden="true" onClick={() => showPrev ? setActivePage(activePage - 1) : undefined} />
           {[...Array(numPages)].map((_, count) => (
-            <div key={`page-${count}`} className="p-2 cursor-pointer" onClick={() => setActivePage(count)}>{count + 1}</div>
+            <div key={`page-${count}`} className={`p-2 cursor-pointer ${activePage === count && 'text-gray-900'}`} onClick={() => setActivePage(count)}>{count + 1}</div>
           ))}
           <i className={`fa text-xs fa-chevron-right px-2 cursor-pointer ${!showNext && 'cursor-not-allowed text-gray-200'}`} aria-hidden="true" onClick={() => showNext ? setActivePage(activePage + 1) : undefined} />
         </div>
@@ -180,19 +184,35 @@ import { Button, Checkbox } from "@mui/material";
 
   return (
     <>
+      {editColumn && 
+        <div className="fixed w-[200px] -ml-[100px] py-3 left-1/2 top-1/4 bg-white border border-slate-600 z-[1000]">
+          {!excludeSort.includes(headers[editColumn]) && <>
+            <div className={`cursor-pointer px-6 py-3 ${sort === editColumn && sortDirection === 'asc' && 'text-red-600'}`} onClick={() => handleSort(editColumn, 'asc')} >
+              <i className={`fa text-md fa-sort-amount-asc mr-2`} aria-hidden="true"/>Sort by ASC
+            </div>
+            <div className={`cursor-pointer px-6 py-3 pb-6 ${sort === editColumn && sortDirection === 'desc' && 'text-red-600'}`} onClick={() => handleSort(editColumn, 'desc')} >
+              <i className={`fa text-md fa-sort-amount-desc mr-2`} aria-hidden="true"/>Sort by DESC
+            </div>
+          </>}
+          <div className="pt-3 border-t border-slate-600">
+            {!excludeFilters.includes(headers[editColumn]) && 
+              <div className={`cursor-pointer px-6 py-3 ${filters.hasOwnProperty(editColumn.toString()) && 'text-red-600'}`} onClick={() => {  activateFilter(editColumn); setEditColumn(null); }}>
+                <i className={`fa text-md fa-filter mr-2`} aria-hidden="true" />Filter
+              </div>
+            }
+            <div className="cursor-pointer px-6 py-3" onClick={() => handleHide(editColumn)}>
+              <i className={`fa text-md fa-ban mr-2`} aria-hidden="true"/>{!hiddenColumns.includes(editColumn) ? 'Hide' : 'Show'} Column
+            </div>
+          </div>
+          <div className="w-full flex mx-auto justify-center">
+            <Button onClick={() => setEditColumn(null)} color="secondary">Done</Button>
+          </div>
+        </div>
+      }
+
       {filterColumn && 
         <div className="fixed w-[530px] -ml-[265px] p-6 left-1/2 top-1/4 bg-white border border-slate-600 z-[1000]">
           <div className="font-bold mb-3">FILTER COLUMN {headers[filterColumn]}</div>
-          
-          <div className="grid grid-cols-[200px_1fr]">
-            <div className="flex items-center justify-left">Hide Column</div>
-            <div className="flex items-center justify-left">
-              <Checkbox 
-                size="large" 
-                checked={hiddenColumns.includes(filterColumn)} 
-                onChange={() => handleHide(filterColumn)}
-              /></div>
-          </div>
           
           <div className="grid grid-cols-[200px_1fr]">
             <div className="flex items-center justify-left">Equals/Contains</div>
@@ -236,11 +256,11 @@ import { Button, Checkbox } from "@mui/material";
         </div>
       }
 
-      {(Object.keys(filters).length > 0 || sort !== null || hiddenColumns.length > 0) && 
+      {((Object.keys(filters).length > 0 && filterColumn === null) || sort !== indexColumn || hiddenColumns.length > 0) && 
         <div className="flex justify-between bg-gray-200 mt-2 p-4 text-xs">
-          {sort !== null && 
+          {sort !== indexColumn && 
             <span>SORTED BY: {headers[sort]} 
-              <span className="text-[10px] cursor-pointer hover:text-primary" onClick={() => setSort(null)}> [CLEAR SORT]</span>
+              <span className="text-[10px] cursor-pointer hover:text-primary" onClick={() => setSort(indexColumn)}> [CLEAR SORT]</span>
             </span>
           }
           {Object.keys(filters).length > 0 && 
@@ -257,35 +277,29 @@ import { Button, Checkbox } from "@mui/material";
       }
 
       <div className="w-full overflow-scroll">
-
         <table className="border-separate border-spacing-y-0.5 text-sm">
           <thead>
             <tr>
             <th className="border-b">Select</th>
             {headers.map((text, countHeader) => {
-              const filter = !excludeFilters.includes(text) ? 
-                <i
-                  className={`cursor-pointer fa fa-filter text-sm ${filters.hasOwnProperty(countHeader.toString()) || hiddenColumns.includes(countHeader) ? 'text-red-600' : 'text-inherit' }`}
-                  aria-hidden="true"
-                  onClick={() => activateFilter(countHeader)}
-                /> : <></>
+              const renderEdit = !excludeSort.includes(text) || !excludeFilters.includes(text) ?
+                <div className="cursor-pointer px-4" onClick={() => setEditColumn(countHeader)}>
+                  <i
+                    className={`fa text-sm fa-ellipsis-v ${sort === countHeader || filters.hasOwnProperty(countHeader.toString()) ? 'text-red-600' : 'text-inherit' }`}
+                    aria-hidden="true"
+                  />
+                </div>
+                : <></>
 
                 if(hiddenColumns.includes(countHeader)) {
-                  return <td className="border-b">{filter}</td>
+                  return <td className="border-b text-red-600">{renderEdit}</td>
                 }
 
                 return ( 
                 <th key={`header-${countHeader}`} className="text-gray-800 px-3 py-2 text-left border-b">
                   <div className="grid grid-cols-[1fr__30px] items-center">
                   <div className="min-w-[60px]">{text}</div>
-                  <div className="pl-4">
-                    <i
-                      className={`cursor-pointer fa text-sm ${sortDirection === 'asc' || sort !== countHeader ? 'fa-chevron-down' : 'fa-chevron-up'} ${sort === countHeader ? 'text-red-600' : 'text-inherit' }`}
-                      aria-hidden="true"
-                      onClick={() => handleSort(countHeader)}
-                    />
-                    {filter}
-                    </div>
+                  {renderEdit}
                   </div>
                 </th>
               )
