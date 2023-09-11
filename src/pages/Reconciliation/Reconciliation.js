@@ -129,9 +129,9 @@ const Reconciliation = () => {
       </Tabs>
 
       <div className="grid grid-cols-6 gap-5 mt-8 mb-8">
-        <DatePicker label="Date From" value={reportFrom} onChange={setReportFrom} />
+        <DatePicker label="Date From" value={reportFrom} onChange={setReportFrom} format="DD/MM/YYYY" maxDate={reportTo} />
 
-        <DatePicker label="Date To" value={reportTo} onChange={setReportTo} />
+        <DatePicker label="Date To" value={reportTo} onChange={setReportTo} format="DD/MM/YYYY" minDate={reportFrom} />
 
         <FormControl>
           <InputLabel id="report-entity" disabled={entitiesList.length === 0}>Entity</InputLabel>
@@ -175,21 +175,22 @@ const Reconciliation = () => {
         <Button variant="outlined" onClick={resetForm} color="secondary">Reset</Button>
       </div>
 
-      <div className="flex justify-between items-end">
-        <Tabs value={paymentsView} onChange={(_, newValue) => setPaymentsView(newValue)}>
-          <Tab label="Currency Payments" />
-          <Tab label="Metals Payments" />
-        </Tabs>
-        <div className="text-sm"><span className="font-bold">Results from:</span> 03 JAN 2023 - 12 JAN 2023 10:00:02 GMT</div>
-      </div>
+      {reportType === 0 && <>
+        <div className="flex justify-between items-end">
+          <Tabs value={paymentsView} onChange={(_, newValue) => setPaymentsView(newValue)}>
+            <Tab label="Currency Payments" />
+            <Tab label="Metals Payments" />
+          </Tabs>
+          <div className="text-sm"><span className="font-bold">Results from:</span> 03 JAN 2023 - 12 JAN 2023 10:00:02 GMT</div>
+        </div>
 
-      {paymentsView === 0 ? <SelectedPayments /> : <MetalPayments />}
+        {paymentsView === 0 ? <SelectedPayments /> : <MetalPayments />}
 
-      <SelectedTotals />
-
+        <SelectedTotals />
+      </>}
       
-      <div className="flex justify-between pt-12 border-t-2 border-slate-400 mt-4 mb-1">
-        <h3>Executed Trades</h3>
+      <div className={`flex justify-between mb-1 ${reportType === 0 && 'pt-12 border-t-2 border-slate-400 mt-4'}`}>
+        <h3>{reportType === 0 ? 'Executed Trades' : 'Historic Reports'}</h3>
         <div className="text-sm">
           <span className="pr-1"><span className="font-bold">{selectedTrades.length}</span> Trades Selected</span>
           {selectedTrades.length > 0 &&
@@ -236,7 +237,8 @@ const Reconciliation = () => {
           ]}
           data={rows} 
           dataTypes={dataTypes}
-          excludeFilters={['ID']}
+          excludeFilters={['ID', 'Order Type']}
+          excludeSort={['ID']}
           excludeLiteralFilter={['Internal Trade No','(Order Request / Pending) ClOrderID','Trade Capture Report']}
           selected={selectedTrades}
           onSelect={handleSelectTrade}
