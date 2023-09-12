@@ -1,8 +1,9 @@
 import { useEffect, useReducer, useState } from "react";
 import DataTable from "../../components/atoms/DataTable/DataTable";
-import MockData from "../../mocks/reconciliation.json"
+import MockTrades from "../../mocks/reconciliation.json"
+import MockOrders from "../../mocks/orders.json"
 import { DatePicker } from "@mui/x-date-pickers";
-import { Button, FormControl, InputLabel, MenuItem, Select, Tab, Tabs } from "@mui/material";
+import { Button, FormControl, IconButton, InputLabel, MenuItem, Select, Tab, Tabs } from "@mui/material";
 import SelectedPayments from "./SelectedPayments";
 import SelectedTotals from "./SelectedTotals";
 import MetalPayments from "./MetalPayments";
@@ -10,6 +11,7 @@ import BaseLayout from "../BaseLayout/BaseLayout";
 import reconciliationService from "../../services/reconciliation.service";
 import { useDispatch } from "react-redux";
 import { hideLoader, showLoader } from "../../reducers/loaderSlice.reducer";
+import { Link } from "react-router-dom";
 
 const Reconciliation = () => {
   const dispatch = useDispatch()
@@ -26,11 +28,13 @@ const Reconciliation = () => {
   const [state, setState] = useReducer(
     (preState, newState) => ({ ...preState, ...newState }),
     {
-      rows: [],
-      dataTypes: [],
+      trades: [],
+      tradesTypes: [],
+      orders: [],
+      ordersTypes: []
     }
   );
-  const { rows, dataTypes } = state;
+  const { trades, tradesTypes, orders, ordersTypes } = state;
 
   const getEntities = async () => {
     try {
@@ -89,17 +93,27 @@ const Reconciliation = () => {
   }
 
   useEffect(() => {
-    let data = [];
-    let dataTypes = [];
+    let trades = [];
+    let tradesTypes = [];
+    let orders = [];
+    let ordersTypes = [];
 
-     Object.keys(MockData.dataTypes).forEach((type) => dataTypes.push(MockData.dataTypes[type]))
+    Object.keys(MockTrades.dataTypes).forEach((type) => tradesTypes.push(MockTrades.dataTypes[type]))
 
-    MockData.data.forEach((record) => {
+    MockTrades.data.forEach((record) => {
       const processed = Object.keys(record).map((param) => record[param])
-      data.push(processed)
+      trades.push(processed)
     })
 
-    setState({ rows: data, dataTypes });
+    Object.keys(MockOrders.dataTypes).forEach((type) => ordersTypes.push(MockOrders.dataTypes[type]))
+
+    MockOrders.data.forEach((record) => {
+      const processed = Object.keys(record).map((param) => record[param])
+      processed.push(<Link className="underline hover:no-underline" to={`/orders/${record.id}`}>View details</Link>)
+      orders.push(processed)
+    })
+
+    setState({ trades, tradesTypes, orders, ordersTypes });
 
     getEntities()
     getCurrencies()
@@ -187,7 +201,7 @@ const Reconciliation = () => {
         {paymentsView === 0 ? <SelectedPayments /> : <MetalPayments />}
 
         <SelectedTotals />
-      </>}
+    </>}
       
       <div className={`flex justify-between mb-1 ${reportType === 0 && 'pt-12 border-t-2 border-slate-400 mt-4'}`}>
         <h3>{reportType === 0 ? 'Executed Trades' : 'Historic Reports'}</h3>
@@ -203,47 +217,83 @@ const Reconciliation = () => {
         </div>
       </div>
 
-      <div className="relative rounded-sm border-gray-200 border px-2">
-        <DataTable
-          headers={[
-            'ID',
-            'GW Entity',
-            'Internal Trade No',
-            'Order Type',
-            'Order Sub Type',
-            'Trade Time',
-            'Settlement Date',
-            'Supplier',
-            'CCY Pair',
-            'Weight',
-            'Actual Metal Cost',
-            'Integral Spread Amount',
-            'GW EHT Spread Amount',
-            'Total Final Spread Amount',
-            'Customer Product Amount',
-            'Customer Product Price',
-            'Fee',
-            'Tax',
-            'Customer Total',
-            'E-Money in Recon Wallet',
-            'STP Confirmed (B-K)',
-            'Fix OrderID',
-            'Fix ExecID',
-            '(Order Request / Pending) ClOrderID',
-            'Trade Capture Report',
-            'Integral Spread',
-            'Market Open Status',
-            'STP Price',
-          ]}
-          data={rows} 
-          dataTypes={dataTypes}
-          excludeFilters={['ID', 'Order Type']}
-          excludeSort={['ID']}
-          excludeLiteralFilter={['Internal Trade No','(Order Request / Pending) ClOrderID','Trade Capture Report']}
-          selected={selectedTrades}
-          onSelect={handleSelectTrade}
-        />
+      <DataTable
+        headers={[
+          'ID',
+          'GW Entity',
+          'Internal Trade No',
+          'Order Type',
+          'Order Sub Type',
+          'Trade Time',
+          'Settlement Date',
+          'Supplier',
+          'CCY Pair',
+          'Weight',
+          'Actual Metal Cost',
+          'Integral Spread Amount',
+          'GW EHT Spread Amount',
+          'Total Final Spread Amount',
+          'Customer Product Amount',
+          'Customer Product Price',
+          'Fee',
+          'Tax',
+          'Customer Total',
+          'E-Money in Recon Wallet',
+          'STP Confirmed (B-K)',
+          'Fix OrderID',
+          'Fix ExecID',
+          '(Order Request / Pending) ClOrderID',
+          'Trade Capture Report',
+          'Integral Spread',
+          'Market Open Status',
+          'STP Price',
+        ]}
+        data={trades} 
+        dataTypes={tradesTypes}
+        excludeFilters={['ID', 'Order Type']}
+        excludeSort={['ID']}
+        excludeLiteralFilter={['Internal Trade No','(Order Request / Pending) ClOrderID','Trade Capture Report']}
+        selected={selectedTrades}
+        onSelect={handleSelectTrade}
+      />
+      
+      <div className={`flex justify-between mb-1 mt-12`}>
+        <h3>Orders Placed</h3>
+        <div className="text-sm">
+          <span className="pr-1 mr-4"><span className="font-bold">{orders.length}</span> Orders</span>
+
+          <IconButton color="text" variant="contained">
+            <i className={`fa text-sm fa-refresh`} aria-hidden="true" />
+          </IconButton>
+        </div>
       </div>
+
+      <DataTable
+        headers={[
+          'ID',
+          'GW Entity',
+          'Order Type',
+          'Order Sub Type',
+          'Order Time',
+          'CCY Pair',
+          'Market Open Status',
+          'Weight',
+          'Weight Filled',
+          'Customer Product Amount',
+          'Customer Product Price',
+          'Fee',
+          'Tax',
+          'Customer Total',
+          'Order Status',
+          'Internal Order Request / ClOrderID',
+          'Fix OrderID',
+          ''
+        ]}
+        data={orders}
+        dataTypes={ordersTypes}
+        maxPerPage={8}
+        excludeColumns={['ID']}
+      />
     </BaseLayout>
   );
 };

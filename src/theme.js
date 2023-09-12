@@ -28,11 +28,24 @@ const theme = createTheme(
       },
       MuiIconButton: {
         styleOverrides: {
-          root: {
+          root: ({ ownerState }) => ({
+            border: '1px solid transparent',
+            borderRadius: '0px',
+            padding: '5px 10px',
+            '&:hover': {
+              borderColor: customPalette.palette.text.disabled,
+              backgroundColor: 'transparent'
+            },
+            ...(ownerState.variant === 'contained' && {
+              borderColor: customPalette.palette.text.disabled,
+              '&:hover': {
+                backgroundColor: customPalette.palette.text.disabled,
+              },
+            }),
             '&.Mui-disabled .MuiSvgIcon-root': {
               fill: customPalette.palette.text.disabled,
             },
-          }
+          })
         }
       },
       MuiInputBase: {

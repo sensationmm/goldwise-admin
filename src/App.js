@@ -16,6 +16,7 @@ import {hideLoader, showLoader} from "./reducers/loaderSlice.reducer";
 import VaultSetting from "./pages/VaultSetting";
 import {search} from "./reducers/search.reducer";
 import Reconciliation from './pages/Reconciliation/Reconciliation'
+import OrderDetails from './pages/Orders/OrderDetails'
 
 const App = () => {
     const dispatch = useDispatch()
@@ -49,6 +50,7 @@ const App = () => {
 
         { /* TODO: move inside authed routes */}
         <Route path='reconciliation/reports' element={<Reconciliation/>}/>
+        <Route path='orders/:orderID' element={<OrderDetails />}/>
 
         {/* Protected routes */}
         <Route element={<RequireAuth/>}>

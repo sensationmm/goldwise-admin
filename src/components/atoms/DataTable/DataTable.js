@@ -8,11 +8,12 @@ import { Button, Checkbox } from "@mui/material";
   data = [],
   dataTypes = [],
   indexColumn = 0,
+  excludeColumns = [],
   excludeFilters = [],
   excludeSort = [],
   excludeLiteralFilter = [],
   selected = [],
-  onSelect,
+  onSelect = null,
   maxPerPage = 10,
   paginate = true
  }) => {
@@ -34,7 +35,7 @@ import { Button, Checkbox } from "@mui/material";
   }
 
   const handleSort = (item, dir) => {
-    if(sort !== item) {
+    if(sort !== item || sortDirection !== dir) {
       setSort(item)
       setSortDirection(dir)
     } else {
@@ -183,7 +184,7 @@ import { Button, Checkbox } from "@mui/material";
   }
 
   return (
-    <>
+    <div className="relative rounded-sm border-gray-200 border px-2">
       {editColumn && 
         <div className="fixed w-[200px] -ml-[100px] py-3 left-1/2 top-1/4 bg-white border border-slate-600 z-[1000]">
           {!excludeSort.includes(headers[editColumn]) && <>
@@ -280,8 +281,12 @@ import { Button, Checkbox } from "@mui/material";
         <table className="border-separate border-spacing-y-0.5 text-sm">
           <thead>
             <tr>
-            <th className="border-b">Select</th>
+            {onSelect !== null && <th className="border-b">Select</th>}
             {headers.map((text, countHeader) => {
+              if(excludeColumns.includes(text)) {
+                return <td key={`header-${countHeader}`}></td>
+              }
+
               const renderEdit = !excludeSort.includes(text) || !excludeFilters.includes(text) ?
                 <div className="cursor-pointer px-4" onClick={() => setEditColumn(countHeader)}>
                   <i
@@ -313,14 +318,18 @@ import { Button, Checkbox } from "@mui/material";
 
               return (
                 <tr key={`row-${row[indexColumn]}`}>
-                  <td className={cellFormat}>
-                    <Checkbox
-                      checked={selected.includes(row[indexColumn])} 
-                      onChange={() => onSelect(row[indexColumn])} 
-                    />
-                  </td>
+                  {onSelect !== null && 
+                    <td className={cellFormat}>
+                      <Checkbox
+                        checked={selected.includes(row[indexColumn])} 
+                        onChange={() => onSelect(row[indexColumn])} 
+                      />
+                    </td>
+                  }
                   {row.map((cell, countCell) => {
-                    if(hiddenColumns.includes(countCell)) {
+                    if(excludeColumns.includes(headers[countCell])) {
+                      return <td key={`row-${countRow}-cell-${countCell}`}></td>
+                    } else if(hiddenColumns.includes(countCell)) {
                       return <td />
                     }
                     return (
@@ -341,7 +350,7 @@ import { Button, Checkbox } from "@mui/material";
         </table>
       </div>
       {paginate && <div className="p-2 pr-0 border-t">{renderPagination()}</div>}
-    </>
+    </div>
   )
  }
 
