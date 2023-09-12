@@ -1,13 +1,15 @@
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import Loader from "../../components/atoms/Loader";
 import {useSelector} from "react-redux";
 import Sidebar from "../../components/molecules/Sidebar";
 import { useState } from 'react';
 import Header from '../../components/molecules/Header/Header';
+import { IconButton } from '@mui/material';
 
-const BaseLayout = ({full, title, action, children}) => {
+const BaseLayout = ({full, title, action, children, hasBack = false}) => {
     const loader = useSelector((state) => state.loader?.display)
     const [showSidePanel, setShowSidePanel] = useState(true)
+    const navigate = useNavigate();
 
     return (
       <>
@@ -27,7 +29,14 @@ const BaseLayout = ({full, title, action, children}) => {
                 
                 <main className="relative overflow-hidden p-12 z-10">
                   <header className="mb-8 flex justify-between pr-[40px]">
-                    <h1>{title}</h1>
+                    <div className="flex items-center">
+                      {hasBack && 
+                        <div className="mr-2">
+                          <IconButton color="text" onClick={() => navigate(-1)}><i className={`fa text-sm fa-arrow-left`} aria-hidden="true" /></IconButton>
+                        </div>
+                      }
+                      <h1>{title}</h1>
+                    </div>
                     {action}
                   </header>
                   {children}
