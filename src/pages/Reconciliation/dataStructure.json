@@ -1,0 +1,114 @@
+{
+  "itemID": {
+    "label": "ID",
+    "dataType": "string"
+  },
+  "gwEntity": {
+    "label": "GW Entity",
+    "dataType": "string"
+  },
+  "internalTradeNo": {
+    "label": "Internal Trade No",
+    "dataType": "string"
+  },
+  "orderType": {
+    "label": "Order Type",
+    "dataType": "string"
+  },
+  "orderSubType": {
+    "label": "Order Sub Type",
+    "dataType": "string"
+  },
+  "tradeTime": {
+    "label": "Trade Time",
+    "dataType": "date"
+  },
+  "settlementDate": {
+    "label": "Settlement Date",
+    "dataType": "date"
+  },
+  "supplier": {
+    "label": "Supplier",
+    "dataType": "string"
+  },
+  "ccyPair": {
+    "label": "CCY Pair",
+    "dataType": "string"
+  },
+  "weightAmount": {
+    "label": "Weight",
+    "dataType": "number"
+  },
+  "actualMetalCost": {
+    "label": "Actual Metal Cost",
+    "dataType": "currency"
+  },
+  "integralSpreadAmount": {
+    "label": "Integral Spread Amount",
+    "dataType": "currency"
+  },
+  "gwEHTSpreadAmount": {
+    "label": "GW EHT Spread Amount",
+    "dataType": "currency"
+  },
+  "totalFinalSpreadAmount": {
+    "label": "Total Final Spread Amount",
+    "dataType": "currency"
+  },
+  "customerProductAmount": {
+    "label": "Customer Product Amount",
+    "dataType": "currency"
+  },
+  "customerProductPrice": {
+    "label": "Customer Product Price",
+    "dataType": "currency"
+  },
+  "customerFee": {
+    "label": "Fee",
+    "dataType": "currency"
+  },
+  "customerTax": {
+    "label": "Tax",
+    "dataType": "currency"
+  },
+  "customerTotal": {
+    "label": "Customer Total",
+    "dataType": "currency"
+  },
+  "eMoneyInReconWalletDate": {
+    "label": "E-Money in Recon Wallet",
+    "dataType": "date"
+  },
+  "stpConfirmed": {
+    "label": "STP Confirmed (B-K)",
+    "dataType": "string"
+  },
+  "fixOrderID": {
+    "label": "Fix Order ID",
+    "dataType": "string"
+  },
+  "fixExecID": {
+    "label": "Fix Exec ID",
+    "dataType": "string"
+  },
+  "clOrderID": {
+    "label": "(Order Request / Pending) Cl Order ID",
+    "dataType": "string"
+  },
+  "tradeReportID": {
+    "label": "Trade Capture Report",
+    "dataType": "string"
+  },
+  "integralSpread": {
+    "label": "Integral Spread",
+    "dataType": "string"
+  },
+  "marketOpenStatus": {
+    "label": "Market Open Status",
+    "dataType": "string"
+  },
+  "stpPrice": {
+    "label": "STP Price",
+    "dataType": "currency"
+  }
+}

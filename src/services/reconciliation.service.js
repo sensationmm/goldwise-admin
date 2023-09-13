@@ -1,3 +1,4 @@
+import dayjs from "dayjs"
 import Request from "../helper/request"
 
 const getEntities = async () => {
@@ -24,17 +25,30 @@ const generateReport = async (
   const request = new Request()
 
   return await request.postRequest(path, {
-    dateFrom,
-    dateTo,
+    dateFrom: dayjs(dateFrom).format('YYYY-MM-DDTHH:mm:ss') ,
+    dateTo: dayjs(dateTo).format('YYYY-MM-DDTHH:mm:ss') ,
     companyGuid,
     currencySymbol,
   })
 }
 
+const addTradeToReport = async (
+  batchID,
+  trades
+) => {
+  const path = process.env.REACT_APP_API_ENDPOINT + `/admin/reconciliation/generate/${batchID}/add-item/`
+  const request = new Request()
+
+  return await request.postRequest(path, {
+    itemIds: trades
+  })
+}
+
 const reconciliationService = {
-  getEntities,
+  addTradeToReport,
+  generateReport,
   getCurrencies,
-  generateReport
+  getEntities,
 }
 
 export default reconciliationService
