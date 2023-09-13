@@ -1,7 +1,14 @@
 import { formatCurrency } from "../../utils/number"
 import { styleCell, styleHeader, styleTotal } from "./SelectedPayments"
 
-const MetalPayments = () => {
+const MetalPayments = ({ data }) => {
+  const config = {
+    metalVaultLedger: '',
+    XAU: 'Gold',
+    XAG: 'Silver',
+    XPT: 'Platinum',
+    XPD: 'Palladium'
+  }
   const cellOverride = `${styleCell} pr-12`
 
   return (
@@ -10,49 +17,28 @@ const MetalPayments = () => {
 
         <table>
           <tr>
-            <th></th>
-            <th className={styleHeader(cellOverride)}>Gold</th>
-            <th className={styleHeader(cellOverride)}>Silver</th>
-            <th className={styleHeader(cellOverride)}>Platinum</th>
-            <th className={styleHeader(cellOverride)}>Palladium</th>
+            {Object.keys(config).map(col => <th className={styleHeader(cellOverride)}>{config[col]}</th>)}
           </tr>
-          <tr>
-            <th className={styleHeader(cellOverride)}>GHL | London | StoneX</th>
-            <td className={styleCell}>{formatCurrency(0)}</td>
-            <td className={styleCell}>{formatCurrency(0)}</td>
-            <td className={styleCell}>{formatCurrency(0)}</td>
-            <td className={styleCell}>{formatCurrency(0)}</td>
-          </tr>
-          <tr>
-            <th className={styleHeader(cellOverride)}>GHL | Zurich | StoneX</th>
-            <td className={styleCell}>{formatCurrency(0)}</td>
-            <td className={styleCell}>{formatCurrency(0)}</td>
-            <td className={styleCell}>{formatCurrency(0)}</td>
-            <td className={styleCell}>{formatCurrency(0)}</td>
-          </tr>
-          <tr>
-            <th className={styleHeader(cellOverride)}>GEUAB | London | StoneX</th>
-            <td className={styleCell}>{formatCurrency(0)}</td>
-            <td className={styleCell}>{formatCurrency(0)}</td>
-            <td className={styleCell}>{formatCurrency(0)}</td>
-            <td className={styleCell}>{formatCurrency(0)}</td>
-          </tr>
-          <tr>
-            <th className={styleHeader(cellOverride)}>GEUAB | Zurich | StoneX</th>
-            <td className={styleCell}>{formatCurrency(0)}</td>
-            <td className={styleCell}>{formatCurrency(0)}</td>
-            <td className={styleCell}>{formatCurrency(0)}</td>
-            <td className={styleCell}>{formatCurrency(0)}</td>
-          </tr>
-          <tr>
-            <th className={`${styleTotal(cellOverride)} ${styleHeader(cellOverride)}`}>Goldwise Total</th>
-            <td className={styleTotal(cellOverride)}>{formatCurrency(0)}</td>
-            <td className={styleTotal(cellOverride)}>{formatCurrency(0)}</td>
-            <td className={styleTotal(cellOverride)}>{formatCurrency(0)}</td>
-            <td className={styleTotal(cellOverride)}>{formatCurrency(0)}</td>
-          </tr>
+          {
+            data.map((d, rowCount) => (
+              <tr>
+              {Object.keys(config).map((col, count) => {
+                if(count === 0) {
+                  if(rowCount + 1 === data.length) {
+                    return <th className={`${styleTotal(cellOverride)} ${styleHeader(cellOverride)}`}>{d[col]}</th>
+                  }
+                  return <th className={styleHeader(cellOverride)}>{d[col]}</th>
+                } else {
+                  if(rowCount + 1 === data.length) {
+                    return <td className={styleTotal(cellOverride)}>{formatCurrency(d[col])}</td>
+                  }
+                  return <td className={styleCell}>{formatCurrency(d[col])}</td>
+                }
+              })}
+              </tr>
+            ))
+          }
         </table>
-
       </div>
   )
 }
