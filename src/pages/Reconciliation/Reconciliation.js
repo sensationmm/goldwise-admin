@@ -20,10 +20,10 @@ const Reconciliation = () => {
   const [reportType, setReportType] = useState(0)
   const [paymentsView, setPaymentsView] = useState(0)
 
-  const [reportFrom, setReportFrom] = useState(dayjs('2023-04-01'))
-  const [reportTo, setReportTo] = useState(dayjs('2023-04-30'))
+  const [reportFrom, setReportFrom] = useState(null)
+  const [reportTo, setReportTo] = useState(null)
   const [reportEntity, setReportEntity] = useState(0)
-  const [reportCurrency, setReportCurrency] = useState('GBP')
+  const [reportCurrency, setReportCurrency] = useState(0)
 
   const [entitiesList, setEntitiesList] = useState([])
   const [currenciesList, setCurrenciesList] = useState([])
