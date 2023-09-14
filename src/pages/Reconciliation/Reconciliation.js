@@ -22,8 +22,8 @@ const Reconciliation = () => {
 
   const [reportFrom, setReportFrom] = useState(null)
   const [reportTo, setReportTo] = useState(null)
-  const [reportEntity, setReportEntity] = useState('')
-  const [reportCurrency, setReportCurrency] = useState('')
+  const [reportEntity, setReportEntity] = useState(null)
+  const [reportCurrency, setReportCurrency] = useState(null)
   const [batchId, setBatchId] = useState(0)
 
   const [entitiesList, setEntitiesList] = useState([])
@@ -101,7 +101,7 @@ const Reconciliation = () => {
     dispatch(showLoader())
 
     try {
-      const report = await reconciliationService.addTradeToReport(1, selectedTrades);
+      const report = await reconciliationService.addTradeToReport(batchId, selectedTrades);
       setState({ payments: report });
     } catch (e) {
       //todo: display error if happen
@@ -149,8 +149,8 @@ const Reconciliation = () => {
   const resetForm = () => {
     setReportFrom(null)
     setReportTo(null)
-    setReportCurrency('')
-    setReportEntity('') 
+    setReportCurrency(null)
+    setReportEntity(null) 
   }
 
   return (
@@ -179,11 +179,11 @@ const Reconciliation = () => {
             id="select-entity"
             labelId="report-entity"
             label="Entity"
-            value={entitiesList.length > 0 ? reportEntity : ''}
+            value={entitiesList.length > 0 ? reportEntity : null}
             onChange={e => setReportEntity(e.target.value)}
             disabled={entitiesList.length === 0}
           >
-            <MenuItem value={0}>All</MenuItem>
+            <MenuItem value={null}>All</MenuItem>
             {entitiesList.map((ent, count) => <MenuItem key={`select-entity-${count}`} value={ent.value}>{ent.label}</MenuItem>)}
           </Select>
         </FormControl>
