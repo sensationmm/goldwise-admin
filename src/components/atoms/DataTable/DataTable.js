@@ -14,6 +14,7 @@ import { Button, Checkbox } from "@mui/material";
   excludeLiteralFilter = [],
   selected = [],
   onSelect = null,
+  onSelectAll = null,
   maxPerPage = 10,
   paginate = true
  }) => {
@@ -24,6 +25,7 @@ import { Button, Checkbox } from "@mui/material";
   const [filters, setFilters] = useState({})
   const [hiddenColumns, setHiddenColumns] = useState([])
   const [activePage, setActivePage] = useState(0)
+  const [selectAll, setSelectAll] = useState(false)
 
   if(data.length > 0 && headers.length !== Object.keys(data[0]).length) {
     return (
@@ -281,7 +283,11 @@ import { Button, Checkbox } from "@mui/material";
         <table className="border-separate border-spacing-y-0.5 text-sm">
           <thead>
             <tr>
-            {onSelect !== null && <th className="border-b">Select</th>}
+            {onSelect !== null && 
+              <th className="border-b">
+                {onSelectAll && <Checkbox checked={selectAll} onChange={() => { onSelectAll(!selectAll); setSelectAll(!selectAll); }} />}
+              </th>
+            }
             {headers.map((text, countHeader) => {
               if(excludeColumns.includes(text)) {
                 return <td key={`header-${countHeader}`}></td>
@@ -322,7 +328,7 @@ import { Button, Checkbox } from "@mui/material";
                     <td className={cellFormat}>
                       <Checkbox
                         checked={selected.includes(row[indexColumn])} 
-                        onChange={() => onSelect(row[indexColumn])} 
+                        onChange={() => { setSelectAll(false); onSelect(row[indexColumn]); }} 
                       />
                     </td>
                   }

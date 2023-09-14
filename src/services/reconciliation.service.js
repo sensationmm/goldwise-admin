@@ -44,11 +44,19 @@ const addTradeToReport = async (
   })
 }
 
+const submitReport = async (batchID) => {
+  const path = process.env.REACT_APP_API_ENDPOINT + `/admin/reconciliation/generate/${batchID}/submit/`
+  const request = new Request()
+
+  return await request.postRequest(path)
+}
+
 const reconciliationService = {
   addTradeToReport,
   generateReport,
   getCurrencies,
   getEntities,
+  submitReport
 }
 
 export default reconciliationService
