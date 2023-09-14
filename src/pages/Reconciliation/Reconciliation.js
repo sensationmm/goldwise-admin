@@ -22,8 +22,9 @@ const Reconciliation = () => {
 
   const [reportFrom, setReportFrom] = useState(null)
   const [reportTo, setReportTo] = useState(null)
-  const [reportEntity, setReportEntity] = useState(0)
-  const [reportCurrency, setReportCurrency] = useState(0)
+  const [reportEntity, setReportEntity] = useState('')
+  const [reportCurrency, setReportCurrency] = useState('')
+  const [batchId, setBatchId] = useState(0)
 
   const [entitiesList, setEntitiesList] = useState([])
   const [currenciesList, setCurrenciesList] = useState([])
@@ -73,8 +74,10 @@ const Reconciliation = () => {
     let tradesTypes = [];
 
     try {
-      const reconciliationRecords = await reconciliationService.generateReport(reportFrom, reportTo, reportEntity, reportCurrency);
-
+      //will change just to make a test
+      const response = await reconciliationService.generateReport(reportFrom, reportTo, reportEntity, reportCurrency);
+      const reconciliationRecords = response.report;
+      
       const tradesStore = reconciliationRecords.map((rec, recCount) => {
         return Object.keys(TradesDataStructure).map((key) => {
           if(recCount === 0) {
@@ -84,7 +87,7 @@ const Reconciliation = () => {
           return rec[key]
         })
       })
-
+      setBatchId(response.batchId);
       setState({ trades: tradesStore, tradesTypes });
     } catch (e) {
       //todo: display error if happen
@@ -146,8 +149,8 @@ const Reconciliation = () => {
   const resetForm = () => {
     setReportFrom(null)
     setReportTo(null)
-    setReportCurrency(0)
-    setReportEntity(0) 
+    setReportCurrency('')
+    setReportEntity('') 
   }
 
   return (
