@@ -1,13 +1,20 @@
 import { createTheme } from '@mui/material/styles';
-import { grey } from '@mui/material/colors';
+import { green, grey, red } from '@mui/material/colors';
 
-const customPalette = createTheme({
+export const customPalette = createTheme({
   palette: {
     secondary: {
       main: grey[400]
     },
+    confirm: {
+      main: green[300]
+    },
+    error: {
+      main: red[600]
+    },
     text: {
       main: grey[900],
+      sub: grey[600],
       disabled: grey[400]
     }
   }
@@ -19,7 +26,7 @@ const theme = createTheme(
       MuiButton: {
         styleOverrides: {
           root: ({ ownerState }) => ({
-            ...(ownerState.variant === 'contained' && ownerState.color === 'secondary' && {
+            ...(ownerState.variant === 'contained' && (ownerState.color === 'secondary' || ownerState.color === 'confirm') && {
               color: '#fff',
             }),
             fontWeight: 'bold',
@@ -112,6 +119,51 @@ const theme = createTheme(
               fontWeight: 'bold'
             },
             borderBottom: `2px solid ${customPalette.palette.secondary.main}`
+          }
+        }
+      },
+      MuiDialog: {
+        styleOverrides: {
+          paper: {
+            minWidth: '600px',
+            padding: '70px',
+            textAlign: 'center',
+            color: customPalette.palette.text.sub
+          }
+        }
+      },
+      MuiDialogTitle: {
+        styleOverrides: {
+          root: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            fontWeight: 'bold'
+          }
+        }
+      },
+      MuiDialogActions: {
+        styleOverrides: {
+          root: {
+            display: 'flex',
+            justifyContent: 'center',
+            marginTop: '30px',
+            marginBottom: '20px',
+            width: '100%',
+            '> *': {
+              width: '100%',
+              whiteSpace: 'nowrap'
+            },
+            '>:not(:first-of-type)': {
+              marginLeft: '30px'
+            }
+          }
+        }
+      },
+      MuiTypography: {
+        styleOverrides: {
+          root: {
+            marginBottom: '20px'
           }
         }
       }

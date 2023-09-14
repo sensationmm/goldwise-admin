@@ -1,9 +1,8 @@
 import { useEffect, useReducer, useState } from "react";
 import DataTable from "../../components/atoms/DataTable/DataTable";
-import MockTrades from "../../mocks/reconciliation.json"
 import MockOrders from "../../mocks/orders.json"
 import { DatePicker } from "@mui/x-date-pickers";
-import { Button, FormControl, IconButton, InputLabel, MenuItem, Select, Tab, Tabs } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, IconButton, InputLabel, MenuItem, Select, Tab, Tabs, Typography } from "@mui/material";
 import SelectedPayments from "./SelectedPayments";
 import SelectedTotals from "./SelectedTotals";
 import MetalPayments from "./MetalPayments";
@@ -14,6 +13,7 @@ import { hideLoader, showLoader } from "../../reducers/loaderSlice.reducer";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import TradesDataStructure from './dataStructure.json';
+import { customPalette } from "../../theme";
 
 const Reconciliation = () => {
   const dispatch = useDispatch()
@@ -30,6 +30,15 @@ const Reconciliation = () => {
   const [currenciesList, setCurrenciesList] = useState([])
 
   const [selectedTrades, setSelectedTrades] = useState([])
+  const [tradeIDs, setTradeIDs] = useState([])
+  const [tradesConfirmed, setTradesConfirmed] = useState(0)
+  const [tradesWithError, setTradesWithError] = useState(0)
+  const [tradesNotConfirmed, setTradesNotConfirmed] = useState(0)
+
+  const [showConfirmReport, setShowConfirmReport] = useState(false)
+  const [showReportError, setShowReportError] = useState(false)
+  const [reportError, setReportError] = useState('')
+  const [showReportConfirmed, setShowReportConfirmed] = useState(false)
 
   const [state, setState] = useReducer(
     (preState, newState) => ({ ...preState, ...newState }),
@@ -70,15 +79,36 @@ const Reconciliation = () => {
   }
 
   const fetchTrades = async () => {
+    setState({ trades: [] });
     dispatch(showLoader())
     let tradesTypes = [];
 
     try {
-      //will change just to make a test
-      const response = await reconciliationService.generateReport(reportFrom, reportTo, reportEntity, reportCurrency);
+      const response = await reconciliationService.generateReport(reportFrom, reportTo, reportEntity !== 'all' ? reportEntity : '', reportCurrency);
       const reconciliationRecords = response.report;
       
+      let confirmed = 0;
+      let notConfirmed = 0;
+      let withError = 0;
+      let recIDs = [];
+
       const tradesStore = reconciliationRecords.map((rec, recCount) => {
+        if(rec.stpConfirmed === 1) {
+          confirmed++;
+        } else if(rec.stpConfirmed === 0) {
+          notConfirmed++;
+        } else {
+          withError++
+        }
+        rec.itemID && recIDs.push(rec.itemID)
+
+        if(recCount + 1 === reconciliationRecords.length) {
+          setTradesConfirmed(confirmed)
+          setTradesNotConfirmed(notConfirmed)
+          setTradesWithError(withError)
+          setTradeIDs(recIDs)
+        }
+
         return Object.keys(TradesDataStructure).map((key) => {
           if(recCount === 0) {
             tradesTypes.push(TradesDataStructure[key].dataType)
@@ -112,6 +142,22 @@ const Reconciliation = () => {
     }
   }
 
+  const submitReport = async () => {
+    dispatch(showLoader())
+    setShowConfirmReport(false)
+
+    try {
+      await reconciliationService.submitReport(batchId);
+      setShowReportConfirmed(true)
+      setState({ payments: [], trades: [] })
+    } catch (e) {
+      setReportError(e)
+      setShowReportError(true)
+    } finally {
+      dispatch(hideLoader())
+    }
+  }
+
   const handleSelectTrade = (trade) => {
     const hidden = selectedTrades.slice()
 
@@ -124,26 +170,34 @@ const Reconciliation = () => {
     setSelectedTrades(hidden)
   }
 
+  const handleSelectAllTrades = (select) => {
+    if(select) {
+      setSelectedTrades(tradeIDs)
+    } else {
+      setSelectedTrades([])
+    }
+  }
+
   useEffect(() => {
-    // let orders = [];
-    // let ordersTypes = [];
+    let orders = [];
+    let ordersTypes = [];
 
-    // MockOrders.data.forEach((record) => {
-    //   const processed = Object.keys(record).map((param) => record[param])
-    //   processed.push(<Link className="underline hover:no-underline" to={`/orders/${record.id}`}>View details</Link>)
-    //   orders.push(processed)
-    // })
+    MockOrders.data.forEach((record) => {
+      const processed = Object.keys(record).map((param) => record[param])
+      processed.push(<Link className="underline hover:no-underline" to={`/orders/${record.id}`}>View details</Link>)
+      orders.push(processed)
+    })
 
-    // setState({ tradesTypes, ordersTypes });
+    setState({ orders, ordersTypes });
 
     getEntities()
     getCurrencies()
   }, []);
 
   useEffect(() => {
-    // if(selectedTrades.length > 0 || (selectedTrades.length === 0 && Object.keys(payments).length > 0)) {
+    if(selectedTrades.length > 0 || (selectedTrades.length === 0 && Object.keys(payments).length > 0)) {
       generateReport()
-    // }
+    }
   }, [selectedTrades])
 
   const resetForm = () => {
@@ -158,8 +212,13 @@ const Reconciliation = () => {
       title="Reconciliation Reports"
       action={
         <div className="grid grid-cols-2 gap-4">
-          <Button variant="contained" color="secondary" size="large">STP Request</Button>
-          <Button variant="contained" size="large">Submit Report</Button>
+          <Button variant="contained" color="secondary" size="large" disabled>STP Request</Button>
+          <Button
+            variant="contained"
+            size="large"
+            disabled={Object.keys(payments).length === 0}
+            onClick={() => setShowConfirmReport(true)}
+          >Submit Report</Button>
         </div>
       }
     >
@@ -179,11 +238,11 @@ const Reconciliation = () => {
             id="select-entity"
             labelId="report-entity"
             label="Entity"
-            value={entitiesList.length > 0 ? reportEntity : null}
+            value={entitiesList.length > 0 ? reportEntity : ''}
             onChange={e => setReportEntity(e.target.value)}
             disabled={entitiesList.length === 0}
           >
-            <MenuItem value={null}>All</MenuItem>
+            <MenuItem value={'all'}>All</MenuItem>
             {entitiesList.map((ent, count) => <MenuItem key={`select-entity-${count}`} value={ent.value}>{ent.label}</MenuItem>)}
           </Select>
         </FormControl>
@@ -198,7 +257,6 @@ const Reconciliation = () => {
             onChange={e => setReportCurrency(e.target.value)}
             disabled={currenciesList.length === 0}
           >
-            <MenuItem value={0}>All</MenuItem>
             {currenciesList.map((curr, count) => <MenuItem key={`select-currency-${count}`} value={curr.value}>{curr.label}</MenuItem>)}
           </Select>
         </FormControl>
@@ -221,41 +279,39 @@ const Reconciliation = () => {
             <Tab label="Currency Payments" />
             <Tab label="Metals Payments" />
           </Tabs>
-          <div className="text-sm"><span className="font-bold">Results from:</span> 03 JAN 2023 - 12 JAN 2023 10:00:02 GMT</div>
+          <div className="text-sm"><span className="font-bold">Results from:</span> {dayjs(reportFrom).format('D MMM YYYY')} - {dayjs(reportTo).format('D MMM YYYY')}</div>
         </div>
 
-        {paymentsView === 0
-          ? <SelectedPayments
-              data={{
-                amountOwed: payments.selectedPayments,
-                availableInRecon: {},
-                totalEMoney: {},
-                amountPayable: payments.payableAtSettlement,
-                shortfallAmount: payments.shortfallAmounts,
-                criticalShortfall: {},
-                additionalShortfall: {},
-                customerOwed: {},
-                losses: {},
-              }} 
-            /> 
-          : <MetalPayments data={payments.metalPayments} />
-        }
+        <div className={'pb-12 border-b-2 border-slate-400 mb-12'}>
+          {paymentsView === 0
+            ? <SelectedPayments
+                data={{
+                  amountOwed: payments.selectedPayments,
+                  availableInRecon: {},
+                  totalEMoney: {},
+                  amountPayable: payments.payableAtSettlement,
+                  shortfallAmount: payments.shortfallAmounts,
+                  criticalShortfall: {},
+                  additionalShortfall: {},
+                  customerOwed: {},
+                  losses: {},
+                }} 
+              /> 
+            : <MetalPayments data={payments.metalPayments} />
+          }
 
-        <SelectedTotals data={payments.selectedTotals} />
+          <SelectedTotals data={payments.selectedTotals} />
+        </div>
       </>}
       
       {trades.length > 0 && <>
-        <div className={`flex justify-between mb-1 ${reportType === 0 && 'pt-12 border-t-2 border-slate-400 mt-4'}`}>
+        <div className={`flex justify-between mb-1`}>
           <h3>{reportType === 0 ? 'Executed Trades' : 'Historic Reports'}</h3>
           <div className="text-sm">
-            <span className="pr-1"><span className="font-bold">{selectedTrades.length}</span> Trades Selected</span>
-            {selectedTrades.length > 0 &&
-              <>
-                | <span className="font-bold px-1">{selectedTrades.length}</span>  <span className="text-green-400">Confirmed</span>
-                {/* TODO: implement confirmed count */}
-                {/*  | <span className="font-bold pl-1">2</span> <span className="text-red-600">Not Confirmed</span> */}
-              </>
-            }
+            <span className="pr-1"><span className="font-bold">{trades.length}</span> Trades</span>
+            | <span className="font-bold px-1">{tradesConfirmed}</span>  <span className="text-green-400">Confirmed</span>
+            {tradesWithError > 0 && <> |<span className="font-bold pl-1">{tradesWithError}</span> <span className="text-orange-400">With Error</span></>}
+            {tradesNotConfirmed > 0 && <> |<span className="font-bold pl-1">{tradesNotConfirmed}</span> <span className="text-red-600">Not Confirmed</span></>}
           </div>
         </div>
 
@@ -268,6 +324,7 @@ const Reconciliation = () => {
           excludeLiteralFilter={['Internal Trade No', '(Order Request / Pending) ClOrderID', 'Trade Capture Report']}
           selected={selectedTrades}
           onSelect={handleSelectTrade}
+          onSelectAll={handleSelectAllTrades}
         />
       </>}
       
@@ -310,6 +367,49 @@ const Reconciliation = () => {
           excludeColumns={['ID']}
         />
       </>}
+
+      <Dialog open={showConfirmReport} onClose={setShowConfirmReport}>
+        <DialogTitle color={customPalette.palette.error.main}>Warning!</DialogTitle>
+        <DialogContent>
+          <Typography>You are about to submit a report that cannot be undone once submitted.</Typography>
+          <Typography>Please confirm or Cancel the action</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="contained" color="secondary" size="large" onClick={() => setShowConfirmReport(false)}>Cancel</Button>
+          <Button variant="contained" color="confirm" size="large" onClick={submitReport}>Confirm</Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={showReportError} onClose={setShowReportError}>
+        <DialogTitle>
+          <div className="flex justify-center items-center border-4 border-red-600 rounded-full w-[50px] h-[50px] mb-[20px]">
+            <i className={`fa text-3xl fa-exclamation text-red-600`} aria-hidden="true" />
+          </div>
+          Error Submitting Report
+        </DialogTitle>
+        <DialogContent>
+          <Typography>{reportError}</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="contained" color="secondary" size="large" onClick={() => setShowReportError(false)}>Cancel</Button>
+          <Button variant="contained" color="confirm" size="large" onClick={() => {}}>Try Again</Button>
+        </DialogActions>
+      </Dialog>
+
+      <Dialog open={showReportConfirmed} onClose={setShowReportConfirmed}>
+        <DialogTitle>
+          <div className="flex justify-center items-center border-4 border-green-500 rounded-full w-[50px] h-[50px] mb-[20px]">
+            <i className={`fa text-3xl fa-check text-green-500`} aria-hidden="true" />
+          </div>
+          Report Submitted
+        </DialogTitle>
+        <DialogContent>
+          <Typography>The Recon report has been successfully submitted.</Typography>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="contained" color="secondary" size="large" onClick={() => setShowReportConfirmed(false)}>Close</Button>
+        </DialogActions>
+      </Dialog>
     </BaseLayout>
   );
 };

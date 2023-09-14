@@ -8,6 +8,8 @@ import Input from '../../components/atoms/Input'
 import authService from '../../services/auth.service'
 import { setAdmin } from '../../reducers/userSlice.reducer'
 import { loginValidationSchema } from '../../helper/validationSchemas'
+import { ReactSVG } from 'react-svg'
+import Logo from '../../assets/images/logo.svg'
 
 const Login = () => {
     const dispatch = useDispatch()
@@ -36,7 +38,9 @@ const Login = () => {
     return (
         <div className='login-container'>
             <div className='login-container__left'>
-                <div className='logo-container'><label className='logo-label'>GOLDWISE</label></div>
+                <div className='logo-container'>
+                  <div className={'w-[200px]'}><ReactSVG src={Logo} alt="Goldwise Logo" /></div>
+                </div>
             </div>
             <div className='login-container__right'>
                 <div className='container'>
