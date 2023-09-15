@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { formatCurrency } from "../../../utils/number"
+import { formatCurrency, formatStatusCode } from "../../../utils/number"
 import Input from "../Input/Input"
 import { Button, Checkbox } from "@mui/material";
 
@@ -66,6 +66,8 @@ import { Button, Checkbox } from "@mui/material";
     switch(type) {
       case 'currency':
         return formatCurrency(value)
+      case 'statusCode':
+        return formatStatusCode(value)
       case 'string':
       default: 
         return value;
@@ -169,24 +171,18 @@ import { Button, Checkbox } from "@mui/material";
     const showNext = activePage + 1 < numPages;
 
     return (
-      <div className="flex justify-between items-center text-sm text-gray-400">
-        <div>
-          {filteredData.length !== data.length ? `Filtered Records: ${filteredData.length} (${data.length} Total)` : `Total Records: ${data.length}`}
-        </div>
-
-        <div className="flex items-center">
-          <i className={`fa text-xs fa-chevron-left px-2 cursor-pointer ${!showPrev && 'cursor-not-allowed text-gray-200'}`} aria-hidden="true" onClick={() => showPrev ? setActivePage(activePage - 1) : undefined} />
-          {[...Array(numPages)].map((_, count) => (
-            <div key={`page-${count}`} className={`p-2 cursor-pointer ${activePage === count && 'text-gray-900'}`} onClick={() => setActivePage(count)}>{count + 1}</div>
-          ))}
-          <i className={`fa text-xs fa-chevron-right px-2 cursor-pointer ${!showNext && 'cursor-not-allowed text-gray-200'}`} aria-hidden="true" onClick={() => showNext ? setActivePage(activePage + 1) : undefined} />
-        </div>
+      <div className="flex justify-end items-center text-sm text-gray-400">
+        <i className={`fa text-xs fa-chevron-left px-2 cursor-pointer ${!showPrev && 'cursor-not-allowed text-gray-200'}`} aria-hidden="true" onClick={() => showPrev ? setActivePage(activePage - 1) : undefined} />
+        {[...Array(numPages)].map((_, count) => (
+          <div key={`page-${count}`} className={`p-2 cursor-pointer ${activePage === count && 'text-gray-900'}`} onClick={() => setActivePage(count)}>{count + 1}</div>
+        ))}
+        <i className={`fa text-xs fa-chevron-right px-2 cursor-pointer ${!showNext && 'cursor-not-allowed text-gray-200'}`} aria-hidden="true" onClick={() => showNext ? setActivePage(activePage + 1) : undefined} />
       </div>
     )
   }
 
   return (
-    <div className="relative rounded-sm border-gray-200 border px-2">
+    <div className="relative">
       {editColumn && 
         <div className="fixed w-[200px] -ml-[100px] py-3 left-1/2 top-1/4 bg-white border border-slate-600 z-[1000]">
           {!excludeSort.includes(headers[editColumn]) && <>
@@ -243,7 +239,7 @@ import { Button, Checkbox } from "@mui/material";
             </div>
           </>}
           
-          {dataTypes[filterColumn] === 'string' && !excludeLiteralFilter.includes(headers[filterColumn]) && <>
+          {(dataTypes[filterColumn] === 'string' || dataTypes[filterColumn] === 'statusCode') && !excludeLiteralFilter.includes(headers[filterColumn]) && <>
             <div className="grid grid-cols-[200px_1fr] mt-4">
               <div className="flex items-center justify-left">Values</div>
               <div className="px-3 pt-3 pb-2 bg-slate-200">
@@ -279,7 +275,7 @@ import { Button, Checkbox } from "@mui/material";
         </div>
       }
 
-      <div className="w-full overflow-scroll">
+      <div className="w-full overflow-scroll rounded-sm border-gray-200 border px-2">
         <table className="border-separate border-spacing-y-0.5 text-sm">
           <thead>
             <tr>
@@ -320,16 +316,16 @@ import { Button, Checkbox } from "@mui/material";
           <tbody>
           {filteredData.slice(activePage * maxPerPage, paginate ? (activePage + 1) * maxPerPage : undefined)
             .map((row, countRow) => {
-              const cellFormat = `px-3 py-3 whitespace-nowrap`
+              const cellFormat = `px-3 py-3 whitespace-nowrap max-w-[400px] text-ellipsis overflow-hidden`
 
               return (
                 <tr key={`row-${row[indexColumn]}`}>
                   {onSelect !== null && 
                     <td className={cellFormat}>
-                      <Checkbox
+                      {row[indexColumn] && <Checkbox
                         checked={selected.includes(row[indexColumn])} 
                         onChange={() => { setSelectAll(false); onSelect(row[indexColumn]); }} 
-                      />
+                      />}
                     </td>
                   }
                   {row.map((cell, countCell) => {

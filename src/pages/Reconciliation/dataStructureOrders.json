@@ -1,0 +1,70 @@
+{
+  "itemID": {
+    "label": "ID",
+    "dataType": "string"
+  },
+  "companyName": {
+    "label": "GW Entity",
+    "dataType": "string"
+  },
+  "orderTypeText": {
+    "label": "Order Type",
+    "dataType": "string"
+  },
+  "orderTypeSubText": {
+    "label": "Order Sub Type",
+    "dataType": "string"
+  },
+  "orderDate": {
+    "label": "Order Time",
+    "dataType": "date"
+  },
+  "currencyPair": {
+    "label": "Currency Pair",
+    "dataType": "string"
+  },
+  "marketOpenStatus": {
+    "label": "Market Status",
+    "dataType": "string"
+  },
+  "weightAmount": {
+    "label": "Weight",
+    "dataType": "number"
+  },
+  "weightFilled": {
+    "label": "Weight Filled",
+    "dataType": "number"
+  },
+  "productAmount": {
+    "label": "Product Amount",
+    "dataType": "currency"
+  },
+  "productPrice": {
+    "label": "Product Price",
+    "dataType": "asasd"
+  },
+  "feeAmount": {
+    "label": "Fee",
+    "dataType": "currency"
+  },
+  "taxAmount": {
+    "label": "Tax",
+    "dataType": "currency"
+  },
+  "totalCost": {
+    "label": "Total",
+    "dataType": "asasd"
+  },
+  "orderStatus": {
+    "label": "Order Status",
+    "dataType": "string"
+  },
+  "ClOrderId": {
+    "label": "Internal ID",
+    "dataType": "link"
+  },
+  "fixOrderId": {
+    "label": "FIX ID",
+    "dataType": "string"
+  }
+}

@@ -1,4 +1,4 @@
-import { Outlet, useNavigate } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import Loader from "../../components/atoms/Loader";
 import {useSelector} from "react-redux";
 import Sidebar from "../../components/molecules/Sidebar";
@@ -9,7 +9,6 @@ import { IconButton } from '@mui/material';
 const BaseLayout = ({full, title, action, children, hasBack = false}) => {
     const loader = useSelector((state) => state.loader?.display)
     const [showSidePanel, setShowSidePanel] = useState(true)
-    const navigate = useNavigate();
 
     return (
       <>
@@ -32,7 +31,7 @@ const BaseLayout = ({full, title, action, children, hasBack = false}) => {
                     <div className="flex items-center">
                       {hasBack && 
                         <div className="mr-2">
-                          <IconButton color="text" onClick={() => navigate(-1)}><i className={`fa text-sm fa-arrow-left`} aria-hidden="true" /></IconButton>
+                          <IconButton color="text" onClick={() => window.close()}><i className={`fa text-sm fa-arrow-left`} aria-hidden="true" /></IconButton>
                         </div>
                       }
                       <h1>{title}</h1>

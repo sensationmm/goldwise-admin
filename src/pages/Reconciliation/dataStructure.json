@@ -81,7 +81,7 @@
   },
   "stpConfirmed": {
     "label": "STP Confirmed (B-K)",
-    "dataType": "number"
+    "dataType": "statusCode"
   },
   "fixOrderID": {
     "label": "Fix Order ID",
