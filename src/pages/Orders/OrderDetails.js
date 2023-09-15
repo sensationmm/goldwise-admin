@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import BaseLayout from "../BaseLayout/BaseLayout";
 import { Tab, Tabs, Typography } from "@mui/material";
 import { useState } from "react";
-import { styleCell, styleHeader } from "../Reconciliation/SelectedPayments"
+import { styleCell, styleHeader } from "../../utils/table"
 
 const OrderAccordion = () => {
   const [isOpen, setIsOpen] = useState(false)

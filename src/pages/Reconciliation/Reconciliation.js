@@ -2,9 +2,9 @@ import { useEffect, useReducer, useState } from "react";
 import DataTable from "../../components/atoms/DataTable/DataTable";
 import { DatePicker } from "@mui/x-date-pickers";
 import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Select, Tab, Tabs, Typography } from "@mui/material";
-import SelectedPayments from "./SelectedPayments";
-import SelectedTotals from "./SelectedTotals";
-import MetalPayments from "./MetalPayments";
+import SelectedPayments from "./Reports/SelectedPayments";
+import SelectedTotals from "./Reports/SelectedTotals";
+import MetalPayments from "./Reports/MetalPayments";
 import BaseLayout from "../BaseLayout/BaseLayout";
 import reconciliationService from "../../services/reconciliation.service";
 import ordersService from "../../services/orders.service";
@@ -12,9 +12,10 @@ import { useDispatch } from "react-redux";
 import { hideLoader, showLoader } from "../../reducers/loaderSlice.reducer";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
-import TradesDataStructure from './dataStructure.json';
-import OrdersDataStructure from './dataStructureOrders.json';
+import TradesDataStructure from '../../dataStructures/trades.json';
+import OrdersDataStructure from '../../dataStructures/orders.json';
 import { customPalette } from "../../theme";
+import HistoricReports from "./Reports/HistoricReports";
 
 const Reconciliation = () => {
   const dispatch = useDispatch()
@@ -223,7 +224,7 @@ const Reconciliation = () => {
     <BaseLayout
       title="Reconciliation Reports"
       action={
-        <div className="grid grid-cols-2 gap-4">
+        reportType === 0 && <div className="grid grid-cols-2 gap-4">
           <Button variant="contained" color="secondary" size="large" disabled>STP Request</Button>
           <Button
             variant="contained"
@@ -285,122 +286,128 @@ const Reconciliation = () => {
         <Button variant="outlined" onClick={resetForm} color="secondary">Reset</Button>
       </div>
 
-      {Object.keys(payments).length > 0 && trades.length > 0 && reportType === 0 && <>
-        <div className="flex justify-between items-end">
-          <Tabs value={paymentsView} onChange={(_, newValue) => setPaymentsView(newValue)}>
-            <Tab label="Currency Payments" />
-            <Tab label="Metals Payments" />
-          </Tabs>
-          <div className="text-sm"><span className="font-bold">Results from:</span> {dayjs(reportFrom).format('D MMM YYYY')} - {dayjs(reportTo).format('D MMM YYYY')}</div>
-        </div>
 
-        <div className={'pb-12 border-b-2 border-slate-400 mb-12'}>
-          {paymentsView === 0
-            ? <SelectedPayments
-                data={{
-                  amountOwed: payments.selectedPayments,
-                  availableInRecon: {},
-                  totalEMoney: {},
-                  amountPayable: payments.payableAtSettlement,
-                  shortfallAmount: payments.shortfallAmounts,
-                  criticalShortfall: {},
-                  additionalShortfall: {},
-                  customerOwed: {},
-                  losses: {},
-                }} 
-              /> 
-            : <MetalPayments data={payments.metalPayments} />
-          }
+      {reportType === 1 
+        ? <HistoricReports /> 
+        : <>
+          {Object.keys(payments).length > 0 && trades.length > 0 && reportType === 0 && <>
+            <div className="flex justify-between items-end">
+              <Tabs value={paymentsView} onChange={(_, newValue) => setPaymentsView(newValue)}>
+                <Tab label="Currency Payments" />
+                <Tab label="Metals Payments" />
+              </Tabs>
+              <div className="text-sm"><span className="font-bold">Results from:</span> {dayjs(reportFrom).format('D MMM YYYY')} - {dayjs(reportTo).format('D MMM YYYY')}</div>
+            </div>
 
-          <SelectedTotals data={payments.selectedTotals} />
-        </div>
-      </>}
-      
-      {trades.length > 0 && <>
-        <div className={` justify-between mb-2`}>
-          <h3 className="mb-1">{reportType === 0 ? 'Executed Trades' : 'Historic Reports'}</h3>
-          <div className="text-sm">
-            <span className="pr-1"><span className="font-bold">{trades.length}</span> Trades</span>
-            | <span className="font-bold px-1">{tradesConfirmed}</span>  <span className="text-green-400">Confirmed</span>
-            {tradesWithError > 0 && <> |<span className="font-bold pl-1">{tradesWithError}</span> <span className="text-orange-400">With Error</span></>}
-            {tradesNotConfirmed > 0 && <> |<span className="font-bold pl-1">{tradesNotConfirmed}</span> <span className="text-red-600">Not Confirmed</span></>}
-          </div>
-        </div>
+            <div className={'pb-12 border-b-2 border-slate-400 mb-12'}>
+              {paymentsView === 0
+                ? <SelectedPayments
+                    data={{
+                      amountOwed: payments.selectedPayments,
+                      availableInRecon: {},
+                      totalEMoney: {},
+                      amountPayable: payments.payableAtSettlement,
+                      shortfallAmount: payments.shortfallAmounts,
+                      criticalShortfall: {},
+                      additionalShortfall: {},
+                      customerOwed: {},
+                      losses: {},
+                    }} 
+                  /> 
+                : <MetalPayments data={payments.metalPayments} />
+              }
 
-        <DataTable
-          headers={Object.keys(TradesDataStructure).map(res => TradesDataStructure[res].label)}
-          data={trades} 
-          dataTypes={Object.keys(TradesDataStructure).map(res => TradesDataStructure[res].dataType)}
-          excludeFilters={['ID', 'Order Type']}
-          excludeSort={['ID']}
-          excludeLiteralFilter={['Internal Trade No', '(Order Request / Pending) ClOrderID', 'Trade Capture Report']}
-          selected={selectedTrades}
-          onSelect={handleSelectTrade}
-          onSelectAll={handleSelectAllTrades}
-        />
-      </>}
-      
-      {orders.length > 0 && <>
-        <div className={`flex justify-between mb-2 mt-12 items-center`}>
-          <div>
-            <h3 className="mb-1">Orders Placed</h3>
-            <span className="text-sm pr-1 mr-4"><span className="font-bold">{orders.length}</span> Orders</span>
-          </div>
+              <SelectedTotals data={payments.selectedTotals} />
+            </div>
+          </>}
+          
+          {trades.length > 0 && <>
+            <div className={` justify-between mb-2`}>
+              <h3 className="mb-1">Executed Trades</h3>
+              <div className="text-sm">
+                <span className="pr-1"><span className="font-bold">{trades.length}</span> Trades</span>
+                | <span className="font-bold px-1">{tradesConfirmed}</span>  <span className="text-green-400">Confirmed</span>
+                {tradesWithError > 0 && <> |<span className="font-bold pl-1">{tradesWithError}</span> <span className="text-orange-400">With Error</span></>}
+                {tradesNotConfirmed > 0 && <> |<span className="font-bold pl-1">{tradesNotConfirmed}</span> <span className="text-red-600">Not Confirmed</span></>}
+              </div>
+            </div>
 
-          <Button color="text" variant="outlined" startIcon={<i className={`fa text-sm fa-refresh`} aria-hidden="true" />} onClick={fetchOrders}>Refresh</Button>
-        </div>
+            <DataTable
+              headers={Object.keys(TradesDataStructure).map(res => TradesDataStructure[res].label)}
+              data={trades} 
+              dataTypes={Object.keys(TradesDataStructure).map(res => TradesDataStructure[res].dataType)}
+              excludeFilters={['ID', 'Order Type']}
+              excludeSort={['ID']}
+              excludeLiteralFilter={['Internal Trade No', '(Order Request / Pending) ClOrderID', 'Trade Capture Report']}
+              selected={selectedTrades}
+              onSelect={handleSelectTrade}
+              onSelectAll={handleSelectAllTrades}
+            />
+          </>}
+          
+          {orders.length > 0 && <>
+            <div className={`flex justify-between mb-2 mt-12 items-center`}>
+              <div>
+                <h3 className="mb-1">Orders Placed</h3>
+                <span className="text-sm pr-1 mr-4"><span className="font-bold">{orders.length}</span> Orders</span>
+              </div>
 
-        <DataTable
-          headers={Object.keys(OrdersDataStructure).map(res => OrdersDataStructure[res].label)}
-          data={orders}
-          dataTypes={Object.keys(OrdersDataStructure).map(res => OrdersDataStructure[res].dataType)}
-          maxPerPage={8}
-          excludeColumns={['ID']}
-        />
-      </>}
+              <Button color="text" variant="outlined" startIcon={<i className={`fa text-sm fa-refresh`} aria-hidden="true" />} onClick={fetchOrders}>Refresh</Button>
+            </div>
 
-      <Dialog open={showConfirmReport} onClose={setShowConfirmReport}>
-        <DialogTitle color={customPalette.palette.error.main}>Warning!</DialogTitle>
-        <DialogContent>
-          <Typography>You are about to submit a report that cannot be undone once submitted.</Typography>
-          <Typography>Please confirm or Cancel the action</Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button variant="contained" color="secondary" size="large" onClick={() => setShowConfirmReport(false)}>Cancel</Button>
-          <Button variant="contained" color="confirm" size="large" onClick={submitReport}>Confirm</Button>
-        </DialogActions>
-      </Dialog>
+            <DataTable
+              headers={Object.keys(OrdersDataStructure).map(res => OrdersDataStructure[res].label)}
+              data={orders}
+              dataTypes={Object.keys(OrdersDataStructure).map(res => OrdersDataStructure[res].dataType)}
+              maxPerPage={8}
+              excludeColumns={['ID']}
+            />
+          </>}
 
-      <Dialog open={showReportError} onClose={setShowReportError}>
-        <DialogTitle>
-          <div className="flex justify-center items-center border-4 border-red-600 rounded-full w-[50px] h-[50px] mb-[20px]">
-            <i className={`fa text-3xl fa-exclamation text-red-600`} aria-hidden="true" />
-          </div>
-          Error Submitting Report
-        </DialogTitle>
-        <DialogContent>
-          <Typography>{reportError}</Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button variant="contained" color="secondary" size="large" onClick={() => setShowReportError(false)}>Cancel</Button>
-          <Button variant="contained" color="confirm" size="large" onClick={() => {}}>Try Again</Button>
-        </DialogActions>
-      </Dialog>
+          <Dialog open={showConfirmReport} onClose={setShowConfirmReport}>
+            <DialogTitle color={customPalette.palette.error.main}>Warning!</DialogTitle>
+            <DialogContent>
+              <Typography>You are about to submit a report that cannot be undone once submitted.</Typography>
+              <Typography>Please confirm or Cancel the action</Typography>
+            </DialogContent>
+            <DialogActions>
+              <Button variant="contained" color="secondary" size="large" onClick={() => setShowConfirmReport(false)}>Cancel</Button>
+              <Button variant="contained" color="confirm" size="large" onClick={submitReport}>Confirm</Button>
+            </DialogActions>
+          </Dialog>
 
-      <Dialog open={showReportConfirmed} onClose={setShowReportConfirmed}>
-        <DialogTitle>
-          <div className="flex justify-center items-center border-4 border-green-500 rounded-full w-[50px] h-[50px] mb-[20px]">
-            <i className={`fa text-3xl fa-check text-green-500`} aria-hidden="true" />
-          </div>
-          Report Submitted
-        </DialogTitle>
-        <DialogContent>
-          <Typography>The Recon report has been successfully submitted.</Typography>
-        </DialogContent>
-        <DialogActions>
-          <Button variant="contained" color="secondary" size="large" onClick={() => setShowReportConfirmed(false)}>Close</Button>
-        </DialogActions>
-      </Dialog>
+          <Dialog open={showReportError} onClose={setShowReportError}>
+            <DialogTitle>
+              <div className="flex justify-center items-center border-4 border-red-600 rounded-full w-[50px] h-[50px] mb-[20px]">
+                <i className={`fa text-3xl fa-exclamation text-red-600`} aria-hidden="true" />
+              </div>
+              Error Submitting Report
+            </DialogTitle>
+            <DialogContent>
+              <Typography>{reportError}</Typography>
+            </DialogContent>
+            <DialogActions>
+              <Button variant="contained" color="secondary" size="large" onClick={() => setShowReportError(false)}>Cancel</Button>
+              <Button variant="contained" color="confirm" size="large" onClick={() => {}}>Try Again</Button>
+            </DialogActions>
+          </Dialog>
+
+          <Dialog open={showReportConfirmed} onClose={setShowReportConfirmed}>
+            <DialogTitle>
+              <div className="flex justify-center items-center border-4 border-green-500 rounded-full w-[50px] h-[50px] mb-[20px]">
+                <i className={`fa text-3xl fa-check text-green-500`} aria-hidden="true" />
+              </div>
+              Report Submitted
+            </DialogTitle>
+            <DialogContent>
+              <Typography>The Recon report has been successfully submitted.</Typography>
+            </DialogContent>
+            <DialogActions>
+              <Button variant="contained" color="secondary" size="large" onClick={() => setShowReportConfirmed(false)}>Close</Button>
+            </DialogActions>
+          </Dialog>
+        </>
+      }
     </BaseLayout>
   );
 };

@@ -34,6 +34,25 @@ const theme = createTheme(
           }),
         },
       },
+      MuiChip: {
+        styleOverrides: {
+          root: ({ ownerState }) => ({
+            fontWeight: 'bold',
+            ...(ownerState.size === 'large') && {
+              padding: '20px 40px',
+              borderRadius: '80px'
+            },
+            ...(ownerState.variant === 'outlined') && {
+              color: customPalette.palette.text.main,
+              borderColor: customPalette.palette.text.main
+            }
+          }),
+          filled: {
+            color: '#fff',
+            background: customPalette.palette.text.main
+          }
+        }
+      },
       MuiIconButton: {
         styleOverrides: {
           root: ({ ownerState }) => ({

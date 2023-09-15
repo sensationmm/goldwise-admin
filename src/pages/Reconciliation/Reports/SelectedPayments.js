@@ -1,8 +1,5 @@
-import { formatCurrency } from "../../utils/number"
-
-export const styleCell = 'border-b border-slate-400 px-4 py-2'
-export const styleHeader = (cellDefault = styleCell) =>  `${cellDefault} text-left`
-export const styleTotal = (cellDefault = styleCell) => `${cellDefault} border-separate border-b-0 border-t-2 border-slate-900`
+import { formatCurrency } from "../../../utils/number"
+import { styleCell, styleHeader } from "../../../utils/table"
 
 const SelectedPayments = ({data}) => {
   const config = {

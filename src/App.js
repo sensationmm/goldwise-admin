@@ -18,6 +18,11 @@ import {search} from "./reducers/search.reducer";
 import Reconciliation from './pages/Reconciliation/Reconciliation'
 import Reconciliation2 from './pages/Reconciliation/Reconciliation2'
 import OrderDetails from './pages/Orders/OrderDetails'
+import Metals from './pages/Reconciliation/Metals'
+import ReportDetails from './pages/Reports/ReportDetails'
+import LedgerDetails from './pages/Ledgers/LedgerDetails'
+import Funds from './pages/Reconciliation/Funds'
+import Wallets from './pages/Reconciliation/Wallets'
 
 const App = () => {
     const dispatch = useDispatch()
@@ -51,9 +56,14 @@ const App = () => {
 
         { /* TODO: move inside authed routes */}
         <Route path='reconciliation/reports' element={<Reconciliation />}/>
+        <Route path='reconciliation/metals' element={<Metals />}/>
+        <Route path='reconciliation/wallets' element={<Wallets />}/>
+        <Route path='reconciliation/funds' element={<Funds />}/>
+        <Route path='orders/:orderID' element={<OrderDetails />}/>
+        <Route path='report/:reportID' element={<ReportDetails />}/>
+        <Route path='ledger/:ledgerID' element={<LedgerDetails />}/>
         { /* TODO: remove UI display route below */}
         <Route path='reconciliation/reports2' element={<Reconciliation2 />}/>
-        <Route path='orders/:orderID' element={<OrderDetails />}/>
 
         {/* Protected routes */}
         <Route element={<RequireAuth/>}>

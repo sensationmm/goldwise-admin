@@ -1,0 +1,58 @@
+{
+  "reportReference": {
+    "label": "Report Reference",
+    "dataType": "string"
+  },
+  "status": {
+    "label": "Status",
+    "dataType": "reportStatus"
+  },
+  "reconDate": {
+    "label": "Recon Date",
+    "dataType": "date"
+  },
+  "settlementDue": {
+    "label": "Settlement Due",
+    "dataType": "date"
+  },
+  "settledTime": {
+    "label": "Settled Time",
+    "dataType": "date"
+  },
+  "entity": {
+    "label": "Entity",
+    "dataType": "string"
+  },
+  "stoneX": {
+    "label": "StoneX",
+    "dataType": "currency"
+  },
+  "owedCustomers": {
+    "label": "Owed Customers",
+    "dataType": "currency"
+  },
+  "taxGHL": {
+    "label": "Tax GHL",
+    "dataType": "currency"
+  },
+  "taxGEUAB": {
+    "label": "Tax GEUAB",
+    "dataType": "currency"
+  },
+  "spreadGHL": {
+    "label": "Spread GHL",
+    "dataType": "currency"
+  },
+  "revenueGHL": {
+    "label": "Revenue GHL",
+    "dataType": "currency"
+  },
+  "revenueGEUAB": {
+    "label": "Revenue GEUAB",
+    "dataType": "currency"
+  },
+  "totalToMove": {
+    "label": "Total To Move",
+    "dataType": "currency"
+  }
+}

@@ -1,5 +1,5 @@
-import { formatCurrency } from "../../utils/number"
-import { styleCell, styleHeader, styleTotal } from "./SelectedPayments"
+import { formatCurrency } from "../../../utils/number"
+import { styleCell, styleHeader, styleTotal } from "../../../utils/table"
 
 const MetalPayments = ({ data }) => {
   const config = {
