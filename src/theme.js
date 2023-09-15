@@ -30,6 +30,7 @@ const theme = createTheme(
               color: '#fff',
             }),
             fontWeight: 'bold',
+            textTransform: 'none'
           }),
         },
       },
@@ -59,7 +60,24 @@ const theme = createTheme(
         styleOverrides: {
           root: {
             color: customPalette.palette.text.main,
-            fontWeight: 'bold'
+            fontWeight: 'bold',
+            '> input:not(.MuiOutlinedInput-input)': {
+              boxSizing: 'content-box',
+              border: `1px solid ${customPalette.palette.text.disabled}`,
+              padding: '16px 14px',
+              borderRadius: '5px',
+              '&:focus': {
+                borderColor: customPalette.palette.primary.main,
+                borderWidth: '2px',
+                padding: '14px 12px'
+              }
+            },
+            '&.MuiInput-root': {
+              margin: 0
+            },
+            '&:before, &:after': {
+              display: 'none'
+            }
           }
         }
       },
@@ -74,6 +92,7 @@ const theme = createTheme(
         styleOverrides: {
           root: {
             color: customPalette.palette.text.main,
+            background: '#fff',
             fontWeight: 'bold',
             '&.Mui-disabled': {
                 color: customPalette.palette.text.disabled,
@@ -118,7 +137,8 @@ const theme = createTheme(
               color: customPalette.palette.text.main,
               fontWeight: 'bold'
             },
-            borderBottom: `2px solid ${customPalette.palette.secondary.main}`
+            borderBottom: `2px solid ${customPalette.palette.secondary.main}`,
+            textTransform: 'none'
           }
         }
       },

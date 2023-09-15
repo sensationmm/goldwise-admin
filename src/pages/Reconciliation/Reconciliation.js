@@ -1,18 +1,19 @@
 import { useEffect, useReducer, useState } from "react";
 import DataTable from "../../components/atoms/DataTable/DataTable";
-import MockOrders from "../../mocks/orders.json"
 import { DatePicker } from "@mui/x-date-pickers";
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, IconButton, InputLabel, MenuItem, Select, Tab, Tabs, Typography } from "@mui/material";
+import { Button, Dialog, DialogActions, DialogContent, DialogTitle, FormControl, InputLabel, MenuItem, Select, Tab, Tabs, Typography } from "@mui/material";
 import SelectedPayments from "./SelectedPayments";
 import SelectedTotals from "./SelectedTotals";
 import MetalPayments from "./MetalPayments";
 import BaseLayout from "../BaseLayout/BaseLayout";
 import reconciliationService from "../../services/reconciliation.service";
+import ordersService from "../../services/orders.service";
 import { useDispatch } from "react-redux";
 import { hideLoader, showLoader } from "../../reducers/loaderSlice.reducer";
 import { Link } from "react-router-dom";
 import dayjs from "dayjs";
 import TradesDataStructure from './dataStructure.json';
+import OrdersDataStructure from './dataStructureOrders.json';
 import { customPalette } from "../../theme";
 
 const Reconciliation = () => {
@@ -22,8 +23,8 @@ const Reconciliation = () => {
 
   const [reportFrom, setReportFrom] = useState(null)
   const [reportTo, setReportTo] = useState(null)
-  const [reportEntity, setReportEntity] = useState(null)
-  const [reportCurrency, setReportCurrency] = useState(null)
+  const [reportEntity, setReportEntity] = useState('')
+  const [reportCurrency, setReportCurrency] = useState('')
   const [batchId, setBatchId] = useState(0)
 
   const [entitiesList, setEntitiesList] = useState([])
@@ -50,7 +51,7 @@ const Reconciliation = () => {
       payments: []
     }
   );
-  const { trades, tradesTypes, orders, ordersTypes, payments } = state;
+  const { trades, orders, payments } = state;
 
   const getEntities = async () => {
     try {
@@ -81,7 +82,6 @@ const Reconciliation = () => {
   const fetchTrades = async () => {
     setState({ trades: [] });
     dispatch(showLoader())
-    let tradesTypes = [];
 
     try {
       const response = await reconciliationService.generateReport(reportFrom, reportTo, reportEntity !== 'all' ? reportEntity : '', reportCurrency);
@@ -109,22 +109,44 @@ const Reconciliation = () => {
           setTradeIDs(recIDs)
         }
 
-        return Object.keys(TradesDataStructure).map((key) => {
-          if(recCount === 0) {
-            tradesTypes.push(TradesDataStructure[key].dataType)
-          }
-
-          return rec[key]
-        })
+        return Object.keys(TradesDataStructure).map((key) => rec[key])
       })
       setBatchId(response.batchId);
-      setState({ trades: tradesStore, tradesTypes });
+      setState({ trades: tradesStore });
     } catch (e) {
       //todo: display error if happen
       console.log(e)
     } finally {
       dispatch(hideLoader())
     }
+  }
+
+  const fetchOrders = async () => {
+    dispatch(showLoader())
+
+    try {
+      const reconciliationRecords = await ordersService.currentOrders(reportFrom, reportEntity !== 'all' ? reportEntity : '', reportCurrency);
+      
+      const ordersStore = reconciliationRecords.map((rec, recCount) => {
+        return Object.keys(OrdersDataStructure).map((key) => {
+          if(OrdersDataStructure[key].dataType === 'link') {
+            return <Link className="underline hover:no-underline" to={`/orders/${rec[key]}`} target="_blank" rel="noopener noreferrer">{rec[key]}</Link>
+          }
+          return rec[key]
+        })
+      })
+      setState({ orders: ordersStore });
+    } catch (e) {
+      //todo: display error if happen
+      console.log(e)
+    } finally {
+      dispatch(hideLoader())
+    }
+  }
+
+  const handleSearch = () => {
+    fetchTrades()
+    fetchOrders()
   }
 
   const generateReport = async () => {
@@ -149,6 +171,7 @@ const Reconciliation = () => {
     try {
       await reconciliationService.submitReport(batchId);
       setShowReportConfirmed(true)
+      resetForm()
       setState({ payments: [], trades: [] })
     } catch (e) {
       setReportError(e)
@@ -179,17 +202,6 @@ const Reconciliation = () => {
   }
 
   useEffect(() => {
-    let orders = [];
-    let ordersTypes = [];
-
-    MockOrders.data.forEach((record) => {
-      const processed = Object.keys(record).map((param) => record[param])
-      processed.push(<Link className="underline hover:no-underline" to={`/orders/${record.id}`}>View details</Link>)
-      orders.push(processed)
-    })
-
-    setState({ orders, ordersTypes });
-
     getEntities()
     getCurrencies()
   }, []);
@@ -264,7 +276,7 @@ const Reconciliation = () => {
         <Button 
           variant="contained" 
           color="secondary" 
-          onClick={fetchTrades}
+          onClick={handleSearch}
           disabled = {reportFrom === null || reportTo === null}
         >
           Search
@@ -305,8 +317,8 @@ const Reconciliation = () => {
       </>}
       
       {trades.length > 0 && <>
-        <div className={`flex justify-between mb-1`}>
-          <h3>{reportType === 0 ? 'Executed Trades' : 'Historic Reports'}</h3>
+        <div className={` justify-between mb-2`}>
+          <h3 className="mb-1">{reportType === 0 ? 'Executed Trades' : 'Historic Reports'}</h3>
           <div className="text-sm">
             <span className="pr-1"><span className="font-bold">{trades.length}</span> Trades</span>
             | <span className="font-bold px-1">{tradesConfirmed}</span>  <span className="text-green-400">Confirmed</span>
@@ -318,7 +330,7 @@ const Reconciliation = () => {
         <DataTable
           headers={Object.keys(TradesDataStructure).map(res => TradesDataStructure[res].label)}
           data={trades} 
-          dataTypes={tradesTypes}
+          dataTypes={Object.keys(TradesDataStructure).map(res => TradesDataStructure[res].dataType)}
           excludeFilters={['ID', 'Order Type']}
           excludeSort={['ID']}
           excludeLiteralFilter={['Internal Trade No', '(Order Request / Pending) ClOrderID', 'Trade Capture Report']}
@@ -329,40 +341,19 @@ const Reconciliation = () => {
       </>}
       
       {orders.length > 0 && <>
-        <div className={`flex justify-between mb-1 mt-12`}>
-          <h3>Orders Placed</h3>
-          <div className="text-sm">
-            <span className="pr-1 mr-4"><span className="font-bold">{orders.length}</span> Orders</span>
-
-            <IconButton color="text" variant="contained">
-              <i className={`fa text-sm fa-refresh`} aria-hidden="true" />
-            </IconButton>
+        <div className={`flex justify-between mb-2 mt-12 items-center`}>
+          <div>
+            <h3 className="mb-1">Orders Placed</h3>
+            <span className="text-sm pr-1 mr-4"><span className="font-bold">{orders.length}</span> Orders</span>
           </div>
+
+          <Button color="text" variant="outlined" startIcon={<i className={`fa text-sm fa-refresh`} aria-hidden="true" />} onClick={fetchOrders}>Refresh</Button>
         </div>
 
         <DataTable
-          headers={[
-            'ID',
-            'GW Entity',
-            'Order Type',
-            'Order Sub Type',
-            'Order Time',
-            'CCY Pair',
-            'Market Open Status',
-            'Weight',
-            'Weight Filled',
-            'Customer Product Amount',
-            'Customer Product Price',
-            'Fee',
-            'Tax',
-            'Customer Total',
-            'Order Status',
-            'Internal Order Request / ClOrderID',
-            'Fix OrderID',
-            ''
-          ]}
+          headers={Object.keys(OrdersDataStructure).map(res => OrdersDataStructure[res].label)}
           data={orders}
-          dataTypes={ordersTypes}
+          dataTypes={Object.keys(OrdersDataStructure).map(res => OrdersDataStructure[res].dataType)}
           maxPerPage={8}
           excludeColumns={['ID']}
         />

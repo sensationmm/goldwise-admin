@@ -14,3 +14,26 @@ export const formatCurrency = (value, style = true, currency = 'GBP') => {
     return `(${CurrencyFormatter.format(Math.abs(value))})`
   }
 }
+export const formatWeight = (value, style = true) => {
+  if(!isNaN(value)) {
+    if(value >= 0) {
+      return Math.abs(value).toFixed(3)
+    }
+    if(style) {
+      return <span className="text-red-600">({Math.abs(value).toFixed(3)})</span>
+    }
+    return `(${Math.abs(value).toFixed(3)})`
+  }
+}
+
+export const formatStatusCode = (value) => {
+  switch(value) {
+    case 0:
+      return <span className="text-red-600">No</span>
+    case 2:
+      return <span className="text-orange-400">Error</span>
+    case 1:
+    default:
+      return <span className="text-green-400">Yes</span>
+  }
+}
