@@ -1,0 +1,26 @@
+{
+  "id": {
+    "label": "ID",
+    "dataType": "string"
+  },
+  "settlementDate": {
+    "label": "Settlement Date",
+    "dataType": "date"
+  },
+  "transactionDescription": {
+    "label": "Transaction Description",
+    "dataType": "string"
+  },
+  "debit": {
+    "label": "Debit",
+    "dataType": "weight"
+  },
+  "credit": {
+    "label": "Credit",
+    "dataType": "weight"
+  },
+  "runningBalance": {
+    "label": "Running Balance",
+    "dataType": "weight"
+  }
+}

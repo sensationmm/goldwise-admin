@@ -4,9 +4,9 @@ import MockTrades from "../../mocks/reconciliation.json"
 import MockOrders from "../../mocks/orders.json"
 import { DatePicker } from "@mui/x-date-pickers";
 import { Button, FormControl, IconButton, InputLabel, MenuItem, Select, Tab, Tabs } from "@mui/material";
-import SelectedPayments from "./SelectedPayments";
-import SelectedTotals from "./SelectedTotals";
-import MetalPayments from "./MetalPayments";
+import SelectedPayments from "./Reports/SelectedPayments";
+import SelectedTotals from "./Reports/SelectedTotals";
+import MetalPayments from "./Reports/MetalPayments";
 import BaseLayout from "../BaseLayout/BaseLayout";
 import reconciliationService from "../../services/reconciliation.service";
 import { useDispatch } from "react-redux";

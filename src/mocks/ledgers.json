@@ -1,0 +1,36 @@
+{
+  "data": [
+    {
+      "id": 4,
+      "settlementDate": "2023-11-05",
+      "transactionDescription": "Recon Ref#123 (Day 3)",
+      "debit": 1.00,
+      "credit": 0.000,
+      "runningBalance": 0
+    },
+    {
+      "id": 2,
+      "settlementDate": "2023-11-03",
+      "transactionDescription": "Transfer to GHL | London | Brinks",
+      "debit": 8,
+      "credit": 0,
+      "runningBalance": 1
+    },
+    {
+      "id": 3,
+      "settlementDate": "2023-11-03",
+      "transactionDescription": "Recon Ref#123 (Day 2)",
+      "debit": 0,
+      "credit": 2,
+      "runningBalance": 9
+    },
+    {
+      "id": 4,
+      "settlementDate": "2023-11-03",
+      "transactionDescription": "Recon Ref#123 (Day 2)",
+      "debit": 0,
+      "credit": 7,
+      "runningBalance": 7
+    }
+  ]
+}

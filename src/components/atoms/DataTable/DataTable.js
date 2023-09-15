@@ -1,7 +1,8 @@
 import { useState } from "react"
-import { formatCurrency, formatStatusCode } from "../../../utils/number"
+import { formatCurrency, formatStatusCode, formatWeight } from "../../../utils/number"
 import Input from "../Input/Input"
 import { Button, Checkbox } from "@mui/material";
+import dayjs from "dayjs";
 
  const DataTable = ({
   headers = [],
@@ -66,8 +67,12 @@ import { Button, Checkbox } from "@mui/material";
     switch(type) {
       case 'currency':
         return formatCurrency(value)
+      case 'weight':
+        return formatWeight(value)
       case 'statusCode':
         return formatStatusCode(value)
+      case 'date':
+        return dayjs(value).format('DD/MM/YYYY')
       case 'string':
       default: 
         return value;

@@ -52,6 +52,18 @@ const menu = [
         name: "Reports",
         to: "/reconciliation/reports",
       },
+      {
+        name: "Metals",
+        to: "/reconciliation/metals",
+      },
+      {
+        name: "Wallets",
+        to: "/reconciliation/wallets",
+      },
+      {
+        name: "Funds",
+        to: "/reconciliation/funds",
+      },
     ],
   },
   {
@@ -68,7 +80,7 @@ const Sidebar = ({isOpen = false, setIsOpen}) => {
   );
 
   return (
-    <div className={`w-full h-full bg-slate-800 ${isOpen ? 'p-12' : 'py-12 px-7'} overflow-y-scroll`} onMouseEnter={() => setIsOpen(true)}>
+    <div className={`w-full h-full bg-slate-800 ${isOpen ? 'p-12' : 'py-12 px-7'} overflow-y-scroll`} onClick={() => setIsOpen(true)}>
       <div className={`${isOpen ? 'w-[130px]' : 'w-[27px]'} mb-12`}><ReactSVG src={isOpen ? Logo : LogoIcon} alt="Goldwise Logo" /></div>
 
       <nav className="grid gap-6">

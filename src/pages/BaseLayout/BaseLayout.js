@@ -27,7 +27,7 @@ const BaseLayout = ({full, title, action, children, hasBack = false}) => {
                 </div>
                 
                 <main className="relative overflow-hidden p-12 z-10">
-                  <header className="mb-8 flex justify-between pr-[40px]">
+                  <header className="mb-8 flex justify-between items-center pr-[40px]">
                     <div className="flex items-center">
                       {hasBack && 
                         <div className="mr-2">
@@ -36,7 +36,7 @@ const BaseLayout = ({full, title, action, children, hasBack = false}) => {
                       }
                       <h1>{title}</h1>
                     </div>
-                    {action}
+                    <div className='w-auto max-w-[50%]'>{action}</div>
                   </header>
                   {children}
                 </main>

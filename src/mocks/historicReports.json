@@ -1,0 +1,52 @@
+{
+  "data": [
+    {
+      "reportReference": "ERSWERR",
+      "status": "pending",
+      "reconDate": "2023-03-03T08:08:46Z",
+      "settlementDue": "2023-03-03T08:08:46Z",
+      "settledTime": "2023-03-03T08:08:46Z",
+      "entity": "ALL",
+      "stoneX": 15257.37,
+      "owedCustomers": 4232.74,
+      "taxGHL": 96.27,
+      "taxGEUAB": 0,
+      "spreadGHL": 108.27,
+      "revenueGHL": 481.36,
+      "revenueGEUAB": 0,
+      "totalToMove": 20176.02
+    },
+    {
+      "reportReference": "ERSWERR",
+      "status": "completed",
+      "reconDate": "2023-03-03T08:08:46Z",
+      "settlementDue": "2023-03-03T08:08:46Z",
+      "settledTime": "2023-03-03T08:08:46Z",
+      "entity": "ALL",
+      "stoneX": -15724.27,
+      "owedCustomers": 0,
+      "taxGHL": 41.98,
+      "taxGEUAB": 0,
+      "spreadGHL": 25,
+      "revenueGHL": 209.91,
+      "revenueGEUAB": 0,
+      "totalToMove": 276.9
+    },
+    {
+      "reportReference": "ERSWERR",
+      "status": "pending",
+      "reconDate": "2023-03-03T08:08:46Z",
+      "settlementDue": "2023-03-03T08:08:46Z",
+      "settledTime": "2023-03-03T08:08:46Z",
+      "entity": "ALL",
+      "stoneX": 2345,
+      "owedCustomers": 0,
+      "taxGHL": 445.55,
+      "taxGEUAB": 0,
+      "spreadGHL": 46.9,
+      "revenueGHL": 234.5,
+      "revenueGEUAB": 0,
+      "totalToMove": 3071.95
+    }
+  ]
+}
