@@ -110,7 +110,23 @@ const Reconciliation = () => {
           setTradeIDs(recIDs)
         }
 
-        return Object.keys(TradesDataStructure).map((key) => rec[key])
+        return Object.keys(TradesDataStructure).map((key) => {
+          if(TradesDataStructure[key].dataType === 'tradeCaptureReport') {
+            if(rec.itemID) {
+              return (
+                <Link 
+                  className="underline hover:no-underline" 
+                  to={`/orders/${rec.itemID}/${rec.idPendingOrderGuid}`} 
+                >
+                  View Report
+                </Link>
+              )
+            } else {
+              return 'Report Pending'
+            }
+          }
+          return rec[key]
+        })
       })
       setBatchId(response.batchId);
       setState({ trades: tradesStore });
@@ -130,9 +146,10 @@ const Reconciliation = () => {
       
       const ordersStore = reconciliationRecords.map((rec, recCount) => {
         return Object.keys(OrdersDataStructure).map((key) => {
-          if(OrdersDataStructure[key].dataType === 'link') {
-            return <Link className="underline hover:no-underline" to={`/orders/${rec[key]}`} target="_blank" rel="noopener noreferrer">{rec[key]}</Link>
-          }
+          // TODO: link for report - restore once param values confirmed
+          // if(OrdersDataStructure[key].dataType === 'link') {
+          //   return <Link className="underline hover:no-underline" to={`/orders/${rec[key]}`}>{rec[key]}</Link>
+          // }
           return rec[key]
         })
       })

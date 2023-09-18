@@ -97,7 +97,7 @@
   },
   "tradeReportID": {
     "label": "Trade Capture Report",
-    "dataType": "string"
+    "dataType": "tradeCaptureReport"
   },
   "integralSpread": {
     "label": "Integral Spread",

@@ -17,8 +17,24 @@ const currentOrders = async (
   })
 }
 
+const orderDetails = async (orderID) => {
+  const path = process.env.REACT_APP_API_ENDPOINT + `/admin/trading-accounts/reports/STP/${orderID}/`
+  const request = new Request()
+
+  return await request.getRequest(path)
+}
+
+const orderFills = async (pendingOrderGuid) => {
+  const path = process.env.REACT_APP_API_ENDPOINT + `/admin/trading-accounts/pending-orders/${pendingOrderGuid}/fills/`
+  const request = new Request()
+
+  return await request.getRequest(path)
+}
+
 const ordersService = {
-  currentOrders
+  currentOrders,
+  orderDetails,
+  orderFills
 }
 
 export default ordersService

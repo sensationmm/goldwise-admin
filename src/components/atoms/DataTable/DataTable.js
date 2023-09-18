@@ -72,7 +72,7 @@ import dayjs from "dayjs";
       case 'statusCode':
         return formatStatusCode(value)
       case 'date':
-        return dayjs(value).format('DD/MM/YYYY')
+        return value ? dayjs(value).format('DD/MM/YYYY') : ''
       case 'string':
       default: 
         return value;

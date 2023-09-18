@@ -1,56 +1,56 @@
 import { useParams } from "react-router-dom";
 import BaseLayout from "../BaseLayout/BaseLayout";
 import { Tab, Tabs, Typography } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { styleCell, styleHeader } from "../../utils/table"
+import ordersService from "../../services/orders.service";
+import { useDispatch } from "react-redux";
+import { hideLoader, showLoader } from "../../reducers/loaderSlice.reducer";
+import dayjs from "dayjs";
 
-const OrderAccordion = () => {
+const OrderAccordion = ({ fill }) => {
   const [isOpen, setIsOpen] = useState(false)
+
+  const cellOverride = `${styleCell} !text-[12px]`
 
   return (
     <>
       <tr className="cursor-pointer" onClick={() => setIsOpen(!isOpen)} >
-        <td className={styleCell}>2023-11-28 22:03:00 GMT</td>
-        <td className={styleCell}>1,000 /oz</td>
-        <td className={styleCell}>FXI3-12184547</td>
+        <td className={styleCell}>{dayjs(fill.fillDate).format('DD/MM/YYYY HH:mm:ss')}</td>
+        <td className={styleCell}>{fill.weight}</td>
+        <td className={styleCell}>{fill.tradeCaptureReport}</td>
         <td className={styleCell}><i className={`fa text-sm fa-chevron-down transition-all ${!isOpen && 'rotate-180'}`} aria-hidden="true" /></td>
       </tr>
       {isOpen &&
         <tr>
           <td colSpan={4} className="px-12 py-8">
-            <div className={`w-full grid grid-cols-2 gap-8`}>
+            <div className={`grid grid-cols-2 gap-8`}>
               <div>
                 <h4 className="mb-2">Fill Details</h4>
-                <table className="w-full">
+                <table>
                   <tbody>
-                    <tr><td className={`${styleCell} font-bold`}>Field Title</td><td className={styleCell}>Value</td></tr>
-                    <tr><td className={`${styleCell} font-bold`}>Field Title</td><td className={styleCell}>Value</td></tr>
-                    <tr><td className={`${styleCell} font-bold`}>Field Title</td><td className={styleCell}>Value</td></tr>
-                    <tr><td className={`${styleCell} font-bold`}>Field Title</td><td className={styleCell}>Value</td></tr>
-                    <tr><td className={`${styleCell} font-bold`}>Field Title</td><td className={styleCell}>Value</td></tr>
-                    <tr><td className={`${styleCell} font-bold`}>Field Title</td><td className={styleCell}>Value</td></tr>
-                    <tr><td className={`${styleCell} font-bold`}>Field Title</td><td className={styleCell}>Value</td></tr>
+                  {fill.orderFills.map((item, itemCount) => (
+                    <tr key={`fill-${itemCount}`}><td className={`${cellOverride} font-bold`}>{item.label}</td>
+                    <td className={cellOverride}>{item.value}</td></tr>
+                  ))}
                   </tbody>
                 </table>
               </div>
               <div>
                 <h4 className="mb-2">STP Details</h4>
-                <table className="w-full">
+                <table>
                   <tbody>
-                    <tr><td className={`${styleCell} font-bold`}>Field Title</td><td className={styleCell}>Value</td></tr>
-                    <tr><td className={`${styleCell} font-bold`}>Field Title</td><td className={styleCell}>Value</td></tr>
-                    <tr><td className={`${styleCell} font-bold`}>Field Title</td><td className={styleCell}>Value</td></tr>
-                    <tr><td className={`${styleCell} font-bold`}>Field Title</td><td className={styleCell}>Value</td></tr>
-                    <tr><td className={`${styleCell} font-bold`}>Field Title</td><td className={styleCell}>Value</td></tr>
-                    <tr><td className={`${styleCell} font-bold`}>Field Title</td><td className={styleCell}>Value</td></tr>
-                    <tr><td className={`${styleCell} font-bold`}>Field Title</td><td className={styleCell}>Value</td></tr>
+                  {fill.ehtFills.map((item, itemCount) => (
+                    <tr key={`stp-${itemCount}`}><td className={`${cellOverride} font-bold`}>{item.label}</td>
+                    <td className={cellOverride}>{item.value !== '' ? item.value : <span>&nbsp;</span>}</td></tr>
+                  ))}
                   </tbody>
                 </table>
               </div>
             </div>
             <div className="w-full grid grid-cols-[2fr_4fr] mt-8">
               <Typography className="font-bold">Raw STP Report</Typography>
-              <Typography>asjdhgajshgdasjhgdajhg djash dgajsdg jahsdg akdkas dkasoqtrpqj dalhdqpid alkhdlasjlaskhd asjdhgajshgdasjhgdajhg djash dgajsdg jahsdg akdkas dkasoqtrpqj dalhdqpid alkhdlasjlaskhd </Typography>
+              <Typography>???</Typography>
             </div>
           </td>
         </tr>
@@ -60,9 +60,65 @@ const OrderAccordion = () => {
 }
 
 const OrderDetails = (params) => {
-  const { orderID } = useParams()
+  const dispatch = useDispatch()
+  const { orderID, pendingOrderGuid } = useParams()
   const [orderView, setOrderView] = useState(0)
-  
+
+  const [orderDetails, setOrderDetails] = useState({})
+  const [orderFills, setOrderFills] = useState({})
+
+  const getOrderDetails = async () => {
+    try {
+      dispatch(showLoader())
+      const order = await ordersService.orderDetails(orderID)
+      setOrderDetails(order.data.response)
+    } catch (e) {
+      //todo: display error if happen
+      console.log(e)
+    } finally {
+      dispatch(hideLoader())
+    }
+  }
+
+  const getOrderFills = async () => {
+    try {
+      dispatch(showLoader())
+      const orderFills = await ordersService.orderFills(pendingOrderGuid)
+      const orderFill = {
+        fillDate: orderFills.data.response.dateCreated,
+        weight: orderFills.data.response.weightAmount,
+        tradeCaptureReport: orderFills.data.response.fixExecID,
+        orderFills: [],
+        ehtFills: []
+      }
+      
+      Object.keys(orderFills.data.response).forEach((key) => {
+        if(key.substr(key.length - 3) !== 'EHT') {
+          orderFill.orderFills.push({ label: key, value: orderFills.data.response[key]})
+
+          if(orderFills.data.response[`${key}EHT`] !== undefined) {
+            orderFill.ehtFills.push({ label: key, value: orderFills.data.response[`${key}EHT`]})
+          } else {
+            orderFill.ehtFills.push({ label: '', value: ''})
+          }
+        }
+      })
+      setOrderFills(orderFill)
+    } catch (e) {
+      //todo: display error if happen
+      console.log(e)
+    } finally {
+      dispatch(hideLoader())
+    }
+  }
+
+  useEffect(() => {
+    getOrderDetails()
+    getOrderFills()
+  }, [])
+
+  const cellOverride = `${styleCell} !whitespace-normal overflow-scroll`
+
   return (
     <BaseLayout title={`Order Details: ${orderID}`} hasBack>
       <Tabs value={orderView} onChange={(_, newValue) => setOrderView(newValue)}>
@@ -74,17 +130,15 @@ const OrderDetails = (params) => {
         <table className="w-full max-w-[500px] mt-12">
           <tbody>
             <tr>
-              <th className={styleHeader()}>Title</th>
-              <th className={styleHeader()}>Value</th>
+              <th className={styleHeader(cellOverride)}>Title</th>
+              <th className={styleHeader(cellOverride)}>Value</th>
             </tr>
-            <tr>
-              <td className={styleCell}>Field Title</td>
-              <td className={styleCell}>Value</td>
+            {Object.keys(orderDetails).map((row, rowCount) => (
+              <tr key={`order-details-${rowCount}`}>
+              <td className={cellOverride}>{row}</td>
+              <td className={cellOverride}>{orderDetails[row]}</td>
             </tr>
-            <tr>
-              <td className={styleCell}>Field Title</td>
-              <td className={styleCell}>Value</td>
-            </tr>
+            ))}
           </tbody>
         </table>
     }
@@ -100,11 +154,7 @@ const OrderDetails = (params) => {
           </tr>
         </thead>
         <tbody>
-          <OrderAccordion />
-          <OrderAccordion />
-          <OrderAccordion />
-          <OrderAccordion />
-          <OrderAccordion />
+          <OrderAccordion fill={orderFills} />
         </tbody>
       </table>
     }
