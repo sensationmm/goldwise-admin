@@ -91,7 +91,7 @@ const Wallets = () => {
                 <td className={cellOverride}></td>
                 <td className={cellOverride}></td>
                 <td className={`${cellOverride} text-right`}>
-                  <Link to='/ledger/123456789' className="block text-blue-700 font-bold hover:underline" target="_blank" rel="noopener noreferrer">
+                  <Link to='/ledger/123456789' className="block text-blue-700 font-bold hover:underline">
                     View Ledger <i className="fa fa-arrow-right ml-2" />
                   </Link>
                 </td>

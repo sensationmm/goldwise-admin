@@ -29,7 +29,7 @@ const VaultLedgers = () => {
               <tr>
                 <th className={styleHeader(cellOverride)}>GHL | Digital Gold | London | StoneX</th>
                 <td className={`${cellOverride} text-right`}>
-                  <Link to='/ledger/123456789' className="block text-blue-700 font-bold hover:underline" target="_blank" rel="noopener noreferrer">
+                  <Link to='/ledger/123456789' className="block text-blue-700 font-bold hover:underline">
                     View Ledger <i className="fa fa-arrow-right ml-2" />
                   </Link>
                 </td>
@@ -98,7 +98,7 @@ const VaultLedgers = () => {
               <tr>
                 <th className={styleHeader(cellOverride)}>GHL | Digital Gold | London | Brinks</th>
                 <td className={`${cellOverride} text-right`}>
-                  <Link to='/ledger/123456789' className="block text-blue-700 font-bold hover:underline" target="_blank" rel="noopener noreferrer">
+                  <Link to='/ledger/123456789' className="block text-blue-700 font-bold hover:underline">
                     View Ledger <i className="fa fa-arrow-right ml-2" />
                   </Link>
                 </td>
@@ -146,7 +146,7 @@ const VaultLedgers = () => {
               <tr>
                 <th className={styleHeader(cellOverride)}>GHL | Digital Gold | Zurich | StoneX</th>
                 <td className={`${cellOverride} text-right`}>
-                  <Link to='/ledger/123456789' className="block text-blue-700 font-bold hover:underline" target="_blank" rel="noopener noreferrer">
+                  <Link to='/ledger/123456789' className="block text-blue-700 font-bold hover:underline">
                     View Ledger <i className="fa fa-arrow-right ml-2" />
                   </Link>
                 </td>
@@ -215,7 +215,7 @@ const VaultLedgers = () => {
               <tr>
                 <th className={styleHeader(cellOverride)}>GHL | Digital Gold | Zurich | Brinks</th>
                 <td className={`${cellOverride} text-right`}>
-                  <Link to='/ledger/123456789' className="block text-blue-700 font-bold hover:underline" target="_blank" rel="noopener noreferrer">
+                  <Link to='/ledger/123456789' className="block text-blue-700 font-bold hover:underline">
                     View Ledger <i className="fa fa-arrow-right ml-2" />
                   </Link>
                 </td>

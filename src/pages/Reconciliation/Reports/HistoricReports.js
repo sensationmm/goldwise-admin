@@ -17,7 +17,7 @@ const HistoricReports = () => {
         return rec[key]
       })
 
-      processed.unshift(<Link to='/report/123456789' className="text-blue-700 font-bold hover:underline" target="_blank" rel="noopener noreferrer">View Report <i className="fa fa-arrow-right ml-2" /></Link>)
+      processed.unshift(<Link to='/report/123456789' className="text-blue-700 font-bold hover:underline">View Report <i className="fa fa-arrow-right ml-2" /></Link>)
 
       return processed
     })

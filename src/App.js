@@ -59,7 +59,7 @@ const App = () => {
         <Route path='reconciliation/metals' element={<Metals />}/>
         <Route path='reconciliation/wallets' element={<Wallets />}/>
         <Route path='reconciliation/funds' element={<Funds />}/>
-        <Route path='orders/:orderID' element={<OrderDetails />}/>
+        <Route path='orders/:orderID/:pendingOrderGuid' element={<OrderDetails />}/>
         <Route path='report/:reportID' element={<ReportDetails />}/>
         <Route path='ledger/:ledgerID' element={<LedgerDetails />}/>
         { /* TODO: remove UI display route below */}
