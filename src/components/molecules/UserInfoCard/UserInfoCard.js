@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import "./UserInfoCard.scss";
 import { Button } from "@mui/material";
 
 const UserInfoCard = (props) => {
   const { logOut, user = {} } = props;
+  
+  useEffect(() => {
+    console.log("UserInfoCard user object:", user);
+    console.log("UserInfoCard user email:", user.email);
+  }, [user]);
 
   return (
     <div

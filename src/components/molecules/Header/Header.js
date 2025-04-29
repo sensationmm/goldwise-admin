@@ -1,34 +1,24 @@
-import React, { forwardRef, useEffect, useState } from "react";
-import {useDispatch} from "react-redux";
+import React, { forwardRef, useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { clearAdmin } from "../../../reducers/userSlice.reducer";
 import withClickOutside from "../../../helper/withClickOutside";
 import UserInfoCard from "../UserInfoCard";
+import authService from "../../../services/auth.service";
 
 const Header = forwardRef(({ open, setOpen }, ref) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [user, setUser] = useState({});
+  // Get user details from Redux state instead of mock file
+  const user = useSelector((state) => state.user);
+  
   useEffect(() => {
-    fetch("/mock-data/user.json", {
-      headers: {
-        "Content-Type": "application/json",
-        "Accept": "application/json",
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setUser(data);
-      });
-  }, []);
+    console.log("Header component - User state:", user);
+  }, [user]);
 
   const logOut = async () => {
     try {
-      // const response = await authService.logout()
-      // TODO: Check for success before navigate
-      // API response PR needs to be merged
-      // if (response) {
-      localStorage.removeItem("adminToken");
+      const response = await authService.logout();
       dispatch(clearAdmin());
       navigate("/", { replace: true });
     } catch (err) {
