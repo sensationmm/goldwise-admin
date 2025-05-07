@@ -99,7 +99,11 @@ const theme = createTheme(
       MuiCheckbox: {
         styleOverrides: {
           root: {
-            padding: 0
+            padding: 0,
+            '&.highlight.Mui-checked .MuiSvgIcon-root': {
+              fill: customPalette.palette.primary.main,
+              color: customPalette.palette.primary.main,
+            },
           }
         }
       },
@@ -126,7 +130,7 @@ const theme = createTheme(
             '&.Mui-disabled': {
                 color: customPalette.palette.text.disabled,
                 fill: customPalette.palette.text.disabled,
-            },
+            }
           },
         },
       },

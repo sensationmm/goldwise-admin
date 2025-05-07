@@ -1,5 +1,4 @@
 import React from 'react'
-import "./Flag.scss"
 
 const Flag = (props) => {
     return (

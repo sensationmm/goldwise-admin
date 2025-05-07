@@ -8,7 +8,7 @@ export default function withClickOutside(WrappedComponent) {
 
         useEffect(() => {
             const handleClickOutside = (event) => {
-                if (!ref.current.contains(event.target)) {
+                if (!ref.current?.contains(event.target)) {
                     setOpen(false)
                 }
             }

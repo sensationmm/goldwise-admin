@@ -1,4 +1,4 @@
-import axios from 'axios/index'
+import axios from 'axios'
 // FIXME: get the token from state instead localStorage
 
 export const getAuthHeader = () => {

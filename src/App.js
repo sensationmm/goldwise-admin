@@ -23,6 +23,7 @@ import ReportDetails from './pages/Reports/ReportDetails'
 import LedgerDetails from './pages/Ledgers/LedgerDetails'
 import Funds from './pages/Reconciliation/Funds'
 import Wallets from './pages/Reconciliation/Wallets'
+import MarketHours from './pages/MarketHours'
 
 const App = () => {
     const dispatch = useDispatch()
@@ -62,6 +63,8 @@ const App = () => {
         <Route path='orders/:orderID/:pendingOrderGuid' element={<OrderDetails />}/>
         <Route path='report/:reportID' element={<ReportDetails />}/>
         <Route path='ledger/:ledgerID' element={<LedgerDetails />}/>
+
+          <Route path='market-hours' element={<MarketHours />} />
         { /* TODO: remove UI display route below */}
         <Route path='reconciliation/reports2' element={<Reconciliation2 />}/>
 

@@ -1,22 +1,40 @@
-export const formatCurrency = (value, style = true, currency = 'GBP', styleProfit = false) => {
-  let CurrencyFormatter = new Intl.NumberFormat('en-US', {
+export const currencyFormatter = (currency = 'GBP') => {
+  return new Intl.NumberFormat('en-US', {
     style: 'currency',
     currency: currency,
   });
+}
 
+export const formatCurrency = (value, style = true, currency = 'GBP', styleProfit = false) => {
   if(!isNaN(value)) {
     if(value >= 0) {
       if(styleProfit && style) {
-        return <span className="text-green-500">{CurrencyFormatter.format(Math.abs(value))}</span>
+        return <span className="text-green-500">{currencyFormatter(currency).format(Math.abs(value))}</span>
       }
-      return CurrencyFormatter.format(Math.abs(value))
+      return currencyFormatter(currency).format(Math.abs(value))
     }
     if(style) {
-      return <span className="text-red-600">({CurrencyFormatter.format(Math.abs(value))})</span>
+      return <span className="text-red-600">({currencyFormatter().format(Math.abs(value))})</span>
     }
-    return `(${CurrencyFormatter.format(Math.abs(value))})`
+    return `(${currencyFormatter().format(Math.abs(value))})`
   }
 }
+
+export const formatDelta = (value, percent, currency = 'GBP') => {
+  if(!isNaN(value)) {
+    const valueOutput = currencyFormatter(currency).format(Math.abs(value));
+
+    if(value > 0) {
+      return <span className="text-green-500">+{valueOutput} ({percent.toFixed(2)}%)</span>
+    } 
+    if(value < 0) {
+      return <span className="text-red-600">-{valueOutput} ({percent.toFixed(2)}%)</span>
+    }
+
+    return <span className="text-gray-400">{valueOutput} ({percent.toFixed(2)}%)</span>
+  }
+}
+
 export const formatWeight = (value, style = true) => {
   if(!isNaN(value)) {
     if(value >= 0) {

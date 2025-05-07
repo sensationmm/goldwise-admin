@@ -10,6 +10,7 @@
           "meta[name=theme-color]"
         ]
       }
-    ]
+    ],
+    "react-hooks/exhaustive-deps": "off"
   }
 }

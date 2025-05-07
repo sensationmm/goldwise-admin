@@ -55,6 +55,7 @@ const Login = () => {
                                     name={'email'}
                                     className={`${errors.email ? 'is-invalid' : ''}`}
                                     formRef={{ ...register('email') }}
+                                    value="test@test.com"
                                 />
                                 <div className="invalid-feedback">{errors.email?.message}</div>
                             </div>
@@ -69,6 +70,7 @@ const Login = () => {
                                     onSelectEye={() => setShowPassword(!showPassword)}
                                     iconClassName={`fa ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}
                                     formRef={{ ...register('password') }}
+                                    value="123123123"
                                 />
                                 <div className="invalid-feedback">{errors.password?.message}</div>
                             </div>

@@ -1,11 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
-import "./dropdown.scss";
 
 const Dropdown = (props) => {
   const wrapperRef = useRef(null);
   useEffect(() => {
     function handleClickOutside(event) {
-      if (wrapperRef.current && !wrapperRef.current.contains(event.target)) {
+      if (wrapperRef.current && !wrapperRef.current?.contains(event.target)) {
         setOpen(false);
       }
     }

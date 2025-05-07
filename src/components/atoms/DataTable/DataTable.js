@@ -142,6 +142,7 @@ import dayjs from "dayjs";
     return existingValues.sort((a, b) => a > b ? 1 :  -1).map((val,count) => (
       <div key={`filter-${columnID}-${count}`} className="text-sm mb-1">
         <Checkbox
+                      className="highlight"
           checked={filters[columnID].values.includes(val)}
           onChange={() => setFilterUnique(columnID, val)}
         />
@@ -286,7 +287,7 @@ import dayjs from "dayjs";
             <tr>
             {onSelect !== null && 
               <th className="border-b">
-                {onSelectAll && <Checkbox checked={selectAll} onChange={() => { onSelectAll(!selectAll); setSelectAll(!selectAll); }} />}
+                {onSelectAll && <Checkbox className="highlight" checked={selectAll} onChange={() => { onSelectAll(!selectAll); setSelectAll(!selectAll); }} />}
               </th>
             }
             {headers.map((text, countHeader) => {
@@ -328,6 +329,7 @@ import dayjs from "dayjs";
                   {onSelect !== null && 
                     <td className={cellFormat}>
                       {row[indexColumn] && <Checkbox
+                        className="highlight"
                         checked={selected.includes(row[indexColumn])} 
                         onChange={() => { setSelectAll(false); onSelect(row[indexColumn]); }} 
                       />}

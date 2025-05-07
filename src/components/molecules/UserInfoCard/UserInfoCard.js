@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-import "./UserInfoCard.scss";
 import { Button } from "@mui/material";
 
 const UserInfoCard = (props) => {

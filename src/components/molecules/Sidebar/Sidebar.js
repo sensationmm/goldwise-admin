@@ -16,6 +16,11 @@ const menu = [
     icon: "fa-id-card",
   },
   {
+    name: "Market Hours",
+    to: "/market-hours",
+    icon: "fa-calendar",
+  },
+  {
     name: "Products",
     collapse: "products",
     to: "/products/",

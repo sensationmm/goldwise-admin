@@ -225,6 +225,18 @@ const Reconciliation = () => {
   }, []);
 
   useEffect(() => {
+    if(!reportTo) {
+      setReportTo(reportFrom);
+    }
+  },[reportFrom]);
+
+  useEffect(() => {
+    if(!reportFrom) {
+      setReportFrom(reportTo);
+    }
+  },[reportTo]);
+
+  useEffect(() => {
     if(selectedTrades.length > 0 || (selectedTrades.length === 0 && Object.keys(payments).length > 0)) {
       generateReport()
     }
