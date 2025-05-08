@@ -320,6 +320,7 @@ import dayjs from "dayjs";
             </tr>
           </thead>
           <tbody>
+          {filteredData.length === 0 && <tr><td className="p-4" colSpan={headers.length}>No data to display</td></tr>}
           {filteredData.slice(activePage * maxPerPage, paginate ? (activePage + 1) * maxPerPage : undefined)
             .map((row, countRow) => {
               const cellFormat = `px-3 py-3 whitespace-nowrap max-w-[400px] text-ellipsis overflow-hidden`

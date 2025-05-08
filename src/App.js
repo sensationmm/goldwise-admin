@@ -24,6 +24,7 @@ import LedgerDetails from './pages/Ledgers/LedgerDetails'
 import Funds from './pages/Reconciliation/Funds'
 import Wallets from './pages/Reconciliation/Wallets'
 import MarketHours from './pages/MarketHours'
+import Orders from './pages/Orders/Orders'
 
 const App = () => {
     const dispatch = useDispatch()
@@ -60,6 +61,7 @@ const App = () => {
         <Route path='reconciliation/metals' element={<Metals />}/>
         <Route path='reconciliation/wallets' element={<Wallets />}/>
         <Route path='reconciliation/funds' element={<Funds />}/>
+        <Route path='orders' element={<Orders />}/>
         <Route path='orders/:orderID/:pendingOrderGuid' element={<OrderDetails />}/>
         <Route path='report/:reportID' element={<ReportDetails />}/>
         <Route path='ledger/:ledgerID' element={<LedgerDetails />}/>

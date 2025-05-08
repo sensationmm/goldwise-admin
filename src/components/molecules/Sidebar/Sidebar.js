@@ -13,12 +13,17 @@ const menu = [
   {
     name: "Customers",
     to: "/customers",
-    icon: "fa-id-card",
+    icon: "fa-regular fa-circle-user",
+  },
+  {
+    name: "Orders",
+    to: "/orders",
+    icon: "fa-solid fa-arrow-right-arrow-left"
   },
   {
     name: "Market Hours",
     to: "/market-hours",
-    icon: "fa-calendar",
+    icon: "fa-calendar-days",
   },
   {
     name: "Products",
