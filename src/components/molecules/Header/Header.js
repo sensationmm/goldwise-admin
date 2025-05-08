@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect } from "react";
+import React, { forwardRef } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { clearAdmin } from "../../../reducers/userSlice.reducer";
@@ -12,13 +12,13 @@ const Header = forwardRef(({ open, setOpen }, ref) => {
   // Get user details from Redux state instead of mock file
   const user = useSelector((state) => state.user);
   
-  useEffect(() => {
-    console.log("Header component - User state:", user);
-  }, [user]);
+  // useEffect(() => {
+  //   console.log("Header component - User state:", user);
+  // }, [user]);
 
   const logOut = async () => {
     try {
-      const response = await authService.logout();
+      await authService.logout();
       dispatch(clearAdmin());
       navigate("/", { replace: true });
     } catch (err) {

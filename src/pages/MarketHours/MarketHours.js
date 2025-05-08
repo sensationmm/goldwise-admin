@@ -1,11 +1,16 @@
 import { useState } from 'react';
 import BaseLayout from '../BaseLayout/BaseLayout'
-import { Button, Tab, Tabs } from '@mui/material'
-// import { Scheduler } from "@aldabil/react-scheduler";
+import { Button, Tab, Tabs } from '@mui/material';
+import events from '../../mocks/events';
+import FullCalendar from '@fullcalendar/react';
+import dayGridPlugin from '@fullcalendar/daygrid';
+import timeGridPlugin from '@fullcalendar/timegrid';
+import listPlugin from '@fullcalendar/list';
 
 
 const MarketHours = () => {
   const [view, setView] = useState(0);
+
     return (
         
     <BaseLayout
@@ -23,23 +28,23 @@ const MarketHours = () => {
         <Tab label="Metal Spreads" />
       </Tabs>
 
-      {/* <Scheduler
-        view="month"
-        events={[
-          {
-            event_id: 1,
-            title: "Event 1",
-            start: new Date("2021/5/2 09:30"),
-            end: new Date("2021/5/2 10:30"),
-          },
-          {
-            event_id: 2,
-            title: "Event 2",
-            start: new Date("2021/5/4 10:00"),
-            end: new Date("2021/5/4 11:00"),
-          },
-        ]}
-      /> */}
+      <div className='py-10 px-3'>
+        <FullCalendar
+          plugins={[ dayGridPlugin,timeGridPlugin,listPlugin ]}
+          initialView="timeGridWeek"
+          weekends={true}
+          events={[
+            { title: 'event 1', date: '2025-05-09' },
+            { title: 'event 2', date: '2025-05-02' }
+          ]}
+          headerToolbar={{
+            start: 'prev,next',
+            center: 'title',
+            end: 'today timeGridDay,timeGridWeek,dayGridMonth,listWeek' 
+          }}
+          firstDay={1}
+        />
+        </div>
       </BaseLayout>
     )
 }
