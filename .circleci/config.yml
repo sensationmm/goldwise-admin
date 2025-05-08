@@ -13,7 +13,7 @@ jobs:
           name: Deploy to GoldWise admin dev
           command: |
             if [ "${CIRCLE_BRANCH}" == "develop" ]; then
-              ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" root@134.213.29.34 "cd /var/www/html/goldwise-admin-dev.miyumi.ai/goldwise-admin/ && git pull && npm install && DISABLE_ESLINT_PLUGIN=true npm run build";
+              ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" root@162.13.44.5 "cd /var/www/html/goldwise-admin-dev.miyumi.ai/goldwise-admin/ && git pull && npm install && DISABLE_ESLINT_PLUGIN=true npm run build";
             else
               echo -e "Not a develop branch";
             fi
@@ -23,7 +23,7 @@ jobs:
           name: Deploy to GoldWise admin qa
           command: |
             if [ "${CIRCLE_BRANCH}" == "qa" ]; then
-              ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" root@134.213.29.34 "cd /var/www/html/goldwise-admin-qa.miyumi.ai/goldwise-admin/ && git pull && npm install && DISABLE_ESLINT_PLUGIN=true npm run build";
+              ssh -o "UserKnownHostsFile=/dev/null" -o "StrictHostKeyChecking=no" root@162.13.44.5 "cd /var/www/html/goldwise-admin-qa.miyumi.ai/goldwise-admin/ && git pull && npm install && DISABLE_ESLINT_PLUGIN=true npm run build";
             else
               echo -e "Not a qa branch";
             fi
