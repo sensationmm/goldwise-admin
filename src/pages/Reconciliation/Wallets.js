@@ -14,6 +14,8 @@ const Wallets = () => {
           <Tabs value={0}>
             <Tab label="£GBP" />
             <Tab label="€EUR" />
+            <Tab label="$USD" />
+            <Tab label="₣CHF" />
           </Tabs>
         </div>
 
@@ -45,6 +47,8 @@ const Wallets = () => {
           <Select id="select-destination" labelId="report-destination" label="Currency">
             <MenuItem value={0}>£GBP</MenuItem>
             <MenuItem value={1}>€EUR</MenuItem>
+            <MenuItem value={2}>$USD</MenuItem>
+            <MenuItem value={3}>₣CHF</MenuItem>
           </Select>
         </FormControl>
 

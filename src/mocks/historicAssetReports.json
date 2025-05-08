@@ -1,0 +1,25 @@
+{
+  "data": [
+    {
+      "reportReference": "#0123456789",
+      "reconDate": "2023-03-03T08:08:46Z",
+      "metalsPartners": 10,
+      "goldwise": 10,
+      "difference": 0
+    },
+    {
+      "reportReference": "#0123456789",
+      "reconDate": "2023-03-03T08:08:46Z",
+      "metalsPartners": 10,
+      "goldwise": 10,
+      "difference": 0
+    },
+    {
+      "reportReference": "#0123456789",
+      "reconDate": "2023-03-03T08:08:46Z",
+      "metalsPartners": 10,
+      "goldwise": 10,
+      "difference": 0
+    }
+  ]
+}

@@ -15,10 +15,10 @@ const VaultLedgers = () => {
 
       <div className="flex mt-4 mb-6">
         <div className="grid grid-cols-4 gap-4">
-          <Chip label="Digital Gold" variant="filled" size="large" />
-          <Chip label="Digital Silver" color="primary" size="large" variant="outlined" />
-          <Chip label="Digital Platinum" color="primary" size="large" variant="outlined" />
-          <Chip label="Digital Palladium" color="primary" size="large" variant="outlined" />
+          <Chip label="Fractional Gold" variant="filled" size="large" />
+          <Chip label="Fractional Silver" color="primary" size="large" variant="outlined" />
+          <Chip label="Fractional Platinum" color="primary" size="large" variant="outlined" />
+          <Chip label="Fractional Palladium" color="primary" size="large" variant="outlined" />
         </div>
       </div>
       
@@ -27,7 +27,7 @@ const VaultLedgers = () => {
           <table className="w-full" cellPadding={0} cellSpacing={0}>
             <thead>
               <tr>
-                <th className={styleHeader(cellOverride)}>GHL | Digital Gold | London | StoneX</th>
+                <th className={styleHeader(cellOverride)}>GHL | Fractional Gold | London | StoneX</th>
                 <td className={`${cellOverride} text-right`}>
                   <Link to='/ledger/123456789' className="block text-blue-700 font-bold hover:underline">
                     View Ledger <i className="fa fa-arrow-right ml-2" />
@@ -96,7 +96,7 @@ const VaultLedgers = () => {
           <table className="w-full" cellPadding={0} cellSpacing={0}>
             <thead>
               <tr>
-                <th className={styleHeader(cellOverride)}>GHL | Digital Gold | London | Brinks</th>
+                <th className={styleHeader(cellOverride)}>GHL | Fractional Gold | London | Brinks</th>
                 <td className={`${cellOverride} text-right`}>
                   <Link to='/ledger/123456789' className="block text-blue-700 font-bold hover:underline">
                     View Ledger <i className="fa fa-arrow-right ml-2" />
@@ -144,7 +144,7 @@ const VaultLedgers = () => {
           <table className="w-full" cellPadding={0} cellSpacing={0}>
             <thead>
               <tr>
-                <th className={styleHeader(cellOverride)}>GHL | Digital Gold | Zurich | StoneX</th>
+                <th className={styleHeader(cellOverride)}>GHL | Fractional Gold | Zurich | StoneX</th>
                 <td className={`${cellOverride} text-right`}>
                   <Link to='/ledger/123456789' className="block text-blue-700 font-bold hover:underline">
                     View Ledger <i className="fa fa-arrow-right ml-2" />
@@ -213,7 +213,7 @@ const VaultLedgers = () => {
           <table className="w-full" cellPadding={0} cellSpacing={0}>
             <thead>
               <tr>
-                <th className={styleHeader(cellOverride)}>GHL | Digital Gold | Zurich | Brinks</th>
+                <th className={styleHeader(cellOverride)}>GHL | Fractional Gold | Zurich | Brinks</th>
                 <td className={`${cellOverride} text-right`}>
                   <Link to='/ledger/123456789' className="block text-blue-700 font-bold hover:underline">
                     View Ledger <i className="fa fa-arrow-right ml-2" />

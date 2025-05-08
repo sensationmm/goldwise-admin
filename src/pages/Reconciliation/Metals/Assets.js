@@ -6,7 +6,58 @@ const Assets = () => {
 
   return (
     <div className="grid grid-cols-2 gap-12 items-start">
-      <table>
+      <div>
+        <h2 className="mb-5">Unallocated &amp; Allocated Total</h2>
+
+        <table>
+          <thead>
+            <tr>
+              <th></th>
+              <th className="w-full"></th>
+              <th className={`${styleHeaderFilled()} !bg-gray-300`}>Metal Partner</th>
+              <th className={`${styleHeaderFilled()} !bg-gray-300`}>Goldwise</th>
+              <th className={`${styleHeaderFilled()} !bg-gray-300`}>Difference</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><th className={`${styleHeaderFilled()} !bg-gray-300`} colSpan={5}>Totals</th></tr>
+            <tr>
+              <td className={cellOverride}></td>
+              <td className={cellOverride}>Fractional Gold</td>
+              <td className={cellOverride}>{formatWeight(3.8)}</td>
+              <td className={cellOverride}>{formatWeight(3.9)}</td>
+              <td className={cellOverride}>{formatWeight(-1)}</td>
+            </tr>
+            <tr>
+              <td className={cellOverride}></td>
+              <td className={cellOverride}>Fractional Silver</td>
+              <td className={cellOverride}>{formatWeight(0)}</td>
+              <td className={cellOverride}>{formatWeight(0.5)}</td>
+              <td className={cellOverride}>-</td>
+            </tr>
+            <tr>
+              <td className={cellOverride}></td>
+              <td className={cellOverride}>Fractional Platinun</td>
+              <td className={cellOverride}>{formatWeight(0)}</td>
+              <td className={cellOverride}>{formatWeight(0)}</td>
+              <td className={cellOverride}>-</td>
+            </tr>
+            <tr>
+              <td className={cellOverride}></td>
+              <td className={cellOverride}>Fractional Palladium</td>
+              <td className={cellOverride}>{formatWeight(0)}</td>
+              <td className={cellOverride}>{formatWeight(0)}</td>
+              <td className={cellOverride}>-</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div />
+
+      <div>
+        <h2 className="mb-5">Unallocated Ledgers</h2>
+        <table>
         <thead>
           <tr>
             <th></th>
@@ -20,88 +71,101 @@ const Assets = () => {
           <tr><th className={styleHeaderFilled()} colSpan={5}>StoneX</th></tr>
           <tr>
             <td className={cellOverride}></td>
-            <td className={cellOverride}>Digital Gold</td>
+            <td className={cellOverride}>Fractional Gold</td>
             <td className={cellOverride}>{formatWeight(3.8)}</td>
             <td className={cellOverride}>{formatWeight(3.9)}</td>
             <td className={cellOverride}>{formatWeight(-1)}</td>
           </tr>
           <tr>
             <td className={cellOverride}></td>
-            <td className={cellOverride}>Digital Silver</td>
+            <td className={cellOverride}>Fractional Silver</td>
             <td className={cellOverride}>{formatWeight(0)}</td>
             <td className={cellOverride}>{formatWeight(0.5)}</td>
             <td className={cellOverride}>-</td>
           </tr>
           <tr>
             <td className={cellOverride}></td>
-            <td className={cellOverride}>Digital Platinun</td>
+            <td className={cellOverride}>Fractional Platinun</td>
             <td className={cellOverride}>{formatWeight(0)}</td>
             <td className={cellOverride}>{formatWeight(0)}</td>
             <td className={cellOverride}>-</td>
           </tr>
           <tr>
             <td className={cellOverride}></td>
-            <td className={cellOverride}>Digital Palladium</td>
+            <td className={cellOverride}>Fractional Palladium</td>
+            <td className={cellOverride}>{formatWeight(0)}</td>
+            <td className={cellOverride}>{formatWeight(0)}</td>
+            <td className={cellOverride}>-</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div />
+
+      <div>
+        <h2>Allocated Ledgers</h2>
+      </div>
+      
+      <div/>
+
+      <table>
+        <tbody>
+          <tr><th className={styleHeaderFilled()} colSpan={5}>UK - London | Brinks</th></tr>
+          <tr>
+            <td className={cellOverride}></td>
+            <td className={cellOverride}>Fractional Gold</td>
+            <td className={cellOverride}>{formatWeight(3.8)}</td>
+            <td className={cellOverride}>{formatWeight(3.9)}</td>
+            <td className={cellOverride}>{formatWeight(-1)}</td>
+          </tr>
+          <tr>
+            <td className={cellOverride}></td>
+            <td className={cellOverride}>Fractional Silver</td>
+            <td className={cellOverride}>{formatWeight(0)}</td>
+            <td className={cellOverride}>{formatWeight(0.5)}</td>
+            <td className={cellOverride}>-</td>
+          </tr>
+          <tr>
+            <td className={cellOverride}></td>
+            <td className={cellOverride}>Fractional Platinun</td>
+            <td className={cellOverride}>{formatWeight(0)}</td>
+            <td className={cellOverride}>{formatWeight(0)}</td>
+            <td className={cellOverride}>-</td>
+          </tr>
+          <tr>
+            <td className={cellOverride}></td>
+            <td className={cellOverride}>Fractional Palladium</td>
             <td className={cellOverride}>{formatWeight(0)}</td>
             <td className={cellOverride}>{formatWeight(0)}</td>
             <td className={cellOverride}>-</td>
           </tr>
           <tr><td>&nbsp;</td></tr>
-          <tr><th className={styleHeaderFilled()} colSpan={5}>London | Brinks</th></tr>
+          <tr><th className={styleHeaderFilled()} colSpan={5}>CHE - Zurich | Brinks</th></tr>
           <tr>
             <td className={cellOverride}></td>
-            <td className={cellOverride}>Digital Gold</td>
+            <td className={cellOverride}>Fractional Gold</td>
             <td className={cellOverride}>{formatWeight(3.8)}</td>
             <td className={cellOverride}>{formatWeight(3.9)}</td>
             <td className={cellOverride}>{formatWeight(-1)}</td>
           </tr>
           <tr>
             <td className={cellOverride}></td>
-            <td className={cellOverride}>Digital Silver</td>
+            <td className={cellOverride}>Fractional Silver</td>
             <td className={cellOverride}>{formatWeight(0)}</td>
             <td className={cellOverride}>{formatWeight(0.5)}</td>
             <td className={cellOverride}>-</td>
           </tr>
           <tr>
             <td className={cellOverride}></td>
-            <td className={cellOverride}>Digital Platinun</td>
+            <td className={cellOverride}>Fractional Platinun</td>
             <td className={cellOverride}>{formatWeight(0)}</td>
             <td className={cellOverride}>{formatWeight(0)}</td>
             <td className={cellOverride}>-</td>
           </tr>
           <tr>
             <td className={cellOverride}></td>
-            <td className={cellOverride}>Digital Palladium</td>
-            <td className={cellOverride}>{formatWeight(0)}</td>
-            <td className={cellOverride}>{formatWeight(0)}</td>
-            <td className={cellOverride}>-</td>
-          </tr>
-          <tr><td>&nbsp;</td></tr>
-          <tr><th className={styleHeaderFilled()} colSpan={5}>Zurich | Brinks</th></tr>
-          <tr>
-            <td className={cellOverride}></td>
-            <td className={cellOverride}>Digital Gold</td>
-            <td className={cellOverride}>{formatWeight(3.8)}</td>
-            <td className={cellOverride}>{formatWeight(3.9)}</td>
-            <td className={cellOverride}>{formatWeight(-1)}</td>
-          </tr>
-          <tr>
-            <td className={cellOverride}></td>
-            <td className={cellOverride}>Digital Silver</td>
-            <td className={cellOverride}>{formatWeight(0)}</td>
-            <td className={cellOverride}>{formatWeight(0.5)}</td>
-            <td className={cellOverride}>-</td>
-          </tr>
-          <tr>
-            <td className={cellOverride}></td>
-            <td className={cellOverride}>Digital Platinun</td>
-            <td className={cellOverride}>{formatWeight(0)}</td>
-            <td className={cellOverride}>{formatWeight(0)}</td>
-            <td className={cellOverride}>-</td>
-          </tr>
-          <tr>
-            <td className={cellOverride}></td>
-            <td className={cellOverride}>Digital Palladium</td>
+            <td className={cellOverride}>Fractional Palladium</td>
             <td className={cellOverride}>{formatWeight(0)}</td>
             <td className={cellOverride}>{formatWeight(0)}</td>
             <td className={cellOverride}>-</td>
@@ -110,46 +174,37 @@ const Assets = () => {
       </table>
 
       <table>
-        <thead>
-          <tr>
-            <th></th>
-            <th className="w-full"></th>
-            <th className={`${styleHeaderFilled()} !bg-gray-300`}>Metal Partners</th>
-            <th className={`${styleHeaderFilled()} !bg-gray-300`}>Goldwise</th>
-            <th className={`${styleHeaderFilled()} !bg-gray-300`}>Difference</th>
-          </tr>
-        </thead>
         <tbody>
-          <tr><th className={`${styleHeaderFilled()} !bg-gray-300`} colSpan={5}>Totals</th></tr>
+          <tr><th className={styleHeaderFilled()} colSpan={5}>USA - New York | Brinks</th></tr>
           <tr>
             <td className={cellOverride}></td>
-            <td className={cellOverride}>Digital Gold</td>
+            <td className={cellOverride}>Fractional Gold</td>
             <td className={cellOverride}>{formatWeight(3.8)}</td>
             <td className={cellOverride}>{formatWeight(3.9)}</td>
             <td className={cellOverride}>{formatWeight(-1)}</td>
           </tr>
           <tr>
             <td className={cellOverride}></td>
-            <td className={cellOverride}>Digital Silver</td>
+            <td className={cellOverride}>Fractional Silver</td>
             <td className={cellOverride}>{formatWeight(0)}</td>
             <td className={cellOverride}>{formatWeight(0.5)}</td>
             <td className={cellOverride}>-</td>
           </tr>
           <tr>
             <td className={cellOverride}></td>
-            <td className={cellOverride}>Digital Platinun</td>
+            <td className={cellOverride}>Fractional Platinun</td>
             <td className={cellOverride}>{formatWeight(0)}</td>
             <td className={cellOverride}>{formatWeight(0)}</td>
             <td className={cellOverride}>-</td>
           </tr>
           <tr>
             <td className={cellOverride}></td>
-            <td className={cellOverride}>Digital Palladium</td>
+            <td className={cellOverride}>Fractional Palladium</td>
             <td className={cellOverride}>{formatWeight(0)}</td>
             <td className={cellOverride}>{formatWeight(0)}</td>
             <td className={cellOverride}>-</td>
           </tr>
-        </tbody>
+          </tbody>
       </table>
     </div>
   )

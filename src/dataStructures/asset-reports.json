@@ -1,0 +1,22 @@
+{
+  "reportReference": {
+    "label": "Report Reference",
+    "dataType": "string"
+  },
+  "reconDate": {
+    "label": "Recon Date",
+    "dataType": "date"
+  },
+  "metalsPartners": {
+    "label": "Metals Partners",
+    "dataType": "weight"
+  },
+  "goldwise": {
+    "label": "Goldwise",
+    "dataType": "weight"
+  },
+  "difference": {
+    "label": "Difference",
+    "dataType": "weight"
+  }
+}

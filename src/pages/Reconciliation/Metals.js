@@ -1,20 +1,55 @@
 import { Button, FormControl, Input, InputLabel, MenuItem, Select, Tab, Tabs } from "@mui/material";
 import BaseLayout from "../BaseLayout/BaseLayout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { DatePicker } from "@mui/x-date-pickers";
 import MetalMovement from "./Metals/MetalMovement";
 import VaultLedgers from "./Metals/VaultLedgers";
 import Assets from "./Metals/Assets";
+import HistoricAssetReports from "./Metals/HistoricAssetReports";
+import { useDispatch } from "react-redux";
+import { hideLoader, showLoader } from "../../reducers/loaderSlice.reducer";
+import reconciliationService from "../../services/reconciliation.service";
 
 const Metals = () => {
+  const dispatch = useDispatch()
   const [screen, setScreen] = useState(0)
   const [reportFrom, setReportFrom] = useState(null)
+  const [reportTo, setReportTo] = useState(null)
+  const [reportEntity, setReportEntity] = useState('')
+
+  const [entitiesList, setEntitiesList] = useState([])
+
+  const getEntities = async () => {
+    try {
+      dispatch(showLoader())
+      const entities = await reconciliationService.getEntities();
+      setEntitiesList(entities.data.response.map(ent => ({ value: ent.idCompanyGuid, label: ent.companyName})));
+    } catch (e) {
+      //todo: display error if happen
+      console.log(e)
+    } finally {
+      dispatch(hideLoader())
+    }
+  }
+
+  const handleSearch = () => {
+  }
+
+  const resetForm = () => {
+    setReportFrom(null)
+    setReportTo(null)
+    setReportEntity(null) 
+  }
+  
+  useEffect(() => {
+    getEntities()
+  }, []);
 
   return (
     <BaseLayout
       title="Metals Administration"
       action={
-        screen !== 1 && <div className="grid grid-cols-3 gap-4">
+        (screen === 0  || screen === 1) && <div className="grid grid-cols-3 gap-4">
           <DatePicker label="Date From" value={reportFrom} onChange={setReportFrom} format="DD/MM/YYYY" />
           <Button variant="contained" color="secondary" disabled>Search</Button>
           <Button variant="outlined" color="secondary" disabled>Reset</Button>
@@ -25,10 +60,11 @@ const Metals = () => {
         <Tab label="Metal Movement" />
         <Tab label="Vault Ledgers" />
         <Tab label="Assets" />
+        <Tab label="Historic Assets" />
       </Tabs>
 
       <div className="mt-8">
-        {(screen === 0 || screen === 1 )&&
+        {(screen === 0 || screen === 1 ) ?
           <>
             <h2>Move Metals</h2>
 
@@ -71,6 +107,39 @@ const Metals = () => {
               <Button variant="contained" size="large">Move Metal</Button>
             </div>
           </>
+          : screen === 3 && <>
+            <div className="grid grid-cols-5 gap-5 mt-8 mb-8">
+              <DatePicker label="Date From" value={reportFrom} onChange={setReportFrom} format="DD/MM/YYYY" maxDate={reportTo} />
+
+              <DatePicker label="Date To" value={reportTo} onChange={setReportTo} format="DD/MM/YYYY" minDate={reportFrom} />
+
+              <FormControl>
+                <InputLabel id="report-entity" disabled={entitiesList.length === 0}>Entity</InputLabel>
+                <Select
+                  id="select-entity"
+                  labelId="report-entity"
+                  label="Entity"
+                  value={entitiesList.length > 0 ? reportEntity : ''}
+                  onChange={e => setReportEntity(e.target.value)}
+                  disabled={entitiesList.length === 0}
+                >
+                  <MenuItem value={'all'}>All</MenuItem>
+                  {entitiesList.map((ent, count) => <MenuItem key={`select-entity-${count}`} value={ent.value}>{ent.label}</MenuItem>)}
+                </Select>
+              </FormControl>
+
+              <Button 
+                variant="contained" 
+                color="secondary" 
+                onClick={handleSearch}
+                disabled = {reportFrom === null || reportTo === null}
+              >
+                Search
+              </Button>
+
+              <Button variant="outlined" onClick={resetForm} color="secondary">Reset</Button>
+            </div>
+          </>
         }
 
         {screen === 0 && <MetalMovement />}
@@ -78,6 +147,8 @@ const Metals = () => {
         {screen === 1 && <VaultLedgers />}
 
         {screen === 2 && <Assets />}
+
+        {screen === 3 && <HistoricAssetReports />}
       </div>
     </BaseLayout>
   );
