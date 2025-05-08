@@ -22,7 +22,6 @@ const MarketHours = () => {
           >Edit Trading Periods</Button>
       }
     >
-
       <Tabs value={view} onChange={(_, newValue) => setView(newValue)}>
         <Tab label="Trading Periods" />
         <Tab label="Metal Spreads" />
@@ -34,7 +33,8 @@ const MarketHours = () => {
           initialView="timeGridWeek"
           weekends={true}
           events={[
-            { title: 'event 1', date: '2025-05-09' },
+            { title: 'event 1', start: new Date('2025-05-09Z10:00:00'), end: new Date('2025-05-09Z13:00:00') },
+            { title: 'The Cycle of the Seasons', start: new Date('2025-05-06Z05:00:00'), end: new Date('2025-05-06Z07:00:00') },
             { title: 'event 2', date: '2025-05-02' }
           ]}
           headerToolbar={{
@@ -43,6 +43,16 @@ const MarketHours = () => {
             end: 'today timeGridDay,timeGridWeek,dayGridMonth,listWeek' 
           }}
           firstDay={1}
+          slotLabelFormat={{
+            hour: 'numeric',
+            minute: '2-digit',
+            omitZeroMinute: false,
+            meridiem: 'short'
+          }}
+          dayHeaderFormat={{ weekday: 'short', month: 'short', day: 'numeric', omitCommas: true }}
+          // eventClick={(info) => console.log(info.event.title)}
+          nowIndicator
+          displayEventTime
         />
         </div>
       </BaseLayout>

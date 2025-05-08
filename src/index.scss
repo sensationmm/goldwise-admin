@@ -114,3 +114,71 @@ code {
 .sortIcon {
   padding-right: 5px;
 }
+
+.fc, .fc-theme-standard {
+  background: #f7f9fb;
+  border: 1px solid #e0e2e4;
+  color: #54585d;
+
+  .fc-toolbar.fc-header-toolbar {
+    margin-bottom: 0;
+    padding: 10px;
+  }
+
+  td {
+    border-color: #e0e2e4;
+  }
+
+  .fc-button, .fc-button-primary:disabled {
+    background: transparent;
+    border: 0;
+    color: #54585d;
+    text-transform: capitalize;
+  }
+
+  .fc-button-primary:not(:disabled).fc-button-active {
+    background: transparent;
+    color: #3688d9;
+  }
+
+  .fc-button-primary:not(:disabled).fc-button-active:focus, .fc .fc-button-primary:not(:disabled):active:focus {
+    box-shadow: none;
+  }
+
+  .fc-daygrid-day.fc-day-today, .fc-timegrid-col.fc-day-today {
+    background: transparent;
+  }
+
+  th {
+    background: #ffffff;
+  }
+  
+  th.fc-day {
+    background: #ffffff;
+    padding: 20px 0;
+  }
+
+  th.fc-day-today {
+    color: #3688d9;
+  }
+  
+  .fc-timegrid-slot-label {
+    background: #e0e2e4;
+    padding: 10px;
+    width: 100px;
+  }
+  
+  .fc-event-main {
+    padding: 10px;
+  }
+
+  .fc-event-main-frame {
+    flex-direction: column-reverse;
+    justify-content: flex-end;
+  }
+
+  .fc-event-title-container {
+    font-weight: bold;
+    flex-grow: 0;
+  }
+}
