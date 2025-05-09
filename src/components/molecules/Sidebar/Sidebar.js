@@ -32,6 +32,11 @@ const menu = [
     icon: "fa-list",
   },
   {
+    name: "Vaults",
+    to: "/vault-settings",
+    icon: "fa-vault",
+  },
+  {
     name: "User Management",
     collapse: "users",
     to: "/users/",
@@ -65,11 +70,6 @@ const menu = [
         to: "/reconciliation/funds",
       },
     ],
-  },
-  {
-    name: "Vaults",
-    to: "/vault-settings",
-    icon: "fa-vault",
   },
 ];
 

@@ -1,67 +1,85 @@
-import React, { useEffect, useState } from "react";
-import vaultService from "../../services/vaultService";
-import EditVault from "./components/EditVault";
-import {hideLoader, showLoader} from "../../reducers/loaderSlice.reducer";
-import {useDispatch} from "react-redux";
 import BaseLayout from "../BaseLayout/BaseLayout";
+import { Button } from "@mui/material";
+import { styleCell, styleEmptyCell, styleHeaderFilled, styleSectionHeader } from "../../utils/table"
+import ActiveToggle from "../../components/atoms/ActiveToggle/ActiveToggle";
+import { formatCurrency } from "../../utils/number";
 
 const VaultSetting = () => {
-    const dispatch = useDispatch()
-    const [vaults, setVaults] = useState([])
-    const [selectedVault, setSelectedVault] = useState(-1)
-
-    const getVaults = async () => {
-        try {
-            dispatch(showLoader())
-            const vaults = await vaultService.listVaultsAvailable();
-            setVaults(vaults.data.response);
-          } catch (e) {
-            //todo: display error if happen
-            console.log(e)
-          } finally {
-            dispatch(hideLoader())
-          }
-    }
-
-    const handleVaultChange = (index) => {
-        if(index === selectedVault) {
-            setSelectedVault(-1)
-        } else {
-            setSelectedVault(index)
-        }
-
-    }
-
-    const resetVaultIndex = () => {
-        setSelectedVault(-1)
-    }
-    
-    useEffect(() => {
-        getVaults()
-    }, [])
-
-
     return (
-      <BaseLayout title="Admin - Vault Settings">
-        <div className="w-full" >
-            <div className="card shadow-xs bg-white p-10 rounded">
-                {vaults && vaults.map((vault, index) => (
-                    <div className="shadow p-2" key={index}>
-                        <div className="w-full grid grid-cols-12">
-                            <div className="col-span-10">{vault.vaultName}</div>
-                            <div className="col-span-2 border-l border-gray-200 pl-4">
-                                <button
-                                    className="px-4 py-1 bg-white text-black border border-gray-400 hover:bg-black hover:text-white focus:bg-gray-200 focus:text-gray-800"
-                                    onClick={() => handleVaultChange(index)}
-                                >Edit</button>
-                            </div>
-                        </div>
-                        {
-                            index === selectedVault ? <EditVault vault={vault} resetVaultIndex={resetVaultIndex}/> : <></>
-                        }
-                    </div>
-                ))}
-            </div>
+      <BaseLayout title="Vault Management"
+      action={
+          <Button
+            variant="contained"
+            size="large"
+          >Edit Settings</Button>
+      }>
+         <div className="overflow-scroll">
+          <table>
+            <thead>
+              <tr>
+                <th className={styleHeaderFilled()} colSpan={2}>Country</th>
+                <th className={styleHeaderFilled()}>London, UK</th>
+                <th className={styleHeaderFilled()}>Zurich, Switzerland</th>
+                <th className={styleHeaderFilled()}>New York, USA</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th className={styleSectionHeader()} colSpan={2}>Vault Available</th>
+                <td className={styleCell}><ActiveToggle /></td>
+                <td className={styleCell}><ActiveToggle /></td>
+                <td className={styleCell}><ActiveToggle /></td>
+              </tr>
+              <tr>
+                <th colSpan="5" className={styleSectionHeader()}>Vault Fees:</th>
+              </tr>
+              <tr>
+                <td className={styleEmptyCell()}></td>
+                <td className={`${styleCell} text-right`}>Gold (%)</td>
+                <td className={`${styleCell} font-bold`}>0.15%</td>
+                <td className={`${styleCell} font-bold`}>0.15%</td>
+                <td className={`${styleCell} font-bold`}>0.15%</td>
+              </tr>
+              <tr>
+                <td className={styleEmptyCell()}></td>
+                <td className={`${styleCell} text-right`}>Silver (%)</td>
+                <td className={`${styleCell} font-bold`}>0.15%</td>
+                <td className={`${styleCell} font-bold`}>0.15%</td>
+                <td className={`${styleCell} font-bold`}>0.15%</td>
+              </tr>
+              <tr>
+                <td className={styleEmptyCell()}></td>
+                <td className={`${styleCell} text-right`}>Platinum (%)</td>
+                <td className={`${styleCell} font-bold`}>0.15%</td>
+                <td className={`${styleCell} font-bold`}>0.15%</td>
+                <td className={`${styleCell} font-bold`}>0.15%</td>
+              </tr>
+              <tr>
+                <td className={styleEmptyCell()}></td>
+                <td className={`${styleCell} text-right`}>Palladium (%)</td>
+                <td className={`${styleCell} font-bold`}>0.15%</td>
+                <td className={`${styleCell} font-bold`}>0.15%</td>
+                <td className={`${styleCell} font-bold`}>0.15%</td>
+              </tr>
+              <tr>
+                <th colSpan="5" className={styleSectionHeader()}>Minimum Vault Fees:</th>
+              </tr>
+              <tr>
+                <td className={styleEmptyCell()}></td>
+                <td className={`${styleCell} text-right`}>British Pounds (£GBP)</td>
+                <td className={`${styleCell} font-bold`}>{formatCurrency(5, true, 'GBP')}</td>
+                <td className={`${styleCell} font-bold`}>{formatCurrency(5, true, 'GBP')}</td>
+                <td className={`${styleCell} font-bold`}>{formatCurrency(5, true, 'GBP')}</td>
+              </tr>
+              <tr>
+                <td className={styleEmptyCell()}></td>
+                <td className={`${styleCell} text-right`}>Euros (€EUR)</td>
+                <td className={`${styleCell} font-bold`}>{formatCurrency(5, true, 'EUR')}</td>
+                <td className={`${styleCell} font-bold`}>{formatCurrency(5, true, 'EUR')}</td>
+                <td className={`${styleCell} font-bold`}>{formatCurrency(5, true, 'EUR')}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </BaseLayout>
     )

@@ -1,13 +1,19 @@
 import ActiveToggle from "../../components/atoms/ActiveToggle"
 import { styleCell, styleHeader, styleHeaderFilled } from "../../utils/table"
 import BaseLayout from "../BaseLayout/BaseLayout"
-import { Tab, Tabs } from "@mui/material"
+import { Button, Tab, Tabs } from "@mui/material"
 
 const Products = () => {
   const cellOverride = `${styleCell} !text-xs font-bold`
 
   return (
-    <BaseLayout title="Product Management">
+    <BaseLayout title="Product Management"
+      action={
+          <Button
+            variant="contained"
+            size="large"
+          >Edit Settings</Button>
+      }>
 
       <Tabs value={0}>
         <Tab label="Fractional Bars" />
