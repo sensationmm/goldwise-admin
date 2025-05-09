@@ -72,14 +72,8 @@ const menu = [
   {
     name: "User Management",
     collapse: "users",
-    to: "/users/",
+    to: "/users",
     icon: "fa-user-group",
-    children: [
-      {
-        name: "User Management",
-        to: "/users/user-management",
-      },
-    ],
   },
 ];
 

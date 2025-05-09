@@ -87,7 +87,7 @@ const App = () => {
 
           <Route path='customers/failed' element={<Kyc  page={"3"}/>}/>
 
-          <Route path='users/user-management' element={<UserManagement />} />
+          <Route path='users' element={<UserManagement />} />
 
           <Route path='products' element={<Products />} />
           <Route path='products/product-management' element={<ProductManagement />} />
