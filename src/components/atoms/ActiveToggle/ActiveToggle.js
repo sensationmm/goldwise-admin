@@ -2,9 +2,9 @@ import React from 'react'
 
 const ActiveToggle = ({isActive = true}) => {
   const label = isActive ? 'On': 'Off';
-  const color  = isActive ? 'indigo-400': 'indigo-400';
+  const color  = isActive ? 'indigo-400': 'gray-400';
 
-  return <div className={`flex gap-[5px] items-center text-${color} font-normal`}>
+  return <div className={`flex flex-row${!isActive && '-reverse'} gap-[5px] items-center text-${color} font-normal`}>
     {label}
     <div className={`w-[14px] h-[14px] rounded-[7px] bg-${color}`} />
   </div>

@@ -37,6 +37,11 @@ const menu = [
     icon: "fa-vault",
   },
   {
+    name: "Platform",
+    to: "/platform",
+    icon: "fa-vault",
+  },
+  {
     name: "User Management",
     collapse: "users",
     to: "/users/",

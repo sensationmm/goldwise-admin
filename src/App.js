@@ -26,6 +26,7 @@ import Wallets from './pages/Reconciliation/Wallets'
 import MarketHours from './pages/MarketHours'
 import Orders from './pages/Orders'
 import Products from './pages/Products'
+import Platform from './pages/Platform'
 
 const App = () => {
     const dispatch = useDispatch()
@@ -93,6 +94,8 @@ const App = () => {
           <Route path='products/spread-management' element={<SpreadManagement />} />
 
           <Route path='vault-settings' element={<VaultSetting />} />
+
+          <Route path='platform' element={<Platform />} />
 
           {/* Catch all */}
           <Route path='*' element={<Missing />} />
