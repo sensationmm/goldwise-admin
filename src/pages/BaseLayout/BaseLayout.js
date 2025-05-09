@@ -31,7 +31,7 @@ const BaseLayout = ({full, title, action, children, hasBack = false}) => {
                   <header className="mb-8 flex justify-between items-center pr-[40px]">
                     <div className="flex items-center">
                       {hasBack && 
-                        <div className="mr-2">
+                        <div className="mr-2 absolute left-[10px]">
                           <IconButton color="text" onClick={() => navigate(-1)}><i className={`fa text-sm fa-arrow-left`} aria-hidden="true" /></IconButton>
                         </div>
                       }

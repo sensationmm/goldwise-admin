@@ -5,6 +5,13 @@ export const currencyFormatter = (currency = 'GBP') => {
   });
 }
 
+export const formatCurrencyLabel = (currency = 'GBP') => {
+  if(currency === 'GBP') return 'British Pounds (£GBP)';
+  if(currency === 'USD') return 'US Dollars ($USD)';
+  if(currency === 'EUR') return 'Euros (€EUR)';
+  if(currency === 'CHF') return 'Swiss Francs (₣CHF)';
+}
+
 export const formatCurrency = (value, style = true, currency = 'GBP', styleProfit = false) => {
   if(!isNaN(value)) {
     if(value >= 0) {
