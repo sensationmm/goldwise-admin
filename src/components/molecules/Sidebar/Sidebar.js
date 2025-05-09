@@ -39,19 +39,12 @@ const menu = [
   {
     name: "Platform",
     to: "/platform",
-    icon: "fa-vault",
+    icon: "fa-cog",
   },
   {
-    name: "User Management",
-    collapse: "users",
-    to: "/users/",
-    icon: "fa-user-group",
-    children: [
-      {
-        name: "User Management",
-        to: "/users/user-management",
-      },
-    ],
+    name: "Reports",
+    to: "/reports",
+    icon: "fa-chart-simple",
   },
   {
     name: "Reconciliation",
@@ -73,6 +66,18 @@ const menu = [
       {
         name: "Funds",
         to: "/reconciliation/funds",
+      },
+    ],
+  },
+  {
+    name: "User Management",
+    collapse: "users",
+    to: "/users/",
+    icon: "fa-user-group",
+    children: [
+      {
+        name: "User Management",
+        to: "/users/user-management",
       },
     ],
   },

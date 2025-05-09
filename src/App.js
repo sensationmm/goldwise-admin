@@ -27,6 +27,7 @@ import MarketHours from './pages/MarketHours'
 import Orders from './pages/Orders'
 import Products from './pages/Products'
 import Platform from './pages/Platform'
+import Reports from './pages/Reports'
 
 const App = () => {
     const dispatch = useDispatch()
@@ -96,6 +97,7 @@ const App = () => {
           <Route path='vault-settings' element={<VaultSetting />} />
 
           <Route path='platform' element={<Platform />} />
+          <Route path='reports' element={<Reports />} />
 
           {/* Catch all */}
           <Route path='*' element={<Missing />} />
