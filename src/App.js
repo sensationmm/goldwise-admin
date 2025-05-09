@@ -24,7 +24,8 @@ import LedgerDetails from './pages/Ledgers/LedgerDetails'
 import Funds from './pages/Reconciliation/Funds'
 import Wallets from './pages/Reconciliation/Wallets'
 import MarketHours from './pages/MarketHours'
-import Orders from './pages/Orders/Orders'
+import Orders from './pages/Orders'
+import Products from './pages/Products'
 
 const App = () => {
     const dispatch = useDispatch()
@@ -86,6 +87,7 @@ const App = () => {
 
           <Route path='users/user-management' element={<UserManagement />} />
 
+          <Route path='products' element={<Products />} />
           <Route path='products/product-management' element={<ProductManagement />} />
 
           <Route path='products/spread-management' element={<SpreadManagement />} />

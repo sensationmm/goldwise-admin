@@ -4,7 +4,7 @@ export const styleCellDefault = 'text-sm border-b border-separate border-slate-3
 
 export const styleCell = `${styleCellDefault} text-center`
 export const styleEmptyCell = (cellDefault = styleCellDefault) =>  `${cellDefault} !border-b-0`
-export const styleHeader = (cellDefault = styleCellDefault) =>  `${cellDefault} !text-left`
+export const styleHeader = (cellDefault = styleCellDefault) =>  `${cellDefault} !text-left font-bold`
 export const styleHeaderFilled = (cellDefault = styleCellDefault) =>  `${cellDefault} !text-left bg-slate-200`
 export const styleSectionHeader = (cellDefault = styleCellDefault) =>  `${cellDefault} !text-left border-b-0`
 export const styleTotal = (cellDefault = styleCellDefault) => `${cellDefault} border-separate border-b-0 border-t-2 border-slate-900`

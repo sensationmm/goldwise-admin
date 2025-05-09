@@ -28,18 +28,8 @@ const menu = [
   {
     name: "Products",
     collapse: "products",
-    to: "/products/",
+    to: "/products",
     icon: "fa-list",
-    children: [
-      {
-        name: "Spread Management",
-        to: "/products/spread-management",
-      },
-      {
-        name: "Product Management",
-        to: "/products/product-management",
-      },
-    ],
   },
   {
     name: "User Management",
