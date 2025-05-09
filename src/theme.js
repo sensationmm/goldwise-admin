@@ -96,6 +96,30 @@ const theme = createTheme(
           }
         }
       },
+      MuiTextField: {
+        styleOverrides: {
+          root: {
+            '&.searchInput':{
+              '.MuiOutlinedInput-notchedOutline': {
+                border: 0,
+                borderRadius: 0,
+                borderBottom: `1px solid ${customPalette.palette.secondary.main}`,
+              },
+              '.MuiInputBase-input': {
+                fontWeight: 'normal',
+                fontSize: '14px',
+                width: '250px'
+              },
+              '.MuiInputBase-root': {
+                padding: '0 30px'
+              },
+              '.MuiInputAdornment-root': {
+                marginRight: '20px'
+              }
+            }
+          }
+        }
+      },
       MuiCheckbox: {
         styleOverrides: {
           root: {

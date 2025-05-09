@@ -8,12 +8,12 @@ import {useDispatch} from "react-redux";
 import {hideLoader, showLoader} from "../../reducers/loaderSlice.reducer";
 import { useSelector } from 'react-redux'
 import Flag from '../../components/atoms/Flag/Flag';
-import Modal from '../../components/atoms/Modal/Modal';
 import BaseLayout from '../BaseLayout/BaseLayout';
 import { Tab, Tabs } from '@mui/material';
 import DataTable from '../../components/atoms/DataTable/DataTable';
 import UsersDataStructure from '../../dataStructures/users.json';
 import Active from '../../components/atoms/Active';
+import SearchField from '../../components/atoms/SearchField';
 
 const Kyc = (props) => {
     const [customerView, setCustomerView] = useState(0);
@@ -23,7 +23,6 @@ const Kyc = (props) => {
     const [isgwMonitored] = useState("0")
     const [customers, setCustomers] = useState([]);
     const [sortOrder, setSortOrder] = useState('');
-    const [filterListOptionsModal, setFilterListOptionsModal] = useState(false)
 
     const getCustomers = async (displayLoader) => {
         try {
@@ -143,51 +142,19 @@ const Kyc = (props) => {
       setIdentityStatusId(idStatuses[customerView])
     }, [customerView])
     
-    const setFilterListOption = (option) => {
-        setSortOrder(option)
-        sortKycList()
-        setFilterListOptionsModal(false)
-    }
-
     return (
       <>
-        {filterListOptionsModal && 
-          <Modal hidePopup={() => setFilterListOptionsModal(false) } title="Sort by Options">
-          <div className='modal-content'>
-              <ul>
-                  <li>
-                      <div className={"handCursor" + (sortOrder === 'nameAsc' ? " selected" : "")} onClick={() => setFilterListOption('nameAsc')}>
-                          Name A - Z
-                      </div>
-                  </li>
-                  <li>
-                      <div className={"handCursor" + (sortOrder === 'nameDesc' ? " selected" : "")} onClick={() => setFilterListOption('nameDesc')}>
-                          Name Z - A
-                      </div>
-                  </li>
-                  <li>
-                      <div className={"handCursor" + (sortOrder === 'dateDesc' ? " selected" : "")} onClick={() => setFilterListOption('dateDesc')}>
-                          Date Created Descending
-                      </div>
-                  </li>
-                  <li>
-                      <div className={"handCursor" + (sortOrder === 'dateAsc' ? " selected" : "")} onClick={() => setFilterListOption('dateAsc')}>
-                          Date Created Ascending
-                      </div>
-                  </li>
-              </ul>
-          </div>
-          </Modal>
-        }
-          
         <BaseLayout title="Customers">
-          <Tabs value={customerView} onChange={(_, newValue) => setCustomerView(newValue)}>
-            <Tab label="All" />
-            <Tab label="In Review" />
-            <Tab label="Passed" />
-            <Tab label="Failed" />
-            <Tab label="Monitored" />
-          </Tabs>
+          <div className='flex justify-between'>
+            <Tabs value={customerView} onChange={(_, newValue) => setCustomerView(newValue)}>
+              <Tab label="All" />
+              <Tab label="In Review" />
+              <Tab label="Passed" />
+              <Tab label="Failed" />
+              <Tab label="Monitored" />
+            </Tabs>
+            <SearchField placeholder="Enter Customer's Name or Email" />
+          </div>
           
           <div className='mt-10'>
             <div className="text-gray-400 font-bold mb-7 text-sm">{customers.length} results</div>
