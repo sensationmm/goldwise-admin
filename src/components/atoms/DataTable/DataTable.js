@@ -173,19 +173,36 @@ import dayjs from "dayjs";
       return show
     })
             
-
   const numPages = Math.ceil(filteredData.length / maxPerPage)
 
   const renderPagination = () => {
     const showPrev = activePage > 0;
     const showNext = activePage + 1 < numPages;
 
+    let pagesArray = [...Array(numPages)]
+    if(numPages > 5) {
+      pagesArray = [0,1,2,3,4];
+      const pagesArrayEnd = [numPages-5, numPages-4, numPages-3, numPages-2, numPages-1];
+
+      if(!pagesArray.concat(pagesArrayEnd).includes(activePage)) {
+        pagesArray = pagesArray.slice(0,2).concat(['...',activePage-1,activePage,activePage+1,'...'],pagesArrayEnd.slice(-2));
+      } else {
+        if(pagesArray.includes(activePage)) {
+          pagesArray = pagesArray.concat(['...'],pagesArrayEnd.slice(-2));
+        } else {
+          pagesArray = pagesArray.slice(0,2).concat(['...'],pagesArrayEnd);
+        }
+      }
+    }
+
     return (
       <div className="flex justify-end items-center text-sm text-gray-400">
         <i className={`fa text-xs fa-chevron-left px-2 cursor-pointer ${!showPrev && 'cursor-not-allowed text-gray-200'}`} aria-hidden="true" onClick={() => showPrev ? setActivePage(activePage - 1) : undefined} />
-        {[...Array(numPages)].map((_, count) => (
-          <div key={`page-${count}`} className={`p-2 cursor-pointer ${activePage === count && 'text-gray-900'}`} onClick={() => setActivePage(count)}>{count + 1}</div>
-        ))}
+        {pagesArray.map((pageNum, count) => {
+          return pageNum !== '...' ?
+          <div key={`page-${pageNum}`} className={`p-2 cursor-pointer ${activePage === pageNum && 'text-gray-900'}`} onClick={() => setActivePage(pageNum)}>{pageNum + 1}</div>
+          : <div key={`page-separator-${count}`} className={`p-2 cursor-pointer ${activePage === pageNum && 'text-gray-900'}`}>...</div>
+  })}
         <i className={`fa text-xs fa-chevron-right px-2 cursor-pointer ${!showNext && 'cursor-not-allowed text-gray-200'}`} aria-hidden="true" onClick={() => showNext ? setActivePage(activePage + 1) : undefined} />
       </div>
     )
