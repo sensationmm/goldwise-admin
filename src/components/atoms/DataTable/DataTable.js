@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { formatCurrency, formatStatusCode, formatWeight } from "../../../utils/number"
 import Input from "../Input/Input"
 import { Button, Checkbox } from "@mui/material";
@@ -27,6 +27,10 @@ import dayjs from "dayjs";
   const [hiddenColumns, setHiddenColumns] = useState([])
   const [activePage, setActivePage] = useState(0)
   const [selectAll, setSelectAll] = useState(false)
+
+  useEffect(() => {
+    setActivePage(0);
+  },[data]);
 
   if(data.length > 0 && headers.length !== Object.keys(data[0]).length) {
     return (
@@ -142,7 +146,7 @@ import dayjs from "dayjs";
     return existingValues.sort((a, b) => a > b ? 1 :  -1).map((val,count) => (
       <div key={`filter-${columnID}-${count}`} className="text-sm mb-1">
         <Checkbox
-                      className="highlight"
+          className="highlight"
           checked={filters[columnID].values.includes(val)}
           onChange={() => setFilterUnique(columnID, val)}
         />

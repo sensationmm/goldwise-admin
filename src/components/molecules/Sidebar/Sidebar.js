@@ -42,10 +42,10 @@ const menu = [
     ],
   },
   {
-    name: "Users",
+    name: "User Management",
     collapse: "users",
     to: "/users/",
-    icon: "fa-user",
+    icon: "fa-user-group",
     children: [
       {
         name: "User Management",
@@ -56,7 +56,7 @@ const menu = [
   {
     name: "Reconciliation",
     collapse: "reconciliation",
-    icon: "fa-check-square-o",
+    icon: "fa-solid fa-square-check",
     children: [
       {
         name: "Reports",
@@ -77,9 +77,9 @@ const menu = [
     ],
   },
   {
-    name: "Vault Settings",
+    name: "Vaults",
     to: "/vault-settings",
-    icon: "fa-cog",
+    icon: "fa-vault",
   },
 ];
 

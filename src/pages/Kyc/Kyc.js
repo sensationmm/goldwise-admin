@@ -1,5 +1,4 @@
-import {Link, useNavigate} from 'react-router-dom'
-import {FiSettings} from 'react-icons/fi'
+import {Link} from 'react-router-dom'
 import React, {useEffect, useState} from "react";
 import customerAmlService from '../../services/customerAml.service'
 import customerDetailService from '../../services/customerDetail.service';
@@ -11,8 +10,13 @@ import { useSelector } from 'react-redux'
 import Flag from '../../components/atoms/Flag/Flag';
 import Modal from '../../components/atoms/Modal/Modal';
 import BaseLayout from '../BaseLayout/BaseLayout';
+import { Tab, Tabs } from '@mui/material';
+import DataTable from '../../components/atoms/DataTable/DataTable';
+import UsersDataStructure from '../../dataStructures/users.json';
+import Active from '../../components/atoms/Active';
 
 const Kyc = (props) => {
+    const [customerView, setCustomerView] = useState(0);
     const dispatch = useDispatch()
     const searchTerm = useSelector((state) => state.search?.searchTerm)
     const [identityStatusId, setIdentityStatusId] = useState("0")
@@ -39,6 +43,8 @@ const Kyc = (props) => {
             setSortOrder('');
         }
     }
+
+    const idStatuses = ['0','4','5,9','6,10,11']
 
     const customersStatus = [
         {
@@ -91,13 +97,11 @@ const Kyc = (props) => {
         },
     ]
 
-    const navigate = useNavigate();
-
     useEffect(() => {
-      if (sortOrder == "") {
+      if (sortOrder === "") {
           setSortOrder('dateDesc');
       }
-    });
+    },[sortOrder]);
 
     useEffect(() => {
       if (searchTerm === "" || searchTerm.length >= 3) {
@@ -134,6 +138,10 @@ const Kyc = (props) => {
     useEffect(() => {
         sortKycList();
     }, [sortOrder]);
+
+    useEffect(() => {
+      setIdentityStatusId(idStatuses[customerView])
+    }, [customerView])
     
     const setFilterListOption = (option) => {
         setSortOrder(option)
@@ -173,147 +181,40 @@ const Kyc = (props) => {
         }
           
         <BaseLayout title="Customers">
-          {/* TODO: Tabs component */}
-          <div
-              className="text-sm font-medium bg-white text-center text-gray-500 dark:bg-gray-600 dark:text-gray-100 transition-all duration-500 ease-in-out">
-              <ul className="flex flex-wrap -mb-px">
-                  <li className="mr-2">
-                      <div onClick={() => {setIdentityStatusId('0');}} className={(identityStatusId === "0") ? 'inline-block p-4 border-b-2 border-[#5db1b5] handCursor': 'inline-block p-4 handCursor'}
-                          >View All</div>
-                  </li>
-                  <li className="mr-2">
-                      <div onClick={() => {setIdentityStatusId('4');}} className={(identityStatusId === "4") ? 'inline-block p-4 border-b-2 border-[#5db1b5] handCursor': 'inline-block p-4 handCursor'} aria-current="page">To
-                          Be Reviewed</div>
-                  </li>                                    
-                  <li className="mr-2">
-                      <div onClick={() => {setIdentityStatusId('5,9');}} className={(identityStatusId === "5,9") ? 'inline-block p-4 border-b-2 border-[#5db1b5] handCursor': 'inline-block p-4 handCursor'}
-                            aria-current="page">Passed</div>
-                  </li>
-                  <li className="mr-2">
-                      <div onClick={() => {setIdentityStatusId('6,10,11');}} className={(identityStatusId === "6,10,11") ? 'inline-block p-4 border-b-2 border-[#5db1b5] handCursor': 'inline-block p-4 handCursor'}
-                            aria-current="page" >Failed</div>
-                  </li>
-                  <li className="mr-2 filter">
-                      <div onClick={() => {setFilterListOptionsModal(true)} } className="inline-block p-4 handCursor"><i className="fa fa-thin fa-sort dark:text-gray-100 sortIcon"></i>Sort by:</div>
-                  </li>
-              </ul>
-          </div>
-          {/* TODO: Load using test data and convert to small components */}
-          <div className="p-3">
-              <div className="overflow-x-auto">
-                  <table className="table-auto w-full">
-                      <thead className="text-xs font-bold text-gray-800 dark:text-gray-100">
-                      <tr>
-                          <th className="p-3 whitespace-nowrap" style={{display: 'none'}}>
-                              <div className="font-semibold text-left">Photo</div>
-                          </th>
-                          <th className="p-3 whitespace-nowrap">
-                              <div className="font-semibold text-left">Id</div>
-                          </th>
-                          <th className="p-3 whitespace-nowrap">
-                              <div className="font-semibold text-left">Name</div>
-                          </th>
-                          <th className="p-3 whitespace-nowrap">
-                              <div className="font-semibold text-center">Email</div>
-                          </th>
-                          <th className="p-3 whitespace-nowrap">
-                              <div className="font-semibold text-center">Contact Number</div>
-                          </th>
-                          <th className="p-3 whitespace-nowrap">
-                              <div className="font-semibold text-center">Country</div>
-                          </th>
-                          <th className="p-3 whitespace-nowrap">
-                              <div className="font-semibold text-center">Account Status</div>
-                          </th>
-                          <th className="p-3 whitespace-nowrap">
-                              <div className="font-semibold text-center">KYC Status</div>
-                          </th>
-                          <th className="p-3 whitespace-nowrap">
-                              <div className="font-semibold text-center">Monitor</div>
-                          </th>
-                          <th className="p-3 whitespace-nowrap flex justify-center">
-                              <div className="font-semibold text-center"><FiSettings size="16px"/>
-                              </div>
-                          </th>
-                      </tr>
-                      </thead>
-                      <tbody
-                          className="text-sm divide-y divide-gray-200 dark:divide-gray-600 dark:text-gray-100 transition-all duration-500 ease-in-out">
-                      {
-                          customers && customers.length > 0 &&
-                          (customers?.map((customer, index) => (
-                              <tr key={index}>
-                                  <td style={{display: 'none'}} className="p-2 whitespace-nowrap">
-                                      <div className="flex items-center">
-                                          <div className="w-10 h-10 flex-shrink-0 mr-2 sm:mr-3">
-                                              <img className="rounded-full"
-                                                    src={!!customer.profilePhoto ? customer.profilePhoto : "https://raw.githubusercontent.com/cruip/vuejs-admin-dashboard-template/main/src/images/user-36-05.jpg"}
-                                                    width="40" height="40"
-                                                    alt={(!!customer.forename) ? customer.forename + ' ' + customer.surname : customer.fullName}/>
-                                          </div>
-                                      </div>
-                                  </td>
-                                  <td className="p-2 whitespace-nowrap">
-                                      <div className="text-left">{customer.idCustomerGuid}</div>
-                                  </td>
-                                  <td className="p-2 whitespace-nowrap">
-                                      <div
-                                          className="text-left font-medium text-gray-800 dark:text-gray-100">{!!customer.forename ? customer.forename + ' ' + customer.surname : customer.fullName}</div>
-                                  </td>
-                                  <td className="p-2 whitespace-nowrap">
-                                      <div className="text-left">{customer.emailAddress}</div>
-                                  </td>
-                                  <td className="p-2 whitespace-nowrap">
-                                      <div className="text-right">{customer.contactNumber}</div>
-                                  </td>
-                                  <td className="p-2 whitespace-nowrap">
-                                      <div className="flex">
-                                          <div className="text-left text-lg sm:mr-3">
-                                              <Flag 
-                                                  src={customer.countryFlag ? customer.countryFlag : customer.countryFlagUrl}
-                                                  title={customer.countryOfResidence ? customer.countryOfResidence : customer.iso3CountryCode}
-                                                  alt={customer.countryName}
-                                              />
-                                          </div>
-                                          <div className="text-left">{customer.countryName}</div>
-                                      </div>
-                                  </td>
-                                  <td className="p-2 whitespace-nowrap">
-                                      <span className="flex items-center justify-left">
-                                          <Locked
-                                              isLocked={(customer.isLocked)}
-                                              isActive={(customer.isActive)}
-                                              isEmailVerified={(customer.isEmailVerify)} />
-                                      </span>
-                                  </td>
-                                  <td className="p-2 whitespace-nowrap">
-                                      <span className="flex items-center justify-left">
-                                          <KYCStatus status={parseInt(customer.idIdentityStatus)}
-                                                      statusDescription={customer.identityStatusText}></KYCStatus>
-                                      </span>
-                                  </td>
-                                  <td className="p-2 whitespace-nowrap">
-                                          <span className="flex items-center justify-center">
-                                          <span aria-hidden="true"
-                                          className={"w-3 h-3 rounded-full inline-block align-middle " + (!customer.gwMonitor ? " bg-green-500 " : " bg-red-500 ")}>
-                                          </span>
-                                          <span className="pl-2">
-                                              {customer.gwMonitor ? "Yes" : "No"}
-                                          </span>
-                                      </span>
-                                  </td>
-                                  <td className="p-2 whitespace-nowrap">
-                                      <span className="flex items-center justify-center">
-                                          <Link to={'/customers/' + customer.idCustomerGuid}
-                                                className="rounded-full bg-[#5db1b5] text-white pt-1 pr-6 pb-1 pl-6 font-bold">View</Link>
-                                      </span>
-                                  </td>
-                              </tr>)))
-                      }
-
-                      </tbody>
-                  </table>
-              </div>
+          <Tabs value={customerView} onChange={(_, newValue) => setCustomerView(newValue)}>
+            <Tab label="All" />
+            <Tab label="In Review" />
+            <Tab label="Passed" />
+            <Tab label="Failed" />
+            <Tab label="Monitored" />
+          </Tabs>
+          
+          <div className='mt-10'>
+            <div className="text-gray-400 font-bold mb-7 text-sm">{customers.length} results</div>
+            <DataTable
+              headers={Object.keys(UsersDataStructure).map(res => UsersDataStructure[res].label)}
+              data={customers?.map((customer) => ([
+                // customer.idCustomerGuid,
+                <Link to={'/customers/' + customer.idCustomerGuid} className="text-blue-500 font-bold underline">{
+                !!customer.forename ? customer.forename + ' ' + customer.surname : customer.fullName}</Link>,
+                customer.emailAddress,
+                <div className="flex gap-2">
+                  <Flag 
+                    src={customer.countryFlag ? customer.countryFlag : customer.countryFlagUrl}
+                    title={customer.countryOfResidence ? customer.countryOfResidence : customer.iso3CountryCode}
+                    alt={customer.countryName}
+                  />
+                  <>{customer.countryName}</>
+                </div>,
+                <Locked isLocked={(customer.isLocked)} isActive={(customer.isActive)} isEmailVerified={(customer.isEmailVerify)} />,
+                false,
+                <Active isActive={customer.gwMonitor} invert />,
+                <KYCStatus status={parseInt(customer.idIdentityStatus)} statusDescription={customer.identityStatusText}></KYCStatus>,
+                customer.dateCreated,
+                ''
+              ]))} 
+              dataTypes={Object.keys(UsersDataStructure).map(res => UsersDataStructure[res].dataType)}
+            />
           </div>
         </BaseLayout>
     </>

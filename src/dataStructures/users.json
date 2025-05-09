@@ -1,0 +1,38 @@
+{
+  "name": {
+    "label": "Name",
+    "dataType": "link"
+  },
+  "email": {
+    "label": "Email",
+    "dataType": "string"
+  },
+  "country": {
+    "label": "Country",
+    "dataType": "string"
+  },
+  "accountStatus": {
+    "label": "Account Status",
+    "dataType": "string"
+  },
+  "restricted": {
+    "label": "Restricted",
+    "dataType": "boolean"
+  },
+  "monitored": {
+    "label": "Monitored",
+    "dataType": "boolean"
+  },
+  "kycApplication": {
+    "label": "KYC Application",
+    "dataType": "string"
+  },
+  "applicationDate": {
+    "label": "Application Date",
+    "dataType": "datetime"
+  },
+  "accountCreationDate": {
+    "label": "Account Creation",
+    "dataType": "datetime"
+  }
+}
