@@ -1,5 +1,5 @@
 import { Chip, Tab, Tabs } from "@mui/material";
-import { formatWeight } from "../../../utils/number";
+import { formatWeight } from "../../../utils/formatting";
 import { styleCell, styleEmptyCell, styleHeader } from "../../../utils/table";
 import { Link } from "react-router-dom";
 

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import MockHistoricReports from '../../../mocks/historicReports.json';
 import DataStructure from '../../../dataStructures/reports.json'
 import DataTable from "../../../components/atoms/DataTable/DataTable";
-import { formatReportStatusCode } from "../../../utils/number";
+import { formatReportStatusCode } from "../../../utils/formatting";
 import { Link } from "react-router-dom";
 
 const HistoricReports = () => {

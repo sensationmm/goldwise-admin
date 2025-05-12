@@ -4,7 +4,7 @@ import MockTrades from "../../mocks/reconciliation.json"
 import { Button, FormControl, Input, InputLabel, Tab, Tabs } from "@mui/material";
 import BaseLayout from "../BaseLayout/BaseLayout";
 import { styleCell, styleHeader, styleTotal } from "../../utils/table";
-import { formatCurrency } from "../../utils/number";
+import { formatCurrency } from "../../utils/formatting";
 
 const ReportDetails = () => {
   const [paymentsView, setPaymentsView] = useState(0)

@@ -1,4 +1,4 @@
-import { formatCurrency, formatCurrencyLabel } from "../../../utils/number"
+import { formatCurrency, formatCurrencyLabel } from "../../../utils/formatting"
 import { styleCellDefault, styleHeaderFilled } from "../../../utils/table"
 
 const Wallets = () => {

@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import MockHistoricReports from '../../../mocks/historicAssetReports.json';
 import DataStructure from '../../../dataStructures/asset-reports.json'
 import DataTable from "../../../components/atoms/DataTable/DataTable";
-import { formatReportStatusCode } from "../../../utils/number";
+import { formatReportStatusCode } from "../../../utils/formatting";
 
 const HistoricAssetReports = () => {
   const [reports, setReports] = useState([])

@@ -1,5 +1,5 @@
 import { Button, Chip, FormControl, Input, InputLabel, MenuItem, Select, Tab, Tabs } from "@mui/material"
-import { formatCurrency } from "../../utils/number"
+import { formatCurrency } from "../../utils/formatting"
 import { styleCell, styleEmptyCell, styleHeader } from "../../utils/table"
 import BaseLayout from "../BaseLayout/BaseLayout"
 import { Link } from "react-router-dom"

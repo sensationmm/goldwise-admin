@@ -42,6 +42,24 @@ export const formatDelta = (value, percent, currency = 'GBP') => {
   }
 }
 
+export const formatStatus = (status) => {
+  if(status === 'passed') {
+    return <span className="text-green-500 font-bold">Passed</span>
+  } 
+  if(status === 'uploaded') {
+    return <span className="text-green-500 font-bold">Uploaded</span>
+  } 
+  if(status === 'failed') {
+    return <span className="text-red-600 font-bold">Failed</span>
+  }
+  if(status === 'consider') {
+    return <span className="text-red-600 font-bold">Consider</span>
+  }
+  if(status === 'in-review') {
+    return <span className="text-orange-400 font-bold">In Review</span>
+  }
+}
+
 export const formatWeight = (value, style = true) => {
   if(!isNaN(value)) {
     if(value >= 0) {

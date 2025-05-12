@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { formatCurrency, formatStatusCode, formatWeight } from "../../../utils/number"
+import { formatCurrency, formatStatusCode, formatWeight } from "../../../utils/formatting"
 import Input from "../Input/Input"
 import { Button, Checkbox } from "@mui/material";
 import dayjs from "dayjs";

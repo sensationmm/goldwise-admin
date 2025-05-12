@@ -1,5 +1,5 @@
 import { Tab, Tabs } from "@mui/material";
-import { formatWeight } from "../../../utils/number";
+import { formatWeight } from "../../../utils/formatting";
 import { styleCell, styleHeader, styleSectionHeader } from "../../../utils/table";
 
 const MetalMovement = () => {

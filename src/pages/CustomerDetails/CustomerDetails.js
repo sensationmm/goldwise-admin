@@ -1,4 +1,3 @@
-import {Link} from 'react-router-dom'
 import Modal from "../../components/atoms/Modal";
 import React, {useState, useEffect, useLayoutEffect} from "react";
 import LockAccountModal from "./Modals/LockAccountModal";
@@ -9,8 +8,6 @@ import SetAmlFailedModal from "./Modals/SetAmlFailedModal";
 import ResetAmlModal from "./Modals/ResetAmlModal";
 import customerDetailService from '../../services/customerDetail.service';
 import { useParams } from "react-router-dom";
-import ReactCountryFlag from 'react-country-flag';
-import dateFormat from 'dateformat';
 import {useDispatch} from "react-redux";
 import {hideLoader, showLoader} from "../../reducers/loaderSlice.reducer";
 import SendResetEmailModal from './Modals/SendResetEmailModal';
@@ -19,6 +16,7 @@ import BaseLayout from '../BaseLayout/BaseLayout';
 import { Tab, Tabs } from '@mui/material';
 import Details from './sections/Details';
 import Wallets from './sections/Wallets';
+import KycChecks from './sections/KycChecks';
 
 const CustomerDetails = (props) => {
     const dispatch = useDispatch()
@@ -27,7 +25,6 @@ const CustomerDetails = (props) => {
     const { customerGuid } = useParams()
     const [customer, setCustomer] = useState()
     const [actionMenu, setActionMenu] = useState(false)
-    const [dateOfBirth, setDateOfBirth] = useState()
 
     const [monitorCustomerModal, setMonitorCustomerModal] = useState(false)
     const [lockAccountModal, setLockAccountModal] = useState(false)
@@ -39,11 +36,8 @@ const CustomerDetails = (props) => {
     const [resendVerificationEmailM, resendVerificationEmailModal] = useState(false)
 
     const [successMessage, setSuccessMessage] = useState()
-    const [errorMessage, setErrorMessage] = useState()
 
     const [lockAccountStatus, setLockAccountStatus] = useState(true);
-    const [activeAccountStatus, setActiveAccountStatus] = useState(true);
-    const [emailactiveStatus, setEmailactiveStatus] = useState(true);
     const [monitorCustomerStatus, setMonitorCustomer] = useState(true);
     const [tradingRestrictions, setTradingRestrictions] = useState({
         restrictDeposit: false,
@@ -87,9 +81,9 @@ const CustomerDetails = (props) => {
             const customerDetailData = customer.data.response;
             setCustomer(customerDetailData);
             setLockAccountStatus(customerDetailData.customerDetails.isLocked)
-            setEmailactiveStatus(customerDetailData.customerDetails.isEmailVerify)
-            setActiveAccountStatus(customerDetailData.customerDetails.isActive)
-            setDateOfBirth(new Date(customerDetailData.customerDetails.dateOfBirth));
+            // setEmailactiveStatus(customerDetailData.customerDetails.isEmailVerify)
+            // setActiveAccountStatus(customerDetailData.customerDetails.isActive)
+            // setDateOfBirth(new Date(customerDetailData.customerDetails.dateOfBirth));
             setTradingRestrictions(customerDetailData.restrictions)
             setMonitorCustomer(customerDetailData.customerDetails.isGwMonitored)
             setAmlStatus({
@@ -331,9 +325,10 @@ const CustomerDetails = (props) => {
             <Tab label="Log" />
           </Tabs>
 
-          <div className="mt-10">
-          {view === 0 ? <Details data={customer} /> : <div />}
-          {view === 2 ? <Wallets data={customer} /> : <div />}
+          <div className="mt-10 relative">
+          {view === 0 && <Details data={customer} />}
+          {view === 1 && <KycChecks />}
+          {view === 2 && <Wallets />}
           </div>
         </BaseLayout>
 

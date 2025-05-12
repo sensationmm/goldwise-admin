@@ -1,6 +1,6 @@
 import Active from "../../../components/atoms/Active"
 import ActiveLabel from "../../../components/atoms/ActiveLabel";
-import { formatCurrencyLabel } from "../../../utils/number";
+import { formatCurrencyLabel } from "../../../utils/formatting";
 import { styleCellDefault, styleHeaderFilled } from "../../../utils/table"
 import dateFormat from 'dateformat';
 

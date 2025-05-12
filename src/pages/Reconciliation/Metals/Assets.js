@@ -1,4 +1,4 @@
-import { formatWeight } from "../../../utils/number"
+import { formatWeight } from "../../../utils/formatting"
 import { styleCell, styleHeaderFilled } from "../../../utils/table"
 
 const Assets = () => {

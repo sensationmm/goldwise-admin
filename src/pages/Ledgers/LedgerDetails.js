@@ -3,7 +3,7 @@ import DataTable from "../../components/atoms/DataTable/DataTable";
 import MockLedgers from "../../mocks/ledgers.json"
 import BaseLayout from "../BaseLayout/BaseLayout";
 import LedgerDataStructure from '../../dataStructures/ledgers.json';
-import { formatWeight } from "../../utils/number";
+import { formatWeight } from "../../utils/formatting";
 
 const LedgerDetails = () => {
   const [state, setState] = useReducer(

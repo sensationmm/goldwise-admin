@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom"
-import { formatCurrency, formatDelta } from "../../utils/number"
+import { formatCurrency, formatDelta } from "../../utils/formatting"
 import { styleCell, styleHeaderFilled } from "../../utils/table"
 import BaseLayout from "../BaseLayout/BaseLayout"
 

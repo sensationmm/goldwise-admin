@@ -2,7 +2,7 @@ import BaseLayout from "../BaseLayout/BaseLayout";
 import { Button } from "@mui/material";
 import { styleCell, styleEmptyCell, styleHeaderFilled, styleSectionHeader } from "../../utils/table"
 import ActiveToggle from "../../components/atoms/ActiveToggle/ActiveToggle";
-import { formatCurrency } from "../../utils/number";
+import { formatCurrency } from "../../utils/formatting";
 
 const VaultSetting = () => {
     return (

@@ -14,7 +14,7 @@ const BaseLayout = ({full, title, action, children, hasBack = false}) => {
     return (
       <>
         {loader && <Loader/>}
-        <main className="App transition-all">
+        <main className="App transition-all w-full">
           {full
             ? <Outlet /> 
             : <>
@@ -27,7 +27,7 @@ const BaseLayout = ({full, title, action, children, hasBack = false}) => {
                   </button>
                 </div>
                 
-                <main className="relative overflow-hidden p-12 z-10">
+                <main className="w-full relative overflow-hidden p-12 z-10">
                   <header className="mb-8 flex justify-between items-center pr-[40px]">
                     <div className="flex items-center">
                       {hasBack && 

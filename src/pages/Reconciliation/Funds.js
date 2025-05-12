@@ -1,5 +1,5 @@
 import { Button } from "@mui/material"
-import { formatCurrency } from "../../utils/number"
+import { formatCurrency } from "../../utils/formatting"
 import { styleCell, styleHeaderFilled } from "../../utils/table"
 import BaseLayout from "../BaseLayout/BaseLayout"
 

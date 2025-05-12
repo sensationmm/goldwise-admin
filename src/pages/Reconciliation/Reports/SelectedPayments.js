@@ -1,4 +1,4 @@
-import { formatCurrency } from "../../../utils/number"
+import { formatCurrency } from "../../../utils/formatting"
 import { styleCell, styleHeader } from "../../../utils/table"
 
 const SelectedPayments = ({data}) => {
