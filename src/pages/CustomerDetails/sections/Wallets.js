@@ -6,7 +6,7 @@ const Wallets = () => {
 
   return (
     <div>
-      <h2 className="mb-10">Customer Wallets</h2>
+      <h2 className="mb-5">Customer Wallets</h2>
 
       <div className="grid grid-cols-2 gap-[20px]">
         <table>

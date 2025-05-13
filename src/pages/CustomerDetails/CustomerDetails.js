@@ -17,6 +17,7 @@ import { Tab, Tabs } from '@mui/material';
 import Details from './sections/Details';
 import Wallets from './sections/Wallets';
 import KycChecks from './sections/KycChecks';
+import Holdings from "./sections/Holdings";
 
 const CustomerDetails = (props) => {
     const dispatch = useDispatch()
@@ -329,6 +330,7 @@ const CustomerDetails = (props) => {
           {view === 0 && <Details data={customer} />}
           {view === 1 && <KycChecks />}
           {view === 2 && <Wallets />}
+          {view === 3 && <Holdings />}
           </div>
         </BaseLayout>
 
