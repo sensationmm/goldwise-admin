@@ -34,6 +34,8 @@ const Pending = () => {
         }
       </div>
 
+      <h2 className="mb-5">Pending {screens[view].label}</h2>
+
       <DataTable
         headers={headers}
         data={screens[view].data.data.map((rec) => {

@@ -1,0 +1,26 @@
+{
+  "transactionDate": {
+    "label": "Transaction Date",
+    "dataType": "datetime"
+  },
+  "type": {
+    "label": "Type",
+    "dataType": "string"
+  },
+  "subType": {
+    "label": "Sub Type",
+    "dataType": "string"
+  },
+  "product": {
+    "label": "Product",
+    "dataType": "string"
+  },
+  "amount": {
+    "label": "Amount",
+    "dataType": "currency"
+  },
+  "orderStatus": {
+    "label": "Order Status",
+    "dataType": "orderStatus"
+  }
+}

@@ -5,11 +5,11 @@ export const currencyFormatter = (currency = 'GBP') => {
   });
 }
 
-export const formatCurrencyLabel = (currency = 'GBP') => {
-  if(currency === 'GBP') return 'British Pounds (£GBP)';
-  if(currency === 'USD') return 'US Dollars ($USD)';
-  if(currency === 'EUR') return 'Euros (€EUR)';
-  if(currency === 'CHF') return 'Swiss Francs (₣CHF)';
+export const formatCurrencyLabel = (currency = 'GBP', short = false) => {
+  if(currency === 'GBP') return short ? '£GBP' : 'British Pounds (£GBP)';
+  if(currency === 'USD') return short ? '$USD' : 'US Dollars ($USD)';
+  if(currency === 'EUR') return short ? '€EUR' : 'Euros (€EUR)';
+  if(currency === 'CHF') return short ? '₣CHF' : 'Swiss Francs (₣CHF)';
 }
 
 export const formatCurrency = (value, style = true, currency = 'GBP', styleProfit = false) => {
@@ -101,7 +101,13 @@ export const formatStatusCode = (value) => {
 export const formatOrderStatus = (value) => {
   switch(value) {
     case 'Blocked':
+    case 'Rejected':
+    case 'Partial Cancel':
+    case 'Cancelled':
       return <span className="text-red-600">{value}</span>
+    case 'Cleared':
+    case 'Filled':
+      return <span className="text-green-400">{value}</span>
     case 'Clearing':
       return <span className="text-gray-900">{value}</span>
     case 'Pending Cancel':

@@ -1,0 +1,40 @@
+{
+  "data": [
+    {
+      "transactionDate": "2023-01-04 10:00:00 GMT",
+      "type": "Withdrawal",
+      "subType": "Faster Payments",
+      "product": "",
+      "amount": 1000,
+      "runningBalance": 1432.12,
+      "orderStatus": "Cleared"
+    },
+    {
+      "transactionDate": "2023-01-04 10:00:00 GMT",
+      "type": "Sell Order",
+      "subType": "Limit Order",
+      "product": "Fractional Gold",
+      "amount": 1000,
+      "runningBalance": 1432.12,
+      "orderStatus": "Filled"
+    },
+    {
+      "transactionDate": "2023-01-04 10:00:00 GMT",
+      "type": "Buy Order",
+      "subType": "Market Order",
+      "product": "Fractional Gold",
+      "amount": 1000,
+      "runningBalance": 1432.12,
+      "orderStatus": "Filled"
+    },
+    {
+      "transactionDate": "2023-01-04 10:00:00 GMT",
+      "type": "Deposit",
+      "subType": "Easy Transfer",
+      "product": "",
+      "amount": 1000,
+      "runningBalance": 1432.12,
+      "orderStatus": "Cleared"
+    }
+  ]
+}
