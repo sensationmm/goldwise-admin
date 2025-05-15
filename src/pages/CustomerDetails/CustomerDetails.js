@@ -20,6 +20,7 @@ import KycChecks from './sections/KycChecks';
 import Holdings from "./sections/Holdings";
 import Pending from "./sections/Pending";
 import History from "./sections/History";
+import Log from "./sections/Log";
 
 const CustomerDetails = (props) => {
     const dispatch = useDispatch()
@@ -335,6 +336,7 @@ const CustomerDetails = (props) => {
           {view === 3 && <Holdings />}
           {view === 4 && <Pending />}
           {view === 5 && <History />}
+          {view === 6 && <Log />}
           </div>
         </BaseLayout>
 

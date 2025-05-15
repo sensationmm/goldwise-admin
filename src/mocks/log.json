@@ -1,0 +1,28 @@
+{
+  "data": [
+    {
+      "date": "2023-01-04 10:00:00 GMT",
+      "activity": "New Comment",
+      "user": "Gareth Tucker",
+      "comment": "Random spot check completed on account - account passed"
+    },
+    {
+      "date": "2023-01-04 10:00:00 GMT",
+      "activity": "Unrestricted Buys",
+      "user": "Gareth Tucker",
+      "comment": "Investigation completed with no concerns"
+    },
+    {
+      "date": "2023-01-04 10:00:00 GMT",
+      "activity": "Restricted Buys",
+      "user": "Gareth Tucker",
+      "comment": "Restricted Buy Orders while investigation has taken place"
+    },
+    {
+      "date": "2023-01-04 10:00:00 GMT",
+      "activity": "Approved KYC",
+      "user": "Gareth Tucker",
+      "comment": "Reviewed suspected PEP match and deemed a different person"
+    }
+  ]
+}

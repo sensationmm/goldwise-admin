@@ -1,0 +1,18 @@
+{
+  "date": {
+    "label": "Date",
+    "dataType": "datetime"
+  },
+  "activity": {
+    "label": "Activity",
+    "dataType": "string"
+  },
+  "user": {
+    "label": "User",
+    "dataType": "string"
+  },
+  "comment": {
+    "label": "Comment",
+    "dataType": "string"
+  }
+}
