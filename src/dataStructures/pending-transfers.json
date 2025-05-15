@@ -1,0 +1,18 @@
+{
+  "transferDate": {
+    "label": "Transfer Date",
+    "dataType": "datetime"
+  },
+  "type": {
+    "label": "Type",
+    "dataType": "string"
+  },
+  "amount": {
+    "label": "Amount",
+    "dataType": "currency"
+  },
+  "orderStatus": {
+    "label": "Order Status",
+    "dataType": "orderStatus"
+  }
+}

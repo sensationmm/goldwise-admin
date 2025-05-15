@@ -1,0 +1,16 @@
+{
+  "data": [
+    {
+      "transferDate": "2023-01-04 10:00:00 GMT",
+      "type": "Withdrawal",
+      "amount": 1500,
+      "orderStatus": "Clearing"
+    },
+    {
+      "transferDate": "2023-01-04 10:00:00 GMT",
+      "type": "Deposit",
+      "amount": 1500,
+      "orderStatus": "Blocked"
+    }
+  ]
+}

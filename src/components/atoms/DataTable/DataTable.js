@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { formatCurrency, formatStatusCode, formatWeight } from "../../../utils/formatting"
+import { formatCurrency, formatMetalWeight, formatOrderStatus, formatPercent, formatStatusCode, formatWeight } from "../../../utils/formatting"
 import Input from "../Input/Input"
 import { Button, Checkbox } from "@mui/material";
 import dayjs from "dayjs";
@@ -69,12 +69,18 @@ import dayjs from "dayjs";
 
   const formatValue = (value, type) => {
     switch(type) {
+      case 'percent':
+        return formatPercent(value)
       case 'currency':
         return formatCurrency(value)
       case 'weight':
         return formatWeight(value)
+      case 'metalWeight':
+        return formatMetalWeight(value)
       case 'statusCode':
         return formatStatusCode(value)
+      case 'orderStatus':
+        return formatOrderStatus(value)
       case 'date':
         return value ? dayjs(value).format('DD/MM/YYYY') : ''
       case 'string':
@@ -193,6 +199,8 @@ import dayjs from "dayjs";
           pagesArray = pagesArray.slice(0,2).concat(['...'],pagesArrayEnd);
         }
       }
+    } else {
+      pagesArray = pagesArray.map((_,count) => count);
     }
 
     return (

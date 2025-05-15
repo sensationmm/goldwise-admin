@@ -1,0 +1,38 @@
+{
+  "orderSubmissionDate": {
+    "label": "Order Submission Date",
+    "dataType": "datetime"
+  },
+  "product": {
+    "label": "Product",
+    "dataType": "string"
+  },
+  "orderType": {
+    "label": "Order Type",
+    "dataType": "string"
+  },
+  "orderWeight": {
+    "label": "Order Weight",
+    "dataType": "metalWeight"
+  },
+  "filled": {
+    "label": "Filled %",
+    "dataType": "percent"
+  },
+  "remaining": {
+    "label": "Remaining %",
+    "dataType": "percent"
+  },
+  "cancelled": {
+    "label": "Cancelled %",
+    "dataType": "percent"
+  },
+  "expired": {
+    "label": "Expired %",
+    "dataType": "percent"
+  },
+  "orderStatus": {
+    "label": "Order Status",
+    "dataType": "orderStatus"
+  }
+}

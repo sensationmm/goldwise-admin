@@ -72,6 +72,20 @@ export const formatWeight = (value, style = true) => {
   }
 }
 
+export const formatMetalWeight = (value) => {
+  if(!isNaN(value)) {
+    return `${Math.abs(value).toFixed(3)} t/oz`;
+  }
+  return value;
+}
+
+export const formatPercent = (value) => {
+  if(!isNaN(value)) {
+    return `${Math.abs(value).toFixed(2)}%`;
+  }
+  return value;
+}
+
 export const formatStatusCode = (value) => {
   switch(value) {
     case 0:
@@ -81,6 +95,21 @@ export const formatStatusCode = (value) => {
     case 1:
     default:
       return <span className="text-green-400">Yes</span>
+  }
+}
+
+export const formatOrderStatus = (value) => {
+  switch(value) {
+    case 'Blocked':
+      return <span className="text-red-600">{value}</span>
+    case 'Clearing':
+      return <span className="text-gray-900">{value}</span>
+    case 'Pending Cancel':
+      return <span className="text-orange-400">{value}</span>
+    case 'Acknowledged':
+    case 'Pending Market Fill':
+    default:
+      return <span className="text-gray-400">{value}</span>
   }
 }
 
