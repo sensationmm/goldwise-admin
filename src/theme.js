@@ -33,7 +33,10 @@ const theme = createTheme(
               color: '#fff',
             }),
             fontWeight: 'bold',
-            textTransform: 'none'
+            textTransform: 'none',
+            '&.Mui-disabled': {
+              color: '#fff'
+            },
           }),
         },
       },

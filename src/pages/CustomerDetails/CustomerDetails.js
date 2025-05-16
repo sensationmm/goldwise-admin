@@ -13,7 +13,7 @@ import {hideLoader, showLoader} from "../../reducers/loaderSlice.reducer";
 import SendResetEmailModal from './Modals/SendResetEmailModal';
 import ResendVerificationEmailModal from './Modals/ResendVerificationEmailModal';
 import BaseLayout from '../BaseLayout/BaseLayout';
-import { Tab, Tabs } from '@mui/material';
+import { Button, Tab, Tabs } from '@mui/material';
 import Details from './sections/Details';
 import Wallets from './sections/Wallets';
 import KycChecks from './sections/KycChecks';
@@ -316,7 +316,7 @@ const CustomerDetails = (props) => {
         </Modal>
         }
 
-        <BaseLayout title={`${customer?.customerDetails?.forename ?? ''} ${customer?.customerDetails?.surname ?? ''}`} hasBack>
+        <BaseLayout title={`${customer?.customerDetails?.forename ?? ''} ${customer?.customerDetails?.surname ?? ''}`} hasBack  action={<Button primary variant='contained'>Action Menu</Button>}>
           <div className='relative text-xs top-[-20px]'>{customer?.customerDetails?.emailAddress}</div>
 
           <Tabs value={view} onChange={(_, newValue) => setView(newValue)}>

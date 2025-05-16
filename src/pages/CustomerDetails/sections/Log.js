@@ -1,3 +1,4 @@
+import { Button } from "@mui/material";
 import DataTable from "../../../components/atoms/DataTable/DataTable"
 import LogDataStructure from '../../../dataStructures/log.json';
 import MockLog from '../../../mocks/log.json';
@@ -8,7 +9,9 @@ const Log = () => {
 
   return (
     <div>
+      <div className="absolute right-0"><Button variant="contained" disabled>Add New Comment</Button></div>
       <h2 className="mb-5">Admin Activity Log</h2>
+
 
       <DataTable
         headers={headers}
