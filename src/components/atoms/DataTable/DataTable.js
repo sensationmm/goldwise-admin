@@ -83,6 +83,8 @@ import dayjs from "dayjs";
         return formatOrderStatus(value)
       case 'date':
         return value ? dayjs(value).format('DD/MM/YYYY') : ''
+      case 'datetime':
+        return value ? dayjs(value).format('DD/MM/YYYY HH:mm:s') : ''
       case 'string':
       default: 
         return value;

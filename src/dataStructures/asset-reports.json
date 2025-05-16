@@ -5,7 +5,7 @@
   },
   "reconDate": {
     "label": "Recon Date",
-    "dataType": "date"
+    "dataType": "datetime"
   },
   "metalsPartners": {
     "label": "Metals Partners",

@@ -22,5 +22,9 @@
   "runningBalance": {
     "label": "Running Balance",
     "dataType": "weight"
+  },
+  "status": {
+    "label": "Status",
+    "dataType": "orderStatus"
   }
 }

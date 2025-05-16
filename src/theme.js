@@ -3,6 +3,9 @@ import { green, grey, red } from '@mui/material/colors';
 
 export const customPalette = createTheme({
   palette: {
+    primary: {
+      main: '#655cff'
+    },
     secondary: {
       main: grey[400]
     },

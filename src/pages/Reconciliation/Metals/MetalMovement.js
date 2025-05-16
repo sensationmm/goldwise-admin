@@ -16,11 +16,11 @@ const MetalMovement = () => {
               <tr>
                 <td  className={`${styleHeader()} w-[20px]`}></td>
                 <td className={styleHeader()}></td>
-                <th className={styleHeader()}>03/11/2023<div className="text-green-400">Settled</div></th>
-                <th className={styleHeader()}>04/11/2023<div className="text-green-400">Settled</div></th>
-                <th className={styleHeader()}>05/11/2023<div className="text-red-600">Unsettled</div></th>
-                <th className={styleHeader()}>06/11/2023<div className="text-red-600">Unsettled</div></th>
-                <th className={styleHeader()}>07/11/2023<div className="text-red-600">Unsettled</div></th>
+                <th className={styleHeader()}>03/11/2023<div className="text-green-400">Submitted</div><div className="text-green-400">Settled</div></th>
+                <th className={styleHeader()}>04/11/2023<div className="text-green-400">Submitted</div><div className="text-green-400">Settled</div></th>
+                <th className={styleHeader()}>05/11/2023<div className="text-green-400">Submitted</div><div className="text-red-600">Not Settled</div></th>
+                <th className={styleHeader()}>06/11/2023<div className="text-green-400">Submitted</div><div className="text-red-600">Not Settled</div></th>
+                <th className={styleHeader()}>07/11/2023<div className="text-red-600">Unsubmitted</div><div className="text-red-600">Not Settled</div></th>
               </tr>
             </thead>
             <tbody>
@@ -65,7 +65,7 @@ const MetalMovement = () => {
               </tr>
               <tr><td>&nbsp;</td></tr>
               <tr>
-                <th colSpan="7" className={styleHeader()}>GHL | London | StoneX</th>
+                <th colSpan="7" className={styleHeader()}>GHL | UK - London | StoneX</th>
               </tr>
               <tr>
                 <td></td>
@@ -105,7 +105,7 @@ const MetalMovement = () => {
               </tr>
               <tr><td>&nbsp;</td></tr>
               <tr>
-                <th colSpan="7" className={styleHeader()}>GHL | Zurich | StoneX</th>
+                <th colSpan="7" className={styleHeader()}>GHL | USA - New York | StoneX</th>
               </tr>
               <tr>
                 <td></td>
@@ -145,47 +145,7 @@ const MetalMovement = () => {
               </tr>
               <tr><td>&nbsp;</td></tr>
               <tr>
-                <th colSpan="7" className={styleHeader()}>GEUAB | London | StoneX</th>
-              </tr>
-              <tr>
-                <td></td>
-                <td className={styleCell}>Digital Gold</td>
-                <td className={styleCell}>{formatWeight(12.900)}</td>
-                <td className={styleCell}>{formatWeight(-5.000)}</td>
-                <td className={styleCell}>{formatWeight(-15.000)}</td>
-                <td className={styleCell}>{formatWeight(0.000)}</td>
-                <td className={styleCell}>{formatWeight(0.000)}</td>
-              </tr>
-              <tr>
-                <td></td>
-                <td className={styleCell}>Digital Silver</td>
-                <td className={styleCell}>{formatWeight(-3.000)}</td>
-                <td className={styleCell}>{formatWeight(2.000)}</td>
-                <td className={styleCell}>{formatWeight(0.000)}</td>
-                <td className={styleCell}>{formatWeight(0.000)}</td>
-                <td className={styleCell}>{formatWeight(0.000)}</td>
-              </tr>
-              <tr>
-                <td></td>
-                <td className={styleCell}>Digital Platinum</td>
-                <td className={styleCell}>{formatWeight(0.000)}</td>
-                <td className={styleCell}>{formatWeight(0.000)}</td>
-                <td className={styleCell}>{formatWeight(0.000)}</td>
-                <td className={styleCell}>{formatWeight(0.000)}</td>
-                <td className={styleCell}>{formatWeight(0.000)}</td>
-              </tr>
-              <tr>
-                <td></td>
-                <td className={styleCell}>Digital Palladium</td>
-                <td className={styleCell}>{formatWeight(0.000)}</td>
-                <td className={styleCell}>{formatWeight(0.000)}</td>
-                <td className={styleCell}>{formatWeight(0.000)}</td>
-                <td className={styleCell}>{formatWeight(0.000)}</td>
-                <td className={styleCell}>{formatWeight(0.000)}</td>
-              </tr>
-              <tr><td>&nbsp;</td></tr>
-              <tr>
-                <th colSpan="7" className={styleHeader()}>GEUAB | Zurich | StoneX</th>
+                <th colSpan="7" className={styleHeader()}>GHL | Switzerland - Zurich | StoneX</th>
               </tr>
               <tr>
                 <td></td>
@@ -229,9 +189,9 @@ const MetalMovement = () => {
           <table>
             <thead>
               <tr>
-                <th className={styleHeader()}>Running<br />Balance</th>
-                <th className={styleHeader()}>Pending<br />Settlement</th>
-                <th className={styleHeader()}>Settled<br />Balance</th>
+                <th className={styleHeader()}>Running<br />Balance<br /><br /></th>
+                <th className={styleHeader()}>Pending<br />Settlement<br /><br /></th>
+                <th className={styleHeader()}>Settled<br />Balance<br /><br /></th>
               </tr>
             </thead>
             <tbody>
@@ -302,51 +262,6 @@ const MetalMovement = () => {
                 <td className={styleCell}>{formatWeight(0)}</td>
                 <td className={styleCell}>{formatWeight(0)}</td>
               </tr>
-              <tr><td>&nbsp;</td></tr>
-              <tr><td className={styleCell} colSpan="3">&nbsp;</td></tr>
-              <tr>
-                <td className={styleCell}>{formatWeight(3.9)}</td>
-                <td className={styleCell}>{formatWeight(-15)}</td>
-                <td className={styleCell}>{formatWeight(18.9)}</td>
-              </tr>
-              <tr>
-                <td className={styleCell}>{formatWeight(5)}</td>
-                <td className={styleCell}>{formatWeight(0)}</td>
-                <td className={styleCell}>{formatWeight(5)}</td>
-              </tr>
-              <tr>
-                <td className={styleCell}>{formatWeight(0)}</td>
-                <td className={styleCell}>{formatWeight(0)}</td>
-                <td className={styleCell}>{formatWeight(0)}</td>
-              </tr>
-              <tr>
-                <td className={styleCell}>{formatWeight(0)}</td>
-                <td className={styleCell}>{formatWeight(0)}</td>
-                <td className={styleCell}>{formatWeight(0)}</td>
-              </tr>
-              <tr><td>&nbsp;</td></tr>
-              <tr><td className={styleCell} colSpan="3">&nbsp;</td></tr>
-              <tr>
-                <td className={styleCell}>{formatWeight(3.9)}</td>
-                <td className={styleCell}>{formatWeight(-15)}</td>
-                <td className={styleCell}>{formatWeight(18.9)}</td>
-              </tr>
-              <tr>
-                <td className={styleCell}>{formatWeight(5)}</td>
-                <td className={styleCell}>{formatWeight(0)}</td>
-                <td className={styleCell}>{formatWeight(5)}</td>
-              </tr>
-              <tr>
-                <td className={styleCell}>{formatWeight(0)}</td>
-                <td className={styleCell}>{formatWeight(0)}</td>
-                <td className={styleCell}>{formatWeight(0)}</td>
-              </tr>
-              <tr>
-                <td className={styleCell}>{formatWeight(0)}</td>
-                <td className={styleCell}>{formatWeight(0)}</td>
-                <td className={styleCell}>{formatWeight(0)}</td>
-              </tr>
-              <tr><td>&nbsp;</td></tr>
             </tbody>
           </table>
         </div>

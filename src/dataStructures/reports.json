@@ -28,27 +28,19 @@
     "dataType": "currency"
   },
   "owedCustomers": {
-    "label": "Owed Customers",
+    "label": "Customers",
     "dataType": "currency"
   },
   "taxGHL": {
-    "label": "Tax GHL",
-    "dataType": "currency"
-  },
-  "taxGEUAB": {
-    "label": "Tax GEUAB",
+    "label": "Tax",
     "dataType": "currency"
   },
   "spreadGHL": {
-    "label": "Spread GHL",
+    "label": "Spread",
     "dataType": "currency"
   },
   "revenueGHL": {
-    "label": "Revenue GHL",
-    "dataType": "currency"
-  },
-  "revenueGEUAB": {
-    "label": "Revenue GEUAB",
+    "label": "Revenue",
     "dataType": "currency"
   },
   "totalToMove": {

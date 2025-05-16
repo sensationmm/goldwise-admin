@@ -4,10 +4,10 @@ import { styleCell, styleHeader, styleTotal } from "../../../utils/table"
 const MetalPayments = ({ data }) => {
   const config = {
     metalVaultLedger: '',
-    XAU: 'Gold',
-    XAG: 'Silver',
-    XPT: 'Platinum',
-    XPD: 'Palladium'
+    XAU: 'Fractional Gold',
+    XAG: 'Fractional Silver',
+    XPT: 'Fractional Platinum',
+    XPD: 'Fractional Palladium'
   }
   const cellOverride = `${styleCell} pr-12`
 

@@ -46,6 +46,9 @@ export const formatStatus = (status) => {
   if(status === 'passed') {
     return <span className="text-green-500 font-bold">Passed</span>
   } 
+  if(status === 'settled') {
+    return <span className="text-green-500 font-bold">Settled</span>
+  } 
   if(status === 'uploaded') {
     return <span className="text-green-500 font-bold">Uploaded</span>
   } 
@@ -57,6 +60,9 @@ export const formatStatus = (status) => {
   }
   if(status === 'in-review') {
     return <span className="text-orange-400 font-bold">In Review</span>
+  }
+  if(status === 'unsettled') {
+    return <span className="text-orange-400 font-bold">Unsettled</span>
   }
 }
 
@@ -104,14 +110,16 @@ export const formatOrderStatus = (value) => {
     case 'Rejected':
     case 'Partial Cancel':
     case 'Cancelled':
-      return <span className="text-red-600">{value}</span>
+    case 'Pending':
+      return <span className="text-red-600 font-bold">{value}</span>
     case 'Cleared':
     case 'Filled':
-      return <span className="text-green-400">{value}</span>
+    case 'Settled':
+      return <span className="text-green-400 font-bold">{value}</span>
     case 'Clearing':
-      return <span className="text-gray-900">{value}</span>
+      return <span className="text-gray-900 font-bold">{value}</span>
     case 'Pending Cancel':
-      return <span className="text-orange-400">{value}</span>
+      return <span className="text-orange-400 font-bold">{value}</span>
     case 'Acknowledged':
     case 'Pending Market Fill':
     default:
@@ -124,9 +132,11 @@ export const formatReportStatusCode = (value) => {
 
   switch(value) {
     case 'pending':
-      return <span className={`${style} bg-slate-300`}>Pending</span>
+      return <span className={`${style} bg-orange-400 font-bold`}>Pending</span>
+    case 'submitted':
+      return <span className={`${style} bg-orange-400 font-bold`}>Submitted</span>
     case 'completed':
     default:
-      return <span className={`${style} bg-green-500`}>Completed</span>
+      return <span className={`${style} bg-green-500 font-bold`}>Completed</span>
   }
 }

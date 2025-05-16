@@ -18,10 +18,10 @@ const Funds = () => {
                 <th></th>
                 <th></th>
                 <th></th>
-                <th className={styleHeaderFilled()}>Goldwise</th>
-                <th className={styleHeaderFilled()}>Goldwise</th>
-                <th className={styleHeaderFilled()}>eWallets</th>
-                <th className={styleHeaderFilled()}>Difference</th>
+                <th className={styleHeaderFilled()}>Goldwise<br /><span className="font-normal">(Total Funds)</span></th>
+                <th className={styleHeaderFilled()}>Goldwise<br /><span className="font-normal">(Pending)</span></th>
+                <th className={styleHeaderFilled()}>eWallets<br /><span className="font-normal">(Total Funds)</span></th>
+                <th className={styleHeaderFilled()}>Difference<br /><br /></th>
               </tr>
             </thead>
             <tbody>

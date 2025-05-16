@@ -3,13 +3,13 @@ import { useDispatch } from "react-redux"
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { useNavigate, useLocation } from 'react-router-dom'
-import Button from '../../components/atoms/Button'
 import Input from '../../components/atoms/Input'
 import authService from '../../services/auth.service'
 import { setAdmin } from '../../reducers/userSlice.reducer'
 import { loginValidationSchema } from '../../helper/validationSchemas'
 import { ReactSVG } from 'react-svg'
 import Logo from '../../assets/images/logo.svg'
+import { Button } from '@mui/material'
 
 const Login = () => {
     const dispatch = useDispatch()
@@ -76,8 +76,8 @@ const Login = () => {
                             </div>
 
                             <div className='buttons'>
-                                <Button disabled={isSubmitting} type='submit' label='Login' size='large' primary>
-                                    {isSubmitting && <i className="fa fa-spinner fa-spin fa-3x fa-fw"></i>}
+                                <Button disabled={isSubmitting} type='submit' size='large' primary variant='contained'>
+                                    {isSubmitting ? <i className="fa fa-spinner fa-spin fa-3x fa-fw"></i> : 'Login'}
                                 </Button>
                             </div>
 

@@ -49,11 +49,21 @@ const Metals = () => {
     <BaseLayout
       title="Metals Administration"
       action={
-        (screen === 0  || screen === 1) && <div className="grid grid-cols-3 gap-4">
+        <>
+        {(screen === 0  || screen === 1) && <div className="relative grid grid-cols-3 gap-4">
           <DatePicker label="Date From" value={reportFrom} onChange={setReportFrom} format="DD/MM/YYYY" />
           <Button variant="contained" color="secondary" disabled>Search</Button>
           <Button variant="outlined" color="secondary" disabled>Reset</Button>
-        </div>
+          <div className="w-full absolute text-sm bottom-[-40px] text-right"><span className="font-bold">Results From:</span> 03 JAN 2023 10:00:02 GMT</div>
+        </div>}
+
+        {(screen === 2) && <div className="relative grid grid-cols-3 gap-4">
+          <Button variant="outlined" color="secondary" disabled>Refresh</Button>
+          <Button variant="outlined" color="secondary" disabled>Edit Details</Button>
+          <Button variant="contained" color="primary">Save Report</Button>
+          <div className="w-full absolute text-sm bottom-[-40px] text-right"><span className="font-bold">Results From:</span> 03 JAN 2023 10:00:02 GMT</div>
+        </div>}
+        </>
       }
     >
       <Tabs value={screen} onChange={(_, newValue) => setScreen(newValue)}>
@@ -72,35 +82,39 @@ const Metals = () => {
               <FormControl>
                 <InputLabel id="report-source">Source</InputLabel>
                 <Select id="select-source" label="Source">
-                  <MenuItem value={0}>GHL | London | StoneX</MenuItem>
-                  <MenuItem value={1}>GHL | Zurich | StoneX</MenuItem>
-                  <MenuItem value={2}>GEUAB | London | StoneX</MenuItem>
-                  <MenuItem value={3}>GEUAB | Zurich | StoneX</MenuItem>
+                  <MenuItem value={0}>GHL | UK - London | StoneX</MenuItem>
+                  <MenuItem value={1}>GHL | USA - New York | StoneX</MenuItem>
+                  <MenuItem value={2}>GHL | Switzerland - Zurich | StoneX</MenuItem>
+                  <MenuItem value={3}>GHL | UK - London | Brinks</MenuItem>
+                  <MenuItem value={4}>GHL | USA - New York | Brinks</MenuItem>
+                  <MenuItem value={5}>GHL | Switzerland - Zurich | Brinks</MenuItem>
                 </Select>
               </FormControl>
 
               <FormControl>
                 <InputLabel id="report-product">Product</InputLabel>
                 <Select id="select-product" label="Product">
-                  <MenuItem value={0}>Digital Gold</MenuItem>
-                  <MenuItem value={1}>Digital Silver</MenuItem>
-                  <MenuItem value={2}>Digital Platinun</MenuItem>
-                  <MenuItem value={3}>Digital Palladium</MenuItem>
+                  <MenuItem value={0}>Fractional Gold</MenuItem>
+                  <MenuItem value={1}>Fractional Silver</MenuItem>
+                  <MenuItem value={2}>Fractional Platinun</MenuItem>
+                  <MenuItem value={3}>Fractional Palladium</MenuItem>
                 </Select>
               </FormControl>
 
               <FormControl>
                 <InputLabel id="report-destination">Destination</InputLabel>
                 <Select id="select-destination" labelId="report-destination" label="Destination">
-                  <MenuItem value={0}>GHL | London | Brinks</MenuItem>
-                  <MenuItem value={1}>GHL | Zurich | Brinks</MenuItem>
-                  <MenuItem value={2}>GEUAB | London | Brinks</MenuItem>
-                  <MenuItem value={3}>GEUAB | Zurich | Brinks</MenuItem>
+                  <MenuItem value={0}>GHL | UK - London | StoneX</MenuItem>
+                  <MenuItem value={1}>GHL | USA - New York | StoneX</MenuItem>
+                  <MenuItem value={2}>GHL | Switzerland - Zurich | StoneX</MenuItem>
+                  <MenuItem value={3}>GHL | UK - London | Brinks</MenuItem>
+                  <MenuItem value={4}>GHL | USA - New York | Brinks</MenuItem>
+                  <MenuItem value={5}>GHL | Switzerland - Zurich | Brinks</MenuItem>
                 </Select>
               </FormControl>
 
               <FormControl>
-                <InputLabel id="report-weight">Weight (t/oz)</InputLabel>
+                <InputLabel id="report-weight">Weight (KG)</InputLabel>
                 <Input />
               </FormControl>
 

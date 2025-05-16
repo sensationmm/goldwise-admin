@@ -28,6 +28,7 @@ import Orders from './pages/Orders'
 import Products from './pages/Products'
 import Platform from './pages/Platform'
 import Reports from './pages/Reports'
+import WalletDetails from './pages/Wallets/WalletDetails'
 
 const App = () => {
     const dispatch = useDispatch()
@@ -68,6 +69,7 @@ const App = () => {
         <Route path='orders/:orderID/:pendingOrderGuid' element={<OrderDetails />}/>
         <Route path='report/:reportID' element={<ReportDetails />}/>
         <Route path='ledger/:ledgerID' element={<LedgerDetails />}/>
+        <Route path='wallet/:walletID' element={<WalletDetails />}/>
 
           <Route path='market-hours' element={<MarketHours />} />
         { /* TODO: remove UI display route below */}

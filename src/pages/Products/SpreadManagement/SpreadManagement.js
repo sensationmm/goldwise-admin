@@ -1,7 +1,7 @@
 import SpreadHours from '../../../components/organisms/SpreadHours'
-import Button from '../../../components/atoms/Button';
 import React from "react";
 import BaseLayout from '../../BaseLayout/BaseLayout';
+import { Button } from '@mui/material';
 
 const Products = () => {
     return (
@@ -25,8 +25,8 @@ const Products = () => {
                   </div>
               </div>
               <div className="flex justify-end pt-12 mt-12">
-                  <Button style={{ width: '200px', marginRight: '16px' }}>Cancel</Button>
-                  <Button style={{ width: '200px', backgroundColor: 'rgb(69, 179, 182)', color: 'white' }}>Save</Button>
+                  <Button secondary variant='contained' style={{ width: '200px', marginRight: '16px' }}>Cancel</Button>
+                  <Button primary variant='contained'>Save</Button>
               </div>
           </div>
       </section>

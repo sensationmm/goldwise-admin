@@ -5,7 +5,7 @@ import BaseLayout from "../BaseLayout/BaseLayout";
 import LedgerDataStructure from '../../dataStructures/ledgers.json';
 import { formatWeight } from "../../utils/formatting";
 
-const LedgerDetails = () => {
+const WalletDetails = () => {
   const [state, setState] = useReducer(
     (preState, newState) => ({ ...preState, ...newState }),
     {
@@ -32,7 +32,7 @@ const LedgerDetails = () => {
 
   return (
     <BaseLayout
-      title="GHL | Fractional Gold | UK - London | StoneX"
+      title="GHL | Recon | £GBP"
       hasBack
     >
       <div className="grid grid-cols-[60%_1fr_1fr]">
@@ -59,4 +59,4 @@ const LedgerDetails = () => {
   );
 };
 
-export default LedgerDetails;
+export default WalletDetails;

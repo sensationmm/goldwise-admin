@@ -1,6 +1,5 @@
 { 
   "dataTypes": {
-    "id": "string",
     "gwEntity": "string",
     "internalTradeNo": "string",
     "orderType": "string",
@@ -27,11 +26,11 @@
     "tradeCaptureReport": "string",
     "integralSpread": "number",
     "marketOpenStatus": "string",
-    "stpPrice": "currency"
+    "stpPrice": "currency",
+    "stpId": 1
   },
   "data": [
     {
-      "id": 1,
       "gwEntity": "GHL",
       "internalTradeNo": "O1",
       "orderType": "Buy",
@@ -58,10 +57,10 @@
       "tradeCaptureReport": "FXI3012184547-1573808890",
       "integralSpread": 1.5,
       "marketOpenStatus": 1,
-      "stpPrice": 1500
+      "stpPrice": 1500,
+    "stpId": 1
     },
     {
-      "id": 2,
       "gwEntity": "GHL",
       "internalTradeNo": "O2",
       "orderType": "Buy",
@@ -88,10 +87,10 @@
       "tradeCaptureReport": "FXI3012184548-1573808873",
       "integralSpread": 1.47,
       "marketOpenStatus": 1,
-      "stpPrice": 1470
+      "stpPrice": 1470,
+    "stpId": 1
     },
     {
-      "id": 3,
       "gwEntity": "GHL",
       "internalTradeNo": "O3",
       "orderType": "Buy",
@@ -118,10 +117,11 @@
       "tradeCaptureReport": "FXI3012184549-1573808871",
       "integralSpread": 1.51,
       "marketOpenStatus": 1,
-      "stpPrice": 1510
+      "stpPrice": 1510,
+    "stpId": 1
     },
     {
-      "id": 4,
+
       "gwEntity": "GHL",
       "internalTradeNo": "O4",
       "orderType": "Buy",
@@ -148,10 +148,11 @@
       "tradeCaptureReport": "FXI3012184550-1573808848",
       "integralSpread": 0.02,
       "marketOpenStatus": 1,
-      "stpPrice": 21.5712
+      "stpPrice": 21.5712,
+    "stpId": 1
     },
     {
-      "id": 5,
+
       "gwEntity": "GHL",
       "internalTradeNo": "O5",
       "orderType": "Buy",
@@ -178,10 +179,11 @@
       "tradeCaptureReport": "FXI3012184551-1573808847",
       "integralSpread": 1.51,
       "marketOpenStatus": 1,
-      "stpPrice": 1510
+      "stpPrice": 1510,
+    "stpId": 1
     },
     {
-      "id": 6,
+
       "gwEntity": "GHL",
       "internalTradeNo": "O6",
       "orderType": "Buy",
@@ -208,10 +210,11 @@
       "tradeCaptureReport": "FXI3012184552-1573808846",
       "integralSpread": 1.4,
       "marketOpenStatus": 1,
-      "stpPrice": "1400"
+      "stpPrice": "1400",
+    "stpId": 1
     },
     {
-      "id": 7,
+
       "gwEntity": "GHL",
       "internalTradeNo": "O7",
       "orderType": "Sell",
@@ -238,10 +241,11 @@
       "tradeCaptureReport": "FXI3012184553-1573808849",
       "integralSpread": 1.47,
       "marketOpenStatus": 1,
-      "stpPrice": "1465"
+      "stpPrice": "1465",
+    "stpId": 1
     },
     {
-      "id": 8,
+
       "gwEntity": "GHL",
       "internalTradeNo": "O8",
       "orderType": "Sell",
@@ -268,10 +272,11 @@
       "tradeCaptureReport": "FXI3012184556-1573808850",
       "integralSpread": 1.45,
       "marketOpenStatus": 1,
-      "stpPrice": "1450"
+      "stpPrice": "1450",
+    "stpId": 1
     },
     {
-      "id": 9,
+
       "gwEntity": "GHL",
       "internalTradeNo": "EHT1",
       "orderType": "Buy",
@@ -298,10 +303,11 @@
       "tradeCaptureReport": "FXI3012184559-1573808851",
       "integralSpread": 1.71,
       "marketOpenStatus": 2,
-      "stpPrice": "1775.77"
+      "stpPrice": "1775.77",
+    "stpId": 1
     },
     {
-      "id": 10,
+
       "gwEntity": "GHL",
       "internalTradeNo": "EHT2",
       "orderType": "Buy",
@@ -328,10 +334,11 @@
       "tradeCaptureReport": "FXI3012184562-1573808852",
       "integralSpread": 1.71,
       "marketOpenStatus": 2,
-      "stpPrice": "1800"
+      "stpPrice": "1800",
+    "stpId": 1
     },
     {
-      "id": 11,
+
       "gwEntity": "GHL",
       "internalTradeNo": "EHT3",
       "orderType": "Buy",
@@ -358,10 +365,11 @@
       "tradeCaptureReport": "FXI3012184565-1573808853",
       "integralSpread": 1.71,
       "marketOpenStatus": 2,
-      "stpPrice": "1700"
+      "stpPrice": "1700",
+    "stpId": 1
     },
     {
-      "id": 12,
+
       "gwEntity": "GHL",
       "internalTradeNo": "EHT4",
       "orderType": "Sell",
@@ -388,10 +396,11 @@
       "tradeCaptureReport": "FXI3012184568-1573808854",
       "integralSpread": 1.41,
       "marketOpenStatus": 2,
-      "stpPrice": "1490"
+      "stpPrice": "1490",
+    "stpId": 1
     },
     {
-      "id": 13,
+
       "gwEntity": "GHL",
       "internalTradeNo": "O1",
       "orderType": "Buy",
@@ -418,10 +427,11 @@
       "tradeCaptureReport": "FXI3012184547-1573808890",
       "integralSpread": 1.5,
       "marketOpenStatus": 1,
-      "stpPrice": 1500
+      "stpPrice": 1500,
+    "stpId": 1
     },
     {
-      "id": 14,
+
       "gwEntity": "GHL",
       "internalTradeNo": "O2",
       "orderType": "Buy",
@@ -448,10 +458,11 @@
       "tradeCaptureReport": "FXI3012184548-1573808873",
       "integralSpread": 1.47,
       "marketOpenStatus": 1,
-      "stpPrice": 1470
+      "stpPrice": 1470,
+    "stpId": 1
     },
     {
-      "id": 15,
+
       "gwEntity": "GHL",
       "internalTradeNo": "O3",
       "orderType": "Buy",
@@ -478,10 +489,11 @@
       "tradeCaptureReport": "FXI3012184549-1573808871",
       "integralSpread": 1.51,
       "marketOpenStatus": 1,
-      "stpPrice": 1510
+      "stpPrice": 1510,
+    "stpId": 1
     },
     {
-      "id": 16,
+
       "gwEntity": "GHL",
       "internalTradeNo": "O4",
       "orderType": "Buy",
@@ -508,10 +520,11 @@
       "tradeCaptureReport": "FXI3012184550-1573808848",
       "integralSpread": 0.02,
       "marketOpenStatus": 1,
-      "stpPrice": 21.5712
+      "stpPrice": 21.5712,
+    "stpId": 1
     },
     {
-      "id": 17,
+
       "gwEntity": "GHL",
       "internalTradeNo": "O5",
       "orderType": "Buy",
@@ -538,10 +551,11 @@
       "tradeCaptureReport": "FXI3012184551-1573808847",
       "integralSpread": 1.51,
       "marketOpenStatus": 1,
-      "stpPrice": 1510
+      "stpPrice": 1510,
+    "stpId": 1
     },
     {
-      "id": 18,
+
       "gwEntity": "GHL",
       "internalTradeNo": "O6",
       "orderType": "Buy",
@@ -568,10 +582,11 @@
       "tradeCaptureReport": "FXI3012184552-1573808846",
       "integralSpread": 1.4,
       "marketOpenStatus": 1,
-      "stpPrice": "1400"
+      "stpPrice": "1400",
+    "stpId": 1
     },
     {
-      "id": 19,
+
       "gwEntity": "GHL",
       "internalTradeNo": "O7",
       "orderType": "Sell",
@@ -598,10 +613,11 @@
       "tradeCaptureReport": "FXI3012184553-1573808849",
       "integralSpread": 1.47,
       "marketOpenStatus": 1,
-      "stpPrice": "1465"
+      "stpPrice": "1465",
+    "stpId": 1
     },
     {
-      "id": 20,
+
       "gwEntity": "GHL",
       "internalTradeNo": "O8",
       "orderType": "Sell",
@@ -628,10 +644,11 @@
       "tradeCaptureReport": "FXI3012184556-1573808850",
       "integralSpread": 1.45,
       "marketOpenStatus": 1,
-      "stpPrice": "1450"
+      "stpPrice": "1450",
+    "stpId": 1
     },
     {
-      "id": 21,
+
       "gwEntity": "GHL",
       "internalTradeNo": "EHT1",
       "orderType": "Buy",
@@ -658,10 +675,11 @@
       "tradeCaptureReport": "FXI3012184559-1573808851",
       "integralSpread": 1.71,
       "marketOpenStatus": 2,
-      "stpPrice": "1775.77"
+      "stpPrice": "1775.77",
+    "stpId": 1
     },
     {
-      "id": 22,
+
       "gwEntity": "GHL",
       "internalTradeNo": "EHT2",
       "orderType": "Buy",
@@ -688,10 +706,11 @@
       "tradeCaptureReport": "FXI3012184562-1573808852",
       "integralSpread": 1.71,
       "marketOpenStatus": 2,
-      "stpPrice": "1800"
+      "stpPrice": "1800",
+    "stpId": 1
     },
     {
-      "id": 23,
+
       "gwEntity": "GHL",
       "internalTradeNo": "EHT3",
       "orderType": "Buy",
@@ -718,10 +737,11 @@
       "tradeCaptureReport": "FXI3012184565-1573808853",
       "integralSpread": 1.71,
       "marketOpenStatus": 2,
-      "stpPrice": "1700"
+      "stpPrice": "1700",
+    "stpId": 1
     },
     {
-      "id": 24,
+
       "gwEntity": "GHL",
       "internalTradeNo": "EHT4",
       "orderType": "Sell",
@@ -748,7 +768,8 @@
       "tradeCaptureReport": "FXI3012184568-1573808854",
       "integralSpread": 1.41,
       "marketOpenStatus": 2,
-      "stpPrice": "1490"
+      "stpPrice": "1490",
+    "stpId": 1
     }
   ]
 }

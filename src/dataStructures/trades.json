@@ -1,14 +1,10 @@
 {
-  "itemID": {
-    "label": "ID",
-    "dataType": "string"
-  },
   "gwEntity": {
-    "label": "GW Entity",
+    "label": "Entity",
     "dataType": "string"
   },
   "internalTradeNo": {
-    "label": "Internal Trade No",
+    "label": "Internal Trade #",
     "dataType": "string"
   },
   "orderType": {
@@ -24,7 +20,7 @@
     "dataType": "date"
   },
   "settlementDate": {
-    "label": "Settlement Date",
+    "label": "Settlement Time",
     "dataType": "date"
   },
   "supplier": {
@@ -44,15 +40,15 @@
     "dataType": "currency"
   },
   "integralSpreadAmount": {
-    "label": "Integral Spread Amount",
+    "label": "OMS Spread Amount",
     "dataType": "currency"
   },
   "gwEHTSpreadAmount": {
-    "label": "GW EHT Spread Amount",
+    "label": "GW Spread Amount",
     "dataType": "currency"
   },
   "totalFinalSpreadAmount": {
-    "label": "Total Final Spread Amount",
+    "label": "Total Spread Amount",
     "dataType": "currency"
   },
   "customerProductAmount": {
@@ -76,11 +72,11 @@
     "dataType": "currency"
   },
   "eMoneyInReconWalletDate": {
-    "label": "E-Money in Recon Wallet",
+    "label": "eMoney in Recon Wallet",
     "dataType": "date"
   },
   "stpConfirmed": {
-    "label": "STP Confirmed (B-K)",
+    "label": "STP Confirmed",
     "dataType": "statusCode"
   },
   "fixOrderID": {
@@ -92,7 +88,7 @@
     "dataType": "string"
   },
   "clOrderID": {
-    "label": "(Order Request / Pending) Cl Order ID",
+    "label": "Internal Order ID",
     "dataType": "string"
   },
   "tradeReportID": {
@@ -100,7 +96,7 @@
     "dataType": "tradeCaptureReport"
   },
   "integralSpread": {
-    "label": "Integral Spread",
+    "label": "OMS Spread",
     "dataType": "string"
   },
   "marketOpenStatus": {
@@ -110,5 +106,9 @@
   "stpPrice": {
     "label": "STP Price",
     "dataType": "currency"
+  },
+  "stpID": {
+    "label": "STP ID",
+    "dataType": "number"
   }
 }

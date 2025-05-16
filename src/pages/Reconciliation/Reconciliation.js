@@ -121,6 +121,8 @@ const Reconciliation = () => {
                   View Report
                 </Link>
               )
+            } else if(rec.stpID) {
+              return '1'
             } else {
               return 'Report Pending'
             }
@@ -253,8 +255,8 @@ const Reconciliation = () => {
     <BaseLayout
       title="Reconciliation Reports"
       action={
-        reportType === 0 && <div className="grid grid-cols-2 gap-4">
-          <Button variant="contained" color="secondary" size="large" disabled>STP Request</Button>
+        reportType === 0 && Object.keys(payments).length !== 0 && <div className="grid grid-cols-2 gap-4">
+          <Button variant="outlined" color="secondary" size="large" disabled>STP Request</Button>
           <Button
             variant="contained"
             size="large"
@@ -367,7 +369,7 @@ const Reconciliation = () => {
               dataTypes={Object.keys(TradesDataStructure).map(res => TradesDataStructure[res].dataType)}
               excludeFilters={['ID', 'Order Type']}
               excludeSort={['ID']}
-              excludeLiteralFilter={['Internal Trade No', '(Order Request / Pending) ClOrderID', 'Trade Capture Report']}
+              excludeLiteralFilter={['Internal Trade #', 'Internal Order ID', 'Trade Capture Report']}
               selected={selectedTrades}
               onSelect={handleSelectTrade}
               onSelectAll={handleSelectAllTrades}

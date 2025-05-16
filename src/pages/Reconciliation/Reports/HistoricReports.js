@@ -10,14 +10,16 @@ const HistoricReports = () => {
 
   useEffect(() => {
     const reportsStore = MockHistoricReports.data.map((rec) => {
-      const processed = Object.keys(DataStructure).map((key) => {
+      const processed = Object.keys(DataStructure).filter(key => !['taxGEUAB','revenueGEUAB'].includes(key)).map((key) => {
         if(DataStructure[key].dataType === 'reportStatus') {
           return formatReportStatusCode(rec[key])
+        } else if(key === 'reportReference') {
+          return <Link to='/report/123456789' className="text-blue-700 font-bold underline">{rec[key]}</Link>
         }
         return rec[key]
       })
 
-      processed.unshift(<Link to='/report/123456789' className="text-blue-700 font-bold hover:underline">View Report <i className="fa fa-arrow-right ml-2" /></Link>)
+      // processed.unshift(<Link to='/report/123456789' className="text-blue-700 font-bold hover:underline">View Report <i className="fa fa-arrow-right ml-2" /></Link>)
 
       return processed
     })
@@ -27,7 +29,7 @@ const HistoricReports = () => {
   }, []);
 
   const reportHeaders = Object.keys(DataStructure).map(res => DataStructure[res].label)
-  reportHeaders.unshift('Report Link')
+  // reportHeaders.unshift('Report Link')
 
   return (
     <>
