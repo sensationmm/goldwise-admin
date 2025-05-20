@@ -54,7 +54,7 @@ const ReportDetails = () => {
           </div>
         </div>
       }
-      hasBack
+      backUrl="/reconciliation/reports"
     >
       <div className="grid grid-cols-6 gap-5 mt-8 mb-8">
         <FormControl>

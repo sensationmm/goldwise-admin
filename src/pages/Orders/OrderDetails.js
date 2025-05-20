@@ -120,7 +120,7 @@ const OrderDetails = (params) => {
   const cellOverride = `${styleCell} !whitespace-normal overflow-scroll`
 
   return (
-    <BaseLayout title={`Order Details: ${orderID}`} hasBack>
+    <BaseLayout title={`Order Details: ${orderID}`} backUrl={'/orders'}>
       <Tabs value={orderView} onChange={(_, newValue) => setOrderView(newValue)}>
         <Tab label="Order Details" />
         <Tab label="Order Fills" />
