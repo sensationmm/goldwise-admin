@@ -50,60 +50,25 @@ const CustomerDetails = (props) => {
         restrictConvert: false,
         restrictWithdraw: false,
     });
-    const [amlStatus, setAmlStatus] = useState({
-        overallStatusID: 1,
-        overallStatusText: "Not Started"
-    });
-
-    const [questionnaire, setCustomerQuestionnaire] = useState([
-        {
-            questionTitle: "What's your experience?",
-            answer: "-"
-        },
-        {
-            questionTitle: "Your reason for using us?",
-            answer: "-"
-        },
-        {
-            questionTitle: "Source of funds?",
-            answer: "-"
-        },
-        {
-            questionTitle: "Invested Amount?",
-            answer: "-"
-        },
-        {
-            questionTitle: "Investment Frequency?",
-            answer: "-"
-        }
-    ]);
 
     const getCustomer = async () => {
-        try {
-            dispatch(showLoader())
-            const customer = await customerDetailService.getCustomerDetails(customerGuid);
-            const customerDetailData = customer.data.response;
-            setCustomer(customerDetailData);
-            setLockAccountStatus(customerDetailData.customerDetails.isLocked)
-            // setEmailactiveStatus(customerDetailData.customerDetails.isEmailVerify)
-            // setActiveAccountStatus(customerDetailData.customerDetails.isActive)
-            // setDateOfBirth(new Date(customerDetailData.customerDetails.dateOfBirth));
-            setTradingRestrictions(customerDetailData.restrictions)
-            setMonitorCustomer(customerDetailData.customerDetails.isGwMonitored)
-            setAmlStatus({
-                overallStatusID: customerDetailData.overallStatusID,
-                overallStatusText: customerDetailData.overallStatusText
-            })
-
-            if (customerDetailData.customerQuestionnaire.length > 0) {
-                setCustomerQuestionnaire(customerDetailData.customerQuestionnaire)
-            }
-        } catch (e) {
-            //todo: display error if happen
-            console.log(e)
-        } finally {
-            dispatch(hideLoader())
-        }
+      try {
+        dispatch(showLoader())
+        const customer = await customerDetailService.getCustomerDetails(customerGuid);
+        const customerDetailData = customer.data.response;
+        setCustomer(customerDetailData);
+        setLockAccountStatus(customerDetailData.customerDetails.isLocked)
+        // setEmailactiveStatus(customerDetailData.customerDetails.isEmailVerify)
+        // setActiveAccountStatus(customerDetailData.customerDetails.isActive)
+        // setDateOfBirth(new Date(customerDetailData.customerDetails.dateOfBirth));
+        setTradingRestrictions(customerDetailData.restrictions)
+        setMonitorCustomer(customerDetailData.customerDetails.isGwMonitored)
+      } catch (e) {
+        //todo: display error if happen
+        console.log(e)
+      } finally {
+        dispatch(hideLoader())
+      }
     }
 
     useLayoutEffect(() => {
@@ -163,10 +128,6 @@ const CustomerDetails = (props) => {
     const setAmlFailed = async (reason) => {
         try {
             await customerDetailService.setAmlFailed(reason, customerGuid)
-            setAmlStatus({
-                overallStatusID: 10,
-                overallStatusText: "Failed manually"
-            })
             setSuccessMessage("AML status set to “FAILED” successfully!")
         } catch (e) {
             //todo: catch error
@@ -178,10 +139,6 @@ const CustomerDetails = (props) => {
     const setAmlPassed = async (reason) => {
         try {
             await customerDetailService.setAmlPassed(reason, customerGuid)
-            setAmlStatus({
-                overallStatusID: 9,
-                overallStatusText: "Passed manually"
-            })
             setSuccessMessage("AML status set to “PASSED” successfully!")
         } catch (e) {
             //todo: catch error
@@ -193,10 +150,6 @@ const CustomerDetails = (props) => {
     const resetAml = async (reason) => {
         try {
             await customerDetailService.resetAml(reason, customerGuid)
-            setAmlStatus({
-                overallStatusID: 1,
-                overallStatusText: "Not Started"
-            })
             setSuccessMessage("AML reset successfully!")
         } catch (e) {
             //todo: catch error
@@ -233,11 +186,6 @@ const CustomerDetails = (props) => {
 
     const toggleActionMenu = () => {
         setActionMenu(!actionMenu)
-    }
-
-    const prevRoute = {
-        path: "/" + window.location.href.split('/')[3],
-        name: window.location.href.split('/')[3].charAt(0).toUpperCase() + window.location.href.split('/')[3].slice(1)
     }
 
     return (
@@ -316,7 +264,7 @@ const CustomerDetails = (props) => {
         </Modal>
         }
 
-        <BaseLayout title={`${customer?.customerDetails?.forename ?? ''} ${customer?.customerDetails?.surname ?? ''}`} hasBack  action={<Button primary variant='contained'>Action Menu</Button>}>
+        <BaseLayout title={`${customer?.customerDetails?.forename ?? ''} ${customer?.customerDetails?.surname ?? ''}`} backUrl={'/customers'}  action={<Button primary variant='contained'>Action Menu</Button>}>
           <div className='relative text-xs top-[-20px]'>{customer?.customerDetails?.emailAddress}</div>
 
           <Tabs value={view} onChange={(_, newValue) => setView(newValue)}>

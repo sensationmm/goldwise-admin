@@ -33,7 +33,7 @@ const WalletDetails = () => {
   return (
     <BaseLayout
       title="GHL | Recon | £GBP"
-      hasBack
+      backUrl={'/reconciliation/wallets'}
     >
       <div className="grid grid-cols-[60%_1fr_1fr]">
         <div />

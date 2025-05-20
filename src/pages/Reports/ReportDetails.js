@@ -1,7 +1,7 @@
 import { useEffect, useReducer, useState } from "react";
 import DataTable from "../../components/atoms/DataTable/DataTable";
 import MockTrades from "../../mocks/reconciliation.json"
-import { Button, FormControl, Input, InputLabel, Tab, Tabs } from "@mui/material";
+import { FormControl, Input, InputLabel, Tab, Tabs } from "@mui/material";
 import BaseLayout from "../BaseLayout/BaseLayout";
 import { styleCell, styleHeader, styleTotal } from "../../utils/table";
 import { formatCurrency, formatReportStatusCode, formatStatus } from "../../utils/formatting";
@@ -22,7 +22,7 @@ const ReportDetails = () => {
       payments: []
     }
   );
-  const { trades, tradesTypes } = state;
+  const { trades } = state;
 
   useEffect(() => {
     let trades = [];
@@ -180,10 +180,10 @@ const ReportDetails = () => {
           <table>
             <tr>
               <th></th>
-              <th className={styleHeader(cellOverride)}>Gold</th>
-              <th className={styleHeader(cellOverride)}>Silver</th>
-              <th className={styleHeader(cellOverride)}>Platinum</th>
-              <th className={styleHeader(cellOverride)}>Palladium</th>
+              <th className={styleHeader(cellOverride)}>Fractional Gold</th>
+              <th className={styleHeader(cellOverride)}>Fractional Silver</th>
+              <th className={styleHeader(cellOverride)}>Fractional Platinum</th>
+              <th className={styleHeader(cellOverride)}>Fractional Palladium</th>
             </tr>
             <tr>
               <th className={styleHeader(cellOverride)}>GHL | London | StoneX</th>
@@ -194,20 +194,6 @@ const ReportDetails = () => {
             </tr>
             <tr>
               <th className={styleHeader(cellOverride)}>GHL | Zurich | StoneX</th>
-              <td className={styleCell}>{formatCurrency(0)}</td>
-              <td className={styleCell}>{formatCurrency(0)}</td>
-              <td className={styleCell}>{formatCurrency(0)}</td>
-              <td className={styleCell}>{formatCurrency(0)}</td>
-            </tr>
-            <tr>
-              <th className={styleHeader(cellOverride)}>GEUAB | London | StoneX</th>
-              <td className={styleCell}>{formatCurrency(0)}</td>
-              <td className={styleCell}>{formatCurrency(0)}</td>
-              <td className={styleCell}>{formatCurrency(0)}</td>
-              <td className={styleCell}>{formatCurrency(0)}</td>
-            </tr>
-            <tr>
-              <th className={styleHeader(cellOverride)}>GEUAB | Zurich | StoneX</th>
               <td className={styleCell}>{formatCurrency(0)}</td>
               <td className={styleCell}>{formatCurrency(0)}</td>
               <td className={styleCell}>{formatCurrency(0)}</td>
@@ -232,8 +218,8 @@ const ReportDetails = () => {
               <tr>
                 <th></th>
                 <th className={styleHeader()}>Metal Cost</th>
-                <th className={styleHeader()}>Integral Spread</th>
-                <th className={styleHeader()}>EHT Spread</th>
+                <th className={styleHeader()}>OMS Spread</th>
+                <th className={styleHeader()}>Goldwise Spread</th>
                 <th className={styleHeader()}>Total Spread</th>
                 <th className={styleHeader()}>Product Amount</th>
                 <th className={styleHeader()}>Fees</th>
@@ -292,10 +278,9 @@ const ReportDetails = () => {
       <div className={` justify-between mb-2`}>
         <h3 className="mb-1">Executed Trades</h3>
         <div className="text-sm">
-          <span className="pr-1"><span className="font-bold">{trades.length}</span> Trades</span>
+          <span className="pr-1"><span className="font-bold">998</span> Trades</span>
           |<span className="font-bold px-1">995</span>  <span className="text-green-400 pr-1">Confirmed</span>
           |<span className="font-bold pl-1">3</span> <span className="text-orange-400 pr-1">With Error</span>
-          |<span className="font-bold pl-1">2</span> <span className="text-red-600 pr-1">Not Confirmed</span>
         </div>
       </div>
 

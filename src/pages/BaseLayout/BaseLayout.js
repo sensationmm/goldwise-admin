@@ -6,7 +6,7 @@ import { useState } from 'react';
 import Header from '../../components/molecules/Header/Header';
 import { IconButton } from '@mui/material';
 
-const BaseLayout = ({full, title, action, children, hasBack = false}) => {
+const BaseLayout = ({full, title, action, children, backUrl}) => {
     const loader = useSelector((state) => state.loader?.display)
     const [showSidePanel, setShowSidePanel] = useState(true)
     const navigate = useNavigate();
@@ -30,9 +30,9 @@ const BaseLayout = ({full, title, action, children, hasBack = false}) => {
                 <main className="w-full relative overflow-hidden p-12 z-10">
                   <header className="mb-8 flex justify-between items-center pr-[40px]">
                     <div className="flex items-center">
-                      {hasBack && 
+                      {backUrl && 
                         <div className="mr-2 absolute left-[10px]">
-                          <IconButton color="text" onClick={() => navigate(-1)}><i className={`fa text-sm fa-arrow-left`} aria-hidden="true" /></IconButton>
+                          <IconButton color="text" onClick={() => navigate(backUrl)}><i className={`fa text-sm fa-arrow-left`} aria-hidden="true" /></IconButton>
                         </div>
                       }
                       <h1>{title}</h1>

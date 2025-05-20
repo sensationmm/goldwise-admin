@@ -1,6 +1,6 @@
 import { Tab, Tabs } from "@mui/material";
 import { formatWeight } from "../../../utils/formatting";
-import { styleCell, styleHeader, styleSectionHeader } from "../../../utils/table";
+import { styleCell, styleCellDefault, styleHeader, styleSectionHeader } from "../../../utils/table";
 
 const MetalMovement = () => {
   return (
@@ -29,7 +29,7 @@ const MetalMovement = () => {
               </tr>
               <tr>
                 <td></td>
-                <td className={styleCell}>Digital Gold</td>
+                <td className={styleCellDefault}>Fractional Gold</td>
                 <td className={styleCell}>{formatWeight(12.900)}</td>
                 <td className={styleCell}>{formatWeight(-5.000)}</td>
                 <td className={styleCell}>{formatWeight(-15.000)}</td>
@@ -38,7 +38,7 @@ const MetalMovement = () => {
               </tr>
               <tr>
                 <td></td>
-                <td className={styleCell}>Digital Silver</td>
+                <td className={styleCellDefault}>Fractional Silver</td>
                 <td className={styleCell}>{formatWeight(-3.000)}</td>
                 <td className={styleCell}>{formatWeight(2.000)}</td>
                 <td className={styleCell}>{formatWeight(0.000)}</td>
@@ -47,7 +47,7 @@ const MetalMovement = () => {
               </tr>
               <tr>
                 <td></td>
-                <td className={styleCell}>Digital Platinum</td>
+                <td className={styleCellDefault}>Fractional Platinum</td>
                 <td className={styleCell}>{formatWeight(0.000)}</td>
                 <td className={styleCell}>{formatWeight(0.000)}</td>
                 <td className={styleCell}>{formatWeight(0.000)}</td>
@@ -56,7 +56,7 @@ const MetalMovement = () => {
               </tr>
               <tr>
                 <td></td>
-                <td className={styleCell}>Digital Palladium</td>
+                <td className={styleCellDefault}>Fractional Palladium</td>
                 <td className={styleCell}>{formatWeight(0.000)}</td>
                 <td className={styleCell}>{formatWeight(0.000)}</td>
                 <td className={styleCell}>{formatWeight(0.000)}</td>
@@ -69,7 +69,7 @@ const MetalMovement = () => {
               </tr>
               <tr>
                 <td></td>
-                <td className={styleCell}>Digital Gold</td>
+                <td className={styleCellDefault}>Fractional Gold</td>
                 <td className={styleCell}>{formatWeight(12.900)}</td>
                 <td className={styleCell}>{formatWeight(-5.000)}</td>
                 <td className={styleCell}>{formatWeight(-15.000)}</td>
@@ -78,7 +78,7 @@ const MetalMovement = () => {
               </tr>
               <tr>
                 <td></td>
-                <td className={styleCell}>Digital Silver</td>
+                <td className={styleCellDefault}>Fractional Silver</td>
                 <td className={styleCell}>{formatWeight(-3.000)}</td>
                 <td className={styleCell}>{formatWeight(2.000)}</td>
                 <td className={styleCell}>{formatWeight(0.000)}</td>
@@ -87,7 +87,7 @@ const MetalMovement = () => {
               </tr>
               <tr>
                 <td></td>
-                <td className={styleCell}>Digital Platinum</td>
+                <td className={styleCellDefault}>Fractional Platinum</td>
                 <td className={styleCell}>{formatWeight(0.000)}</td>
                 <td className={styleCell}>{formatWeight(0.000)}</td>
                 <td className={styleCell}>{formatWeight(0.000)}</td>
@@ -96,7 +96,7 @@ const MetalMovement = () => {
               </tr>
               <tr>
                 <td></td>
-                <td className={styleCell}>Digital Palladium</td>
+                <td className={styleCellDefault}>Fractional Palladium</td>
                 <td className={styleCell}>{formatWeight(0.000)}</td>
                 <td className={styleCell}>{formatWeight(0.000)}</td>
                 <td className={styleCell}>{formatWeight(0.000)}</td>
@@ -109,7 +109,7 @@ const MetalMovement = () => {
               </tr>
               <tr>
                 <td></td>
-                <td className={styleCell}>Digital Gold</td>
+                <td className={styleCellDefault}>Fractional Gold</td>
                 <td className={styleCell}>{formatWeight(12.900)}</td>
                 <td className={styleCell}>{formatWeight(-5.000)}</td>
                 <td className={styleCell}>{formatWeight(-15.000)}</td>
@@ -118,7 +118,7 @@ const MetalMovement = () => {
               </tr>
               <tr>
                 <td></td>
-                <td className={styleCell}>Digital Silver</td>
+                <td className={styleCellDefault}>Fractional Silver</td>
                 <td className={styleCell}>{formatWeight(-3.000)}</td>
                 <td className={styleCell}>{formatWeight(2.000)}</td>
                 <td className={styleCell}>{formatWeight(0.000)}</td>
@@ -127,7 +127,7 @@ const MetalMovement = () => {
               </tr>
               <tr>
                 <td></td>
-                <td className={styleCell}>Digital Platinum</td>
+                <td className={styleCellDefault}>Fractional Platinum</td>
                 <td className={styleCell}>{formatWeight(0.000)}</td>
                 <td className={styleCell}>{formatWeight(0.000)}</td>
                 <td className={styleCell}>{formatWeight(0.000)}</td>
@@ -136,7 +136,7 @@ const MetalMovement = () => {
               </tr>
               <tr>
                 <td></td>
-                <td className={styleCell}>Digital Palladium</td>
+                <td className={styleCellDefault}>Fractional Palladium</td>
                 <td className={styleCell}>{formatWeight(0.000)}</td>
                 <td className={styleCell}>{formatWeight(0.000)}</td>
                 <td className={styleCell}>{formatWeight(0.000)}</td>
@@ -149,7 +149,7 @@ const MetalMovement = () => {
               </tr>
               <tr>
                 <td></td>
-                <td className={styleCell}>Digital Gold</td>
+                <td className={styleCellDefault}>Fractional Gold</td>
                 <td className={styleCell}>{formatWeight(12.900)}</td>
                 <td className={styleCell}>{formatWeight(-5.000)}</td>
                 <td className={styleCell}>{formatWeight(-15.000)}</td>
@@ -158,7 +158,7 @@ const MetalMovement = () => {
               </tr>
               <tr>
                 <td></td>
-                <td className={styleCell}>Digital Silver</td>
+                <td className={styleCellDefault}>Fractional Silver</td>
                 <td className={styleCell}>{formatWeight(-3.000)}</td>
                 <td className={styleCell}>{formatWeight(2.000)}</td>
                 <td className={styleCell}>{formatWeight(0.000)}</td>
@@ -167,7 +167,7 @@ const MetalMovement = () => {
               </tr>
               <tr>
                 <td></td>
-                <td className={styleCell}>Digital Platinum</td>
+                <td className={styleCellDefault}>Fractional Platinum</td>
                 <td className={styleCell}>{formatWeight(0.000)}</td>
                 <td className={styleCell}>{formatWeight(0.000)}</td>
                 <td className={styleCell}>{formatWeight(0.000)}</td>
@@ -176,7 +176,7 @@ const MetalMovement = () => {
               </tr>
               <tr>
                 <td></td>
-                <td className={styleCell}>Digital Palladium</td>
+                <td className={styleCellDefault}>Fractional Palladium</td>
                 <td className={styleCell}>{formatWeight(0.000)}</td>
                 <td className={styleCell}>{formatWeight(0.000)}</td>
                 <td className={styleCell}>{formatWeight(0.000)}</td>
@@ -198,6 +198,28 @@ const MetalMovement = () => {
               <tr className="bg-slate-300">
                 <th colSpan="3" className={styleSectionHeader()}>&nbsp;</th>
               </tr>
+              <tr>
+                <td className={styleCell}>{formatWeight(3.9)}</td>
+                <td className={styleCell}>{formatWeight(-15)}</td>
+                <td className={styleCell}>{formatWeight(18.9)}</td>
+              </tr>
+              <tr>
+                <td className={styleCell}>{formatWeight(5)}</td>
+                <td className={styleCell}>{formatWeight(0)}</td>
+                <td className={styleCell}>{formatWeight(5)}</td>
+              </tr>
+              <tr>
+                <td className={styleCell}>{formatWeight(0)}</td>
+                <td className={styleCell}>{formatWeight(0)}</td>
+                <td className={styleCell}>{formatWeight(0)}</td>
+              </tr>
+              <tr>
+                <td className={styleCell}>{formatWeight(0)}</td>
+                <td className={styleCell}>{formatWeight(0)}</td>
+                <td className={styleCell}>{formatWeight(0)}</td>
+              </tr>
+              <tr><td>&nbsp;</td></tr>
+              <tr><td className={styleCell} colSpan="3">&nbsp;</td></tr>
               <tr>
                 <td className={styleCell}>{formatWeight(3.9)}</td>
                 <td className={styleCell}>{formatWeight(-15)}</td>

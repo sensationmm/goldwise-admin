@@ -7,7 +7,7 @@ const Funds = () => {
   const cellOverride = `${styleCell} !text-xs`
 
   return (
-    <BaseLayout title="Safeguarded Funds" action={<Button variant="outlined" disabled>Refresh</Button>}>
+    <BaseLayout title="Safeguarded Funds" action={<Button variant="outlined" color="secondary" disabled>Refresh</Button>}>
       <div className="text-xs mb-10"><span className="font-bold">Results From:</span> 03 JAN 2023 10:00:02 GMT</div>
 
       <div className="items-start">

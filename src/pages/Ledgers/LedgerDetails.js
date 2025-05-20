@@ -33,7 +33,7 @@ const LedgerDetails = () => {
   return (
     <BaseLayout
       title="GHL | Fractional Gold | UK - London | StoneX"
-      hasBack
+      backUrl={'/reconciliation/metals/1'}
     >
       <div className="grid grid-cols-[60%_1fr_1fr]">
         <div />

@@ -4,7 +4,7 @@
     "dataType": "string"
   },
   "settlementDate": {
-    "label": "Settlement Date",
+    "label": "Transaction Date",
     "dataType": "date"
   },
   "transactionDescription": {
@@ -24,7 +24,7 @@
     "dataType": "weight"
   },
   "status": {
-    "label": "Status",
+    "label": "Payment Status",
     "dataType": "orderStatus"
   }
 }

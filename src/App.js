@@ -62,7 +62,7 @@ const App = () => {
 
         { /* TODO: move inside authed routes */}
         <Route path='reconciliation/reports' element={<Reconciliation />}/>
-        <Route path='reconciliation/metals' element={<Metals />}/>
+        <Route path='reconciliation/metals/:tab?' element={<Metals />}/>
         <Route path='reconciliation/wallets' element={<Wallets />}/>
         <Route path='reconciliation/funds' element={<Funds />}/>
         <Route path='orders' element={<Orders />}/>

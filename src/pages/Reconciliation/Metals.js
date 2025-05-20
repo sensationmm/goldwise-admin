@@ -9,8 +9,10 @@ import HistoricAssetReports from "./Metals/HistoricAssetReports";
 import { useDispatch } from "react-redux";
 import { hideLoader, showLoader } from "../../reducers/loaderSlice.reducer";
 import reconciliationService from "../../services/reconciliation.service";
+import { useParams } from "react-router-dom";
 
 const Metals = () => {
+  const { tab } = useParams()
   const dispatch = useDispatch()
   const [screen, setScreen] = useState(0)
   const [reportFrom, setReportFrom] = useState(null)
@@ -44,6 +46,10 @@ const Metals = () => {
   useEffect(() => {
     getEntities()
   }, []);
+  
+  useEffect(() => {
+    tab && setScreen(parseInt(tab))
+  }, [tab]);
 
   return (
     <BaseLayout
@@ -53,7 +59,7 @@ const Metals = () => {
         {(screen === 0  || screen === 1) && <div className="relative grid grid-cols-3 gap-4">
           <DatePicker label="Date From" value={reportFrom} onChange={setReportFrom} format="DD/MM/YYYY" />
           <Button variant="contained" color="secondary" disabled>Search</Button>
-          <Button variant="outlined" color="secondary" disabled>Reset</Button>
+          <Button variant="contained" color="primary" disabled>Reset</Button>
           <div className="w-full absolute text-sm bottom-[-40px] text-right"><span className="font-bold">Results From:</span> 03 JAN 2023 10:00:02 GMT</div>
         </div>}
 
@@ -81,7 +87,7 @@ const Metals = () => {
             <div className="grid grid-cols-5 gap-5 mt-8 mb-8">
               <FormControl>
                 <InputLabel id="report-source">Source</InputLabel>
-                <Select id="select-source" label="Source">
+                <Select id="select-source" label="Source" value={''}>
                   <MenuItem value={0}>GHL | UK - London | StoneX</MenuItem>
                   <MenuItem value={1}>GHL | USA - New York | StoneX</MenuItem>
                   <MenuItem value={2}>GHL | Switzerland - Zurich | StoneX</MenuItem>
@@ -93,7 +99,7 @@ const Metals = () => {
 
               <FormControl>
                 <InputLabel id="report-product">Product</InputLabel>
-                <Select id="select-product" label="Product">
+                <Select id="select-product" label="Product" value={''}>
                   <MenuItem value={0}>Fractional Gold</MenuItem>
                   <MenuItem value={1}>Fractional Silver</MenuItem>
                   <MenuItem value={2}>Fractional Platinun</MenuItem>
@@ -103,7 +109,7 @@ const Metals = () => {
 
               <FormControl>
                 <InputLabel id="report-destination">Destination</InputLabel>
-                <Select id="select-destination" labelId="report-destination" label="Destination">
+                <Select id="select-destination" labelId="report-destination" label="Destination" value={''}>
                   <MenuItem value={0}>GHL | UK - London | StoneX</MenuItem>
                   <MenuItem value={1}>GHL | USA - New York | StoneX</MenuItem>
                   <MenuItem value={2}>GHL | Switzerland - Zurich | StoneX</MenuItem>

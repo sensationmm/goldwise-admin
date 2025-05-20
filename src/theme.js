@@ -37,6 +37,11 @@ const theme = createTheme(
             '&.Mui-disabled': {
               color: '#fff'
             },
+            ...(ownerState.variant === 'outlined' && (ownerState.color === 'secondary') && {
+              '&.Mui-disabled': {
+                color: customPalette.palette.text.disabled
+              }
+            }),
           }),
         },
       },

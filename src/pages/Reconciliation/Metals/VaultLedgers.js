@@ -34,10 +34,10 @@ const VaultLedgers = () => {
                 </td>
               </tr>
               <tr>
-                <td className={styleEmptyCell}></td>
+                <td className={styleEmptyCell()}></td>
                 <td className={cellOverride}><span className="font-bold mr-4">Current Balance</span> {formatWeight(0.000)}</td>
               </tr>
-              <tr><td className={styleEmptyCell}></td><td className={styleEmptyCell}></td></tr>
+              <tr><td className={styleEmptyCell()}></td><td className={styleEmptyCell()}></td></tr>
               <tr>
                 <td colSpan={2}>
                   <table>
@@ -84,7 +84,7 @@ const VaultLedgers = () => {
                 </td>
               </tr>
               <tr>
-                <td className={styleEmptyCell}></td>
+                <td className={styleEmptyCell()}></td>
                 <td className={cellOverride}><span className="font-bold mr-4">Opening Balance</span> {formatWeight(0.000)}</td>
               </tr>
             </thead>
@@ -103,10 +103,10 @@ const VaultLedgers = () => {
                 </td>
               </tr>
               <tr>
-                <td className={styleEmptyCell}></td>
+                <td className={styleEmptyCell()}></td>
                 <td className={cellOverride}><span className="font-bold mr-4">Current Balance</span> {formatWeight(0.000)}</td>
               </tr>
-              <tr><td className={styleEmptyCell}></td><td className={styleEmptyCell}></td></tr>
+              <tr><td className={styleEmptyCell()}></td><td className={styleEmptyCell()}></td></tr>
               <tr>
                 <td colSpan={2}>
                   <table >
@@ -132,7 +132,7 @@ const VaultLedgers = () => {
                 </td>
               </tr>
               <tr>
-                <td className={styleEmptyCell}></td>
+                <td className={styleEmptyCell()}></td>
                 <td className={cellOverride}><span className="font-bold mr-4">Opening Balance</span> {formatWeight(0.000)}</td>
               </tr>
             </thead>
@@ -151,10 +151,10 @@ const VaultLedgers = () => {
                 </td>
               </tr>
               <tr>
-                <td className={styleEmptyCell}></td>
+                <td className={styleEmptyCell()}></td>
                 <td className={cellOverride}><span className="font-bold mr-4">Current Balance</span> {formatWeight(0.000)}</td>
               </tr>
-              <tr><td className={styleEmptyCell}></td><td className={styleEmptyCell}></td></tr>
+              <tr><td className={styleEmptyCell()}></td><td className={styleEmptyCell()}></td></tr>
               <tr>
                 <td colSpan={2}>
                   <table>
@@ -201,7 +201,7 @@ const VaultLedgers = () => {
                 </td>
               </tr>
               <tr>
-                <td className={styleEmptyCell}></td>
+                <td className={styleEmptyCell()}></td>
                 <td className={cellOverride}><span className="font-bold mr-4">Opening Balance</span> {formatWeight(0.000)}</td>
               </tr>
             </thead>
@@ -220,10 +220,10 @@ const VaultLedgers = () => {
                 </td>
               </tr>
               <tr>
-                <td className={styleEmptyCell}></td>
+                <td className={styleEmptyCell()}></td>
                 <td className={cellOverride}><span className="font-bold mr-4">Current Balance</span> {formatWeight(0.000)}</td>
               </tr>
-              <tr><td className={styleEmptyCell}></td><td className={styleEmptyCell}></td></tr>
+              <tr><td className={styleEmptyCell()}></td><td className={styleEmptyCell()}></td></tr>
               <tr>
                 <td colSpan={2}>
                   <table>
@@ -249,7 +249,7 @@ const VaultLedgers = () => {
                 </td>
               </tr>
               <tr>
-                <td className={styleEmptyCell}></td>
+                <td className={styleEmptyCell()}></td>
                 <td className={cellOverride}><span className="font-bold mr-4">Opening Balance</span> {formatWeight(0.000)}</td>
               </tr>
             </thead>
@@ -268,10 +268,10 @@ const VaultLedgers = () => {
                 </td>
               </tr>
               <tr>
-                <td className={styleEmptyCell}></td>
+                <td className={styleEmptyCell()}></td>
                 <td className={cellOverride}><span className="font-bold mr-4">Current Balance</span> {formatWeight(0.000)}</td>
               </tr>
-              <tr><td className={styleEmptyCell}></td><td className={styleEmptyCell}></td></tr>
+              <tr><td className={styleEmptyCell()}></td><td className={styleEmptyCell()}></td></tr>
               <tr>
                 <td colSpan={2}>
                   <table>
@@ -318,7 +318,7 @@ const VaultLedgers = () => {
                 </td>
               </tr>
               <tr>
-                <td className={styleEmptyCell}></td>
+                <td className={styleEmptyCell()}></td>
                 <td className={cellOverride}><span className="font-bold mr-4">Opening Balance</span> {formatWeight(0.000)}</td>
               </tr>
             </thead>
@@ -337,10 +337,10 @@ const VaultLedgers = () => {
                 </td>
               </tr>
               <tr>
-                <td className={styleEmptyCell}></td>
+                <td className={styleEmptyCell()}></td>
                 <td className={cellOverride}><span className="font-bold mr-4">Current Balance</span> {formatWeight(0.000)}</td>
               </tr>
-              <tr><td className={styleEmptyCell}></td><td className={styleEmptyCell}></td></tr>
+              <tr><td className={styleEmptyCell()}></td><td className={styleEmptyCell()}></td></tr>
               <tr>
                 <td colSpan={2}>
                   <table>
@@ -366,7 +366,7 @@ const VaultLedgers = () => {
                 </td>
               </tr>
               <tr>
-                <td className={styleEmptyCell}></td>
+                <td className={styleEmptyCell()}></td>
                 <td className={cellOverride}><span className="font-bold mr-4">Opening Balance</span> {formatWeight(0.000)}</td>
               </tr>
             </thead>
