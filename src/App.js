@@ -76,7 +76,7 @@ const App = () => {
         <Route path='reconciliation/reports2' element={<Reconciliation2 />}/>
 
         {/* Protected routes */}
-        {/* <Route element={<RequireAuth/>}> */}
+        <Route element={<RequireAuth/>}>
           <Route path='dashboard' element={<Dashboard/>}/>
 
           <Route path="customers/:customerGuid" element={<CustomerDetails/>}/>
@@ -103,7 +103,7 @@ const App = () => {
 
           {/* Catch all */}
           <Route path='*' element={<Missing />} />
-      {/* </Route> */}
+      </Route>
     </Routes >
   )
 }
