@@ -45,57 +45,6 @@ const Kyc = (props) => {
 
     const idStatuses = ['0','4','5,9','6,10,11']
 
-    const customersStatus = [
-        {
-            id: "0",
-            name: "View All",
-        },
-        {
-            id: "1",
-            name: "Not Started",
-        },
-        {
-            id: "2",
-            name: "Awaiting Information",
-        },
-        {
-            id: "3",
-            name: "In Progress",
-        },
-        {
-            id: "4",
-            name: "In Review",
-        },
-        {
-            id: "5",
-            name: "Passed",
-        },
-        {
-            id: "6",
-            name: "Failed",
-        },
-        {
-            id: "7",
-            name: "Retry",
-        },
-        {
-            id: "8",
-            name: "Expired",
-        },
-        {
-            id: "9",
-            name: "Passed (manual)",
-        },
-        {
-            id: "10",
-            name: "Failed (manual)",
-        },
-        {
-            id: "11",
-            name: "Suspended",
-        },
-    ]
-
     useEffect(() => {
       if (sortOrder === "") {
           setSortOrder('dateDesc');

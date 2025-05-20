@@ -4,52 +4,63 @@ import Logo from '../../../assets/images/logo.svg';
 import LogoIcon from '../../../assets/images/logo-icon.svg';
 import { ReactSVG } from "react-svg";
 
+import DashboardIcon from '@mui/icons-material/Dashboard';
+import BarChartIcon from '@mui/icons-material/BarChart';
+import PeopleAltIcon from '@mui/icons-material/PeopleAlt';
+import SyncAltIcon from '@mui/icons-material/SyncAlt';
+import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
+import ViewAgendaIcon from '@mui/icons-material/ViewAgenda';
+import VpnLockIcon from '@mui/icons-material/VpnLock';
+import SettingsIcon from '@mui/icons-material/Settings';
+import PlaylistAddCheckIcon from '@mui/icons-material/PlaylistAddCheck';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
+
 const menu = [
   {
     name: "Dashboard",
     to: "/dashboard",
-    icon: "fa-home",
+    icon: DashboardIcon
   },
   {
     name: "Customers",
     to: "/customers",
-    icon: "fa-regular fa-circle-user",
+    icon: PeopleAltIcon
   },
   {
     name: "Orders",
     to: "/orders",
-    icon: "fa-solid fa-arrow-right-arrow-left"
+    icon: SyncAltIcon
   },
   {
     name: "Market Hours",
     to: "/market-hours",
-    icon: "fa-calendar-days",
+    icon: CalendarMonthIcon
   },
   {
     name: "Products",
     collapse: "products",
     to: "/products",
-    icon: "fa-list",
+    icon: ViewAgendaIcon
   },
   {
     name: "Vaults",
     to: "/vault-settings",
-    icon: "fa-vault",
+    icon: VpnLockIcon
   },
   {
     name: "Platform",
     to: "/platform",
-    icon: "fa-cog",
+    icon: SettingsIcon
   },
   {
     name: "Reports",
     to: "/reports",
-    icon: "fa-chart-simple",
+    icon: BarChartIcon
   },
   {
     name: "Reconciliation",
     collapse: "reconciliation",
-    icon: "fa-solid fa-square-check",
+    icon: PlaylistAddCheckIcon,
     children: [
       {
         name: "Reports",
@@ -73,7 +84,7 @@ const menu = [
     name: "User Management",
     collapse: "users",
     to: "/users",
-    icon: "fa-user-group",
+    icon: AccountCircleIcon
   },
 ];
 
@@ -89,8 +100,9 @@ const Sidebar = ({isOpen = false, setIsOpen}) => {
 
       <nav className="grid gap-6">
         {menu.map((element, index) => {
+          const isPath = location.pathname === element.to;
+
           if (element.children) {
-            const isPath = location.pathname.includes(element.to);
             const childPaths = []
             element.children.forEach((child) => childPaths.push(child.to))
             const isChildPath = childPaths.indexOf(location.pathname) > -1;
@@ -106,7 +118,7 @@ const Sidebar = ({isOpen = false, setIsOpen}) => {
                   }
                   key={index}
                 >
-                  <i className={`fa text-2xl ${element.icon}`} aria-hidden="true" />
+                <element.icon style={{fill: isPath || isChildPath ? '#ffffff' : '#9ca3af', opacity: isPath || isChildPath ? 1 : 0.4}} />
                   <span className={`flex-grow text-base font-normal ${!isOpen && 'hidden'}`}>{element.name}</span>
                   <span className={`flex-grow text-right ml-1 lg:ml-0 ${!isOpen && 'hidden'}`}>
                     <i className={`fa fa-angle-right text-2xl duration-200 ${collapse[element.collapse] ? "rotate-90" : ""}`} aria-hidden="true" />
@@ -141,10 +153,10 @@ const Sidebar = ({isOpen = false, setIsOpen}) => {
                 to={element.to}
                 className={({ isActive }) =>
                   `grid ${isOpen && 'grid-cols-[40px_1fr]'} items-center transition-colors duration-200
-                  ${isActive ? "hover:text-[#5db1b5] text-[#5db1b5]" : "hover:text-white hover:bg-gray-800 text-gray-400"}`
+                  ${isActive ? "hover:text-[#5db1b5] text-[#ffffff] fill-[#ffffff]" : "hover:text-white hover:bg-gray-800 text-gray-400"}`
                 }
               >
-                <i className={`fa text-2xl ${element.icon}`} aria-hidden="true" />
+                <element.icon style={{fill: isPath ? '#ffffff' : '#9ca3af', opacity: isPath ? 1 : 0.4}} />
                 <span className={`flex-grow text-base font-normal ${!isOpen && 'hidden'}`}>{element.name}</span>
               </NavLink>
             );

@@ -25,7 +25,7 @@ const Input = ({
                 name={name}
                 {...formRef}
             />
-            {showIcon && <i onClick={onSelectEye} className={iconClassName}></i>}
+            {showIcon && <div onClick={onSelectEye} className="inputIcon">{iconClassName}</div>}
         </div>
     )
 }

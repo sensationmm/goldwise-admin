@@ -1,8 +1,6 @@
 import { Link } from 'react-router-dom'
 import ReactCountryFlag from 'react-country-flag'
 import { FiSettings } from 'react-icons/fi'
-import Header from '../../components/molecules/Header'
-import Sidebar from '../../components/molecules/Sidebar'
 import React from "react";
 
 const Customers = () => {

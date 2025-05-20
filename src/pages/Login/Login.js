@@ -10,6 +10,8 @@ import { loginValidationSchema } from '../../helper/validationSchemas'
 import { ReactSVG } from 'react-svg'
 import Logo from '../../assets/images/logo.svg'
 import { Button } from '@mui/material'
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const Login = () => {
     const dispatch = useDispatch()
@@ -68,7 +70,7 @@ const Login = () => {
                                     name={'password'}
                                     showIcon
                                     onSelectEye={() => setShowPassword(!showPassword)}
-                                    iconClassName={`fa ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}
+                                    iconClassName={showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
                                     formRef={{ ...register('password') }}
                                     value="123123123"
                                 />

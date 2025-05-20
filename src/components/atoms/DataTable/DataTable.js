@@ -220,7 +220,7 @@ import dayjs from "dayjs";
 
   return (
     <div className="relative">
-      {editColumn && 
+      {editColumn !== null && 
         <div className="fixed w-[200px] -ml-[100px] py-3 left-1/2 top-1/4 bg-white border border-slate-600 z-[1000]">
           {!excludeSort.includes(headers[editColumn]) && <>
             <div className={`cursor-pointer px-6 py-3 ${sort === editColumn && sortDirection === 'asc' && 'text-red-600'}`} onClick={() => handleSort(editColumn, 'asc')} >
@@ -329,7 +329,7 @@ import dayjs from "dayjs";
               const renderEdit = !excludeSort.includes(text) || !excludeFilters.includes(text) ?
                 <div className="cursor-pointer px-4" onClick={() => setEditColumn(countHeader)}>
                   <i
-                    className={`fa text-sm fa-ellipsis-v ${sort === countHeader || filters.hasOwnProperty(countHeader.toString()) ? 'text-red-600' : 'text-inherit' }`}
+                    className={`fa text-sm fa-ellipsis-v ${(sort === countHeader && countHeader !== 0) || filters.hasOwnProperty(countHeader.toString()) ? 'text-red-600' : 'text-inherit' }`}
                     aria-hidden="true"
                   />
                 </div>
