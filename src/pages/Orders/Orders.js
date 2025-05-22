@@ -10,10 +10,13 @@ import { hideLoader, showLoader } from "../../reducers/loaderSlice.reducer";
 import { Link } from "react-router-dom";
 import TradesDataStructure from '../../dataStructures/trades.json';
 import OrdersDataStructure from '../../dataStructures/orders.json';
+import SearchField from "../../components/atoms/SearchField/SearchField";
+import Modal from "../../components/atoms/Modal";
 
 const Orders = () => {
   const dispatch = useDispatch()
   const [view, setView] = useState(0)
+  const [exportDataModal, setExportDataModal] = useState(false)
 
   const [reportFrom, setReportFrom] = useState(null)
   const [reportTo, setReportTo] = useState(null)
@@ -181,14 +184,19 @@ const Orders = () => {
           <Button
             variant="contained"
             size="large"
-            disabled={orders.length === 0 && trades.length === 0}
+            onClick={() => setExportDataModal(true)}
           >Export Data</Button>
       }
     >
-      <Tabs value={view} onChange={(_, newValue) => setView(newValue)}>
-        <Tab label="Orders" />
-        <Tab label="Trades" />
-      </Tabs>
+      <div className="flex justify-between">
+        <Tabs value={view} onChange={(_, newValue) => setView(newValue)}>
+          <Tab label="Orders" />
+          <Tab label="Trades" />
+        </Tabs>
+        <div>
+          <SearchField placeholder="Enter Customer's Name or Email" />
+        </div>
+      </div>
 
       <div className="grid grid-cols-6 gap-5 mt-8 mb-8">
         <DatePicker label="Date From" value={reportFrom} onChange={setReportFrom} format="DD/MM/YYYY" maxDate={reportTo} />
@@ -275,6 +283,12 @@ const Orders = () => {
             excludeColumns={['ID']}
           />
         </>}
+              
+        {exportDataModal &&
+          <Modal hidePopup={() => setExportDataModal(false)} title="Export Data" confirmLabel={'Export'}>
+            Coming Soon
+          </Modal>
+        }
     </BaseLayout>
   );
 };

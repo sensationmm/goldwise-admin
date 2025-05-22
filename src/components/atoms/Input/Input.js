@@ -1,32 +1,43 @@
 // import PropTypes from 'prop-types'
+import { FormControl, TextField, InputAdornment } from "@mui/material";
+import { useState } from "react";
+import VisibilityIcon from '@mui/icons-material/Visibility';
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const Input = ({
-    type = 'text',
-    className,
-    placeholder,
-    value,
-    label,
-    onChange,
-    name,
-    showIcon,
-    onSelectEye,
-    iconClassName,
-    formRef
+  id,
+  type = 'text',
+  value,
+  label,
+  labelId,
+  onChange,
+  showIcon,
+  formRef
 }) => {
+    const [showPassword, setShowPassword] = useState(false)
+
     return (
-        <div className='input-field'>
-            {label && <label>{label}</label>}
-            <input
-                type={type}
-                className={className}
-                placeholder={placeholder}
-                value={value}
-                onChange={onChange}
-                name={name}
-                {...formRef}
-            />
-            {showIcon && <div onClick={onSelectEye} className="inputIcon">{iconClassName}</div>}
-        </div>
+      <FormControl>
+        <TextField
+          id={id}
+          type={type === 'password' && showPassword ? 'text' : type}
+          labelId={labelId}
+          label={label}
+          value={value}
+          onChange={(ev) => onChange(ev.target.value) }
+          {...formRef}
+          InputProps={{
+            endAdornment: showIcon && (
+              <InputAdornment
+                position="end"
+                onClick={() => setShowPassword(!showPassword)}
+              >
+                {showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
+              </InputAdornment>
+            )
+          }}
+        />
+      </FormControl>
     )
 }
 

@@ -12,6 +12,12 @@
     flex: 1 1;
 }
 
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
 .modal-main-container {
     position: fixed;
     height: 100%;
@@ -26,8 +32,9 @@
 }
 
 .modal-container {
+  position: relative;
     flex-direction: column;
-    border-radius: 15px;
+    border-radius: 3px;
     display: flex;
     align-self: center;
     justify-content: space-between;
@@ -37,6 +44,7 @@
 }
 
 .modal-header {
+    position: relative;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -45,15 +53,14 @@
 }
 
 .modal-buttons {
-    justify-content: space-between;
-    flex-direction: row;
-    display: flex;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
     width: 100%;
     position: relative;
-    bottom: 10px;
+    margin: 20px 0;
 
     .modal-button {
-        width: 49%;
         display: flex;
     }
 }

@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import RoleBadge from "../../../components/organisms/RoleBadge";
 import BaseLayout from "../../BaseLayout/BaseLayout";
 import { Button } from "@mui/material";
-import { styleCell, styleCellDefault, styleEmptyCell, styleHeader, styleHeaderFilled, styleSectionHeader } from "../../../utils/table";
+import { styleCellDefault } from "../../../utils/table";
 import Locked from "../../Kyc/Locked";
+import Modal from "../../../components/atoms/Modal";
+import AddUserModal from "./AddUserModal";
 
-const SpreadManagement = () => {
+const UserManagement = () => {
   const [users, setUsers] = useState([]);
+  const [addUserModal, setAddUserModal] = useState(false)
 
   useEffect(() => {
     fetch("/mock-data/list-users.json", {
@@ -31,6 +33,7 @@ const SpreadManagement = () => {
         <Button
           variant="contained"
           size="large"
+          onClick={() => setAddUserModal(true)}
         >Add New User</Button>
       }
     >
@@ -69,9 +72,17 @@ const SpreadManagement = () => {
           ))}
         </tbody>
       </table>
+      
+      {addUserModal &&
+        <Modal hidePopup={() => setAddUserModal(false)} title="Add New User" confirmLabel={'Create User'}>
+          <AddUserModal
+            hidePopup={() => setAddUserModal(false)}
+          />
+        </Modal>
+      }
               
     </BaseLayout>
   );
 };
 
-export default SpreadManagement;
+export default UserManagement;
