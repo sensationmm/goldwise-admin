@@ -75,7 +75,6 @@ const theme = createTheme(
         styleOverrides: {
           root: {
             color: customPalette.palette.text.main,
-            fontWeight: 'bold',
             '> input:not(.MuiOutlinedInput-input)': {
               boxSizing: 'content-box',
               border: `1px solid ${customPalette.palette.text.disabled}`,
@@ -136,7 +135,6 @@ const theme = createTheme(
           root: {
             color: customPalette.palette.text.main,
             background: '#fff',
-            fontWeight: 'bold',
             '&.Mui-disabled': {
                 color: customPalette.palette.text.disabled,
             },
@@ -145,6 +143,15 @@ const theme = createTheme(
             fontWeight: 'normal'
           }
         },
+      },
+      MuiSelect: {
+        styleOverrides: {
+          select: {
+            '&.MuiSelect-filled': {
+              padding: '6px 30px 6px 10px'
+            }
+          }
+        }
       },
       MuiSvgIcon: {
         styleOverrides: {

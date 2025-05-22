@@ -4,7 +4,7 @@ import {
   InputAdornment,
   TextField,
 } from "@mui/material";
-
+import SearchIcon from '@mui/icons-material/Search';
 
 const SearchField = ({placeholder}) => {
   const [showClearIcon, setShowClearIcon] = useState("none");
@@ -30,7 +30,7 @@ const SearchField = ({placeholder}) => {
           InputProps={{
             startAdornment: (
               <InputAdornment position="start">
-                <i class="fa-solid fa-magnifying-glass"></i>
+                <SearchIcon />
               </InputAdornment>
             ),
             endAdornment: (

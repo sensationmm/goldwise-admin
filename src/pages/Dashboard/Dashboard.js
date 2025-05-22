@@ -2,21 +2,49 @@ import { Link } from "react-router-dom"
 import { formatCurrency, formatDelta } from "../../utils/number"
 import { styleCell, styleHeaderFilled } from "../../utils/table"
 import BaseLayout from "../BaseLayout/BaseLayout"
+import { FormControl, MenuItem, Select } from "@mui/material"
+import { useState } from "react"
 
 const Dashboard = () => {
   const cellOverride = `${styleCell} !text-xs font-bold`
+  const [showCurrency, setShowCurrency] = useState('GBP');
+  const [showWeight, setShowWeight] = useState('oz');
 
   return (
     <BaseLayout title="Dashboard">
-      <div className="overflow-scroll">
+      <div className="overflow-scroll inline">
         <h2 className="mb-5">Metal Prices</h2>
-        <div className="flex items-center gap-3 mb-3 text-xs text-slate-300 font-bold">
-          <div className="w-[14px] h-[14px] bg-emerald-400 rounded-[7px]" />
-          Market Open
+        
+        <div className="flex items-center justify-between mb-3">
+          <div className="flex items-center gap-3 text-xs text-slate-300 font-bold">
+            <div className="w-[14px] h-[14px] bg-emerald-400 rounded-[7px]" />
+            Market Open
 
-          <span className="ml-5">Prices dated: 20 JAN 2022 10:04:12</span>
+            <span className="ml-5">Prices dated: 20 JAN 2022 10:04:12</span>
+          </div>
         </div>
-        <table>
+
+        <table className="relative">
+
+
+          <div className="absolute grid grid-cols-2 gap-[20px] right-0 top-[-50px]">
+
+            <FormControl variant="filled" size="small">
+              <Select value={showWeight} onChange={e => setShowWeight(e.target.value)}>
+                <MenuItem value="oz">T/Oz</MenuItem>
+                <MenuItem value="kg">kg</MenuItem>
+              </Select>
+            </FormControl>
+
+            <FormControl variant="filled" size="small">
+              <Select value={showCurrency} onChange={e => setShowCurrency(e.target.value)}>
+                <MenuItem value="GBP">£GBP</MenuItem>
+                <MenuItem value="EUR">€EUR</MenuItem>
+                <MenuItem value="USD">$USD</MenuItem>
+                <MenuItem value="CHF">₣CHF</MenuItem>
+              </Select>
+            </FormControl>
+          </div>
           <thead>
             <tr>
               <th className={styleHeaderFilled()}>Precious Metal</th>
