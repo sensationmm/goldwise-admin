@@ -61,8 +61,8 @@ const Login = () => {
                             </div>
                             <div className="form-group">
                               <Input
-                                id="user-password"
-                                labelId="user-password"
+                                id="password"
+                                labelId="password"
                                 type={'password'}
                                 label="Password"
                                 placeholder='Enter Your Password'
