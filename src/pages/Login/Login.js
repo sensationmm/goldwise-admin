@@ -69,6 +69,7 @@ const Login = () => {
                                 name={'password'}
                                 showIcon
                                 value="123123123"
+                                formRef={{ ...register('password') }}
                               />
                                 <div className="invalid-feedback">{errors.password?.message}</div>
                             </div>
