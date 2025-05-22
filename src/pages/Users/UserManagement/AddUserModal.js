@@ -7,7 +7,7 @@ const AddUserModal = () => {
     const [email, setEmail] = useState('')
     const [mobile, setMobile] = useState('')
     const [password, setPassword] = useState('')
-    const [showPassword, setShowPassword] = useState(false)
+    const [passwordConfirm, setPasswordConfirm] = useState('')
     const [role, setRole] = useState(undefined)
 
     return (
@@ -50,8 +50,6 @@ const AddUserModal = () => {
             placeholder='Enter Your Password'
             name={'password'}
             showIcon
-            onSelectEye={() => setShowPassword(!showPassword)}
-            iconClassName={`fa ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}
             value={password}
             onChange={setPassword}
           />
@@ -64,10 +62,8 @@ const AddUserModal = () => {
             placeholder='Enter Your Password'
             name={'password'}
             showIcon
-            onSelectEye={() => setShowPassword(!showPassword)}
-            iconClassName={`fa ${showPassword ? 'fa-eye-slash' : 'fa-eye'}`}
-            value={password}
-            onChange={setPassword}
+            value={passwordConfirm}
+            onChange={setPasswordConfirm}
           />
 
           <FormControl>

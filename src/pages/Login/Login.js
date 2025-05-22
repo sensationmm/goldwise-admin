@@ -15,7 +15,6 @@ import VisibilityOffIcon from '@mui/icons-material/VisibilityOff';
 
 const Login = () => {
     const dispatch = useDispatch()
-    const [showPassword, setShowPassword] = useState(false)
 
     const formOptions = { resolver: yupResolver(loginValidationSchema) }
 
@@ -49,31 +48,28 @@ const Login = () => {
                     <div className='form'>
                         <h2>Admin Portal</h2>
                         <form onSubmit={handleSubmit(onSubmit)}>
-                            <div className="form-group">
+                            <div className="form-group w-full">
                                 <Input
-                                    type='text'
-                                    label='Email Address'
-                                    placeholder='Email Address'
-                                    name={'email'}
-                                    className={`${errors.email ? 'is-invalid' : ''}`}
-                                    formRef={{ ...register('email') }}
-                                    value="test@test.com"
+                                  type='text'
+                                  label='Email Address'
+                                  placeholder='Email Address'
+                                  name={'email'}
+                                  formRef={{ ...register('email') }}
+                                  value="test@test.com"
                                 />
                                 <div className="invalid-feedback">{errors.email?.message}</div>
                             </div>
                             <div className="form-group">
-                                <Input
-                                    label='Password'
-                                    type={showPassword ? "text" : "password"}
-                                    className={`${showPassword ? 'type_password' : ''} ${errors.password ? 'is-invalid' : ''}`}
-                                    placeholder='Enter Your Password'
-                                    name={'password'}
-                                    showIcon
-                                    onSelectEye={() => setShowPassword(!showPassword)}
-                                    iconClassName={showPassword ? <VisibilityOffIcon /> : <VisibilityIcon />}
-                                    formRef={{ ...register('password') }}
-                                    value="123123123"
-                                />
+                              <Input
+                                id="user-password"
+                                labelId="user-password"
+                                type={'password'}
+                                label="Password"
+                                placeholder='Enter Your Password'
+                                name={'password'}
+                                showIcon
+                                value="123123123"
+                              />
                                 <div className="invalid-feedback">{errors.password?.message}</div>
                             </div>
 

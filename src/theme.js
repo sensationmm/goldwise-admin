@@ -64,6 +64,13 @@ const theme = createTheme(
           }
         }
       },
+      MuiFormControl: {
+        styleOverrides: {
+          root: {
+            width: '100%',
+          }
+        }
+      },
       MuiIconButton: {
         styleOverrides: {
           root: ({ ownerState }) => ({
